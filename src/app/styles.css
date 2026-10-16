@@ -1,0 +1,572 @@
+:root {
+  font-family: "Avenir Next", system-ui, sans-serif;
+  color: #303c2e;
+  background: #f5f2e9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.5;
+}
+button:focus-visible,
+a:focus-visible,
+canvas:focus-visible {
+  outline: 3px solid #a56535;
+  outline-offset: -3px;
+}
+.site-header {
+  height: 64px;
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d8dacb;
+  gap: 20px;
+}
+.wordmark {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.wordmark-dot {
+  color: #b27541;
+}
+.brand-mark {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #52613e;
+  border-radius: 50%;
+  width: 29px;
+  height: 29px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1;
+  margin-right: 10px;
+  padding-bottom: 5px;
+}
+.edition {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #77816a;
+}
+.prototype {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.prototype span {
+  border: 1px solid #ced1c0;
+  padding: 5px 7px;
+  border-radius: 4px;
+}
+.play-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 345px;
+  height: calc(100dvh - 96px);
+  min-height: 650px;
+}
+.world {
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background: #a9cacc;
+}
+.world canvas {
+  height: 100%;
+  width: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+.world canvas:active {
+  cursor: grabbing;
+}
+.world-caption {
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  background: #f5f2e9e8;
+  color: #48543b;
+  padding: 12px 16px;
+  border-radius: 5px;
+  box-shadow: 0 2px 12px #293c2310;
+  pointer-events: none;
+}
+.world-caption > span:last-child {
+  display: block;
+  font-size: 10px;
+  margin-top: 5px;
+  color: #788165;
+}
+.eyebrow {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  margin: 0;
+}
+.world-meta {
+  position: absolute;
+  top: 25px;
+  right: 22px;
+  font-size: 9px;
+  color: #4e6553;
+  background: #edf2dfa8;
+  padding: 5px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+}
+.landscape-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.bird-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: auto;
+  border: 1px solid #c8cbae;
+  background: #f6f3e4e8;
+  color: #49563d;
+  box-shadow: 0 2px 5px #2e3a2a20;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 3px;
+}
+.bird-label.active {
+  background: #fff3c8;
+  color: #6b552e;
+  border-color: #b89957;
+}
+.camera-toolbar {
+  position: absolute;
+  bottom: 48px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #f7f5edee;
+  border: 1px solid #ccd2ba;
+  box-shadow: 0 3px 12px #32402615;
+  border-radius: 5px;
+  padding: 5px;
+}
+.camera-toolbar button {
+  border: 0;
+  background: transparent;
+  color: #4d5f3e;
+  min-width: 30px;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 3px;
+}
+.camera-toolbar button:hover {
+  background: #e3e9d4;
+}
+.camera-toolbar output {
+  min-width: 42px;
+  text-align: center;
+  font-size: 10px;
+  color: #7d856d;
+  font-variant-numeric: tabular-nums;
+}
+.camera-toolbar .text-control {
+  font-size: 10px;
+  padding: 0 8px;
+}
+.toolbar-divider {
+  height: 18px;
+  border-left: 1px solid #d1d6c1;
+  margin: 0 4px;
+}
+.camera-hint {
+  position: absolute;
+  bottom: 15px;
+  left: 24px;
+  margin: 0;
+  font-size: 9px;
+  color: #42583c;
+  background: #f5f2e9bd;
+  border-radius: 3px;
+  padding: 4px 7px;
+  pointer-events: none;
+}
+.scene-error {
+  position: absolute;
+  top: 35%;
+  left: 15%;
+  width: 70%;
+  background: #f5f2e9;
+  padding: 22px;
+}
+.inspector {
+  min-width: 0;
+  overflow-y: auto;
+  border-left: 1px solid #ccd1bc;
+  background: #f7f5ec;
+}
+.flock-section {
+  padding: 20px;
+  border-bottom: 1px solid #dfe1d2;
+}
+.flock-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 13px;
+}
+.flock-bar > span:last-child {
+  font-size: 9px;
+  color: #858c76;
+}
+.bird-picker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.bird-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 3px;
+  text-align: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #58634b;
+  font-size: 11px;
+}
+.bird-tab.selected {
+  background: #e9eddd;
+  border-color: #cdd7bd;
+}
+.bird-tab small {
+  display: none;
+}
+.feather-swatch {
+  width: 12px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 60% 60% 45% 45%;
+  transform: rotate(-20deg);
+  box-shadow: inset -3px -3px 0 #00000010;
+}
+.character {
+  padding-top: 16px;
+}
+.character-heading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.character h2 {
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-size: 25px;
+  font-weight: 400;
+  margin: 0;
+}
+.character-heading span {
+  font-size: 9px;
+  color: #7d866d;
+}
+.character p {
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 10px 0;
+  color: #646e57;
+}
+.character .fear {
+  color: #7c826e;
+  font-size: 10px;
+}
+.fear span {
+  font-style: italic;
+  margin-right: 4px;
+}
+.character .character-memory {
+  color: #8c6841;
+  font-size: 10px;
+  margin: 12px 0 0;
+}
+.character-memory span {
+  margin-right: 6px;
+}
+.story-panel {
+  padding: 20px;
+}
+.chapter-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: #838c70;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #dddecf;
+}
+.story-kicker {
+  color: #a17b4a;
+  margin-top: 23px;
+  font-size: 8px;
+}
+.story-panel h2 {
+  font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+  font-weight: 400;
+  font-size: 31px;
+  line-height: 1.1;
+  letter-spacing: -0.7px;
+  margin: 12px 0 15px;
+}
+.story-description {
+  font-size: 12px;
+  line-height: 1.85;
+  color: #687257;
+  margin: 0;
+}
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 23px;
+}
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  border: 1px solid #cbd1b9;
+  background: #fdfbf5;
+  color: #3a4932;
+  padding: 14px 11px;
+  text-align: left;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+.choice:hover {
+  background: #e9eddf;
+}
+.choice-number {
+  font-family: Georgia, serif;
+  font-size: 11px;
+  color: #929c7d;
+  margin-top: 1px;
+}
+.choice strong {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.5;
+  display: block;
+}
+.choice small {
+  font-size: 10px;
+  line-height: 1.65;
+  color: #7f896d;
+  display: block;
+  margin-top: 6px;
+}
+.choice-arrow {
+  margin-left: auto;
+  color: #94a17e;
+  font-size: 14px;
+}
+.choice-footnote {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #858f72;
+  margin: 18px 0 22px;
+}
+.remembered {
+  border-left: 2px solid #a5b28e;
+  padding: 4px 0 4px 14px;
+  margin-top: 23px;
+}
+.remembered .eyebrow {
+  font-size: 8px;
+  color: #7b8866;
+}
+.remembered p {
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 10px 0;
+  color: #536348;
+}
+.chronicle-tools {
+  border-top: 1px solid #dedfcf;
+  padding-top: 17px;
+}
+.save-status {
+  font-size: 9px;
+  color: #818b6f;
+  margin: 0 0 12px;
+}
+.chronicle-tools > div {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.chronicle-tools button {
+  font-size: 10px;
+  background: none;
+  border: 0;
+  padding: 0 0 3px;
+  color: #6e7c59;
+  border-bottom: 1px solid #cdd2bd;
+}
+.import-notice {
+  font-size: 10px;
+  color: #8c5b33;
+  line-height: 1.6;
+}
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8px;
+  color: #858e75;
+  padding: 0 25px;
+  height: 32px;
+  gap: 15px;
+  border-top: 1px solid #d8dacb;
+}
+footer span:first-child {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 10px;
+}
+@media (max-width: 1100px) {
+  .edition {
+    display: none;
+  }
+  .play-layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .world-meta {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .site-header {
+    height: 60px;
+    padding: 0 18px;
+  }
+  .wordmark {
+    font-size: 21px;
+  }
+  .prototype {
+    font-size: 7px;
+    letter-spacing: 1px;
+    gap: 7px;
+  }
+  .prototype span {
+    padding: 4px 5px;
+  }
+  .play-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+  }
+  .world {
+    height: 480px;
+  }
+  .world-caption {
+    top: 15px;
+    left: 15px;
+    padding: 10px 12px;
+  }
+  .world-caption .eyebrow {
+    font-size: 8px;
+  }
+  .world-caption > span:last-child {
+    font-size: 9px;
+  }
+  .camera-toolbar {
+    bottom: 42px;
+    left: 15px;
+  }
+  .camera-toolbar .text-control {
+    padding: 0 7px;
+  }
+  .camera-hint {
+    bottom: 12px;
+    left: 15px;
+    font-size: 8px;
+  }
+  .camera-hint span {
+    display: none;
+  }
+  .inspector {
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid #ccd1bc;
+  }
+  .flock-section,
+  .story-panel {
+    padding: 23px;
+  }
+  .bird-tab {
+    flex-direction: row;
+    justify-content: center;
+    padding: 12px 5px;
+  }
+  .character p {
+    font-size: 12px;
+  }
+  .character .fear,
+  .character .character-memory {
+    font-size: 11px;
+  }
+  .story-panel h2 {
+    font-size: 36px;
+  }
+  .story-description {
+    font-size: 13px;
+  }
+  .choice strong {
+    font-size: 12px;
+  }
+  .choice small {
+    font-size: 11px;
+  }
+  footer {
+    height: auto;
+    padding: 16px 23px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
