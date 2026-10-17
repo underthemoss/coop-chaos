@@ -1,0 +1,47 @@
+{
+  "state": "READY",
+  "revision": "rook-v6",
+  "sha256": "98c5621378f316a764a58c2e6f7de76d44849b2e94e4694c4c6b6c267839d42f",
+  "bytes": 745712,
+  "triangles": 12460,
+  "meshes": 6,
+  "materials": 30,
+  "bounds": {
+    "min": [
+      -0.42939692735671997,
+      2.9802322387695312e-08,
+      -1.3536361455917358
+    ],
+    "max": [
+      0.42939692735671997,
+      1.801068663597107,
+      0.6713000535964966
+    ]
+  },
+  "clipChannels": {
+    "idle": 18,
+    "walk": 18,
+    "gather": 18,
+    "carry": 18,
+    "weave": 18,
+    "flight": 18
+  },
+  "unchangedMeshes": [
+    "head sculpted mesh",
+    "wing sculpted mesh",
+    "far-wing sculpted mesh",
+    "leg-left sculpted mesh",
+    "leg-right sculpted mesh"
+  ],
+  "changedSickleVertices": 468,
+  "unchangedOtherBirdGLBs": [
+    "fern",
+    "dapple",
+    "wren"
+  ],
+  "checks": [
+    "Blender source geometry comparison: only 468 sickle vertices changed; topology and material assignments identical",
+    "GLB length, finite accessor bounds, required hooks, six clips with18channels, soleY0, no studio or external resources",
+    "SHA256 comparison preserves Fern, Dapple and Wren v5 exports"
+  ]
+}

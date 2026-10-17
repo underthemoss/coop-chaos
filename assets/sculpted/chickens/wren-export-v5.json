@@ -1,0 +1,44 @@
+{
+  "id": "wren",
+  "version": "sculpted-v5",
+  "bytes": 603704,
+  "meshCount": 6,
+  "materialCount": 30,
+  "triangleCount": 10568,
+  "animations": [
+    "idle",
+    "walk",
+    "gather",
+    "carry",
+    "weave",
+    "flight"
+  ],
+  "nodes": [
+    "body sculpted mesh",
+    "far-wing sculpted mesh",
+    "far-wing",
+    "head sculpted mesh",
+    "head",
+    "leg-left sculpted mesh",
+    "leg-left",
+    "leg-right sculpted mesh",
+    "leg-right",
+    "wing sculpted mesh",
+    "wing",
+    "body",
+    "asset"
+  ],
+  "boundsGame": {
+    "min": [
+      -0.42889732122421265,
+      0.0,
+      -0.7947285771369934
+    ],
+    "max": [
+      0.42889732122421265,
+      1.498119592666626,
+      0.5891000032424927
+    ]
+  },
+  "externalResources": []
+}

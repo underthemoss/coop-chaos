@@ -1,0 +1,44 @@
+{
+  "id": "dapple",
+  "version": "sculpted-v5",
+  "bytes": 682864,
+  "meshCount": 6,
+  "materialCount": 30,
+  "triangleCount": 11528,
+  "animations": [
+    "idle",
+    "walk",
+    "gather",
+    "carry",
+    "weave",
+    "flight"
+  ],
+  "nodes": [
+    "body sculpted mesh",
+    "far-wing sculpted mesh",
+    "far-wing",
+    "head sculpted mesh",
+    "head",
+    "leg-left sculpted mesh",
+    "leg-left",
+    "leg-right sculpted mesh",
+    "leg-right",
+    "wing sculpted mesh",
+    "wing",
+    "body",
+    "asset"
+  ],
+  "boundsGame": {
+    "min": [
+      -0.49632611870765686,
+      -8.940696716308594e-08,
+      -0.8963798880577087
+    ],
+    "max": [
+      0.49632611870765686,
+      1.6897395849227905,
+      0.6644499897956848
+    ]
+  },
+  "externalResources": []
+}

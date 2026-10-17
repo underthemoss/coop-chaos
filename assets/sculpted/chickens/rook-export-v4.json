@@ -1,0 +1,44 @@
+{
+  "id": "rook",
+  "version": "sculpted-v4",
+  "bytes": 712020,
+  "meshCount": 6,
+  "materialCount": 30,
+  "triangleCount": 13408,
+  "animations": [
+    "idle",
+    "walk",
+    "gather",
+    "carry",
+    "weave",
+    "flight"
+  ],
+  "nodes": [
+    "body sculpted mesh",
+    "far-wing sculpted mesh",
+    "far-wing",
+    "head sculpted mesh",
+    "head",
+    "leg-left sculpted mesh",
+    "leg-left",
+    "leg-right sculpted mesh",
+    "leg-right",
+    "wing sculpted mesh",
+    "wing",
+    "body",
+    "asset"
+  ],
+  "boundsGame": {
+    "min": [
+      -0.6170124411582947,
+      0.014953583478927612,
+      -1.1741999387741089
+    ],
+    "max": [
+      0.6170124411582947,
+      1.907913327217102,
+      0.705549955368042
+    ]
+  },
+  "externalResources": []
+}

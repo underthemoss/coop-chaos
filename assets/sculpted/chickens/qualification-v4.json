@@ -1,0 +1,214 @@
+[
+  {
+    "id": "fern",
+    "version": "sculpted-v4",
+    "bytes": 589888,
+    "meshCount": 6,
+    "materialCount": 30,
+    "triangleCount": 11128,
+    "animations": [
+      "idle",
+      "walk",
+      "gather",
+      "carry",
+      "weave",
+      "flight"
+    ],
+    "nodes": [
+      "body sculpted mesh",
+      "far-wing sculpted mesh",
+      "far-wing",
+      "head sculpted mesh",
+      "head",
+      "leg-left sculpted mesh",
+      "leg-left",
+      "leg-right sculpted mesh",
+      "leg-right",
+      "wing sculpted mesh",
+      "wing",
+      "body",
+      "asset"
+    ],
+    "boundsGame": {
+      "min": [
+        -0.599041223526001,
+        0.014518022537231445,
+        -0.9241029620170593
+      ],
+      "max": [
+        0.599041223526001,
+        1.7565176486968994,
+        0.6850000023841858
+      ]
+    },
+    "externalResources": [],
+    "sha256": "aaa7839c0ffe1af47601b4f95b72b00d20ef41ae7bbddbb31afcc2a783d3ba34",
+    "animationChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    }
+  },
+  {
+    "id": "rook",
+    "version": "sculpted-v4",
+    "bytes": 712020,
+    "meshCount": 6,
+    "materialCount": 30,
+    "triangleCount": 13408,
+    "animations": [
+      "idle",
+      "walk",
+      "gather",
+      "carry",
+      "weave",
+      "flight"
+    ],
+    "nodes": [
+      "body sculpted mesh",
+      "far-wing sculpted mesh",
+      "far-wing",
+      "head sculpted mesh",
+      "head",
+      "leg-left sculpted mesh",
+      "leg-left",
+      "leg-right sculpted mesh",
+      "leg-right",
+      "wing sculpted mesh",
+      "wing",
+      "body",
+      "asset"
+    ],
+    "boundsGame": {
+      "min": [
+        -0.6170124411582947,
+        0.014953583478927612,
+        -1.1741999387741089
+      ],
+      "max": [
+        0.6170124411582947,
+        1.907913327217102,
+        0.705549955368042
+      ]
+    },
+    "externalResources": [],
+    "sha256": "7bd4d42ed8b552fff1c4fcf90491804eeed6931f09d7d32ed55fefd3ccf4fb38",
+    "animationChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    }
+  },
+  {
+    "id": "dapple",
+    "version": "sculpted-v4",
+    "bytes": 686616,
+    "meshCount": 6,
+    "materialCount": 30,
+    "triangleCount": 12808,
+    "animations": [
+      "idle",
+      "walk",
+      "gather",
+      "carry",
+      "weave",
+      "flight"
+    ],
+    "nodes": [
+      "body sculpted mesh",
+      "far-wing sculpted mesh",
+      "far-wing",
+      "head sculpted mesh",
+      "head",
+      "leg-left sculpted mesh",
+      "leg-left",
+      "leg-right sculpted mesh",
+      "leg-right",
+      "wing sculpted mesh",
+      "wing",
+      "body",
+      "asset"
+    ],
+    "boundsGame": {
+      "min": [
+        -0.59163498878479,
+        0.014082491397857666,
+        -0.8963798880577087
+      ],
+      "max": [
+        0.59163498878479,
+        1.703822135925293,
+        0.6644499897956848
+      ]
+    },
+    "externalResources": [],
+    "sha256": "38b4e3dd895f18179f7d5005a07b3f2dbd65c32aa984f8f10cec5caf88bde1a6",
+    "animationChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    }
+  },
+  {
+    "id": "wren",
+    "version": "sculpted-v4",
+    "bytes": 588556,
+    "meshCount": 6,
+    "materialCount": 30,
+    "triangleCount": 11128,
+    "animations": [
+      "idle",
+      "walk",
+      "gather",
+      "carry",
+      "weave",
+      "flight"
+    ],
+    "nodes": [
+      "body sculpted mesh",
+      "far-wing sculpted mesh",
+      "far-wing",
+      "head sculpted mesh",
+      "head",
+      "leg-left sculpted mesh",
+      "leg-left",
+      "leg-right sculpted mesh",
+      "leg-right",
+      "wing sculpted mesh",
+      "wing",
+      "body",
+      "asset"
+    ],
+    "boundsGame": {
+      "min": [
+        -0.5151754021644592,
+        0.012485504150390625,
+        -0.7947285771369934
+      ],
+      "max": [
+        0.5151754021644592,
+        1.5106052160263062,
+        0.5891000032424927
+      ]
+    },
+    "externalResources": [],
+    "sha256": "a59baa5956821f730417b509c3da53baf0d76b80760646ddd01893252f30f2e1",
+    "animationChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    }
+  }
+]
