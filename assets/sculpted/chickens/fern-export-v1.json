@@ -1,0 +1,44 @@
+{
+  "id": "fern",
+  "version": "sculpted-v1",
+  "bytes": 500436,
+  "meshCount": 6,
+  "materialCount": 30,
+  "triangleCount": 10064,
+  "animations": [
+    "idle",
+    "walk",
+    "gather",
+    "carry",
+    "flight",
+    "weave"
+  ],
+  "nodes": [
+    "body sculpted mesh",
+    "far-wing sculpted mesh",
+    "far-wing",
+    "head sculpted mesh",
+    "head",
+    "leg-left sculpted mesh",
+    "leg-left",
+    "leg-right sculpted mesh",
+    "leg-right",
+    "wing sculpted mesh",
+    "wing",
+    "body",
+    "asset"
+  ],
+  "boundsGame": {
+    "min": [
+      -0.585399866104126,
+      0.014518022537231445,
+      -0.9241029620170593
+    ],
+    "max": [
+      0.585399866104126,
+      1.7565176486968994,
+      0.6850000023841858
+    ]
+  },
+  "externalResources": []
+}

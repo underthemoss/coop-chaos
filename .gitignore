@@ -6,3 +6,9 @@ output/
 .env*
 !.env.example
 .DS_Store
+.vercel
+
+# Local authoring caches and Blender recovery backups
+__pycache__/
+*.py[cod]
+*.blend[0-9]

@@ -1,0 +1,8 @@
+<!doctype html><title>Local environment authoring</title><p>Local authoring tool. Generate the HDR with author_sky.py first, then save this download into public/assets/materials/.</p><button id="convert">Prefilter original sky</button><output id="status"></output><canvas id="author" width="256" height="256"></canvas><script type="module">
+import {Engine} from '/node_modules/@babylonjs/core/Engines/engine.js';
+import {Scene} from '/node_modules/@babylonjs/core/scene.js';
+import {HDRCubeTexture} from '/node_modules/@babylonjs/core/Materials/Textures/hdrCubeTexture.js';
+import {CreateEnvTextureAsync} from '/node_modules/@babylonjs/core/Misc/environmentTextureTools.js';
+window.convert=async()=>{const engine=new Engine(document.querySelector('canvas'),false);const scene=new Scene(engine);const cube=await new Promise((resolve,reject)=>{const t=new HDRCubeTexture('/assets/sculpted/warm-neutral-sky.hdr',scene,128,false,true,false,true,()=>resolve(t),reject);});const bytes=await CreateEnvTextureAsync(cube); const link=document.createElement('a');link.href=URL.createObjectURL(new Blob([bytes]));link.download='warm-neutral-sky.env';link.click();const result={size:bytes.byteLength};setTimeout(()=>URL.revokeObjectURL(link.href),1000);scene.dispose();engine.dispose();return result;};
+document.querySelector("#convert").onclick=async()=>{const status=document.querySelector("#status");status.textContent="Prefiltering…";try{const result=await window.convert();status.textContent=`Downloaded ${result.size} bytes; save as public/assets/materials/warm-neutral-sky.env`;}catch(error){status.textContent=String(error);}};
+</script>

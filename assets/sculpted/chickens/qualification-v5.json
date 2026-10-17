@@ -1,0 +1,118 @@
+[
+  {
+    "id": "fern",
+    "sha256": "081c43f97687fe20457f157b914f39d5f94309cabea76c83150bc5f2bb49b2fb",
+    "bytes": 605096,
+    "triangles": 10568,
+    "meshes": 6,
+    "materials": 30,
+    "bounds": {
+      "min": [
+        -0.49871787428855896,
+        0.0,
+        -0.9241029620170593
+      ],
+      "max": [
+        0.49871787428855896,
+        1.741999626159668,
+        0.6850000023841858
+      ]
+    },
+    "clipChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    },
+    "checks": "GLB length; hooks; six clips with constant transform channels; finite accessor bounds; soleY0; studio excluded; no external resources"
+  },
+  {
+    "id": "rook",
+    "sha256": "3a8f0d08d3b3d59ad66da2ee2cb6326607e1c1e668634ca7711545d10ad8a0be",
+    "bytes": 751032,
+    "triangles": 12460,
+    "meshes": 6,
+    "materials": 30,
+    "bounds": {
+      "min": [
+        -0.42939692735671997,
+        2.9802322387695312e-08,
+        -1.4210001230239868
+      ],
+      "max": [
+        0.42939692735671997,
+        1.801068663597107,
+        0.6713000535964966
+      ]
+    },
+    "clipChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    },
+    "checks": "GLB length; hooks; six clips with constant transform channels; finite accessor bounds; soleY0; studio excluded; no external resources"
+  },
+  {
+    "id": "dapple",
+    "sha256": "ec9c3c813afc86504617c035d3cb1580e45d5dda6f7351a1fd6db1a968e70fc3",
+    "bytes": 681004,
+    "triangles": 11528,
+    "meshes": 6,
+    "materials": 30,
+    "bounds": {
+      "min": [
+        -0.49632611870765686,
+        -8.940696716308594e-08,
+        -0.8963798880577087
+      ],
+      "max": [
+        0.49632611870765686,
+        1.6897395849227905,
+        0.6644499897956848
+      ]
+    },
+    "clipChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    },
+    "checks": "GLB length; hooks; six clips with constant transform channels; finite accessor bounds; soleY0; studio excluded; no external resources"
+  },
+  {
+    "id": "wren",
+    "sha256": "6345e870e6bcbf0cae9fd86352480784209a07c1a305ef40eddf77f854dc1235",
+    "bytes": 601976,
+    "triangles": 10568,
+    "meshes": 6,
+    "materials": 30,
+    "bounds": {
+      "min": [
+        -0.42889732122421265,
+        0.0,
+        -0.7947285771369934
+      ],
+      "max": [
+        0.42889732122421265,
+        1.498119592666626,
+        0.5891000032424927
+      ]
+    },
+    "clipChannels": {
+      "idle": 18,
+      "walk": 18,
+      "gather": 18,
+      "carry": 18,
+      "weave": 18,
+      "flight": 18
+    },
+    "checks": "GLB length; hooks; six clips with constant transform channels; finite accessor bounds; soleY0; studio excluded; no external resources"
+  }
+]

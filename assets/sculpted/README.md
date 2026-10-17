@@ -1,0 +1,66 @@
+# Sculpted asset proof — work in progress
+
+Original project-authored Blender geometry is retained here alongside runtime
+exports in `public/assets/`. The earlier Node-authored mesh pass was rejected;
+these assets require fresh close-view and actual-camera acceptance. Tool use and
+file format do not establish visual quality.
+
+`author.py` authors three trees, woven home/store, fern understory, growing reeds and cut-reed bundle in Blender 4.5 LTS.
+It retains fused trunk/root anatomy, editable foliage, explicit natural-perch,
+deck and ladder reference nodes. `render-proof.py` creates inspection images in
+ignored `output/playwright/sculpt-proof/`. `author_dressing.py` authors a separate nine-piece kit: birch, willow, three
+rounded bushes, grass, cattails and two rocks, all ground-seated with embedded
+materials. The launcher regenerates this kit alongside the core environment.
+Chicken sources have their own
+[chicken contract](chickens/README.md).
+
+The helpers use X right, Y up, Z forward; they convert to Blender coordinates
+before glTF export. The tree's source origin is ground level. Stable Lowfork and
+all simulation IDs remain unchanged. Natural perches are (-.86,3.15,.46) and
+(.86,3.33,.46), deck is (0,2.25,-.5), ladder base is (0,0,-1.08), in exported units.
+
+`ground-albedo-source.png` is an original OpenAI image_gen output supplied for
+this project, not third-party reference art. Prompt: square seamless stylized
+warm ochre compact soil 70%, sage/olive moss 30%, fine grit; no perspective,
+objects, text or shadows; flat diffuse albedo. The original is preserved; a
+1536-pixel JPEG derivative preserves that earlier generated color source.
+`ground-painted-source.png` is a later original image_gen surface albedo supplied
+for this project: clean painted olive/ochre islands, no photographic grain or
+baked lighting. The [exact generation prompt](ground-painted-prompt.txt) is retained.
+The reproducible `author_ground.py` retains a runtime JPEG derivative. The current
+clearing instead uses a quiet world-located, code-authored albedo mask: irregular
+earth court, sage transitions and darker woodland floor. It avoids repeating the
+painted source over every legal cell. The originals remain provenance and palette
+studies, not scene backdrops. Generated seamlessness is not assumed.
+
+No imported commercial meshes, stock artwork or copyrighted reference pixels are
+embedded. Generated concept sheets remain reference material in `art-direction/`.
+This document records provenance, not a new repository license selection.
+
+`woodland-albedo-source.png` is a second original OpenAI image_gen output:
+square seamless flat diffuse 70% quiet grey-sage/moss/olive groundcover and 30%
+muted taupe/ochre earth, few small stones, low contrast, no trees, objects,
+perspective or shadows. The original is preserved and a 1536-pixel JPEG supplies
+woodland surface studies. The derivative remains available; the current scene
+uses its world-located mask for coherent court and woodland regions.
+Neither albedo is a background.
+
+Regenerate with `npm run assets:build` using Blender 4.5 LTS and Python 3. Set
+`BLENDER_BIN` to the Blender executable when it is not on PATH. This regenerates
+the editable environment and chicken sources plus all runtime GLBs, without
+rendering proof images. Normal app build/check never invokes Blender. The old
+Node experiment now writes only ignored `output/legacy-node-assets/` and cannot
+replace runtime exports. Close proof renders are separate optional inspection.
+
+## Original ambient sky
+
+`author_sky.py` writes `warm-neutral-sky.hdr`: an original analytic linear
+RGBE sky/ground gradient, without a sun disk, photographs, or third-party pixels.
+The directional scene sun supplies the key light. Run `python3 assets/sculpted/author_sky.py`,
+start Vite, and open `/assets/sculpted/prefilter-sky.html`. Its button uses the
+installed Babylon HDRCubeTexture prefilter and CreateEnvTextureAsync to download
+a 128-pixel-per-face `.env`; save it as `public/assets/materials/warm-neutral-sky.env`.
+This browser authoring step requires WebGL2. Runtime loads that checked prefiltered
+file; it never converts the HDR. Normal asset geometry regeneration leaves this
+independent lighting artifact unchanged. The modest environment intensity is
+look-development tuning, not a physically measured sky.

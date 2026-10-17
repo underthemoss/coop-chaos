@@ -1,3 +1,6 @@
+import type { AnimationGroup } from "@babylonjs/core/Animations/animationGroup";
+import { ImportMeshAsync } from "@babylonjs/core/Loading/sceneLoader";
+import "@babylonjs/loaders/glTF";
 import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
 import { Camera } from "@babylonjs/core/Cameras/camera";
 import { Color3, Color4 } from "@babylonjs/core/Maths/math.color";
@@ -13,21 +16,28 @@ import "@babylonjs/core/Culling/ray";
 import { Scene } from "@babylonjs/core/scene";
 import { ShadowGenerator } from "@babylonjs/core/Lights/Shadows/shadowGenerator";
 import "@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent";
+import { SSAO2RenderingPipeline } from "@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/ssao2RenderingPipeline";
+import { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTexture";
+import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
-import type { BirdId, FlockState } from "../simulation/flock";
-import { consequences } from "../simulation/flock";
+import type { Settlement, Cell } from "../simulation/settlement";
+import { cost, key, validCell } from "../simulation/settlement";
+import { settlers, trees } from "../content/settlement";
+import { treeScale, presentedBirdPosition } from "./tree-presentation";
+import type { SettlerId as BirdId } from "../content/settlement";
 
 export type BirdLabels = Record<
-  BirdId,
+  string,
   { x: number; y: number; visible: boolean }
 >;
 
-/** Procedural landscape and stand-ins. No external reference assets are shipped. */
+/** Original GLB characters/trees over a procedural landscape; simulation owns every outcome. */
 export function createClearing(
   canvas: HTMLCanvasElement,
   onSelect: (id: BirdId) => void,
   onLabels: (positions: BirdLabels) => void,
-  onZoom: (percent: number) => void,
+  onPick: (at: Cell) => void,
+  onAssets: (status: "loading" | "ready" | "failed") => void,
 ) {
   const engine = new Engine(canvas, true, { stencil: true });
   if (engine.webGLVersion < 2) {
@@ -35,12 +45,14 @@ export function createClearing(
     throw new Error("This landscape needs a browser with WebGL 2.");
   }
   const scene = new Scene(engine);
-  scene.clearColor = Color4.FromHexString("#a9caccff");
-  scene.ambientColor = new Color3(0.22, 0.26, 0.2);
+  scene.clearColor = Color4.FromHexString("#bac6b3ff");
+  scene.ambientColor = new Color3(.06,.07,.04);
+  scene.imageProcessingConfiguration.exposure = 1.15;
+  scene.imageProcessingConfiguration.contrast = 1.03;
   const camera = new ArcRotateCamera(
     "landscape-camera",
     -Math.PI / 2.6,
-    Math.PI / 3.4,
+    Math.PI / 3.2,
     65,
     new Vector3(0, 0.2, 0),
     scene,
@@ -48,52 +60,18 @@ export function createClearing(
   camera.mode = Camera.ORTHOGRAPHIC_CAMERA;
   camera.minZ = 0.1;
   camera.maxZ = 150;
-  const defaultHalfHeight = () => (canvas.clientWidth < 600 ? 12 : 15);
-  let framing = defaultHalfHeight();
-  let halfHeight = framing;
   const resize = () => {
     engine.resize();
-    const nextFraming = defaultHalfHeight();
-    if (nextFraming !== framing) {
-      halfHeight *= nextFraming / framing;
-      framing = nextFraming;
-      onZoom(Math.round((framing / halfHeight) * 100));
-    }
-    const aspect = canvas.clientWidth / canvas.clientHeight;
-    camera.orthoTop = halfHeight;
-    camera.orthoBottom = -halfHeight;
-    camera.orthoLeft = -halfHeight * aspect;
-    camera.orthoRight = halfHeight * aspect;
+    const aspect = canvas.clientWidth/Math.max(1,canvas.clientHeight);
+    const halfHeight = Math.max(8.8,10.8/aspect);
+    camera.orthoTop=halfHeight;camera.orthoBottom=-halfHeight;
+    camera.orthoLeft=-halfHeight*aspect;camera.orthoRight=halfHeight*aspect;
   };
-  const zoom = (factor: number) => {
-    halfHeight = Math.max(5, Math.min(23, halfHeight * factor));
-    resize();
-    onZoom(Math.round((defaultHalfHeight() / halfHeight) * 100));
-  };
-  const reset = () => {
-    halfHeight = defaultHalfHeight();
-    camera.setTarget(new Vector3(0, 0.2, 0), false, false, true);
-    resize();
-    onZoom(100);
-  };
-  const pan = (dx: number, dy: number) => {
-    const units = (halfHeight * 2) / canvas.clientHeight;
-    const right = new Vector3(
-      -Math.sin(camera.alpha),
-      0,
-      Math.cos(camera.alpha),
-    );
-    const up = new Vector3(-Math.cos(camera.alpha), 0, -Math.sin(camera.alpha));
-    const next = camera.target
-      .add(right.scale(-dx * units))
-      .add(up.scale((dy * units) / Math.cos(camera.beta)));
-    next.x = Math.max(-18, Math.min(15, next.x));
-    next.z = Math.max(-16, Math.min(16, next.z));
-    camera.setTarget(next, false, false, true);
-  };
+  camera.setTarget(new Vector3(-.6,2.7,.5),false,false,true);
   const sky = new HemisphericLight("soft-sky", new Vector3(0, 1, 0), scene);
-  sky.intensity = 0.7;
-  sky.groundColor = Color3.FromHexString("#78815a");
+  sky.intensity = 0.65;
+  sky.groundColor = Color3.FromHexString("#485744");
+  sky.diffuse=Color3.FromHexString("#c9dfec");
   const sun = new DirectionalLight(
     "evening-sun",
     new Vector3(-0.6, -1, 0.45),
@@ -101,43 +79,69 @@ export function createClearing(
   );
   sun.position = new Vector3(15, 25, -15);
   sun.intensity = 0.8;
-  sun.diffuse = Color3.FromHexString("#fff0cf");
+  sun.diffuse = Color3.FromHexString("#ffe9c5");
   const shadows = new ShadowGenerator(2048, sun);
-  shadows.useBlurExponentialShadowMap = true;
-  shadows.blurKernel = 20;
-  shadows.setDarkness(0.2);
+  shadows.usePercentageCloserFiltering=true;
+  shadows.filteringQuality=ShadowGenerator.QUALITY_MEDIUM;
+  shadows.bias=.0005;shadows.normalBias=.004;
+  sun.autoCalcShadowZBounds=true;
+  shadows.setDarkness(.3);
+  // Small-scale occlusion gives layered foliage and woven seams local depth.
+  const occlusion = new SSAO2RenderingPipeline("grove-contact",scene,{ssaoRatio:.5,blurRatio:.5},[camera]);
+  occlusion.radius=.65;occlusion.totalStrength=.65;occlusion.samples=8;occlusion.expensiveBlur=false;
   function material(name: string, color: string) {
     const value = new StandardMaterial(name, scene);
     value.diffuseColor = Color3.FromHexString(color);
     value.specularColor = new Color3(0.015, 0.015, 0.015);
     return value;
   }
-  const landMaterial = material("meadow", "#96ad69");
-  const sand = material("riverbank", "#c8bf8c");
-  const pathMaterial = material("worn-earth", "#aea579");
-  const bark = material("bark", "#6d5a40");
-  const foliage = ["#607c45", "#718a4e", "#52713f"].map((color, i) =>
-    material(`forest-${i}`, color),
-  );
-  const ochre = material("beak-and-feet", "#d49b40");
-  const comb = material("comb", "#b94735");
-  const eyes = material("eyes", "#252d28");
-  const stone = material("stone", "#929581");
-  const water = material("water", "#476f7e");
-  water.emissiveColor = Color3.FromHexString("#040d10");
-  const sea = MeshBuilder.CreateGround(
-    "water",
-    { width: 180, height: 180 },
-    scene,
-  );
-  sea.position.y = -0.65;
-  sea.material = water;
-  // A hand-shaped shoreline and deterministic faceting; these are visual data, not simulation RNG.
-  const coast = (z: number) =>
-    10 + 2.8 * Math.sin(z * 0.16) + 1.1 * Math.sin(z * 0.39);
+  const landMaterial = material("meadow", "#ffffff");
+
+  // World-located earth/grass regions, rather than a repeating camouflage tile.
+  // Quiet color variation is subordinate to sculpted trees and moving workers.
+  landMaterial.diffuseColor=Color3.FromHexString("#ffffff");
+  function soilNoise(x:number,z:number) {
+    const ix=Math.floor(x),iz=Math.floor(z),fx=x-ix,fz=z-iz;
+    const hash=(a:number,b:number)=>{const n=Math.sin(a*127.1+b*311.7)*43758.5453;return n-Math.floor(n);};
+    const u=fx*fx*(3-2*fx),v=fz*fz*(3-2*fz);
+    return (hash(ix,iz)*(1-u)+hash(ix+1,iz)*u)*(1-v)+(hash(ix,iz+1)*(1-u)+hash(ix+1,iz+1)*u)*v;
+  }
+  function groundColor(x:number,z:number) {
+    // Earth is the open commons, not an isolated pale oval. Three broad,
+    // irregular grass islands meet a continuous shaded forest floor.
+    const edge=.09*Math.sin(x*.7+z*.35)+.06*Math.sin(z*1.2-x*.4);
+    const islands=Math.min(Math.hypot((x-6)/2.8,(z-1)/3.2),Math.hypot((x+7)/2.5,(z+6)/2.4),Math.hypot((x-1)/3,(z+10)/2));
+    const patch=Math.max(0,Math.min(1,(1-islands+edge)*4));
+    const forest=Math.max(0,Math.min(1,Math.max((z-4.5)/5,(-x-7)/4)));
+    const earth=Color3.FromHexString("#c2a878"),sage=Color3.FromHexString("#92996b"),litter=Color3.FromHexString("#697c59");
+    const color=Color3.Lerp(Color3.Lerp(earth,sage,patch*.8),litter,forest*.92);
+    const plane=1+.035*Math.sin(x*1.6+z*.8)+.018*Math.sin(z*2.3-x*.4);
+    return color.scale(plane);
+  }
+  const groundAlbedo=new DynamicTexture("world-located-painted-ground",{width:1024,height:1024},scene,true);
+  const context=groundAlbedo.getContext(),pixels=new ImageData(1024,1024);
+  for(let row=0;row<1024;row++)for(let col=0;col<1024;col++){
+    const x=(col/1024-.5)*64,z=(row/1024-.5)*64;
+    const c=groundColor(x,z),i=(row*1024+col)*4;
+    // Broad brush-sized planes, not high-frequency speckles or a blurred photo.
+    const brush=1+.055*(soilNoise(x*1.3,z*1.3)-.5)+.025*(soilNoise(x*4.1+17,z*4.1-6)-.5);
+    pixels.data[i]=Math.min(255,c.r*255*brush);pixels.data[i+1]=Math.min(255,c.g*255*brush);pixels.data[i+2]=Math.min(255,c.b*255*brush);pixels.data[i+3]=255;
+  }
+  context.putImageData(pixels,0,0);groundAlbedo.update(false);
+  groundAlbedo.uScale=14/64;groundAlbedo.vScale=14/64;groundAlbedo.uOffset=.5;groundAlbedo.vOffset=.5;
+  landMaterial.diffuseTexture=groundAlbedo;
+
+  const pathMaterial = material("worn-earth", "#827658");
+  const water = material("water", "#ffffff");
+  water.specularColor=Color3.FromHexString("#8ea8a5");water.specularPower=110;
+  // The creek is a narrow landscape feature; only the left bank is playable ground.
+  const coast = (z: number) => 10.5 + 1.4*Math.sin(z*.25)+.6*Math.sin(z*.61+.4);
+  const creekWidth=(z:number)=>1.7+.38*Math.sin(z*.43+.8)+.2*Math.sin(z*1.1);
   const elevation = (x: number, z: number) => {
-    const distance = Math.hypot(x, z);
-    const hill = Math.max(0, Math.min(1, (distance - 8) / 9));
+    // All legal work cells and their perched offsets share one ground datum.
+    // Relief belongs to the scenic woodland beyond the playable rectangle.
+    const outside = Math.hypot(Math.max(0, Math.abs(x) - 9.2), Math.max(0, Math.abs(z) - 7.2));
+    const hill = Math.min(1, outside / 9);
     const inland = Math.max(0, Math.min(1, (coast(z) - x) / 7));
     return (
       0.18 +
@@ -162,6 +166,7 @@ export function createClearing(
     const normals: number[] = [];
     VertexData.ComputeNormals(positions, indices, normals);
     data.normals = normals;
+    data.uvs=positions.flatMap((_,i)=>i%3===0?[positions[i]/14,positions[i+2]/14]:[]);
     if (colors) data.colors = colors;
     data.applyToMesh(mesh);
     mesh.convertToFlatShadedMesh();
@@ -173,14 +178,13 @@ export function createClearing(
   const terrainIndices: number[] = [];
   const terrainColors: number[] = [];
   const columns = 30;
-  const rows = 36;
+  const rows = 60;
   for (let row = 0; row <= rows; row++) {
-    const z = -44 + row * 2.4;
+    const z = -72 + row * 2.4;
     for (let col = 0; col <= columns; col++) {
-      const x = -52 + ((coast(z) + 52) * col) / columns;
+      const x = -52 + ((coast(z)-.75 + 52) * col) / columns;
       terrainPositions.push(x, elevation(x, z), z);
-      const shade = 0.91 + (Math.sin(row * 31 + col * 17) + 1) * 0.045;
-      terrainColors.push(shade, shade, shade, 1);
+      terrainColors.push(1,1,1,1);
       if (row < rows && col < columns) {
         const a = row * (columns + 1) + col;
         terrainIndices.push(
@@ -194,224 +198,40 @@ export function createClearing(
       }
     }
   }
-  surface(
+  const terrain = surface(
     "faceted-terrain",
     terrainPositions,
     terrainIndices,
     landMaterial,
     terrainColors,
   );
-  const shorePositions: number[] = [];
-  const shoreIndices: number[] = [];
-  for (let row = 0; row <= rows; row++) {
-    const z = -44 + row * 2.4;
-    const x = coast(z);
-    shorePositions.push(
-      x - 0.45,
-      elevation(x - 0.45, z) + 0.02,
-      z,
-      x + 0.7,
-      -0.54,
-      z,
-    );
-    if (row < rows) {
-      const a = row * 2;
-      shoreIndices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+  // Cross-sections form shallow shelves, irregular banks and a darker deep channel.
+  const creekPositions:number[]=[],creekIndices:number[]=[],creekColors:number[]=[],bankPositions:number[]=[],bankIndices:number[]=[],bankColors:number[]=[];
+  const riverSteps=160;
+  for(let i=0;i<=riverSteps;i++){
+    const z=-80+i*1.05,x=coast(z),width=creekWidth(z);
+    for(const [t,y] of [[0,-.055],[.18,-.06],[.55,-.075],[.85,-.06],[1,-.055]]){
+      creekPositions.push(x+width*t,y,z);
+      const deep=Math.sin(t*Math.PI);const c=Color3.Lerp(Color3.FromHexString("#789b91"),Color3.FromHexString("#3c7778"),deep);
+      creekColors.push(c.r,c.g,c.b,1);
+    }
+    for(const [xx,y] of [[x-.85-.08*Math.sin(z*1.7),elevation(x-.85,z)],[x+.04,-.065],[x+width-.04,-.065],[x+width+.8+.15*Math.sin(z*1.3),.23],[x+width+1.5,.28],[55,.8]]){
+      bankPositions.push(xx,y,z);bankColors.push(.95,.97,.95,1);
+    }
+    if(i<riverSteps){
+      for(let j=0;j<4;j++){const q=i*5+j;creekIndices.push(q,q+5,q+1,q+1,q+5,q+6);}
+      for(const j of [0,2,3,4]){const q=i*6+j;bankIndices.push(q,q+6,q+1,q+1,q+6,q+7);}
     }
   }
-  surface("soft-shoreline", shorePositions, shoreIndices, sand);
-  // Irregular glade patches and chicken-worn paths give the terrain a place to inhabit.
-  const patch = [
-    [-6, -2],
-    [-5, 2],
-    [-2, 4.6],
-    [2, 3.2],
-    [5.5, 0],
-    [3, -4.7],
-    [-1.7, -5.3],
-  ];
-  const patchPositions = [0, 0.205, 0];
-  const patchIndices: number[] = [];
-  for (const [x, z] of patch)
-    patchPositions.push(x, elevation(x, z) + 0.025, z);
-  for (let i = 1; i <= patch.length; i++)
-    patchIndices.push(0, i, i === patch.length ? 1 : i + 1);
-  surface(
-    "gathering-glade",
-    patchPositions,
-    patchIndices,
-    material("glade-grass", "#a9b478"),
-  );
-  function trail(points: [number, number][], width: number) {
-    for (let i = 1; i < points.length; i++) {
-      const [ax, az] = points[i - 1];
-      const [bx, bz] = points[i];
-      const mesh = MeshBuilder.CreateBox(
-        "footpath",
-        { width, height: 0.015, depth: Math.hypot(bx - ax, bz - az) + 0.15 },
-        scene,
-      );
-      mesh.position.set(
-        (ax + bx) / 2,
-        elevation((ax + bx) / 2, (az + bz) / 2) + 0.04,
-        (az + bz) / 2,
-      );
-      mesh.rotation.y = Math.atan2(bx - ax, bz - az);
-      mesh.material = pathMaterial;
-      mesh.receiveShadows = true;
-    }
-  }
-  trail(
-    [
-      [-14, -7],
-      [-9, -5],
-      [-5, -3],
-      [-2, -0.5],
-      [-3.4, 2.2],
-    ],
-    0.65,
-  );
-  trail(
-    [
-      [-2, -0.5],
-      [2.8, -0.8],
-      [5, 1.2],
-      [8.5, 3.5],
-    ],
-    0.55,
-  );
-  function ellipsoid(
-    name: string,
-    parent: TransformNode | null,
-    pos: number[],
-    scale: number[],
-    mat: StandardMaterial,
-    segments = 8,
-  ) {
-    const mesh = MeshBuilder.CreateSphere(
-      name,
-      { diameter: 1, segments },
-      scene,
-    );
-    mesh.parent = parent;
-    mesh.position.set(pos[0], pos[1], pos[2]);
-    mesh.scaling.set(scale[0], scale[1], scale[2]);
-    mesh.material = mat;
-    shadows.addShadowCaster(mesh);
-    return mesh;
-  }
-  // Group like-material forest geometry to avoid hundreds of draw calls.
-  const treeParts: Mesh[][] = [[], [], [], []];
-  function tree(x: number, z: number, height: number, tone: number) {
-    const y = elevation(x, z);
-    const trunk = MeshBuilder.CreateCylinder(
-      "pine-trunk",
-      { diameter: 0.28, height: height * 0.65, tessellation: 5 },
-      scene,
-    );
-    trunk.position.set(x, y + height * 0.325, z);
-    treeParts[0].push(trunk);
-    for (let tier = 0; tier < 2; tier++) {
-      const crown = MeshBuilder.CreateCylinder(
-        "pine-crown",
-        {
-          diameterTop: 0,
-          diameterBottom: height * (tier === 0 ? 0.65 : 0.49),
-          height: height * 0.74,
-          tessellation: 6,
-        },
-        scene,
-      );
-      crown.position.set(x, y + height * (tier === 0 ? 0.57 : 0.8), z);
-      treeParts[tone + 1].push(crown);
-    }
-  }
-  for (let x = -26; x <= 14; x += 2.3) {
-    for (let z = -24; z <= 25; z += 2.4) {
-      const jitter = Math.sin(x * 42 + z * 17);
-      const px = x + jitter * 0.65;
-      const pz = z + Math.cos(x * 23 + z * 13) * 0.7;
-      const inMass = (px < -8 && pz > -10) || pz > 10 || (px < -15 && pz < -12);
-      if (!inMass || px > coast(pz) - 2.5 || Math.sin(x * 12 + z * 7) < -0.75)
-        continue;
-      tree(px, pz, 2.7 + (jitter + 1) * 0.7, Math.abs(Math.round(x + z)) % 3);
-    }
-  }
-  for (let i = 0; i < treeParts.length; i++) {
-    const merged = Mesh.MergeMeshes(treeParts[i], true, true);
-    if (merged) {
-      merged.material = i === 0 ? bark : foliage[i - 1];
-      shadows.addShadowCaster(merged);
-    }
-  }
-  // The old roots are the only shelter in this small authored scene.
-  const trunk = ellipsoid(
-    "old-tree",
-    null,
-    [-3.9, 1.8, 3.1],
-    [1.2, 3.4, 1.2],
-    bark,
-  );
-  trunk.rotation.z = -0.12;
-  for (let i = 0; i < 4; i++) {
-    const angle = i * Math.PI * 0.52;
-    const root = ellipsoid(
-      "old-root",
-      null,
-      [-3.8 + Math.cos(angle) * 0.6, 0.45, 3 + Math.sin(angle) * 0.6],
-      [0.5, 0.6, 2.5],
-      bark,
-    );
-    root.rotation.y = -angle + Math.PI / 2;
-  }
-  for (const [x, y, z, size] of [
-    [-4, 4.1, 3.3, 3.4],
-    [-5.2, 3.8, 3.8, 2.5],
-    [-2.9, 3.9, 4.2, 2.8],
-  ]) {
-    ellipsoid(
-      "old-tree-crown",
-      null,
-      [x, y, z],
-      [size, size * 0.7, size],
-      foliage[1],
-      4,
-    ).convertToFlatShadedMesh();
-  }
-  const hollow = ellipsoid(
-    "dry-hollow",
-    null,
-    [-3.2, 0.23, 2.2],
-    [2.2, 0.08, 1.65],
-    material("dry-leaves", "#c6b784"),
-  );
-  hollow.receiveShadows = true;
-  for (let i = 0; i < 48; i++) {
-    const x = Math.sin(i * 12.3) * 21;
-    const z = Math.cos(i * 8.4) * 21;
-    if (x > coast(z) - 0.9 || Math.hypot(x, z) < 6.8) continue;
-    const rock = ellipsoid(
-      "fieldstone",
-      null,
-      [x, elevation(x, z) + 0.18, z],
-      [0.5 + (i % 3) * 0.3, 0.45 + (i % 2) * 0.3, 0.6],
-      stone,
-      4,
-    );
-    rock.rotation.y = i;
-    rock.convertToFlatShadedMesh();
-  }
-  const ripples = material("water-ripples", "#a0c9c8");
-  for (let i = 0; i < 22; i++) {
-    const z = -24 + i * 2.3;
-    const x = coast(z) + 2 + (i % 4) * 1.7;
-    const ripple = MeshBuilder.CreateBox(
-      "water-glint",
-      { width: 0.9 + (i % 3) * 0.5, depth: 0.06, height: 0.006 },
-      scene,
-    );
-    ripple.position.set(x, -0.64, z);
-    ripple.material = ripples;
+  const creek=surface("shallow-winding-creek",creekPositions,creekIndices,water,creekColors);creek.isPickable=false;
+  const banks=surface("irregular-creek-banks",bankPositions,bankIndices,landMaterial,bankColors);banks.isPickable=false;
+  const ripples=material("water-ripples","#c3d8cd");ripples.alpha=.22;
+  const currents:Mesh[]=[];
+  for(let i=0;i<30;i++){
+    const z=-20+i*1.45,x=coast(z)+creekWidth(z)*(.2+(i%4)*.18);
+    const a:Vector3[]=[],b:Vector3[]=[];
+    for(let j=0;j<7;j++){const xx=x+Math.sin(j*.6)*.04,zz=z+j*.1;a.push(new Vector3(xx,-.046,zz));b.push(new Vector3(xx+.016,-.046,zz));}
+    const stroke=MeshBuilder.CreateRibbon("restrained-creek-current",{pathArray:[a,b],sideOrientation:Mesh.DOUBLESIDE},scene);stroke.material=ripples;stroke.isPickable=false;currents.push(stroke);
   }
   const chickens = new Map<
     BirdId,
@@ -421,184 +241,315 @@ export function createClearing(
       head: TransformNode;
       wing: TransformNode;
       target: Vector3;
+      clips: AnimationGroup[];
+      pose: string;
     }
   >();
-  const positions: Record<BirdId, [number, number, number]> = {
-    rowan: [2.7, 0.18, -0.7],
-    mallow: [-1.1, 0.18, 0.8],
-    bramble: [-2.3, 0.18, -3.2],
-    pip: [-0.9, 0.18, -3.6],
-  };
-  function chicken(id: BirdId, color: string, scale: number, yaw: number) {
-    const root = new TransformNode(id, scene);
-    root.position = Vector3.FromArray(positions[id]);
-    root.scaling.setAll(scale);
-    root.rotation.y = yaw;
-    const body = new TransformNode(`${id}-body`, scene);
+
+  // Controllers survive asset replacement so cargo, selection and saved poses stay attached.
+  for (const person of settlers) {
+    const root = new TransformNode(person.id, scene);
+    root.position.set(-6, .18, -4);
+    root.scaling.setAll(.73);
+    const body = new TransformNode(`${person.id}-body`, scene);
     body.parent = root;
-    const plumage = material(`${id}-plumage`, color);
-    ellipsoid(`${id}-breast`, body, [0, 0.87, 0], [1, 1.13, 1.3], plumage);
-    const wing = ellipsoid(
-      `${id}-wing`,
-      body,
-      [0.46, 0.86, 0],
-      [0.21, 0.63, 0.9],
-      plumage,
-    );
-    ellipsoid(
-      `${id}-far-wing`,
-      body,
-      [-0.46, 0.86, 0],
-      [0.21, 0.63, 0.9],
-      plumage,
-    );
-    const head = new TransformNode(`${id}-head`, scene);
+    const head = new TransformNode(`${person.id}-head`, scene);
     head.parent = body;
-    head.position.set(0, 1.4, -0.44);
-    ellipsoid(`${id}-neck`, head, [0, -0.12, 0.05], [0.55, 0.8, 0.6], plumage);
-    ellipsoid(
-      `${id}-face`,
-      head,
-      [0, 0.18, -0.12],
-      [0.65, 0.66, 0.64],
-      plumage,
-    );
-    for (const side of [-1, 1]) {
-      ellipsoid(
-        `${id}-eye`,
-        head,
-        [side * 0.3, 0.23, -0.28],
-        [0.075, 0.095, 0.08],
-        eyes,
-      );
-      ellipsoid(
-        `${id}-foot`,
-        root,
-        [side * 0.24, 0.11, -0.1],
-        [0.11, 0.22, 0.4],
-        ochre,
-      );
-    }
-    const beak = MeshBuilder.CreateCylinder(
-      `${id}-beak`,
-      { diameterTop: 0, diameterBottom: 0.26, height: 0.36, tessellation: 4 },
-      scene,
-    );
-    beak.parent = head;
-    beak.position.set(0, 0.1, -0.5);
-    beak.rotation.x = -Math.PI / 2;
-    beak.material = ochre;
-    if (id !== "pip") {
-      for (let i = 0; i < 3; i++)
-        ellipsoid(
-          `${id}-comb`,
-          head,
-          [0, 0.52 + (i === 1 ? 0.07 : 0), -0.3 + i * 0.18],
-          [0.13, id === "rowan" ? 0.39 : 0.22, 0.24],
-          comb,
-        );
-      ellipsoid(
-        `${id}-wattle`,
-        head,
-        [0, -0.17, -0.4],
-        [0.19, 0.25, 0.15],
-        comb,
-      );
-    }
-    for (let i = 0; i < 3; i++) {
-      const tail = ellipsoid(
-        `${id}-tail`,
-        body,
-        [(i - 1) * 0.15, id === "rowan" ? 1.3 : 1.08, 0.65],
-        [0.22, id === "rowan" ? 1.2 : 0.65, 0.48],
-        plumage,
-      );
-      tail.rotation.x = 0.5 + i * 0.16;
-    }
-    for (const mesh of root.getChildMeshes()) mesh.metadata = { birdId: id };
-    chickens.set(id, { root, body, head, wing, target: root.position.clone() });
+    const wing = new TransformNode(`${person.id}-wing`, scene);
+    wing.parent = body;
+    chickens.set(person.id, { root, body, head, wing, target: root.position.clone(),clips:[],pose:"" });
   }
-  chicken("rowan", "#3e5149", 1.06, -0.45);
-  chicken("mallow", "#eee0b8", 0.87, -0.15);
-  chicken("bramble", "#b16e40", 0.87, 0.4);
-  chicken("pip", "#ecc45e", 0.43, -0.25);
+  let disposed = false;
+  let loading = false;
+  const assetRoots: TransformNode[] = [];
+  const templates = new Map<string,Mesh>();
+  async function loadAssets() {
+    if (loading || disposed) return;
+    loading = true;
+    onAssets("loading");
+    const staged: TransformNode[] = [];
+    let environment: CubeTexture | undefined;
+    try {
+      // The checked prefiltered sky is local, original, and part of the retryable asset set.
+      environment = await new Promise<CubeTexture>((resolve, reject) => {
+        const texture = new CubeTexture("/assets/materials/warm-neutral-sky.env", scene,
+          null, false, null, () => resolve(texture), (message) => reject(new Error(message)), undefined, true);
+      });
+      if (disposed) { environment.dispose(); return; }
+      // Stage the complete set before publishing: retry cannot duplicate a partial forest.
+      const tasks = [
+        ...trees.map(t => ({ path: `environment/${t.id}.glb`, tree: t, bird: null,template:null })),
+        ...settlers.map(b => ({ path: `characters/${b.id}.glb`, tree: null, bird: b,template:null })),
+        ...["reed-bundle","woven-home","woven-store","understory","reed-clump","dressing-birch","dressing-willow","dressing-bush-a","dressing-bush-b","dressing-bush-c","dressing-grass","dressing-cattails","dressing-rock-a","dressing-rock-b"].map(id=>({path:`environment/${id}.glb`,tree:null,bird:null,template:id})),
+      ];
+      for (const task of tasks) {
+        const imported = await ImportMeshAsync(`/assets/${task.path}`, scene);
+        const root = imported.meshes[0];
+        if (disposed) { root.dispose(false, true); return; }
+        root.setEnabled(false);
+        staged.push(root);
+        if(task.template)templates.set(task.template,root as Mesh);
+        if(task.tree){
+          const locations=task.tree.id === "lowfork" ? [[-11,5,.6],[-12,10,.64],[-8,12,.55],[-5,15,.48]] : task.tree.id === "splitcrown" ? [[-11,8,.4]] : [[-14,3,.36]];
+          for(const [x,z,scale] of locations){const copy=root.clone(`${task.tree.id}-woodland`,null)!;copy.position.set(x,elevation(x,z),z);copy.scaling.scaleInPlace(scale);copy.rotation.y=(x+z)*.13;copy.setEnabled(false);staged.push(copy);}
+        }
+        if (task.tree) { root.position.set(task.tree.x*2, elevation(task.tree.x*2, task.tree.z*2), task.tree.z*2); root.scaling.scaleInPlace(treeScale[task.tree.id]); }
+        if (task.bird) {
+          const controller = chickens.get(task.bird.id)!;
+          root.parent = controller.root;
+          const nodes = [...imported.transformNodes, ...imported.meshes];
+          controller.body = nodes.find(n => n.name === "body")!;
+          controller.head = nodes.find(n => n.name === "head")!;
+          controller.wing = nodes.find(n => n.name === "wing")!;
+          imported.animationGroups.forEach(g=>g.stop());
+          controller.clips=imported.animationGroups;controller.pose="";
+          for (const mesh of root.getChildMeshes()) mesh.metadata = { birdId: task.bird.id };
+        }
+        for (const mesh of root.getChildMeshes()) { shadows.addShadowCaster(mesh); mesh.receiveShadows = true; }
+      }
+      if (!disposed) {
+        scene.environmentTexture?.dispose();
+        scene.environmentTexture = environment;
+        scene.environmentIntensity = .45;
+        staged.forEach(root => {
+          for (const mesh of root.getChildMeshes()) { shadows.addShadowCaster(mesh); mesh.receiveShadows = true; }
+          root.setEnabled(true);
+        });
+        templates.forEach(root=>root.setEnabled(false));
+        function dress(id:string,x:number,z:number,scale:number,turn:number,yOffset=0){
+          const template=templates.get(`dressing-${id}`)!;
+          const copy=template.clone(`clearing-${id}`,null)!;copy.position.set(x,elevation(x,z)+yOffset,z);copy.scaling.scaleInPlace(scale);copy.rotation.y=turn;copy.setEnabled(true);staged.push(copy);
+          copy.getChildMeshes().forEach(m=>{m.isPickable=false;shadows.addShadowCaster(m);m.receiveShadows=true;});return copy;
+        }
+        // A dense layered left/back woodland, not a ring of equal oaks.
+        for(const [x,z,scale] of [[-11,-5,.85],[-13,-1,1],[-10,3,.9],[-10,7,1.05],[-6,10,.8],[-2,11,.82],[3,12,.72],[-15,5,.95]])dress("birch",x,z,scale,x*.4);
+        dress("willow",coast(8)+creekWidth(8)+1.8,8,.9,1.4);
+        dress("willow",coast(-8)+creekWidth(-8)+2,-8,.8,-.4);
+        const edges=[[-11,-7],[-12,-3],[-11,1],[-11,5],[-9,8],[-6,9],[-2,10],[3,10],[7,8],[-7,-9],[-2,-10],[4,-9]];
+        for(let i=0;i<edges.length;i++){
+          const [x,z]=edges[i];
+          for(let j=0;j<3;j++)dress(`bush-${["a","b","c"][(i+j)%3]}`,x+Math.sin(j*2.4)*1.2,z+Math.cos(j*2.1)*.85,.8+(i%3)*.16,i+j);
+          dress(i%2?"rock-a":"rock-b",x+1,z-.8,.65+(i%3)*.12,i);
+          for(let j=0;j<3;j++)dress("grass",x+Math.sin(j*2)*1.8,z+Math.cos(j*2)*1.4,.9+(j%2)*.3,j+i);
+        }
+        // Root skirts remain low and clear of the trunk's work/ladder approach.
+        dress("bush-b",-6.1,4.8,.5,1);dress("bush-a",-3.4,6,.45,2);dress("rock-b",-5.8,5.8,.5,.8);
+        // Asymmetric submerged rock groups and cattails break the creek's outline.
+        for(const [x,z,scale] of [[-6.5,2.5,.36],[-5.4,5.3,.42],[-2.9,6.9,.35],[-8.7,-5.7,.5],[-3.6,-8.4,.45],[5.5,-6.9,.4],[7.6,-.8,.38],[7.9,4.1,.4]]) {
+          dress("grass",x,z,scale,x*.8-z*.3);
+          dress("rock-b",x+.35,z+.18,scale*.32,z*.7,-.025);
+        }
+        for(let group=0;group<14;group++){
+          const z=-20+group*3.1+Math.sin(group*2.7)*.7;
+          const right=group%3===0,base=coast(z)+(right?creekWidth(z):0);
+          for(let j=0;j<2+group%3;j++){
+            const zz=z+Math.sin(j*2.3)*.6,x=base+(right?.15:-.15)+Math.cos(j*2.1)*.48;
+            dress((group+j)%2?"rock-a":"rock-b",x,zz,.5+(j%3)*.22,group+j,-.27);
+          }
+          if(group%3!==1) dress("cattails",base+(right?.5:-.65),z+.8,.65+(group%3)*.12,group,-.06);
+          if(group%2===0)dress("bush-c",coast(z)-1.35,z+1.5,.6,group);
+        }
+        const bundle=templates.get("reed-bundle")!;
+        for(const [id,bird] of chickens){
+          cargoMeshes.get(id)?.dispose();
+          const carried=bundle.clone(`${id}-carried-reeds`,bird.root)!;
+          carried.position.set(0,.72,.6);carried.scaling.scaleInPlace(.85);
+          carried.setEnabled((renderState?.birds.find(b=>b.id===id)?.cargo??0)>0);
+          carried.getChildMeshes().forEach(m=>{m.isPickable=false;shadows.addShadowCaster(m);});
+          cargoMeshes.set(id,carried);
+        }
+        layoutSignature="";
+        if(renderState)rebuild(renderState);
+        assetRoots.push(...staged);
+        onAssets("ready");
+      }
+    } catch (error) {
+      staged.forEach(root => root.dispose(false, true));
+      environment?.dispose();
+      if (!disposed) { console.error("Coop Chaos model load failed", error); onAssets("failed"); }
+    } finally { loading = false; }
+  }
+  void loadAssets();
   const selection = MeshBuilder.CreateTorus(
     "selected-character",
     { diameter: 1.65, thickness: 0.045, tessellation: 32 },
     scene,
   );
   selection.material = material("selection-ochre", "#e9cd87");
-  selection.parent = chickens.get("rowan")!.root;
+  selection.parent = chickens.get("fern")!.root;
   selection.position.y = 0.035;
-  let dragging: { id: number; x: number; y: number; moved: number } | null =
-    null;
-  const pointerDown = (event: PointerEvent) => {
-    if (event.button !== 0) return;
-    canvas.focus({ preventScroll: true });
-    canvas.setPointerCapture(event.pointerId);
-    dragging = {
-      id: event.pointerId,
-      x: event.clientX,
-      y: event.clientY,
-      moved: 0,
-    };
-  };
-  const pointerMove = (event: PointerEvent) => {
-    if (!dragging || dragging.id !== event.pointerId) return;
-    const dx = event.clientX - dragging.x;
-    const dy = event.clientY - dragging.y;
-    dragging.moved += Math.abs(dx) + Math.abs(dy);
-    if (dragging.moved > 4) pan(dx, dy);
-    dragging.x = event.clientX;
-    dragging.y = event.clientY;
-  };
-  const pointerUp = (event: PointerEvent) => {
-    if (!dragging || dragging.id !== event.pointerId) return;
-    if (dragging.moved <= 4 && event.type === "pointerup") {
-      const bounds = canvas.getBoundingClientRect();
-      const pick = scene.pick(
-        event.clientX - bounds.left,
-        event.clientY - bounds.top,
+  let selectedBird: BirdId = "fern";
+  let renderState: Settlement | null = null;
+  let layoutSignature = "";
+  const cargoMat = material("reed-bundles", "#d9bb69");
+  const shelterMat = material("woven-grass", "#ad9657");
+  const gridMat = material("grid", "#bcc08b");
+  gridMat.alpha = 0.24;
+  const gridRoot = new TransformNode("placement-grid", scene);
+  for (let x = -4; x <= 4; x++)
+    for (let z = -3; z <= 3; z++) {
+      const marker = MeshBuilder.CreateGround(
+        "cell",
+        { width: 1.85, height: 1.85 },
+        scene,
       );
-      const id = pick?.pickedMesh?.metadata?.birdId as BirdId | undefined;
-      if (id) onSelect(id);
+      marker.position.set(x * 2, elevation(x * 2, z * 2) + 0.045, z * 2);
+      marker.material = gridMat;
+      marker.parent = gridRoot;
+      marker.isPickable = false;
     }
-    dragging = null;
-    if (canvas.hasPointerCapture(event.pointerId))
-      canvas.releasePointerCapture(event.pointerId);
-  };
-  const wheel = (event: WheelEvent) => {
-    event.preventDefault();
-    zoom(event.deltaY > 0 ? 1.12 : 1 / 1.12);
-  };
-  const keyboard = (event: KeyboardEvent) => {
-    const actions: Record<string, () => void> = {
-      ArrowLeft: () => pan(45, 0),
-      ArrowRight: () => pan(-45, 0),
-      ArrowUp: () => pan(0, 45),
-      ArrowDown: () => pan(0, -45),
-      "+": () => zoom(1 / 1.2),
-      "=": () => zoom(1 / 1.2),
-      "-": () => zoom(1.2),
-      "0": reset,
-    };
-    if (actions[event.key]) {
-      event.preventDefault();
-      actions[event.key]();
+  gridRoot.setEnabled(false);
+  const cursor = MeshBuilder.CreateTorus(
+    "placement-cursor",
+    { diameter: 1.6, thickness: 0.08, tessellation: 24 },
+    scene,
+  );
+  cursor.material = material("cursor", "#fff0b3");
+  cursor.setEnabled(false);
+  cursor.isPickable = false;
+  const cargoMeshes = new Map<BirdId, Mesh>();
+  for (const [id, bird] of chickens) {
+    const bundle = MeshBuilder.CreateCylinder(
+      "carried-reed-bundle",
+      { height: 1.1, diameter: 0.34, tessellation: 6 },
+      scene,
+    );
+    bundle.parent = bird.root;
+    bundle.position.set(0, 0.5, -0.9);
+    bundle.rotation.z = Math.PI / 2;
+    bundle.material = cargoMat;
+    bundle.setEnabled(false);
+    bundle.isPickable = false;
+    cargoMeshes.set(id, bundle);
+  }
+  let builtMeshes: Mesh[] = [];
+  function box(
+    name: string,
+    x: number,
+    y: number,
+    z: number,
+    width: number,
+    height: number,
+    depth: number,
+    mat = shelterMat,
+  ) {
+    const m = MeshBuilder.CreateBox(name, { width, height, depth }, scene);
+    m.position.set(x, y, z);
+    m.material = mat;
+    m.isPickable = false;
+    m.receiveShadows = true;
+    shadows.addShadowCaster(m);
+    builtMeshes.push(m);
+    return m;
+  }
+  function rebuild(state: Settlement) {
+    for (const mesh of builtMeshes) {
+      shadows.removeShadowCaster(mesh);
+      mesh.dispose();
     }
+    builtMeshes = [];
+    for (const path of state.paths) {
+      const [x, z] = path.split(",").map(Number);
+      box(
+        "player-path",
+        x * 2,
+        elevation(x * 2, z * 2) + 0.05,
+        z * 2,
+        0.6,
+        0.025,
+        0.6,
+        pathMaterial,
+      );
+      for (const [dx, dz] of [
+        [1, 0],
+        [0, 1],
+      ])
+        if (state.paths.includes(key({ x: x + dx, z: z + dz }))) {
+          const xx = x * 2 + dx,
+            zz = z * 2 + dz;
+          box(
+            "connected-path",
+            xx,
+            elevation(xx, zz) + 0.05,
+            zz,
+            dx ? 2 : 0.6,
+            0.025,
+            dz ? 2 : 0.6,
+            pathMaterial,
+          );
+        }
+    }
+    function model(id:string,x:number,y:number,z:number,scale=1){
+      const template=templates.get(id);if(!template)return null;
+      const copy=template.clone(`${id}-placed`,null)!;copy.position.set(x,y,z);copy.scaling.scaleInPlace(scale);copy.setEnabled(true);
+      for(const m of copy.getChildMeshes()){m.isPickable=false;shadows.addShadowCaster(m);m.receiveShadows=true;}
+      builtMeshes.push(copy);return copy;
+    }
+    function bundles(x:number,z:number,count:number){
+      for(let i=0;i<Math.min(12,count);i++)model("reed-bundle",x+((i%3)-1)*.3,elevation(x,z)+.08+Math.floor(i/6)*.13,z+((Math.floor(i/3)%2)-.5)*.38,.5);
+    }
+    for(const patch of state.patches){
+      const x=patch.at.x*2,z=patch.at.z*2;
+      for(let i=0;i<patch.remaining;i++){
+        const a=i*2.39996,r=Math.sqrt((i+.5)/patch.capacity)*.64,xx=x+Math.cos(a)*r,zz=z+Math.sin(a)*r;
+        const clump=model("reed-clump",xx,elevation(xx,zz),zz,.7);if(clump)clump.rotation.y=a;
+      }
+    }
+    for (const pile of state.piles)
+      bundles(pile.at.x * 2, pile.at.z * 2 + (pile.kind === "source" ? .8 : 0), pile.stock);
+    for (const site of state.sites) {
+      const x = site.at.x * 2,
+        z = site.at.z * 2,
+        y = elevation(x, z);
+      if (site.kind === "store") {
+        const basket=model("woven-store",x,y,z);
+        if(basket&&!site.complete)basket.scaling.y*=.3;
+        bundles(x, z, site.complete ? site.stock : site.delivered);
+      } else {
+        const stage = site.complete
+          ? 3
+          : site.progress >= 10
+            ? 2
+            : site.delivered >= cost(site)
+              ? 1
+              : 0;
+        if(stage>0){
+          const home=model("woven-home",x,y,z,site.tree?treeScale[site.tree]:1);
+          if(home)for(const m of home.getChildMeshes()){
+            const name=m.name.toLowerCase();
+            if(name.includes("rainhood")&&stage<2||name.includes("ladder")&&stage<3)m.setEnabled(false);
+          }
+        }
+        if (!site.complete) bundles(x + 1.15, z - 0.6, site.delivered);
+      }
+    }
+  }
+  let pointer: {id:number;x:number;y:number;moved:boolean}|null=null;
+  const pointerDown=(event:PointerEvent)=>{
+    if(event.button!==0||pointer){pointer=null;return;}
+    canvas.focus({preventScroll:true});
+    pointer={id:event.pointerId,x:event.clientX,y:event.clientY,moved:false};
   };
-  canvas.addEventListener("pointerdown", pointerDown);
-  canvas.addEventListener("pointermove", pointerMove);
-  canvas.addEventListener("pointerup", pointerUp);
-  canvas.addEventListener("pointercancel", pointerUp);
-  canvas.addEventListener("wheel", wheel, { passive: false });
-  canvas.addEventListener("keydown", keyboard);
-  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-  let elapsed = 0;
+  const pointerMove=(event:PointerEvent)=>{
+    if(pointer&&Math.hypot(event.clientX-pointer.x,event.clientY-pointer.y)>5)pointer.moved=true;
+  };
+  const pointerUp=(event:PointerEvent)=>{
+    const p=pointer;pointer=null;
+    if(!p||p.id!==event.pointerId||p.moved||event.type!=="pointerup")return;
+    const bounds=canvas.getBoundingClientRect(),x=event.clientX-bounds.left,y=event.clientY-bounds.top;
+    const pick=scene.pick(x,y),id=pick?.pickedMesh?.metadata?.birdId as BirdId|undefined;
+    if(id){onSelect(id);return;}
+    const ground=scene.pick(x,y,mesh=>mesh===terrain);
+    if(ground?.pickedPoint){const at={x:Math.round(ground.pickedPoint.x/2),z:Math.round(ground.pickedPoint.z/2)};if(validCell(at))onPick(at);}
+  };
+  canvas.addEventListener("pointerdown",pointerDown);
+  canvas.addEventListener("pointermove",pointerMove);
+  canvas.addEventListener("pointerup",pointerUp);
+  canvas.addEventListener("pointercancel",pointerUp);
+  const reducedMotion=matchMedia("(prefers-reduced-motion: reduce)");
   scene.onBeforeRenderObservable.add(() => {
     const delta = Math.min(engine.getDeltaTime() / 1000, 0.1);
-    elapsed += delta;
-    let i = 0;
+    currents.forEach((stroke,i)=>{stroke.position.z=reducedMotion.matches?0:Math.sin(performance.now()*.0005+i)*.12;});
     const labelPositions = {} as BirdLabels;
     const viewport = camera.viewport.toGlobal(
       engine.getRenderWidth(),
@@ -608,16 +559,19 @@ export function createClearing(
       bird.root.position = Vector3.Lerp(
         bird.root.position,
         bird.target,
-        reducedMotion.matches ? 1 : Math.min(1, delta * 3),
+        reducedMotion.matches ? 1 : Math.min(1, delta * 12),
       );
-      const wave = reducedMotion.matches
-        ? 0
-        : Math.sin(elapsed * 1.8 + i++ * 1.7);
-      bird.body.position.y = wave * 0.025;
-      bird.head.rotation.x = wave * 0.045;
-      bird.wing.rotation.z = wave * 0.035;
+      const worker = renderState?.birds.find((b) => b.id === id);
+      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo?"carry":"walk"):worker?.job?.kind==="build"?"weave":worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
+      const pose=action+(reducedMotion.matches?"-still":"");
+      if(pose!==bird.pose){
+        bird.clips.forEach(g=>g.stop());
+        const clip=bird.clips.find(g=>g.name===action);
+        if(clip){clip.start(true);if(reducedMotion.matches){clip.goToFrame(action==="roost"?clip.to:clip.from);clip.pause();}}
+        bird.pose=pose;
+      }
       const label = Vector3.Project(
-        bird.root.position.add(new Vector3(0, id === "pip" ? 1.25 : 2.4, 0)),
+        bird.root.position.add(new Vector3(0, 1.1, 0)),
         Matrix.IdentityReadOnly,
         scene.getTransformMatrix(),
         viewport,
@@ -628,62 +582,120 @@ export function createClearing(
         x,
         y,
         visible:
-          x > 30 &&
+          id === selectedBird && x > 30 &&
           x < canvas.clientWidth - 30 &&
           y > 65 &&
           y < canvas.clientHeight - 65,
       };
     }
+    for (const landmark of [...trees, { id: "reeds", x: -3, z: -2 },...(renderState?.patches.map(p=>({id:p.id,...p.at}))??[])]) {
+      const xw = landmark.x * 2,
+        zw = landmark.z * 2;
+      const point = Vector3.Project(
+        new Vector3(
+          xw,
+          elevation(xw, zw) + (landmark.id === "reeds"||landmark.id.startsWith("patch-") ? 1 : 7.6*treeScale[landmark.id as keyof typeof treeScale]),
+          zw,
+        ),
+        Matrix.IdentityReadOnly,
+        scene.getTransformMatrix(),
+        viewport,
+      );
+      const x = (point.x * canvas.clientWidth) / engine.getRenderWidth(),
+        y = (point.y * canvas.clientHeight) / engine.getRenderHeight();
+      labelPositions[landmark.id] = {
+        x: Math.max(60, Math.min(canvas.clientWidth - 60,
+          x + (landmark.id === "reeds" ? -120 : landmark.id === "reedside" ? 55 : 0))),
+        y: y + (landmark.id === "reeds" ? -35 : 0),
+        visible:
+          x > 40 &&
+          x < canvas.clientWidth - 40 &&
+          y > 80 &&
+          y < canvas.clientHeight - 65,
+      };
+    }
+    const placed: { x: number; y: number }[] = [];
+    for (const id of settlers.map((b) => b.id)) {
+      const point = labelPositions[id];
+      for (
+        let retry = 0;
+        retry < 5 &&
+        placed.some(
+          (p) => Math.abs(p.x - point.x) < 52 && Math.abs(p.y - point.y) < 22,
+        );
+        retry++
+      )
+        point.y -= 24;
+      placed.push(point);
+    }
     onLabels(labelPositions);
   });
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
-  reset();
+  resize();
   engine.runRenderLoop(() => scene.render());
   return {
-    zoomIn: () => zoom(1 / 1.2),
-    zoomOut: () => zoom(1.2),
-    reset,
+    retryAssets: loadAssets,
     select(id: BirdId) {
+      selectedBird=id;
       selection.parent = chickens.get(id)!.root;
       selection.position.y = 0.035;
     },
-    focus(id: BirdId) {
-      const bird = chickens.get(id)!;
-      camera.setTarget(bird.target.add(new Vector3(0, 0.5, 0)), false, false, true);
-      halfHeight = 6;
-      resize();
-      onZoom(Math.round((defaultHalfHeight() / halfHeight) * 100));
-    },
-    update(state: FlockState) {
-      const sheltered = consequences(state).sheltered;
-      const targets: Partial<Record<BirdId, [number, number, number]>> =
-        state.choice === "shelter"
-          ? {
-              bramble: [-3.35, 0.18, 1.9],
-              pip: [-2.65, 0.18, 1.7],
-              mallow: [-0.6, 0.18, -2.3],
-            }
-          : state.choice === "rank"
-            ? {
-                mallow: [-3.2, 0.18, 1.8],
-                bramble: [-2.3, 0.18, -3.2],
-                pip: [-0.9, 0.18, -3.6],
-              }
-            : {};
-      for (const [id, bird] of chickens) {
-        bird.target = Vector3.FromArray(targets[id] ?? positions[id]);
-        if (sheltered.includes(id)) bird.root.rotation.y = -0.2;
+    update(state: Settlement) {
+      renderState = state;
+      for (const bird of state.birds) {
+        const mesh = chickens.get(bird.id)!;
+        const p = presentedBirdPosition(bird);
+        const index = settlers.findIndex((b) => b.id === bird.id);
+        const idle = !bird.edge && !bird.flight && !bird.perch;
+        const x = p.x + (idle ? (index % 2 === 0 ? -1.1 : 1.1) : 0),
+          z = p.z + (idle ? (index < 2 ? -1.1 : 1.1) : 0);
+        mesh.target.set(x, elevation(x, z) + p.y, z);
+        cargoMeshes.get(bird.id)!.setEnabled(bird.cargo > 0);
+        const delta = mesh.target.subtract(mesh.root.position);
+        if (Math.hypot(delta.x, delta.z) > 0.03)
+          mesh.root.rotation.y = Math.atan2(-delta.x, -delta.z);
       }
+      const signature = JSON.stringify([
+        state.patches,
+        state.paths,
+        state.piles,
+        state.sites.map((s) => [
+          s.id,
+          s.kind,
+          s.at,
+          s.complete,
+          s.delivered,
+          s.stock,
+          Math.floor(s.progress / 10),
+        ]),
+      ]);
+      if (signature !== layoutSignature) {
+        layoutSignature = signature;
+        rebuild(state);
+      }
+      const dusk = state.phase === "evening";
+      sun.intensity = dusk ? 0.38 : 1.8;
+      sky.intensity = dusk ? .5 : .38;
+      scene.clearColor = Color4.FromHexString(dusk ? "#647d95ff" : "#a9caccff");
+    },
+    cursor(at: Cell, show: boolean) {
+      cursor.position.set(
+        at.x * 2,
+        elevation(at.x * 2, at.z * 2) + 0.065,
+        at.z * 2,
+      );
+      gridRoot.setEnabled(show);
+      cursor.setEnabled(show);
     },
     dispose() {
+      disposed = true;
+      assetRoots.forEach(root => root.dispose(false, true));
       observer.disconnect();
       canvas.removeEventListener("pointerdown", pointerDown);
       canvas.removeEventListener("pointermove", pointerMove);
       canvas.removeEventListener("pointerup", pointerUp);
       canvas.removeEventListener("pointercancel", pointerUp);
-      canvas.removeEventListener("wheel", wheel);
-      canvas.removeEventListener("keydown", keyboard);
       scene.dispose();
       engine.dispose();
     },

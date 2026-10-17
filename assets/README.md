@@ -1,6 +1,11 @@
 # Source and reference assets
 
-Reserved for editable/source art and approved references. Read
-[the asset pipeline](../art-direction/asset-pipeline.md). Nothing here is
-shipped by the app automatically. No artwork is included yet. Record provenance
-and permission before adding reference or production files to this public repo.
+[sculpted/](sculpted/README.md) contains original editable Blender sources,
+authoring recipes, pose clips and generated albedo provenance. Rebuild with
+`npm run assets:build` using Blender 4.5 LTS and Python 3 (`BLENDER_BIN` may select
+the executable). App build/check use the checked runtime exports without Blender.
+
+[models/export-models.mjs](models/export-models.mjs) is the archived, visually
+rejected Node experiment. It writes only ignored experimental output and cannot
+overwrite runtime art. Follow [the asset pipeline](../art-direction/asset-pipeline.md).
+Source files are not shipped automatically; exports live in `public/assets/`.

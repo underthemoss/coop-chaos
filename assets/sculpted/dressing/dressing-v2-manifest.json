@@ -1,0 +1,232 @@
+{
+  "revision": "dressing-v2",
+  "recipe_sha256": "9864e4496988d52c821a9919361906a5d12fed9441c127838606375ed4db1461",
+  "proof_sha256": "b460a760072936ab7e9ba8f07a684fc634325fed9205516accbc3cf960790569",
+  "assets": {
+    "birch": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-birch.glb",
+      "sha256": "0594be7c46b05ded342872015360eccf1754f2d25436d28a9211f6f6a60a1fab",
+      "bytes": 565124,
+      "bounds_min": [
+        -1.810300588607788,
+        0.0,
+        -1.2929973602294922
+      ],
+      "bounds_max": [
+        1.6493585109710693,
+        7.3338398933410645,
+        0.9799529314041138
+      ],
+      "dimensions": [
+        3.4596590995788574,
+        7.3338398933410645,
+        2.272950291633606
+      ],
+      "vertices": 5521,
+      "triangles": 5106,
+      "meshes": 2,
+      "materials": 2
+    },
+    "willow": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-willow.glb",
+      "sha256": "e79f43f4784558abe26a88b25054b7be3b358b3b899c46e8c0a5806df31601fb",
+      "bytes": 1622440,
+      "bounds_min": [
+        -2.4780848026275635,
+        0.0,
+        -1.688480019569397
+      ],
+      "bounds_max": [
+        2.3608956336975098,
+        5.439863204956055,
+        1.262085199356079
+      ],
+      "dimensions": [
+        4.838980436325073,
+        5.439863204956055,
+        2.950565218925476
+      ],
+      "vertices": 15885,
+      "triangles": 14486,
+      "meshes": 2,
+      "materials": 2
+    },
+    "bush-a": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-bush-a.glb",
+      "sha256": "d4b7b6c88dba86d8b55323e6568b1589472dcbc6e5f67b489cfb97432bf1988a",
+      "bytes": 310060,
+      "bounds_min": [
+        -1.0002808570861816,
+        0.0,
+        -0.7441825270652771
+      ],
+      "bounds_max": [
+        1.0814225673675537,
+        1.3450161218643188,
+        0.6795809864997864
+      ],
+      "dimensions": [
+        2.0817034244537354,
+        1.3450161218643188,
+        1.4237635135650635
+      ],
+      "vertices": 3024,
+      "triangles": 2726,
+      "meshes": 2,
+      "materials": 2
+    },
+    "bush-b": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-bush-b.glb",
+      "sha256": "b3a5d485293364e381defce0447aee559cef7611c4d15bec346aefa7907ff2be",
+      "bytes": 301844,
+      "bounds_min": [
+        -1.060632348060608,
+        0.0,
+        -0.7157134413719177
+      ],
+      "bounds_max": [
+        1.1639654636383057,
+        1.242078423500061,
+        0.8758179545402527
+      ],
+      "dimensions": [
+        2.2245978116989136,
+        1.242078423500061,
+        1.5915313959121704
+      ],
+      "vertices": 2943,
+      "triangles": 2654,
+      "meshes": 2,
+      "materials": 2
+    },
+    "bush-c": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-bush-c.glb",
+      "sha256": "a00318b1296978f00e6ece386552463e7c3cdc2a3cc240e6b4ef608bc6d08591",
+      "bytes": 311880,
+      "bounds_min": [
+        -0.9120016694068909,
+        0.0,
+        -0.8791276216506958
+      ],
+      "bounds_max": [
+        1.0177432298660278,
+        1.5757073163986206,
+        0.7596404552459717
+      ],
+      "dimensions": [
+        1.9297448992729187,
+        1.5757073163986206,
+        1.6387680768966675
+      ],
+      "vertices": 3042,
+      "triangles": 2742,
+      "meshes": 2,
+      "materials": 2
+    },
+    "grass": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-grass.glb",
+      "sha256": "17218d3b90fa86916cac53c88378826f16d761f7a8d4b206ce2df0ca2f4137f9",
+      "bytes": 25036,
+      "bounds_min": [
+        -0.3866955637931824,
+        0.0,
+        -0.38280317187309265
+      ],
+      "bounds_max": [
+        0.3297586143016815,
+        0.4088152348995209,
+        0.31320714950561523
+      ],
+      "dimensions": [
+        0.7164541780948639,
+        0.4088152348995209,
+        0.6960103213787079
+      ],
+      "vertices": 285,
+      "triangles": 304,
+      "meshes": 1,
+      "materials": 1
+    },
+    "cattails": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-cattails.glb",
+      "sha256": "4a10ea033c2cc71d3a5d3286644ef45b947da77a1182d3cf36065f846fed56b6",
+      "bytes": 93932,
+      "bounds_min": [
+        -0.7770167589187622,
+        0.0,
+        -0.8371289968490601
+      ],
+      "bounds_max": [
+        0.8049761056900024,
+        1.8132333755493164,
+        0.684280276298523
+      ],
+      "dimensions": [
+        1.5819928646087646,
+        1.8132333755493164,
+        1.521409273147583
+      ],
+      "vertices": 855,
+      "triangles": 1224,
+      "meshes": 2,
+      "materials": 2
+    },
+    "rock-a": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-rock-a.glb",
+      "sha256": "cd012a6f1702bc9e234647bcd546d0cff82cff134ee39afd95df15128dcfd215",
+      "bytes": 5576,
+      "bounds_min": [
+        -0.67741858959198,
+        0.0,
+        -0.5249649286270142
+      ],
+      "bounds_max": [
+        0.8823477029800415,
+        0.8500000238418579,
+        0.5924608707427979
+      ],
+      "dimensions": [
+        1.5597662925720215,
+        0.8500000238418579,
+        1.117425799369812
+      ],
+      "vertices": 22,
+      "triangles": 40,
+      "meshes": 1,
+      "materials": 1
+    },
+    "rock-b": {
+      "revision": "dressing-v2",
+      "file": "public/assets/environment/dressing-rock-b.glb",
+      "sha256": "41bfb104a4c88e5792ab30b30d06e3faab23924f83c0ada7b9c99d2d967600f9",
+      "bytes": 5580,
+      "bounds_min": [
+        -0.8278197646141052,
+        0.0,
+        -0.6616161465644836
+      ],
+      "bounds_max": [
+        0.9706027507781982,
+        0.5699999928474426,
+        0.6475947499275208
+      ],
+      "dimensions": [
+        1.7984225153923035,
+        0.5699999928474426,
+        1.3092108964920044
+      ],
+      "vertices": 22,
+      "triangles": 40,
+      "meshes": 1,
+      "materials": 1
+    }
+  }
+}

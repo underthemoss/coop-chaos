@@ -1,0 +1,31 @@
+{
+  "revision": "dressing-v2",
+  "repeat_command": "Blender --background --python assets/sculpted/author_dressing.py -- --no-render",
+  "changed_files": [],
+  "dressing_byte_identical": true,
+  "existing_assets_unchanged": true,
+  "files": {
+    "public/assets/environment/reed-clump.glb": "6d1d7d7a66c221d9645a2ffd35e714e6096617b0cb4c52f90eb0898d8f243949",
+    "public/assets/environment/understory.glb": "d472b0dcdcbde6402724b9bd868b19aa09a2c9713a4047d97448d11278598afe",
+    "public/assets/environment/woven-home.glb": "dfe64dcf7e0fdd1cdd1087131274e9eb8e59baa205472e75230d0b72555582dc",
+    "public/assets/environment/woven-store.glb": "9d7949ff8ae5e75381ce4fccc9cae952004ce144337d3827d4c95bec0b9d0d91",
+    "public/assets/environment/dressing-bush-b.glb": "b3a5d485293364e381defce0447aee559cef7611c4d15bec346aefa7907ff2be",
+    "public/assets/environment/dressing-bush-c.glb": "a00318b1296978f00e6ece386552463e7c3cdc2a3cc240e6b4ef608bc6d08591",
+    "public/assets/environment/dressing-bush-a.glb": "d4b7b6c88dba86d8b55323e6568b1589472dcbc6e5f67b489cfb97432bf1988a",
+    "public/assets/environment/dressing-rock-b.glb": "41bfb104a4c88e5792ab30b30d06e3faab23924f83c0ada7b9c99d2d967600f9",
+    "public/assets/environment/dressing-rock-a.glb": "cd012a6f1702bc9e234647bcd546d0cff82cff134ee39afd95df15128dcfd215",
+    "public/assets/environment/lowfork.glb": "a02596a590e9df988acc4bfecd71a294b44444057ed68414444b79c1289fba80",
+    "public/assets/environment/dressing-birch.glb": "0594be7c46b05ded342872015360eccf1754f2d25436d28a9211f6f6a60a1fab",
+    "public/assets/environment/splitcrown.glb": "d1ddc465160ecf858f03f247eeae8e6c6cd5edc38244e5a20e713bb1566a964e",
+    "public/assets/environment/reedside.glb": "a434fda8ef6e77e2308693977979af69f0d58b1864ae09c5c3e662d5e74d4a75",
+    "public/assets/environment/dressing-cattails.glb": "4a10ea033c2cc71d3a5d3286644ef45b947da77a1182d3cf36065f846fed56b6",
+    "public/assets/environment/dressing-grass.glb": "17218d3b90fa86916cac53c88378826f16d761f7a8d4b206ce2df0ca2f4137f9",
+    "public/assets/environment/dressing-willow.glb": "e79f43f4784558abe26a88b25054b7be3b358b3b899c46e8c0a5806df31601fb",
+    "public/assets/environment/reed-bundle.glb": "4034d1a71e17b683b0b3c9e02a6c95ad1b3700f5d0f6601cc1b87e42682c4c87",
+    "public/assets/characters/wren.glb": "124c7d9f77b8731efac0545a7d8250155973380ca4ee1340a648bbe3b5145a60",
+    "public/assets/characters/dapple.glb": "9694bddc9e31df097db079d05c1933b39301a6acb514348914a0dd47eae349e9",
+    "public/assets/characters/fern.glb": "e18c0c774ea4e3c53eaef99e9865dff1f6a2a6a94ad9daecc2c85f016fe0edf7",
+    "public/assets/characters/rook.glb": "8a7be67b2497a628be4479fdbc7e877d78b759a0a4275e35163c472d4d36cb7d",
+    "assets/sculpted/author.py": "83b3ee3e6f727b941fcbd018d4d5c41576cc851bb093eefb10ee80e8614b067f"
+  }
+}

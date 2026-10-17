@@ -1,0 +1,155 @@
+{
+  "dressing-birch": {
+    "file": "dressing-birch.glb",
+    "sha256": "0594be7c46b05ded342872015360eccf1754f2d25436d28a9211f6f6a60a1fab",
+    "bytes": 565124,
+    "triangles": 5106,
+    "primitives": 2,
+    "materials": 2,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-bush-a": {
+    "file": "dressing-bush-a.glb",
+    "sha256": "d4b7b6c88dba86d8b55323e6568b1589472dcbc6e5f67b489cfb97432bf1988a",
+    "bytes": 310060,
+    "triangles": 2726,
+    "primitives": 2,
+    "materials": 2,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-bush-b": {
+    "file": "dressing-bush-b.glb",
+    "sha256": "b3a5d485293364e381defce0447aee559cef7611c4d15bec346aefa7907ff2be",
+    "bytes": 301844,
+    "triangles": 2654,
+    "primitives": 2,
+    "materials": 2,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-bush-c": {
+    "file": "dressing-bush-c.glb",
+    "sha256": "a00318b1296978f00e6ece386552463e7c3cdc2a3cc240e6b4ef608bc6d08591",
+    "bytes": 311880,
+    "triangles": 2742,
+    "primitives": 2,
+    "materials": 2,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-cattails": {
+    "file": "dressing-cattails.glb",
+    "sha256": "4a10ea033c2cc71d3a5d3286644ef45b947da77a1182d3cf36065f846fed56b6",
+    "bytes": 93932,
+    "triangles": 1224,
+    "primitives": 2,
+    "materials": 2,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-grass": {
+    "file": "dressing-grass.glb",
+    "sha256": "17218d3b90fa86916cac53c88378826f16d761f7a8d4b206ce2df0ca2f4137f9",
+    "bytes": 25036,
+    "triangles": 304,
+    "primitives": 1,
+    "materials": 1,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-rock-a": {
+    "file": "dressing-rock-a.glb",
+    "sha256": "cd012a6f1702bc9e234647bcd546d0cff82cff134ee39afd95df15128dcfd215",
+    "bytes": 5576,
+    "triangles": 40,
+    "primitives": 1,
+    "materials": 1,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-rock-b": {
+    "file": "dressing-rock-b.glb",
+    "sha256": "41bfb104a4c88e5792ab30b30d06e3faab23924f83c0ada7b9c99d2d967600f9",
+    "bytes": 5580,
+    "triangles": 40,
+    "primitives": 1,
+    "materials": 1,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  },
+  "dressing-willow": {
+    "file": "dressing-willow.glb",
+    "sha256": "e79f43f4784558abe26a88b25054b7be3b358b3b899c46e8c0a5806df31601fb",
+    "bytes": 1622440,
+    "triangles": 14486,
+    "primitives": 2,
+    "materials": 2,
+    "degenerate_triangles": 0,
+    "normal_length_check": "pass",
+    "attributes": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION"
+    ],
+    "opaque": true,
+    "textures": 0
+  }
+}
