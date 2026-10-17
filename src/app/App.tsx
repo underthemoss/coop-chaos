@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { Clearing } from "../game/Clearing";
 import type { Tool } from "../game/Clearing";
-import { settlers, trees, tuning } from "../content/settlement";
+import { foodPatches, settlers, trees, tuning } from "../content/settlement";
 import type { SettlerId } from "../content/settlement";
 import {
   command,
@@ -14,6 +14,7 @@ import {
   step,
   workerStatus,
   patchStatus,
+  forageStatus,
 } from "../simulation/settlement";
 import type { Cell, Command, Settlement } from "../simulation/settlement";
 import {
@@ -24,6 +25,7 @@ import {
   saveQueue,
   settlementMigrationNotice,
 } from "../persistence/settlement-save";
+const foodName = (id: string) => foodPatches.find(p => p.id === id)?.name ?? id;
 function download(text: string, name: string) {
   const url = URL.createObjectURL(
     new Blob([text], { type: "application/json" }),
@@ -39,6 +41,26 @@ export function App() {
   const stateRef = useRef(state);
   const [selected, setSelected] = useState<SettlerId>("fern");
   const [panelOpen, setPanelOpen] = useState(false);
+  const [selectedForage, setSelectedForage] = useState<string | null>(null);
+  const [panelTarget, setPanelTarget] = useState<"bird" | "forage" | null>(null);
+  const [focusRequest, setFocusRequest] = useState(0);
+  const forageSection = useRef<HTMLElement>(null);
+  const birdSection = useRef<HTMLElement>(null);
+  function showDetails(target: "bird" | "forage") {
+    setPanelOpen(true);
+    setPanelTarget(target);
+    setFocusRequest(n => n + 1);
+  }
+  useEffect(() => {
+    if (!panelOpen || !panelTarget) return;
+    const frame = requestAnimationFrame(() => {
+      const target = panelTarget === "bird" ? birdSection.current :
+        (selectedForage ? document.getElementById(`food-${selectedForage}`) : forageSection.current);
+      target?.scrollIntoView({block: panelTarget === "forage" && !selectedForage ? "start" : "nearest"});
+      target?.focus({preventScroll: true});
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [panelOpen, panelTarget, selectedForage, focusRequest]);
   const [tool, setTool] = useState<Tool>("inspect");
   const [cursor, setCursor] = useState<Cell>({ x: -2, z: 2 });
   const [ready, setReady] = useState(false);
@@ -133,10 +155,13 @@ export function App() {
     if(tool === "gather"){
       const patch=stateRef.current.patches.find(p=>p.at.x===at.x&&p.at.z===at.z);
       if(patch)act({type:"gather",id:patch.id,designated:!patch.designated});
-      else setNotice("Choose one of the reed patches, or connect it with paths first.");
+      else setNotice("Choose one of the finite construction reed patches.");
     }
-    if (tool === "path" || tool === "remove")
-      act({ type: "path", at, remove: tool === "remove" });
+    if (tool === "forage") {
+      const place = stateRef.current.forage.find(p => p.at.x === at.x && p.at.z === at.z);
+      if (place) setSelectedForage(place.id);
+      showDetails("forage");
+    }
     if (tool === "treehouse" || tool === "store")
       act({ type: "build", kind: tool, at });
   }
@@ -193,8 +218,9 @@ export function App() {
           <Clearing
             state={state}
             selected={selected}
-            onSelect={(id)=>{setSelected(id);setPanelOpen(true);}}
+            onSelect={(id)=>{setSelected(id);showDetails("bird");}}
             onPick={pick}
+            onForage={(id) => { setSelectedForage(id); showDetails("forage"); }}
             cursor={cursor}
             tool={tool}
             onCursor={setCursor}
@@ -202,10 +228,10 @@ export function App() {
           <div className="opening-card" hidden={panelOpen}>
             <span className="eyebrow">A LIVING GROVE</span>
             <h2>{hasHome?"Life in the branches":"Beneath Lowfork"}</h2>
-            <p>{tool === "inspect" ? (hasHome ? "A woven home now shelters two birds. Grow another branch of the settlement, or call the flock to rest." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "treehouse" ? "Choose a named tree. Six reeds, carried along connected paths, become two sheltered berths." : tool === "path" ? "Join the reed cache to a marked trunk. Paths connect neighboring cells." : tool === "store" ? "Four reeds make a local store. Place on open ground, then connect it." : "Choose a path to remove. Affected carriers wait with their loads."}</p>
+            <p>{tool === "inspect" ? (hasHome ? "A woven home now shelters two birds. Grow another branch of the settlement, or call the flock to rest." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "treehouse" ? "Choose a named tree. Six locally carried reeds become two sheltered berths." : tool === "store" ? "Four reeds make a local store. Choose open ground; carriers walk there freely." : tool === "forage" ? "The flock finds its own food. Inspect a place to rest it or reopen it." : "Choose a construction reed patch. Material gathering is separate from feeding."}</p>
           </div>
           <nav className="primary-tools" aria-label="World tools">
-            {(["inspect","gather","treehouse","path"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>setTool(t)}>{({inspect:"Inspect",gather:"Gather reeds",path:"Path",treehouse:"Treehouse",store:"Store"})[t as "inspect"|"gather"|"path"|"treehouse"|"store"]}</button>)}
+            {(["inspect","forage","treehouse","gather"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>{setTool(t);if(t==="forage") {setSelectedForage(null);showDetails("forage");}}}>{({inspect:"Inspect",forage:"Forage",gather:"Gather reeds",treehouse:"Treehouse",store:"Store"})[t]}</button>)}
           </nav>
           {notice&&<p className="world-notice" role="alert">{notice}</p>}
           <aside id="settlement-inspector" className={`inspector${panelOpen?" is-open":""}`} aria-label="Settlement inspector" hidden={!panelOpen}>
@@ -217,20 +243,19 @@ export function App() {
               </div>
               <h2>The settlement</h2>
               <p className="intro">
-                Mark a treehouse, connect the reed cache to its trunk with
-                paths, and let the flock carry and weave. Trees already offer
+                Mark a treehouse and let the flock carry local reeds and weave.
+                Chickens walk freely and find food between jobs. Trees already offer
                 natural sleeping branches.
               </p>
               <p className="quiet">
                 Evening secures existing loads, then birds fly to natural
-                branches or climb into woven shelter. A blocked carrier guards
-                its bundle until the path returns.
+                branches or climb into woven shelter. Carriers deliver their
+                bundles before taking a feeding break.
               </p>
             </section>
             <section>
               <h3>Shape the settlement</h3>
               <button aria-pressed={tool==="store"} onClick={()=>setTool("store")}>Store nest</button>
-              <button aria-pressed={tool==="remove"} onClick={()=>setTool("remove")}>Remove path</button>
               <div className="cell-controls">
                 <label>
                   Cell X
@@ -284,19 +309,28 @@ export function App() {
                 ))}
               </div>
               <p className="quiet">
-                Paths join orthogonal neighboring cells. Source at (−3, −2).
+                Chickens walk over the bounded clearing without player-built roads. Reed cache at (−3, −2).
                 Treehouses add 2 sheltered berths; store nests hold 12 local
                 bundles. Grid and recipes are provisional.
               </p>
             </section>
+            <section aria-label="Foraging places" ref={forageSection} tabIndex={-1}>
+              <h3>Food in the commons</h3>
+              <p className="quiet">Hungry birds stop to feed. Rest a place to leave its food for later; resting places replenish while unused.</p>
+              {state.forage.map(p => <article className="site-card" id={`food-${p.id}`} tabIndex={-1} key={p.id} aria-current={selectedForage === p.id ? "true" : undefined}>
+                <h4>{foodName(p.id)} <span>{p.remaining}/{p.capacity} food</span></h4>
+                <p>{foodPatches.find(f => f.id === p.id)?.description}</p>
+                <p>{forageStatus(state,p)}</p>
+                <button disabled={busy || !ready} onClick={() => {setSelectedForage(p.id); act({type:"forage",id:p.id,open:!p.open});}}>{p.open ? `Rest ${foodName(p.id)}` : `Open ${foodName(p.id)}`}</button>
+              </article>)}
+            </section>
             <section aria-label="Gather construction reeds">
               <h3>Reeds from the commons</h3>
-              <p className="quiet">Finite construction reeds, not food. Connect a patch to the cache or a completed store with paths; adults gather and carry without a scripted order. No regrowth in this study.</p>
+              <p className="quiet">Finite construction reeds, not food. Adults carry gathered bundles to the cache or a completed store. Reed patches do not regrow in this study.</p>
               {state.patches.map(p=><article className="site-card" key={p.id}>
                 <h4>{p.id==="patch-west"?"West reed patch":"Creek reed patch"} <span>({key(p.at)})</span></h4>
                 <p>{patchStatus(state,p)}</p>
                 <button disabled={!p.remaining||busy||!ready} onClick={()=>act({type:"gather",id:p.id,designated:!p.designated})}>{p.designated?"Stop gathering":"Gather reeds"}</button>
-                <button onClick={()=>{setCursor(p.at);setTool("path");}}>Connect patch</button>
               </article>)}
             </section>
             <section aria-label="Construction and local stocks">
@@ -368,7 +402,7 @@ export function App() {
                 .map((p) => (
                   <p key={p.id} className="quiet">
                     Salvage at ({key(p.at)}): {p.stock} reeds, available to
-                    connected jobs.
+                    local jobs.
                   </p>
                 ))}
               <p className="ledger">
@@ -376,14 +410,14 @@ export function App() {
                 {conserved(state)}/{state.totalReeds} accounted for
               </p>
             </section>
-            <section aria-label="Named workers">
+            <section aria-label="Named workers" ref={birdSection} tabIndex={-1}>
               <h3>Every chicken is someone</h3>
               <div className="bird-picker">
                 {settlers.map((s) => (
                   <button
                     aria-pressed={selected === s.id}
                     key={s.id}
-                    onClick={() => setSelected(s.id)}
+                    onClick={() => {setSelected(s.id);showDetails("bird");}}
                   >
                     <i style={{ background: s.color }} />
                     {s.name}
@@ -401,6 +435,8 @@ export function App() {
                   Readiness {Math.round(bird.energy)} / 100 · {bird.deliveries}{" "}
                   completed deliveries
                 </p>
+                <p>Appetite {Math.round(100 - bird.satiety)} / 100 · {({cover:"sheltered leaf litter",open:"open seedheads",mixed:"mixed edges"})[bird.foragePreference]} preference</p>
+                <p className="quiet">{bird.rememberedForage ? `Remembers productive feeding at ${foodName(bird.rememberedForage)}.` : "Still discovering productive feeding places."}</p>
                 <p className="quiet">
                   {bird.attachment
                     ? `Helped build ${trees.find((t) => t.id === bird.attachment)!.name}; prefers sleeping there.`
@@ -420,8 +456,8 @@ export function App() {
               </article>
               <p className="quiet">
                 Short prototype rules: ground rest recovers work readiness;
-                natural sleep restores up to 80, shelter up to 100. Exertion
-                slows tired carriers. No hunger or predator encounters yet.
+                natural sleep restores up to 80, shelter up to 100. Hungry
+                birds feed between jobs; carriers deliver their bundles first.
               </p>
             </section>
             <section className="save-tools">

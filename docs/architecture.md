@@ -16,7 +16,7 @@ perches, movement progress, and sparse memories. No UI, DOM, engine, persistence
 wall clock, or randomness enters this module. A bounded grid and deterministic
 breadth-first route search are sufficient here; there is no general engine framework.
 
-Paths join orthogonally. Jobs reserve one source bundle before walking to collect
+Ground routes join legal neighboring cells without player-created paths. Jobs reserve one source bundle before walking to collect
 it. Reserved quantities derive from pickup jobs, so there is no second counter
 to drift. Pickup moves source stock into bird cargo; delivery moves cargo into a
 site allocation or local store. Building consumes its exact delivered recipe
@@ -27,12 +27,18 @@ reduces the patch and introduces exactly one carried bundle.
 A store refill uses loose piles, preventing stores endlessly refilling each other;
 construction can use either piles or completed local stores by shortest route.
 
-Removing a path freezes affected edge progress without relocating a bird or its
-load. Repair resumes it. Canceling unfinished construction releases uncollected
-commitments, creates a salvage pile for delivered material, and redirects cargo
-to the original source cache via real movement. Finished buildings cannot be
-demolished in this proof. Blocked work remains inspectable, including an evening
-carrier guarding an unsecured bundle. There is no invisible lost-material sink.
+Canceling unfinished construction releases uncollected commitments, creates a
+salvage pile for delivered material, and redirects cargo to the original cache
+via real movement. Finished buildings cannot be demolished. Material is never
+an invisible lost-resource sink.
+
+Three food places are separate from construction reeds. The simulation owns
+appetite, at most two feeder spots per place, choice/preferences, productive-place
+memory, scratch/peck progress, consumption and unused-place recovery. Cargo is
+delivered before feeding; night roosting takes precedence. Food remaining plus
+eaten equals initial capacity plus recovered units per place. Recovery uses ticks,
+not wall time; pause, refresh and day changes cannot grant food. Bounded ground
+routing is independent of renderer scenery; no general collision engine was added.
 
 Explicit day/evening is saved simulation state, not a full calendar. Evening
 stops new collection, lets existing loads and active weaving finish where
@@ -49,7 +55,7 @@ and missed intervals do not accumulate. Babylon's render FPS never advances
 rules. Pausing preserves ticks exactly. React sends commands to the simulation
 and renders its facts; it does not calculate parallel resource totals or outcomes.
 The renderer receives snapshots, interpolates essential movement, projects names,
-and displays paths, local bundles, construction stages, perches and cargo.
+and displays food habitats, local bundles, construction stages, perches and cargo.
 Reduced motion suppresses idle bob and wing flutter; position and written work
 feedback remain legible. Ground picking yields grid intentions; rules validate
 placement. Keyboard/select controls provide equivalent placement and named selection.
@@ -64,13 +70,14 @@ on unmount. No assets are loaded from the visual reference.
 ## Saves and ordering
 
 IndexedDB database `coop-chaos` version 1, object store `saves`, key `settlement`
-holds `{ schemaVersion: 2, simulationVersion: "settlement-2", state }`.
+holds `{ schemaVersion: 3, simulationVersion: "settlement-3", state }`.
 `src/persistence/settlement-save.ts` validates exact object fields, finite values,
 IDs/references, finite patch capacities and harvest ledgers, route edges, commitments, stock capacity, conservation,
 construction consumption, and exclusive perch occupancy. Imports validate before
-state replacement; malformed files leave current state unchanged. Valid settlement-1
+state replacement; malformed files leave current state unchanged. Valid settlement-1 and settlement-2
 saves migrate without changing their existing sites, workers, supplies or histories.
-New reed patches use free legal cells; crowded older worlds may receive fewer
+Old path data is retired while in-flight edges and work remain intact. New
+food state is introduced by versioned migration. New reed patches use free legal cells; crowded older worlds may receive fewer
 than two patches, with a visible notice and no later automatic respawn.
 
 One ordered write queue captures snapshots when requested. Earlier writes cannot
@@ -99,8 +106,8 @@ app's default experience or a privileged campaign cast.
 
 [Technology design](../story/technology.md) develops ground, trunk, and canopy
 layers. Forest clusters are political homes; productive open commons supply
-future forage, insects, routes, and shared-use disputes. Current geography and
-travel do not implement territory, nutrition, predators, or pacts. Food
+bounded mixed-food foraging and future richer ecology and shared-use disputes.
+Current geography and travel do not implement territory, complete nutrition, predators, or pacts. Food
 production, brood care, growing population, threats, district relationships,
 mechanical hauling, powered lifts, and late science-fiction elevators remain
 future. Keep their goods/jobs/capabilities with simulation; advance save versions
@@ -127,7 +134,7 @@ warning. Measure real needs before speculative engine changes or asset pipelines
 environment and chicken assets. `npm run assets:build` requires Blender and Python;
 normal build/check consume the checked GLBs. The archived Node exporter writes
 only ignored experimental output. The source pipeline retains editable geometry,
-PBR materials, stable tree anchors and six rigid-articulation bird clips.
+PBR materials, stable tree anchors and seven rigid-articulation bird clips.
 
 The complete kit stages before becoming visible, with loading/failure/retry
 feedback. Late async loads dispose after unmount. Stable simulation roots retain

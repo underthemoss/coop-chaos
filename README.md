@@ -21,9 +21,9 @@ The earlier Node-authored pass was visually rejected. Original editable Blender
 trees, chickens and resource/building assets now replace it; visual acceptance
 against opening-view-v2 remains open. The [art-led sandbox brief](art-direction/opening-view-exploration.md)
 requires high-quality artifacts in the actual scene. Finite construction-reed
-gathering is implemented; food foraging and regrowth are not.
+gathering and autonomous mixed-food foraging are implemented with separate resource ledgers.
 The elevated view is fixed; responsive framing keeps the playable grove visible.
-Six rigid-articulation action clips support the current birds; production rigs,
+Seven rigid-articulation action clips support the current birds; production rigs,
 a campaign, and multiplayer remain future work.
 
 ## Run locally
@@ -58,18 +58,27 @@ local qualification does not establish publication.
 
 ## Gather and build freely
 
-Fresh worlds begin with eight loose reeds and two finite patches of twelve.
-Choose **Gather reeds**, designate a patch and connect it to the cache or a
-completed store with paths. Birds reserve a destination, walk to the patch,
-gather one bundle and carry it to local storage. Extraction depletes the patch;
-there is no regrowth or food yield. Undesignating preserves already carried goods.
+Fresh worlds begin with eight loose construction reeds, two finite reed patches,
+and three open mixed-food places. Birds walk freely over the bounded clearing;
+there is no player-created road network or connectivity tool.
 
-Choose **Treehouse**, then Lowfork, Splitcrown, or Reedside at its marked
-cell. With **Path**, connect neighboring cells from the reed cache at
-**(−3, −2)** to the trunk. Four named adults autonomously reserve, collect,
-carry, and deliver reeds before weaving the platform, rain hood, and ladder.
-One short Lowfork route is (−2, −2), (−2, −1), (−2, 0), (−2, 1), (−2, 2).
-Different trunks require different route layouts and distances.
+Without input, chickens choose food places and scratch/peck there. Appetite
+interrupts new work, while a carrier first delivers its existing bundle safely.
+Fed idle birds also browse without endlessly consuming food. Distance, available
+food, occupancy, individual cover/open-ground preference and a remembered productive
+place affect the next choice. **Forage** reveals these places; **Settlement** shows
+food remaining, occupants/recovery and **Rest/Open** controls. Unused food recovers
+on simulation ticks, including a resting place. No offline or phase-change food bonus
+occurs. Quantities, appetite and recovery rates are fictional prototype tuning;
+mixed forage units do not establish a complete diet, starvation or survival system.
+
+Choose **Gather reeds** to designate a construction reed patch. Birds reserve yield
+and storage room, extract one bundle and carry it to the cache or a completed store.
+These reeds are not food and do not regrow. Undesignating preserves carried goods.
+Choose **Treehouse**, then Lowfork, Splitcrown or Reedside at its marked cell.
+Four named adults autonomously reserve, collect, carry and deliver six local reeds
+before weaving a platform, rain hood and ladder, with feeding breaks between jobs.
+Different trees retain real travel distances.
 
 Click terrain cells or use the X/Z controls and **Use tool**. In build mode,
 canvas arrow keys move the cell cursor and Enter uses the tool. The camera has
@@ -78,7 +87,7 @@ named bird selection and save tools; the selected bird alone carries a world tag
 
 A **store nest** costs four reeds and holds twelve at its actual location.
 Set its local stocking target, watch deliveries fill it, then place another
-connected treehouse. Builders use the nearest reachable stock; set a filled
+treehouse. Builders use the nearest reachable stock; set a filled
 store's target to zero to stop refill while testing its contribution. Supporting
 storage serves treehouse construction rather than becoming the settlement's goal.
 
@@ -91,24 +100,27 @@ generous prototype rules are provisional. **Begin day** returns birds to ground.
 There is no automatic calendar or predator combat. Woven shelter is not universal
 invulnerability.
 
-**Remove path** can interrupt work. A blocked bird waits with its bundle until
-access is repaired, including at evening. Canceling unfinished sites leaves
-already delivered reeds as local salvage; uncollected reservations release and
-carriers return their loads physically. Pause stops simulation ticks exactly.
+Canceling unfinished sites leaves delivered reeds as local salvage; uncollected
+reservations release and carriers return their loads physically. Resting a food
+place redirects feeders without discarding material cargo. Pause stops simulation
+ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-2` schema saves to IndexedDB about once per second and
+The `settlement-3` schema saves to IndexedDB about once per second and
 after commands. There is no offline catch-up or cloud/cross-tab synchronization;
 use one tab. Export to retain important progress. Import validates shape,
 references, resource conservation, jobs, and sleeping occupancy before replacing
-anything. Restart confirms replacement. In-flight loads, routes, sleep, rest,
+anything. Restart confirms replacement. In-flight loads, movement progress, food, feeding, sleep, rest,
 and memories are saved facts.
 
-Validated `settlement-1` saves migrate with their original forty-reed baseline,
+Validated `settlement-1` and `settlement-2` saves migrate with their original material baseline,
 sites, jobs and history intact. New patches relocate around existing sites. A
 fully occupied older map may fit only zero or one patch; the UI reports this and
-clearing space later does not respawn patches.
+clearing space later does not respawn reed patches. Saved road data is retired,
+while existing adjacent movement progress, cargo, jobs, sites and histories retain
+their meaning. Food state is introduced explicitly by migration; reloading does
+not refill a food place.
 
 The previous authored dilemma remains a historical fixture in code and story
 docs. Its `first-evening-1` device save is retained under its original key; an
@@ -132,7 +144,7 @@ explicitly rejected as settlement imports, never silently reinterpreted.
 | [docs/](docs/architecture.md) | Architecture, research, decisions, roadmap and workflow |
 
 For consequential systems: **economic/spatial decision → observable work →
-individual consequence → persistent response**. Ordinary paths do not need
+individual consequence → persistent response**. Ordinary work trips do not need
 mandatory dialogue. [Biology research](docs/research/chicken-biology.md)
 distinguishes sourced constraints from fictional civilization. The
 [earlier gameplay proposal](story/proposals/gameplay-rules-analysis.md) is

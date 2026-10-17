@@ -3,7 +3,7 @@
 ## Construction proof now
 
 A working finite-reed chain supports the first earned woven treehouse: place a
-trunk site, build paths/junctions, reserve, collect, visibly carry, deliver and
+trunk site, reserve, collect, freely walk, visibly carry, deliver and
 consume. Supporting store nests hold local goods used in later builds. Natural
 branches work before construction; explicit saved evening/day demonstrates
 fly-up/down, earned ladder access, finite sheltered capacity, rest quality and
@@ -13,7 +13,7 @@ The old authored choice remains a historical fixture with a separate retained sa
 
 Construction centers on forest treehouse homes and access; open commons remain
 productive no-man's-land rather than a housing grid. Current landscape geography
-does not implement kingdoms, food forage, insects, danger or territorial ownership.
+does not implement kingdoms, complete nutrition, danger or territorial ownership.
 [Life above the ground](../story/technology.md) develops future canopy neighborhoods,
 mechanical hauling, powered lifts, science-fiction elevators and distinct defenses.
 
@@ -21,10 +21,10 @@ mechanical hauling, powered lifts, science-fiction elevators and distinct defens
 
 The [opening-view brief](../art-direction/opening-view-exploration.md) owns the
 concrete artifact inventory and opening-view-v2 visual bar. The next MVP is a
-beautiful living grove with basic foraging and building: designate a forage
-patch, commission a treehouse at an eligible tree, inspect individuals, and watch
+beautiful living grove with basic foraging and building: rest/open a food
+place, commission a treehouse at an eligible tree, inspect individuals, and watch
 autonomous activity. These are independent actions, not an authored opening arc,
-mandatory build order or scripted First Home sequence. Existing paths, stores,
+mandatory build order or scripted First Home sequence. Existing free movement, stores,
 construction, roosts and saves are reusable supporting capabilities.
 
 **Visual acceptance remains open.** The rejected Node-authored pass has been
@@ -46,11 +46,14 @@ rigs or evidence of a playable scene.
 Finite construction-reed gathering now uses spatial patches, reservations,
 atomic extraction, visible cargo and local storage, with strict versioned saves.
 Fresh worlds start with eight loose reeds and two twelve-reed patches; these
-counts are provisional. No food or regrowth is implemented. Broader forage inputs,
-yields, regrowth, priorities and preferences remain proposals. Do not add food, predators, reproduction, diplomacy
-or machines merely to animate the opening. Eventual browser acceptance must show
-actual forage consequences and useful building alongside live observation,
-selection, reload, narrow layout, reduced motion and load/retry behavior.
+counts are provisional. Three open mixed-food places now support autonomous
+feeding and browsing, appetite, provisional individual habitat preferences and
+remembered productive places. Food recovers only on unused simulation ticks;
+food and reeds have separate ledgers. Player-created roads and connectivity
+are removed. Strict settlement-3 saves migrate prior work and movement progress.
+Complete nutrition, richer food ecology, pecking-order effects, predators and
+reproduction remain future. Browser proof includes feeding choice, Rest/Open,
+free carry/build, night access, refresh, narrow layout and reduced motion.
 
 ## Later tree and chicken systems
 
@@ -68,14 +71,13 @@ silently changing the four current adults or their saved behavior.
 Follow the accepted [settlement design](../story/settlement-design.md). Build a
 small working settlement, provisionally around a dozen birds, with meaningful
 resource placement, roosts, gathering and production, local stores, a construction
-chain, a broodhouse, and player-built
-paths/junctions with visible autonomous deliveries. Work, rest, food, care, and
+chain, a broodhouse, and free ground travel with visible autonomous deliveries. Work, rest, food, care, and
 growth must compete for capacity. One persistent predator problem should make
 route cover, patrols, and escorts matter. Exact roster, counts, recipes, rates,
 species, and timing remain provisional.
 
 The current thin construction-delivery journey already supplies a reusable part
-of this milestone: place and connect a site, reserve and collect local material,
+of this milestone: place a site, reserve and collect local material,
 carry and deliver it,
 consume it through construction, and expose useful output. Prove resource
 conservation, blocked-job explanations, interruption, and coherent saved

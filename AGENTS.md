@@ -38,8 +38,8 @@ open commons connect them. Named trees are central characters; read
 affiliation, and complementary mixed-family communities. Keep botanical family,
 individual ancestry, and growth form distinct; neither birds nor trees are castes.
 Chickens move and forage freely; the player does not create roads. Optional worn
-trails from repeated traffic are later work. The current Path controls and
-connectivity rules are temporary implementation debt, with removal deferred;
+trails from repeated traffic are later work. Ground travel is bounded by the simulation,
+not player-built connectivity. Food foraging and construction reeds have separate ledgers;
 [settlement design](story/settlement-design.md) records that mismatch.
 The opening adults can fly to natural branches before building; future bodies
 need honest access appropriate to their mobility.

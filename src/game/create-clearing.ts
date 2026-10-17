@@ -21,7 +21,7 @@ import { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTextur
 import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import type { Settlement, Cell } from "../simulation/settlement";
-import { cost, key, validCell } from "../simulation/settlement";
+import { cost, validCell } from "../simulation/settlement";
 import { settlers, trees } from "../content/settlement";
 import { treeScale, presentedBirdPosition } from "./tree-presentation";
 import type { SettlerId as BirdId } from "../content/settlement";
@@ -131,7 +131,6 @@ export function createClearing(
   groundAlbedo.uScale=14/64;groundAlbedo.vScale=14/64;groundAlbedo.uOffset=.5;groundAlbedo.vOffset=.5;
   landMaterial.diffuseTexture=groundAlbedo;
 
-  const pathMaterial = material("worn-earth", "#827658");
   const water = material("water", "#ffffff");
   water.specularColor=Color3.FromHexString("#8ea8a5");water.specularPower=110;
   // The creek is a narrow landscape feature; only the left bank is playable ground.
@@ -382,7 +381,6 @@ export function createClearing(
   let renderState: Settlement | null = null;
   let layoutSignature = "";
   const cargoMat = material("reed-bundles", "#d9bb69");
-  const shelterMat = material("woven-grass", "#ad9657");
   const gridMat = material("grid", "#bcc08b");
   gridMat.alpha = 0.24;
   const gridRoot = new TransformNode("placement-grid", scene);
@@ -423,62 +421,12 @@ export function createClearing(
     cargoMeshes.set(id, bundle);
   }
   let builtMeshes: Mesh[] = [];
-  function box(
-    name: string,
-    x: number,
-    y: number,
-    z: number,
-    width: number,
-    height: number,
-    depth: number,
-    mat = shelterMat,
-  ) {
-    const m = MeshBuilder.CreateBox(name, { width, height, depth }, scene);
-    m.position.set(x, y, z);
-    m.material = mat;
-    m.isPickable = false;
-    m.receiveShadows = true;
-    shadows.addShadowCaster(m);
-    builtMeshes.push(m);
-    return m;
-  }
   function rebuild(state: Settlement) {
     for (const mesh of builtMeshes) {
       shadows.removeShadowCaster(mesh);
       mesh.dispose();
     }
     builtMeshes = [];
-    for (const path of state.paths) {
-      const [x, z] = path.split(",").map(Number);
-      box(
-        "player-path",
-        x * 2,
-        elevation(x * 2, z * 2) + 0.05,
-        z * 2,
-        0.6,
-        0.025,
-        0.6,
-        pathMaterial,
-      );
-      for (const [dx, dz] of [
-        [1, 0],
-        [0, 1],
-      ])
-        if (state.paths.includes(key({ x: x + dx, z: z + dz }))) {
-          const xx = x * 2 + dx,
-            zz = z * 2 + dz;
-          box(
-            "connected-path",
-            xx,
-            elevation(xx, zz) + 0.05,
-            zz,
-            dx ? 2 : 0.6,
-            0.025,
-            dz ? 2 : 0.6,
-            pathMaterial,
-          );
-        }
-    }
     function model(id:string,x:number,y:number,z:number,scale=1){
       const template=templates.get(id);if(!template)return null;
       const copy=template.clone(`${id}-placed`,null)!;copy.position.set(x,y,z);copy.scaling.scaleInPlace(scale);copy.setEnabled(true);
@@ -487,6 +435,16 @@ export function createClearing(
     }
     function bundles(x:number,z:number,count:number){
       for(let i=0;i<Math.min(12,count);i++)model("reed-bundle",x+((i%3)-1)*.3,elevation(x,z)+.08+Math.floor(i/6)*.13,z+((Math.floor(i/3)%2)-.5)*.38,.5);
+    }
+    // Food places are quiet ground habitat clusters, distinct from tall construction reeds.
+    for (const patch of state.forage) {
+      const x=patch.at.x*2,z=patch.at.z*2;
+      const count=2+Math.ceil(4*patch.remaining/patch.capacity);
+      for(let i=0;i<count;i++){
+        const a=i*2.39996,xx=x+Math.cos(a)*(.3+i*.1),zz=z+Math.sin(a)*(.3+i*.1);
+        const clump=model(patch.id==="leaf-litter"?"dressing-bush-b":"dressing-grass",xx,elevation(xx,zz),zz,patch.id==="leaf-litter"?.22:.5);
+        if(clump)clump.rotation.y=a;
+      }
     }
     for(const patch of state.patches){
       const x=patch.at.x*2,z=patch.at.z*2;
@@ -562,7 +520,7 @@ export function createClearing(
         reducedMotion.matches ? 1 : Math.min(1, delta * 12),
       );
       const worker = renderState?.birds.find((b) => b.id === id);
-      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo?"carry":"walk"):worker?.job?.kind==="build"?"weave":worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
+      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo?"carry":"walk"):worker?.job?.kind==="build"?"weave":worker?.foraging&&worker.foraging.progress>0||worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
       const pose=action+(reducedMotion.matches?"-still":"");
       if(pose!==bird.pose){
         bird.clips.forEach(g=>g.stop());
@@ -588,13 +546,13 @@ export function createClearing(
           y < canvas.clientHeight - 65,
       };
     }
-    for (const landmark of [...trees, { id: "reeds", x: -3, z: -2 },...(renderState?.patches.map(p=>({id:p.id,...p.at}))??[])]) {
+    for (const landmark of [...trees, { id: "reeds", x: -3, z: -2 },...(renderState?.patches.map(p=>({id:p.id,...p.at}))??[]),...(renderState?.forage.map(p=>({id:p.id,...p.at}))??[])]) {
       const xw = landmark.x * 2,
         zw = landmark.z * 2;
       const point = Vector3.Project(
         new Vector3(
           xw,
-          elevation(xw, zw) + (landmark.id === "reeds"||landmark.id.startsWith("patch-") ? 1 : 7.6*treeScale[landmark.id as keyof typeof treeScale]),
+          elevation(xw, zw) + (landmark.id in treeScale ? 7.6*treeScale[landmark.id as keyof typeof treeScale] : 1),
           zw,
         ),
         Matrix.IdentityReadOnly,
@@ -647,7 +605,7 @@ export function createClearing(
         const mesh = chickens.get(bird.id)!;
         const p = presentedBirdPosition(bird);
         const index = settlers.findIndex((b) => b.id === bird.id);
-        const idle = !bird.edge && !bird.flight && !bird.perch;
+        const idle = !bird.edge && !bird.flight && !bird.perch && !bird.foraging;
         const x = p.x + (idle ? (index % 2 === 0 ? -1.1 : 1.1) : 0),
           z = p.z + (idle ? (index < 2 ? -1.1 : 1.1) : 0);
         mesh.target.set(x, elevation(x, z) + p.y, z);
@@ -658,7 +616,7 @@ export function createClearing(
       }
       const signature = JSON.stringify([
         state.patches,
-        state.paths,
+        state.forage.map(p=>[p.id,p.at,p.remaining,p.open]),
         state.piles,
         state.sites.map((s) => [
           s.id,

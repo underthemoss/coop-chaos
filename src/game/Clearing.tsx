@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { createClearing } from "./create-clearing";
 import type { Cell, Settlement } from "../simulation/settlement";
-import { settlers, trees } from "../content/settlement";
+import { foodPatches, settlers, trees } from "../content/settlement";
 import type { SettlerId } from "../content/settlement";
-export type Tool = "inspect" | "gather" | "path" | "treehouse" | "store" | "remove";
+export type Tool = "inspect" | "gather" | "forage" | "treehouse" | "store";
 export function Clearing({
   state,
   selected,
   onSelect,
   onPick,
+  onForage,
   cursor,
   tool,
   onCursor,
@@ -17,6 +18,7 @@ export function Clearing({
   selected: SettlerId;
   onSelect: (id: SettlerId) => void;
   onPick: (at: Cell) => void;
+  onForage: (id: string) => void;
   cursor: Cell;
   tool: Tool;
   onCursor: (at: Cell) => void;
@@ -64,7 +66,7 @@ export function Clearing({
     world.current?.select(selected);
   }, [selected]);
   useEffect(() => {
-    world.current?.cursor(cursor, tool !== "inspect");
+    world.current?.cursor(cursor, tool === "treehouse" || tool === "store");
   }, [cursor, tool]);
   return (
     <section className="world" aria-label="The treehouse settlement">
@@ -78,7 +80,7 @@ export function Clearing({
         aria-describedby="camera-hint"
         aria-label="3D chicken settlement. Fixed view. In build mode arrow keys move the cell cursor and Enter uses the tool."
         onKeyDownCapture={(e) => {
-          if (tool === "inspect") return;
+          if (tool !== "treehouse" && tool !== "store") return;
           const d: Record<string, [number, number]> = {
             ArrowLeft: [-1, 0],
             ArrowRight: [1, 0],
@@ -135,6 +137,9 @@ export function Clearing({
             </small>
           </button>
         ))}
+        {state.forage.map(p => <button key={p.id} className="tree-label forage-label" hidden={tool !== "forage"} ref={el => {labels.current[p.id] = el;}} onClick={() => onForage(p.id)} aria-label={`Inspect ${p.id} forage place`}>
+          {foodPatches.find(f => f.id === p.id)?.name ?? p.id}<small>{p.remaining}/{p.capacity} food · {p.open ? "open" : "resting"}</small>
+        </button>)}
         {state.patches.map(p=><button key={p.id} className="tree-label patch-label" hidden={tool!=="gather"} ref={el=>{labels.current[p.id]=el;}} onClick={()=>onPick(p.at)} aria-label={`${p.designated?"Stop gathering":"Gather reeds from"} ${p.id}`}>
           {p.id==="patch-west"?"West reeds":"Creek reeds"}<small>{p.remaining} remaining · {p.designated?"gathering":"available"}</small>
         </button>)}
@@ -143,7 +148,7 @@ export function Clearing({
             labels.current.reeds = el;
           }}
           className="tree-label source-label"
-          hidden={tool==="inspect"}
+          hidden={tool!=="gather" && tool!=="treehouse" && tool!=="store"}
           onClick={() => onCursor({ x: -3, z: -2 })}
         >
           Reed cache<small>{state.piles[0].stock} local bundles</small>
@@ -164,7 +169,7 @@ export function Clearing({
         </span>
       </div>
       <p id="camera-hint" className="camera-hint">
-        {tool === "inspect" ? "Choose a bird or a tree · fixed grove view" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
+        {tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · inspect or rest it" : tool === "gather" ? "Choose a construction reed patch" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
       </p>
     </section>
   );

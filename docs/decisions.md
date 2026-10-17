@@ -23,15 +23,16 @@
   production, growth, predators and district politics remain future.
 - **Free movement, with trails later.** Chickens move and forage without
   player-authored roads or a path-connectivity gate. Optional worn trails may
-  emerge from repeated traffic later. The current Path UI and connected-route
-  rules conflict with this direction; their removal is explicitly deferred. This
-  documentation decision does not change runtime behavior or reinterpret saves.
+  emerge from repeated traffic later. The Path controls, road rendering and
+  connectivity gate are removed. Strict versioned migration retires road data
+  while preserving existing work, cargo and movement progress.
 - **Art-led living sandbox next.** The [opening brief](../art-direction/opening-view-exploration.md)
   owns the v2 visual reference, concrete asset inventory and authoring-route proof.
   Basic foraging, treehouse commissioning and inspection should support autonomous
   life, without an authored opening arc or mandatory build order. The bounded
   implementation gathers finite construction reeds, with atomic extraction and
-  physically carried delivery; no food or regrowth. Fresh loose stock is eight,
+  physically carried delivery. Separate food places support autonomous feeding
+  and unused-place recovery. Fresh loose stock is eight,
   with two twelve-reed patches, all provisional tuning. The rejected Node GLBs
   are replaced by editable Blender assets; actual-camera art acceptance remains
   open. Prove actual artifacts
@@ -55,17 +56,24 @@
   qualification does not establish a release.
 
 - **Ground economy, trunk access, canopy home.** Forest clusters become kingdoms;
-  productive open commons supply future forage and shared-use politics. Natural
+  productive open commons supply food foraging and future shared-use politics. Natural
   flight by the opening adult fixtures precedes building. Future low-flight
   bodies need honest natural perch/access options; no save reinterpretation is
   implied. Treehouse improvements add real sheltered
   occupancy and ladder use. [Technology design](../story/technology.md) permits
   chicken-invented machinery and late science-fiction elevators; no human builders
   or universal predator immunity. Exact costs, capacity and rest rates are provisional.
-- **Separate save meanings.** Settlement uses a strict `settlement-2` envelope at
+- **Separate save meanings.** Settlement uses a strict `settlement-3` envelope at
   its own key, ordered local writes, and validation before replacement. Validated
   v1 worlds migrate with forty original reeds and all existing sites/jobs intact.
   New finite patches relocate to free cells; crowded old maps may fit fewer than
   two, with an explicit notice and no later automatic respawn. Old
   `first-evening-1` device data remains untouched and exportable, never migrated
   into a different fiction silently.
+
+- **Bounded autonomous food foraging.** Three mixed-food places start open. Appetite
+  prompts feeding before new work, cargo delivers first, and fed idle birds may
+  browse without consuming. Place choice includes distance, yield, occupancy,
+  individual preference and remembered success. Unused food recovers on ticks.
+  Food and finite construction reeds have separate ledgers. Rates are fictional
+  tuning; this is not full nutrition, starvation, egg production or predator play.

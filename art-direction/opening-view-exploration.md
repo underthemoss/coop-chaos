@@ -6,7 +6,8 @@ There is no authored story arc, mandatory first-home sequence, or dialogue gate.
 The images below are generated concepts, not game screenshots. The current
 Node-authored tree/chicken GLBs are **visually rejected** against this target;
 their working construction, roosting, and save behavior remains reusable.
-This brief does not claim that the art MVP or foraging is implemented.
+The incremental playable art study includes bounded autonomous food foraging;
+full visual acceptance against this brief remains open.
 
 ## The visual promise
 
@@ -60,25 +61,27 @@ Do not introduce those systems to make a painted scene seem active.
 
 ## Minimal direct actions, autonomous activity
 
-The proposed primary actions are independent options, not tutorial steps:
+The direct actions are independent options, not tutorial steps:
 
-- **Designate a forage patch.** Make a useful local opportunity available; birds
-  choose and perform eligible work autonomously. Show the target, actual yield,
-  work and destination rather than granting a global resource on click.
+- **Rest or open a food place.** Guide an existing local opportunity; birds
+  choose feeding places autonomously. Show scratching and pecking at the chosen
+  ground, food depletion and an individual appetite response rather than granting
+  a global resource on click.
 - **Commission a treehouse at an eligible tree.** Preview the real anchor, access,
-  inputs and missing route. Existing paths, local stores and physical deliveries
+  inputs. Free ground movement, local stores and physical deliveries
   support the home; they remain usable secondary tools rather than a prescribed
   sequence every player must follow.
 - **Inspect an individual.** Reveal identity, current activity, condition and
   observed history. Explain an implemented preference through its cause; do not
   invent affinity meters, hidden needs or personality AI to decorate a card.
 
-Basic foraging is part of the intended sandbox capability. Its limited inputs,
-food versus construction yields, depletion, regrowth, work priorities and individual
-preferences are **proposals requiring rule design and testing**. No species,
-recipe, capacity, rate, timer or preference formula is accepted tuning here.
-The current reed bundle is already gathered finite material, not a forage patch.
-Growing reeds in the concept do not establish a harvesting job.
+The bounded implementation now separates three mixed-food places from finite
+construction reed patches. Food supports autonomous appetite-driven feeding,
+idle browsing, individual preferences, remembered productive ground and tick-based
+unused-place recovery. Reeds yield physical building material and do not regrow.
+Exact capacities, rates and preference weights are provisional playtest tuning;
+full diet, water, danger and richer ecology remain future. These rules do not
+lower the actual-camera visual acceptance bar.
 
 Stories emerge through repeated work, encounters, remembered contribution and
 changed behavior. No first delivery, house or evening is a required plot beat.
@@ -96,7 +99,7 @@ final asset count or permission to expand the economy.
 | Forest-edge kit | Contrasting secondary trees and restrained undergrowth, ground clumps, stones and reeds; depth and family/growth-form distinction without a wall of identical crowns. |
 | Four individual adult birds | Credible compact bodies, heads, beaks, wings, feet and tail fans; distinct silhouettes/plumage, all compatible with the opening fixture's flight. |
 | Movement and work set | Ground travel, turns, idle/rest, scratch/peck, pickup/carry/drop, weaving, fly-up/down, perch settling and earned ladder use; authored poses/transitions with no sliding cargo or feet. Forage clips depend on the eventual rule contract. |
-| Resources and patches | Readable existing reed cache, bundle, cargo and salvage; proposed forage patch/yield/depleted/regrowing states only once the corresponding rules exist. |
+| Resources and patches | Readable existing reed cache, bundle, cargo and salvage; food habitat/yield/depleted/recovering states tied to the implemented rules. |
 | Woven home and supporting store | Delivered-material and construction stages, usable branch deck, rain hood, ladder/landing, local stock and occupancy; chicken-made material craft rather than miniature human cottages. |
 | World, materials and light | Warm root court blending into sage ground, shoreline/water, soft contact and branch shadows, controlled surface detail and quiet background; readable birds and routes at actual scale. |
 | Fixed-camera interface | Small contextual actions and inspector, legible selection/placement cues, accessible secondary logistics/save controls; no camera pan, zoom, pinch or Find controls. |
@@ -130,12 +133,12 @@ Compare the real fixed-camera scene side by side with opening-view-v2, then
 inspect close tree, bird, resource and building views. Require the intended anatomy,
 materials, light and readable motion in both; fidelity is not satisfied by matching
 layout alone. Show the fresh opening, useful natural roosts, active work and an
-inhabited built home. When foraging is implemented, prove designation, autonomous
+inhabited built home. For food foraging, prove Rest/Open, autonomous
 work and visible resource consequences rather than an animation-only patch.
 Exercise independent actions and observation, not a scripted story completion.
 
 In the eventual integrated browser proof, preserve selection, legal placement,
-orthogonal path previews, cargo, ladder/perch occupancy and saved work through
+placement cursors, cargo, ladder/perch occupancy and saved work through
 reload. Check console, loading/failure/retry, reduced motion, narrow framing and
 readable controls. Measure real scene performance on the tested device and report
 its limits; no universal performance claim follows from a local sample.

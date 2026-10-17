@@ -1,5 +1,17 @@
-import { reedPatches, settlers, trees, tuning } from "../content/settlement";
-import type { SettlerId, TreeId } from "../content/settlement";
+import {
+  foodPatches,
+  forageTuning,
+  reedPatches,
+  settlers,
+  trees,
+  tuning,
+} from "../content/settlement";
+import type {
+  FoodPatchId,
+  ForagePreference,
+  SettlerId,
+  TreeId,
+} from "../content/settlement";
 export type Cell = { x: number; z: number };
 export type BuildKind = "treehouse" | "store";
 export type Pile = {
@@ -40,7 +52,27 @@ export type Flight = Perch & {
   direction: "up" | "down";
   from: Cell;
 };
+export type FoodPatch = {
+  id: FoodPatchId;
+  at: Cell;
+  capacity: number;
+  remaining: number;
+  eaten: number;
+  regrown: number;
+  recoveryProgress: number;
+  open: boolean;
+};
+export type Foraging = {
+  patch: FoodPatchId;
+  spot: Cell;
+  intent: "eat" | "browse";
+  progress: number;
+};
 export type Worker = {
+  satiety: number;
+  foragePreference: ForagePreference;
+  rememberedForage: FoodPatchId | null;
+  foraging: Foraging | null;
   id: SettlerId;
   at: Cell;
   edge: { to: Cell; progress: number } | null;
@@ -60,7 +92,7 @@ export type Settlement = {
   phase: "day" | "evening";
   paused: boolean;
   nextId: number;
-  paths: string[];
+  forage: FoodPatch[];
   piles: Pile[];
   patches: ReedPatch[];
   initialReeds: number;
@@ -71,7 +103,7 @@ export type Settlement = {
   totalReeds: number;
 };
 export type Command =
-  | { type: "path"; at: Cell; remove?: boolean }
+  | { type: "forage"; id: string; open: boolean }
   | { type: "build"; kind: BuildKind; at: Cell }
   | { type: "cancel"; id: string }
   | { type: "gather"; id: string; designated: boolean }
@@ -97,13 +129,33 @@ export function initialPatches(): ReedPatch[] {
     designated: false,
   }));
 }
+export function initialForage(): FoodPatch[] {
+  return foodPatches.map((p) => ({
+    id: p.id,
+    at: { ...p.at },
+    capacity: p.capacity,
+    remaining: p.capacity,
+    eaten: 0,
+    regrown: 0,
+    recoveryProgress: 0,
+    open: true,
+  }));
+}
+export function initialAppetite(id: SettlerId) {
+  return {
+    satiety: forageTuning.initialSatiety as number,
+    foragePreference: settlers.find((b) => b.id === id)!.foragePreference,
+    rememberedForage: null,
+    foraging: null,
+  };
+}
 export function initialSettlement(): Settlement {
   return {
     tick: 0,
     phase: "day",
     paused: false,
     nextId: 1,
-    paths: ["-3,-2"],
+    forage: initialForage(),
     piles: [
       {
         id: "reeds",
@@ -118,6 +170,7 @@ export function initialSettlement(): Settlement {
     sites: [],
     birds: settlers.map((b) => ({
       id: b.id,
+      ...initialAppetite(b.id),
       at: { x: -3, z: -2 },
       edge: null,
       cargo: 0,
@@ -135,9 +188,8 @@ export function initialSettlement(): Settlement {
     totalReeds: tuning.initialReeds,
   };
 }
-export function route(state: Settlement, from: Cell, to: Cell): Cell[] | null {
-  if (!state.paths.includes(key(from)) || !state.paths.includes(key(to)))
-    return null;
+export function route(_state: Settlement, from: Cell, to: Cell): Cell[] | null {
+  if (!validCell(from) || !validCell(to)) return null;
   const queue: Cell[][] = [[from]];
   const visited = new Set([key(from)]);
   for (let i = 0; i < queue.length; i++) {
@@ -150,7 +202,7 @@ export function route(state: Settlement, from: Cell, to: Cell): Cell[] | null {
       { x: p.x, z: p.z + 1 },
       { x: p.x, z: p.z - 1 },
     ]) {
-      if (!visited.has(key(n)) && state.paths.includes(key(n))) {
+      if (!visited.has(key(n)) && validCell(n)) {
         visited.add(key(n));
         queue.push([...path, n]);
       }
@@ -193,12 +245,13 @@ export function conserved(state: Settlement) {
 export function command(current: Settlement, action: Command): Settlement {
   const state = structuredClone(current);
   if (action.type === "pause") state.paused = !state.paused;
-  if (action.type === "path") {
-    if (!validCell(action.at))
-      throw new Error("Choose a cell in the marked glade.");
-    const id = key(action.at);
-    if (action.remove) state.paths = state.paths.filter((p) => p !== id);
-    else if (!state.paths.includes(id)) state.paths.push(id);
+  if (action.type === "forage") {
+    const patch = state.forage.find((p) => p.id === action.id);
+    if (!patch) throw new Error("Choose an existing food place.");
+    patch.open = action.open;
+    if (!patch.open)
+      for (const bird of state.birds)
+        if (bird.foraging?.patch === patch.id) bird.foraging = null;
   }
   if (action.type === "build") {
     if (!validCell(action.at))
@@ -209,7 +262,9 @@ export function command(current: Settlement, action: Command): Settlement {
     if (
       state.sites.some((s) => same(s.at, action.at)) ||
       state.piles.some((p) => p.kind === "source" && same(p.at, action.at)) ||
-      state.patches.some((p) => same(p.at, action.at))
+      state.patches.some((p) => same(p.at, action.at)) ||
+      state.forage.some((p) => same(p.at, action.at)) ||
+      state.birds.some((b) => b.foraging && same(b.foraging.spot, action.at))
     )
       throw new Error("This place is already occupied.");
     if (action.kind === "treehouse" && !tree)
@@ -292,6 +347,7 @@ export function command(current: Settlement, action: Command): Settlement {
   if (action.type === "phase" && action.phase !== state.phase) {
     state.phase = action.phase;
     for (const bird of state.birds) {
+      bird.foraging = null;
       if (
         action.phase === "evening" &&
         !bird.cargo &&
@@ -334,11 +390,6 @@ function move(state: Settlement, bird: Worker, to: Cell): boolean {
     if (!path || path.length < 2) return false;
     bird.edge = { to: path[1], progress: 0 };
   }
-  if (
-    !state.paths.includes(key(bird.at)) ||
-    !state.paths.includes(key(bird.edge.to))
-  )
-    return false;
   const fixture = settlers.find((s) => s.id === bird.id)!;
   bird.edge.progress +=
     0.07 *
@@ -522,11 +573,143 @@ export function birdPosition(bird: Worker) {
     y: end.y * t + Math.sin(Math.PI * t) * 1.2,
   };
 }
+/** Edible-food ledger is independent of construction material. */
+export function foodConserved(state: Settlement) {
+  return state.forage.every(
+    (p) => p.capacity + p.regrown === p.remaining + p.eaten,
+  );
+}
+const distance = (a: Cell, b: Cell) =>
+  Math.abs(a.x - b.x) + Math.abs(a.z - b.z);
+/** Nearby legal feeding positions adapt around existing legacy structures.
+ * No structure is moved or deleted to make room for a new habitat. */
+export function feedingSpots(state: Settlement, patch: FoodPatch): Cell[] {
+  const blocked = new Set([
+    ...trees.map(key),
+    ...state.sites.map((s) => key(s.at)),
+    ...state.piles.map((p) => key(p.at)),
+    ...state.patches.map((p) => key(p.at)),
+  ]);
+  const spots: Cell[] = [];
+  for (let z = -3; z <= 3; z++)
+    for (let x = -4; x <= 4; x++) {
+      const at = { x, z };
+      if (distance(at, patch.at) <= 2 && !blocked.has(key(at))) spots.push(at);
+    }
+  return spots.sort(
+    (a, b) =>
+      distance(a, patch.at) - distance(b, patch.at) || a.z - b.z || a.x - b.x,
+  );
+}
+function chooseForage(
+  state: Settlement,
+  bird: Worker,
+  intent: Foraging["intent"],
+): boolean {
+  const choices = state.forage
+    .flatMap((patch) => {
+      const occupants = state.birds.filter(
+        (b) => b.id !== bird.id && b.foraging?.patch === patch.id,
+      );
+      if (
+        !patch.open ||
+        patch.remaining === 0 ||
+        occupants.length >= forageTuning.maximumOccupancy
+      )
+        return [];
+      const spot = feedingSpots(state, patch).find(
+        (at) =>
+          !state.birds.some(
+            (b) => b.id !== bird.id && b.foraging && same(b.foraging.spot, at),
+          ),
+      );
+      if (!spot) return [];
+      const habitat = foodPatches.find((p) => p.id === patch.id)!.habitat;
+      const preference = habitat === bird.foragePreference ? 5 : 0;
+      const remembered = bird.rememberedForage === patch.id ? 7 : 0;
+      const score =
+        preference +
+        remembered +
+        patch.remaining * 0.4 -
+        distance(bird.at, spot) -
+        occupants.length * 2;
+      return [{ patch, spot, score }];
+    })
+    .sort((a, b) => b.score - a.score || a.patch.id.localeCompare(b.patch.id));
+  if (!choices[0]) return false;
+  bird.foraging = {
+    patch: choices[0].patch.id,
+    spot: { ...choices[0].spot },
+    intent,
+    progress: 0,
+  };
+  bird.resting = false;
+  return true;
+}
+function forageStep(state: Settlement, bird: Worker) {
+  const activity = bird.foraging!;
+  const patch = state.forage.find((p) => p.id === activity.patch)!;
+  if (
+    !patch.open ||
+    patch.remaining === 0 ||
+    !feedingSpots(state, patch).some((at) => same(at, activity.spot))
+  ) {
+    bird.foraging = null;
+    return;
+  }
+  if (!move(state, bird, activity.spot)) return;
+  activity.progress++;
+  if (activity.progress < forageTuning.scratchTicks) return;
+  if (activity.intent === "browse") {
+    bird.foraging = null;
+    return;
+  }
+  // Food leaves its place only after real travel and a completed scratch bout.
+  patch.remaining--;
+  patch.eaten++;
+  bird.satiety = Math.min(100, bird.satiety + forageTuning.biteSatiety);
+  bird.rememberedForage = patch.id;
+  const name = foodPatches.find((p) => p.id === patch.id)!.name;
+  remember(bird, `Found food at ${name}; remembers the productive ground.`);
+  activity.progress = 0;
+  if (bird.satiety >= forageTuning.satisfied) bird.foraging = null;
+  if (patch.remaining === 0)
+    for (const visitor of state.birds)
+      if (visitor.foraging?.patch === patch.id) visitor.foraging = null;
+}
+export function forageStatus(state: Settlement, patch: FoodPatch): string {
+  const occupied = state.birds.filter(
+    (b) => b.foraging?.patch === patch.id,
+  ).length;
+  if (feedingSpots(state, patch).length === 0)
+    return "No feeding room among the existing structures";
+  if (!patch.open)
+    return `Resting · ${patch.remaining} / ${patch.capacity} food · recovers while unused by day`;
+  if (patch.remaining === 0)
+    return "Picked over · recovers while unused by day";
+  return `${patch.remaining} / ${patch.capacity} food · ${occupied} / 2 visiting`;
+}
 export function step(current: Settlement): Settlement {
   if (current.paused) return current;
   const state = structuredClone(current);
   state.tick++;
+  if (state.phase === "day")
+    for (const patch of state.forage) {
+      if (patch.remaining === patch.capacity) {
+        patch.recoveryProgress = 0;
+        continue;
+      }
+      if (state.birds.some((b) => b.foraging?.patch === patch.id)) continue;
+      patch.recoveryProgress++;
+      if (patch.recoveryProgress >= forageTuning.recoveryTicks) {
+        patch.remaining++;
+        patch.regrown++;
+        patch.recoveryProgress = 0;
+      }
+    }
   for (const bird of state.birds) {
+    if (state.phase === "day")
+      bird.satiety = Math.max(0, bird.satiety - forageTuning.satietyDrain);
     if (bird.flight) {
       bird.flight.progress += bird.flight.direction === "up" ? 0.035 : -0.035;
       if (bird.flight.progress >= 1) {
@@ -560,6 +743,31 @@ export function step(current: Settlement): Settlement {
         );
       continue;
     }
+    if (state.phase === "day") {
+      // Carried goods always reach their destination. Interrupt uncollected work only
+      // at a ground-cell boundary, preserving every committed material bundle.
+      if (
+        bird.satiety <= forageTuning.hungry &&
+        !bird.cargo &&
+        !bird.edge &&
+        (!bird.foraging || bird.foraging.intent === "browse")
+      ) {
+        if (chooseForage(state, bird, "eat")) {
+          bird.job = null;
+          bird.gatheringProgress = 0;
+        }
+      }
+      if (bird.foraging) {
+        if (bird.foraging.intent === "browse" && !bird.edge) {
+          assign(state, bird);
+          if (bird.job) bird.foraging = null;
+        }
+        if (bird.foraging) {
+          forageStep(state, bird);
+          continue;
+        }
+      }
+    }
     if (!bird.job && state.phase === "evening") {
       settle(state, bird);
       continue;
@@ -572,6 +780,13 @@ export function step(current: Settlement): Settlement {
     if (!bird.job && state.phase === "day") assign(state, bird);
     const job = bird.job;
     if (!job) {
+      const index = settlers.findIndex((b) => b.id === bird.id);
+      if (
+        state.phase === "day" &&
+        (state.tick + index * 25) % forageTuning.browseInterval === 1 &&
+        chooseForage(state, bird, "browse")
+      )
+        forageStep(state, bird);
       if (bird.energy < 80) bird.energy = Math.min(80, bird.energy + 0.04);
       continue;
     }
@@ -660,7 +875,33 @@ export function workerStatus(state: Settlement, bird: Worker): string {
     return `${bird.flight.direction === "up" ? (bird.flight.sheltered ? "Approaching / climbing the ladder" : "Flying up to a natural branch") : "Returning to the ground"} at ${trees.find((t) => t.id === bird.flight!.tree)!.name}`;
   if (bird.perch)
     return `${bird.perch.sheltered ? "Sheltered" : "Natural branch"} rest at ${trees.find((t) => t.id === bird.perch!.tree)!.name} · perch ${bird.perch.slot + 1}`;
-  if (bird.resting) return "Resting on the ground before returning to work";
+  if (bird.foraging) {
+    const activity = bird.foraging;
+    const patch = foodPatches.find((p) => p.id === activity.patch)!;
+    const reason =
+      activity.intent === "eat"
+        ? "Appetite prompted a food break"
+        : "Browsing while work is quiet";
+    const remembered =
+      bird.rememberedForage === activity.patch
+        ? "; remembers finding food here"
+        : "";
+    const preference =
+      bird.foragePreference === "cover"
+        ? "sheltered litter"
+        : bird.foragePreference === "open"
+          ? "open seedheads"
+          : "mixed edges";
+    const action =
+      same(bird.at, activity.spot) && !bird.edge
+        ? `${activity.intent === "eat" ? "Scratching for food" : "Browsing and scratching"} · ${Math.round((activity.progress / forageTuning.scratchTicks) * 100)}%`
+        : "Walking to forage";
+    return `${action} at ${patch.name} · ${reason}; favors ${preference}${remembered}`;
+  }
+  if (bird.resting)
+    return bird.satiety <= forageTuning.hungry
+      ? "Resting on the ground; hungry and waiting for an open food place with room"
+      : "Resting on the ground before returning to work";
   if (bird.job) {
     const to = destination(state, bird);
     const gatherTarget =
@@ -672,12 +913,9 @@ export function workerStatus(state: Settlement, bird: Worker): string {
         bird.job.stage === "pickup" &&
         (!gatherTarget || !to || !route(state, to, gatherTarget.at))) ||
       !to ||
-      (bird.edge
-        ? !state.paths.includes(key(bird.at)) ||
-          !state.paths.includes(key(bird.edge.to))
-        : !route(state, bird.at, to));
+      !route(state, bird.at, to);
     if (blocked)
-      return `Route broken — ${bird.cargo ? "guarding a carried bundle; repair the path to secure it" : "waiting for a connected path"}`;
+      return `Destination unavailable — ${bird.cargo ? "keeping a carried bundle secure" : "waiting for available work"}`;
     if (bird.job.kind === "gather" && !bird.cargo)
       return bird.gatheringProgress > 0
         ? `Gathering reeds · ${Math.round((bird.gatheringProgress / tuning.gatherTicks) * 100)}%`
@@ -692,34 +930,32 @@ export function workerStatus(state: Settlement, bird: Worker): string {
   }
   if (state.phase === "evening")
     return "Looking for an unoccupied sleeping perch";
-  if (!state.paths.includes(key(bird.at))) {
-    const tree = trees.find((t) => same(t, bird.at));
-    return `Needs a path from ${tree ? `${tree.name}'s ground cell` : "this ground cell"} to work`;
-  }
-  return "Available — waiting for material and a connected job";
+  return bird.satiety <= forageTuning.hungry
+    ? "Hungry · waiting for an open food place with room"
+    : "Available · watching for useful work, with occasional browsing";
 }
+
 export function siteStatus(state: Settlement, site: Site) {
   if (site.complete)
     return site.kind === "store"
       ? `${site.stock} / ${tuning.storeCapacity} reeds stored locally`
       : "Two sheltered perches ready · ladder access";
   if (
-    !state.paths.includes(key(site.at)) ||
-    (![
+    ![
       ...state.piles,
       ...state.sites.filter((p) => p.complete && p.kind === "store"),
     ].some((p) => available(state, p.id) > 0 && route(state, p.at, site.at)) &&
-      site.delivered + incoming(state, site.id) < cost(site))
+    site.delivered + incoming(state, site.id) < cost(site)
   )
-    return "Needs reachable local reeds and a continuous path";
+    return "Needs available local construction reeds";
   if (
     state.birds.some(
       (b) =>
         b.job?.destination === site.id &&
-        workerStatus(state, b).startsWith("Route broken"),
+        workerStatus(state, b).startsWith("Destination unavailable"),
     )
   )
-    return "Carrier blocked — repair the missing path; goods remain with the bird";
+    return "Carrier waiting for an available destination; goods remain with the bird";
   return site.delivered === cost(site)
     ? `Weaving · ${Math.round((site.progress / 30) * 100)}%`
     : `${site.delivered} / ${cost(site)} reeds at site · ${incoming(state, site.id)} assigned`;
@@ -736,8 +972,12 @@ export function patchStatus(state: Settlement, patch: ReedPatch): string {
       b.job.source === patch.id &&
       b.job.stage === "pickup",
   );
-  if (jobs.some((b) => workerStatus(state, b).startsWith("Route broken")))
-    return "Gatherer blocked · repair the path";
+  if (
+    jobs.some((b) =>
+      workerStatus(state, b).startsWith("Destination unavailable"),
+    )
+  )
+    return "Gatherer waiting for storage";
   const targets = [
     ...state.piles.filter((p) => p.kind === "source"),
     ...state.sites.filter(
@@ -751,7 +991,7 @@ export function patchStatus(state: Settlement, patch: ReedPatch): string {
     !state.birds.some((b) => route(state, b.at, patch.at)) ||
     !targets.some((p) => route(state, patch.at, p.at))
   )
-    return "Waiting for a connected path to the patch and storage";
+    return "Waiting for available local storage";
   if (state.phase === "evening") return "Gathering resumes by day";
   return `${patch.remaining} / ${patch.capacity} reeds · ${jobs.length} gathering`;
 }

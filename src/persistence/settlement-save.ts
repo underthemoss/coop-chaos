@@ -1,5 +1,8 @@
 import {
   initialSettlement,
+  initialForage,
+  initialAppetite,
+  feedingSpots,
   initialPatches,
   conserved,
   available,
@@ -8,7 +11,14 @@ import {
   cost,
 } from "../simulation/settlement";
 import type { Settlement, Cell } from "../simulation/settlement";
-import { reedPatches, settlers, trees, tuning } from "../content/settlement";
+import {
+  foodPatches,
+  forageTuning,
+  reedPatches,
+  settlers,
+  trees,
+  tuning,
+} from "../content/settlement";
 const fail = (): never => {
   throw new Error(
     "This settlement save is damaged or incompatible. Nothing was imported.",
@@ -78,13 +88,15 @@ const maximumHarvest = reedPatches.reduce(
   0,
 );
 /** Version 1 has an immutable shape and material budget, independent of fresh-game tuning. */
-function validateVersion(value: unknown, legacy: boolean): Settlement {
+function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
+  const legacy = version === 1;
+  const current = version === 3;
   const s = object(value, [
     "tick",
     "phase",
     "paused",
     "nextId",
-    "paths",
+    ...(current ? ["forage"] : ["paths"]),
     "piles",
     "sites",
     "birds",
@@ -144,7 +156,7 @@ function validateVersion(value: unknown, legacy: boolean): Settlement {
     s.totalReeds !== budget
   )
     fail();
-  const paths = list(s.paths, 63);
+  const paths = current ? [] : list(s.paths, 63);
   for (const p of paths) {
     if (typeof p !== "string" || !/^-?\d+,-?\d+$/.test(p)) fail();
     const [x, z] = (p as string).split(",").map(Number);
@@ -222,6 +234,9 @@ function validateVersion(value: unknown, legacy: boolean): Settlement {
       "perch",
       "flight",
       ...(legacy ? [] : ["gatheringProgress"]),
+      ...(current
+        ? ["satiety", "foragePreference", "rememberedForage", "foraging"]
+        : []),
     ]);
     if (
       !settlers.some((p) => p.id === b.id) ||
@@ -292,7 +307,96 @@ function validateVersion(value: unknown, legacy: boolean): Settlement {
     )
       fail();
   }
+  if (current) {
+    const places = list(s.forage, foodPatches.length);
+    if (places.length !== foodPatches.length) fail();
+    const foodIds = new Set();
+    for (const value of places) {
+      const p = object(value, [
+        "id",
+        "at",
+        "capacity",
+        "remaining",
+        "eaten",
+        "regrown",
+        "recoveryProgress",
+        "open",
+      ]);
+      const fixture = foodPatches.find((f) => f.id === p.id);
+      if (
+        !fixture ||
+        foodIds.has(p.id) ||
+        !cell(p.at) ||
+        key(p.at as Cell) !== key(fixture.at) ||
+        p.capacity !== fixture.capacity ||
+        !integer(p.remaining, 0, fixture.capacity) ||
+        !integer(p.eaten) ||
+        !integer(p.regrown) ||
+        fixture.capacity + (p.regrown as number) !==
+          (p.remaining as number) + (p.eaten as number) ||
+        !integer(p.recoveryProgress, 0, forageTuning.recoveryTicks - 1) ||
+        (p.remaining === fixture.capacity && p.recoveryProgress !== 0) ||
+        typeof p.open !== "boolean"
+      )
+        fail();
+      foodIds.add(p.id);
+    }
+    for (const value of s.birds as unknown[]) {
+      const b = value as Record<string, unknown>;
+      const fixture = settlers.find((p) => p.id === b.id)!;
+      if (
+        !number(b.satiety, 0, 100) ||
+        b.foragePreference !== fixture.foragePreference ||
+        (b.rememberedForage !== null &&
+          !places.some(
+            (p) =>
+              (p as Record<string, unknown>).id === b.rememberedForage &&
+              ((p as Record<string, unknown>).eaten as number) > 0,
+          ))
+      )
+        fail();
+      if (b.foraging !== null) {
+        const f = object(b.foraging, ["patch", "spot", "intent", "progress"]);
+        if (
+          !foodIds.has(f.patch) ||
+          !cell(f.spot) ||
+          !["eat", "browse"].includes(f.intent as string) ||
+          !integer(f.progress, 0, forageTuning.scratchTicks - 1) ||
+          b.job ||
+          b.cargo ||
+          b.perch ||
+          b.flight ||
+          s.phase !== "day" ||
+          ((f.progress as number) > 0 &&
+            (b.edge || key(b.at as Cell) !== key(f.spot as Cell)))
+        )
+          fail();
+      }
+    }
+  }
   const state = value as Settlement;
+  if (current) {
+    const positions = new Set<string>();
+    for (const patch of state.forage) {
+      const visitors = state.birds.filter(
+        (b) => b.foraging?.patch === patch.id,
+      );
+      if (
+        visitors.length > forageTuning.maximumOccupancy ||
+        (visitors.length && (!patch.open || patch.remaining === 0))
+      )
+        fail();
+      for (const bird of visitors) {
+        const spot = bird.foraging!.spot;
+        if (
+          positions.has(key(spot)) ||
+          !feedingSpots(state, patch).some((p) => key(p) === key(spot))
+        )
+          fail();
+        positions.add(key(spot));
+      }
+    }
+  }
   const ids = [...state.piles, ...state.sites].map((p) => p.id);
   if (
     new Set(ids).size !== ids.length ||
@@ -420,7 +524,7 @@ function validateVersion(value: unknown, legacy: boolean): Settlement {
   return structuredClone(state);
 }
 export function validateSettlement(value: unknown): Settlement {
-  return validateVersion(value, false);
+  return validateVersion(value, 3);
 }
 function migrationPatches(legacy: Settlement) {
   const occupied = new Set([
@@ -448,9 +552,18 @@ function migrationPatches(legacy: Settlement) {
     return [{ ...patch, at }];
   });
 }
-function migrateLegacy(value: unknown): Settlement {
-  const legacy = validateVersion(value, true);
+function migrateVersionTwo(value: unknown): Settlement {
+  const state = validateVersion(value, 2);
+  const { paths: _paths, ...facts } = state as Settlement & { paths: string[] };
   return validateSettlement({
+    ...facts,
+    forage: initialForage(),
+    birds: state.birds.map((b) => ({ ...b, ...initialAppetite(b.id) })),
+  });
+}
+function migrateLegacy(value: unknown): Settlement {
+  const legacy = validateVersion(value, 1);
+  return migrateVersionTwo({
     ...legacy,
     initialReeds: legacyInitialReeds,
     harvestedReeds: 0,
@@ -467,8 +580,8 @@ export function settlementMigrationNotice(state: Settlement): string | null {
 }
 export function encodeSettlement(state: Settlement): string {
   return JSON.stringify({
-    schemaVersion: 2,
-    simulationVersion: "settlement-2",
+    schemaVersion: 3,
+    simulationVersion: "settlement-3",
     state,
   });
 }
@@ -496,6 +609,11 @@ export function decodeSettlement(text: string): Settlement {
   if (
     envelope.schemaVersion === 2 &&
     envelope.simulationVersion === "settlement-2"
+  )
+    return migrateVersionTwo(envelope.state);
+  if (
+    envelope.schemaVersion === 3 &&
+    envelope.simulationVersion === "settlement-3"
   )
     return validateSettlement(envelope.state);
   return fail();

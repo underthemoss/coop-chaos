@@ -48,7 +48,7 @@ promoting a balance assumption or historical example into canon.
 
 Forest clusters are the homes from which kingdoms grow. Treehouses, trunk access,
 and canopy neighborhoods are the construction focus. Open commons between them
-are productive shared no-man's-land, with future forage and insects; they are
+are productive shared no-man's-land, with bounded mixed-food foraging and future richer ecology; they are
 neither empty nor owned automatically by the nearest tree. Repeated shared field
 use can later produce pacts and rivalry. Map geography alone does not simulate
 territory or safety. Mixed botanical families can support complementary spaces,

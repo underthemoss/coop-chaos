@@ -31,6 +31,7 @@ export const settlers = [
     color: "#eee0b8",
     role: "Careful weaver",
     want: "Wants a dry place she helped make, and remembers her own work.",
+    foragePreference: "mixed",
     preference: "splitcrown",
     pace: 0.9,
     energy: 72,
@@ -41,6 +42,7 @@ export const settlers = [
     color: "#3e5149",
     role: "Restless carrier",
     want: "Likes a high open fork and being first back with a load.",
+    foragePreference: "open",
     preference: "lowfork",
     pace: 1.12,
     energy: 78,
@@ -51,6 +53,7 @@ export const settlers = [
     color: "#b16e40",
     role: "Steady builder",
     want: "Wants the work finished before settling near the water.",
+    foragePreference: "mixed",
     preference: "reedside",
     pace: 1,
     energy: 66,
@@ -61,6 +64,7 @@ export const settlers = [
     color: "#d8ba76",
     role: "Cautious explorer",
     want: "Takes a little longer, and prefers a sheltered sleeping place.",
+    foragePreference: "cover",
     preference: "splitcrown",
     pace: 0.82,
     energy: 60,
@@ -81,3 +85,48 @@ export const reedPatches = [
   { id: "patch-west", at: { x: -4, z: 0 }, capacity: 12 },
   { id: "patch-east", at: { x: 3, z: -2 }, capacity: 12 },
 ] as const;
+
+/** Mixed edible forage, never construction reeds. All rates are playtest assumptions,
+ * not measured nutrition or a complete diet/water simulation. */
+export const foodPatches = [
+  {
+    id: "seed-common",
+    name: "Seedhead Common",
+    at: { x: -1, z: -1 },
+    habitat: "open",
+    description:
+      "Open seedheads, green shoots and small insects among the grasses.",
+    capacity: 12,
+  },
+  {
+    id: "leaf-litter",
+    name: "Leaf-litter Hollow",
+    at: { x: 0, z: 2 },
+    habitat: "cover",
+    description:
+      "Sheltered leaf litter with fallen seeds, tender leaves and scratching insects.",
+    capacity: 12,
+  },
+  {
+    id: "insect-verge",
+    name: "Insect Verge",
+    at: { x: 3, z: 1 },
+    habitat: "mixed",
+    description:
+      "A grassy woodland edge with insects, scattered seeds and soft greens.",
+    capacity: 12,
+  },
+] as const;
+export type FoodPatchId = (typeof foodPatches)[number]["id"];
+export type ForagePreference = "open" | "cover" | "mixed";
+export const forageTuning = {
+  initialSatiety: 82,
+  satietyDrain: 0.06,
+  hungry: 45,
+  satisfied: 80,
+  biteSatiety: 24,
+  scratchTicks: 18,
+  recoveryTicks: 110,
+  maximumOccupancy: 2,
+  browseInterval: 120,
+} as const;

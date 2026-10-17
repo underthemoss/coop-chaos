@@ -24,8 +24,8 @@ sandbox: a high-quality inhabited grove, basic foraging and building, and
 individuals worth observing. Its [art brief](../art-direction/opening-view-exploration.md)
 owns the artifact inventory and actual-camera visual proof.
 
-This direction is accepted. The current app implements only the
-[thin treehouse construction and roost proof](#treehouse-direction-and-current-thin-proof);
+This direction is accepted. The current app implements bounded autonomous food
+foraging alongside the [thin treehouse construction and roost proof](#treehouse-direction-and-current-thin-proof);
 food production, population growth, threats and politics remain future. The old
 four-bird dilemma in [story-system.md](story-system.md) is a historical technical
 study, whose cast and event have no privileged place in the future game. This document owns the accepted progression and construction
@@ -41,17 +41,30 @@ provisional.
 
 ## What the player does
 
-For the next sandbox MVP, the direct actions are to designate a forage patch,
-commission a treehouse at an eligible tree, and inspect individuals. Birds carry
-out eligible work autonomously, moving freely between work and local stores.
-These are independent possibilities, not quest steps. The current bounded
-gathering capability yields finite construction reeds, not food: designation
-creates eligible autonomous work, a connected cache/store reserves room, and
-extraction atomically depletes one patch reed into carried cargo. Undesignating
-stops future extraction while existing cargo still reaches local storage. No
-regrowth is implemented. Broader inputs, yields, priorities and preferences remain
-proposals. The construction/save chain remains reusable; actual-camera art quality
-is still an acceptance condition.
+For the sandbox MVP, direct actions are to inspect individuals, rest or reopen
+existing food places, designate construction reeds, and commission a treehouse
+at an eligible tree. Birds move freely over bounded ground and carry out eligible
+work autonomously. These are independent possibilities, not quest steps.
+
+Food and building materials have different causes and ledgers. Three mixed-food
+places are open from the start. Appetite prompts feeding before a new work job;
+a carrier secures its current bundle first. Idle fed birds still browse, without
+endlessly eating. Distance, food remaining, up to two distinct feeding spots,
+provisional individual cover/open preferences and remembered productive ground
+influence choice. Scratching and pecking precede actual consumption and satiety
+gain. An unused place recovers on simulation ticks; Rest/Open changes availability,
+not a refill button. Exact timing, yields and satiety are fictional tuning, not
+claims about a complete diet or measured natural recovery. There is no death,
+starvation, water demand, egg production, predator or dominance model in this slice.
+
+Construction reed designation creates work with reserved yield and local storage
+room. Extraction atomically depletes one finite reed into carried cargo; stopping
+collection preserves already carried bundles. Reeds do not regrow and are never
+food. Source stock, local stores, delivered allocations, cargo and consumed building
+materials retain their own conservation ledger. Food capacity plus recovered food
+separately equals remaining plus eaten food. Reloading or switching day/evening
+creates neither resource. The construction/save chain remains reusable; actual-camera
+art quality is still an acceptance condition.
 
 The wider settlement direction then lets the player place and improve structures,
 allocate local storage, and set
@@ -227,7 +240,7 @@ scene. First prove the authoring route, then integrate the world, birds, resourc
 work poses and useful building artifacts. Basic foraging and building should make
 the place interesting to watch and influence without an authored plot or a
 mandatory first-home sequence. The existing thin delivery/roost/save chain is a
-reusable foundation, not visual acceptance. Forage details remain proposals.
+reusable foundation, not visual acceptance. The bounded food study below is implemented; wider ecology remains proposed.
 
 A later substantial settlement-loop proof can use roughly a dozen chickens as a
 provisional starting target on a small landscape. Add food production, a canopy
@@ -235,14 +248,13 @@ broodroom, work/rest/care pressure, and a persistent predator problem with patro
 or escort responses when those systems are designed. Exact counts and roster
 remain open; none is a prerequisite for the bounded art MVP.
 
-The current implementation still requires the Path tool and connected orthogonal
-routes. This conflicts with the accepted free-movement direction above. Removing
-that UI and connectivity gate is explicitly deferred, not a requirement for this
-pass or a claim that existing saves have changed. Its current validation journey is:
-place a site → connect a path and junction → reserve and collect a local input →
-carry and deliver it → consume it through construction → reveal usable output.
-Interruption and save/reload must remain coherent as art and rules evolve. This
-is a test of causality, not a player script or a reason to gate free observation.
+The implemented ground movement has no Path tool or player connectivity gate.
+Internal deterministic routing keeps travel within legal ground. Its validation
+journey is: place a site → reserve and collect a local input → carry and deliver
+it → consume it through construction → reveal usable output. Feeding breaks,
+cancellation and save/reload must remain coherent. This tests causality, not a
+player script or a reason to gate free observation. Optional natural worn trails
+remain later presentation work.
 
 Then connect production, population pressure, safety, and expansion. Test whether
 building and improving the settlement is enjoyable for roughly thirty minutes.
@@ -273,7 +285,7 @@ moral dialogue. Narrative succeeds when useful work becomes somebody's history.
 
 Construction is about treehouses and access: ground economy → trunk transport →
 canopy neighborhood. Forest clusters grow into kingdoms; open fields between
-them are productive no-man's-land with future forage and insects. Shared journeys
+them are productive no-man's-land with bounded mixed-food foraging and future richer ecology. Shared journeys
 and repeated field use can later create pacts and rivalry. Woodland is not absolute
 safety, and current scenery does not implement territory or danger. Home construction
 anchors to real trees; supporting ground stores and routes serve canopy homes.
@@ -298,17 +310,16 @@ through reserve → pickup → visible carry → delivery → construction consu
 The output adds two sheltered places. Improved occupancy uses an actual ground
 approach and ladder climb; it is not a cosmetic access label. Finished buildings
 cannot be demolished in this proof. Ground cells permit free placement of supporting
-store nests, while treehouses require one of the three existing trunks. Orthogonal
-paths currently create actual junctions and routes; this temporary connectivity
-gate is deferred migration debt. Local stored goods supply later builds.
+store nests, while treehouses require one of the three existing trunks. Local
+stored goods supply later builds through free ground travel.
 
 Explicit evening and day commands are saved facts rather than a full calendar.
-Evening stops new collection and secures existing loads before rest. An already
-blocked carrier guards its bundle on the ground until access is restored, rather
-than teleporting goods or abandoning a duplicated load. Natural sleep restores
+Evening stops new collection and feeding, and secures existing loads before rest,
+rather than teleporting goods or abandoning a duplicated load. Natural sleep restores
 readiness up to 80, woven shelter up to 100. Work exerts birds, tired carriers
 slow, and ordinary ground rest recovers readiness. These generous short rules
-make the difference observable without implementing hunger or survival pressure.
+make the difference observable alongside appetite-driven feeding, without a full
+survival or complete nutrition model.
 Shelter currently means sleeping access and rest quality, not tested defense.
 
 A contributor remembers helping make its first treehouse and prefers that tree
@@ -318,7 +329,7 @@ changes his choice. Finite occupancy can displace a preference. Sparse observed
 memories, delivery practice, readiness, sleep identity and movement progress persist;
 there is no claim of full relationship AI, general emotions or species personality.
 Motives are legible through wanting a home made by one's own work, rest, and
-familiar places. The player can build another improvement or change route access.
+familiar places. The player can build another improvement or rest or reopen a feeding place.
 
 The old four-bird first-evening dilemma remains a historical technical fixture.
 Its separate save retains its original meaning and can be exported when present;

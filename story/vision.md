@@ -30,7 +30,7 @@ motives. Community priorities and decisions influence their lives; they do not
 erase personal wants, resistance, or relationships.
 
 The [accepted settlement design](settlement-design.md) owns construction,
-production, player-built paths and junctions, local storage, autonomous deliveries,
+production, free chicken movement, local storage, autonomous deliveries,
 and expansion. Chickens deliberately cultivate, weave, store, and build with
 beaks and feet. Biology supplies constraints; civilization is the fiction.
 
@@ -45,8 +45,9 @@ The immediate target is an art-led living sandbox: a beautiful inhabited grove,
 basic foraging and building, and a few direct actions with autonomous responses.
 No authored arc or mandatory first-home sequence organizes play. The
 [opening brief](../art-direction/opening-view-exploration.md) owns the actual asset
-and fixed-camera proof; wider forage inputs, regrowth and preferences remain
-proposals rather than implemented or accepted tuning.
+and fixed-camera proof. The bounded food-foraging study uses three mixed-food
+places, appetite, individual preferences and remembered productive ground. Exact
+rates are provisional; complete nutrition and wider ecology remain future.
 
 A later substantial target is an enjoyable roughly thirty-minute settlement
 loop and recognition of a bird by its behavior. Its loss should affect the
@@ -72,8 +73,8 @@ ways to express them. Mixed-family kingdoms gain possibilities through complemen
 places, materials, knowledge and real work; a single-family community remains viable.
 No species count grants an automatic bonus or a compulsory collection gate.
 
-Open fields are productive no-man's-land between those homes, with future forage,
-insects and contested shared journeys. Neither woodland nor tree height guarantees
+Open fields are productive no-man's-land between those homes, with mixed-food foraging and future
+contested shared journeys. Neither woodland nor tree height guarantees
 safety. Ground work supplies trunk infrastructure and canopy life.
 
 The opening flock begins on the ground and its four adult fixtures can fly to
@@ -98,7 +99,7 @@ open; the concept images do not prove mesh, lighting or motion quality.
 
 The current thin proof has four provisional adults gathering finite construction
 reeds from designated patches and hauling them through
-player-built paths to a useful treehouse or supporting local store. Natural flight,
+free ground travel to a useful treehouse or supporting local store. Natural flight,
 ladder access, saved rest, and a contributor's attachment connect work to home.
 Tree characterhood, botanical families and reciprocal community relationships
 remain design direction; the saved contributor attachment is a small existing
