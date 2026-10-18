@@ -90,3 +90,13 @@ Helena Hansen's original [Lush Tree breakdown](https://gamesartist.co.uk/lush-tr
 is a craft reference for authored foliage volume and material structure, not a
 source of copied assets. Compare matched camera/light evidence before attributing
 a flat crown to the exporter or adding another effect.
+
+## Canopy additions
+
+`assets/sculpted/technology/author_technology.py` is included in `assets:build`.
+It authors the lateral sleeping deck and hauling basket with editable Blender
+sources and checked GLBs. Its [contract](../assets/sculpted/technology/contract.json)
+records tree-local perches, moving basket, cargo socket and scalable lift-rope
+anchors. The runtime applies one shared tree transform to art and occupants;
+saved simulation progress drives essential lift movement even under reduced motion.
+The basket is an original woven beak-scale rig, not a powered elevator.

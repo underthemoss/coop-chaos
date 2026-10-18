@@ -21,10 +21,10 @@ import { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTextur
 import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import type { Settlement, Cell } from "../simulation/settlement";
-import { cost, validCell } from "../simulation/settlement";
+import { cost, validCell, cargoPosition } from "../simulation/settlement";
 import { settlers, trees } from "../content/settlement";
-import { treeScale, presentedBirdPosition } from "./tree-presentation";
-import type { SettlerId as BirdId } from "../content/settlement";
+import { treeScale, presentedBirdPosition, presentedTreePosition } from "./tree-presentation";
+import type { TreeId, SettlerId as BirdId } from "../content/settlement";
 
 export type BirdLabels = Record<
   string,
@@ -37,6 +37,7 @@ export function createClearing(
   onSelect: (id: BirdId) => void,
   onLabels: (positions: BirdLabels) => void,
   onPick: (at: Cell) => void,
+  onTree: (id: TreeId) => void,
   onAssets: (status: "loading" | "ready" | "failed") => void,
 ) {
   const engine = new Engine(canvas, true, { stencil: true });
@@ -279,7 +280,7 @@ export function createClearing(
       const tasks = [
         ...trees.map(t => ({ path: `environment/${t.id}.glb`, tree: t, bird: null,template:null })),
         ...settlers.map(b => ({ path: `characters/${b.id}.glb`, tree: null, bird: b,template:null })),
-        ...["reed-bundle","woven-home","woven-store","understory","reed-clump","dressing-birch","dressing-willow","dressing-bush-a","dressing-bush-b","dressing-bush-c","dressing-grass","dressing-cattails","dressing-rock-a","dressing-rock-b"].map(id=>({path:`environment/${id}.glb`,tree:null,bird:null,template:id})),
+        ...["sleeping-deck","hauling-basket","reed-bundle","woven-home","woven-store","understory","reed-clump","dressing-birch","dressing-willow","dressing-bush-a","dressing-bush-b","dressing-bush-c","dressing-grass","dressing-cattails","dressing-rock-a","dressing-rock-b"].map(id=>({path:`environment/${id}.glb`,tree:null,bird:null,template:id})),
       ];
       for (const task of tasks) {
         const imported = await ImportMeshAsync(`/assets/${task.path}`, scene);
@@ -287,12 +288,19 @@ export function createClearing(
         if (disposed) { root.dispose(false, true); return; }
         root.setEnabled(false);
         staged.push(root);
-        if(task.template)templates.set(task.template,root as Mesh);
+        if(task.template){
+          // These additions declare +X tree-local sockets. Babylon's default glTF
+          // conversion mirrors X; compensate once at their presentation root.
+          if(task.template === "sleeping-deck" || task.template === "hauling-basket")root.scaling.x *= -1;
+          templates.set(task.template,root as Mesh);
+        }
         if(task.tree){
           const locations=task.tree.id === "lowfork" ? [[-11,5,.6],[-12,10,.64],[-8,12,.55],[-5,15,.48]] : task.tree.id === "splitcrown" ? [[-11,8,.4]] : [[-14,3,.36]];
-          for(const [x,z,scale] of locations){const copy=root.clone(`${task.tree.id}-woodland`,null)!;copy.position.set(x,elevation(x,z),z);copy.scaling.scaleInPlace(scale);copy.rotation.y=(x+z)*.13;copy.setEnabled(false);staged.push(copy);}
+          for(const [x,z,scale] of locations){const copy=root.clone(`${task.tree.id}-woodland`,null)!;copy.position.set(x,elevation(x,z),z);copy.scaling.scaleInPlace(scale);copy.rotation.y=(x+z)*.13;copy.getChildMeshes().forEach(m=>{m.isPickable=false;});copy.setEnabled(false);staged.push(copy);}
         }
-        if (task.tree) { root.position.set(task.tree.x*2, elevation(task.tree.x*2, task.tree.z*2), task.tree.z*2); root.scaling.scaleInPlace(treeScale[task.tree.id]); }
+        if (task.tree) {
+          for (const mesh of root.getChildMeshes()) mesh.metadata = { treeId: task.tree.id };
+          root.position.set(task.tree.x*2, elevation(task.tree.x*2, task.tree.z*2), task.tree.z*2); root.scaling.scaleInPlace(treeScale[task.tree.id]); }
         if (task.bird) {
           const controller = chickens.get(task.bird.id)!;
           root.parent = controller.root;
@@ -421,12 +429,21 @@ export function createClearing(
     cargoMeshes.set(id, bundle);
   }
   let builtMeshes: Mesh[] = [];
+  const lifts = new Map<string,{basket:TransformNode;rope:TransformNode}>();
+  function updateLifts(state: Settlement) {
+    for(const [id, rig] of lifts){
+      const progress=state.birds.find(b=>b.lift?.basket===id)?.lift?.progress??0;
+      rig.basket.position.y=.12+2.1*progress;
+      rig.rope.scaling.y=(2.37-2.1*progress)/2.37;
+    }
+  }
   function rebuild(state: Settlement) {
     for (const mesh of builtMeshes) {
       shadows.removeShadowCaster(mesh);
       mesh.dispose();
     }
     builtMeshes = [];
+    lifts.clear();
     function model(id:string,x:number,y:number,z:number,scale=1){
       const template=templates.get(id);if(!template)return null;
       const copy=template.clone(`${id}-placed`,null)!;copy.position.set(x,y,z);copy.scaling.scaleInPlace(scale);copy.setEnabled(true);
@@ -463,6 +480,22 @@ export function createClearing(
         const basket=model("woven-store",x,y,z);
         if(basket&&!site.complete)basket.scaling.y*=.3;
         bundles(x, z, site.complete ? site.stock : site.delivered);
+      } else if(site.kind === "sleeping-deck" || site.kind === "hauling-basket") {
+        // The authored pieces become visible as local supplies turn into construction.
+        if(site.complete || site.progress>0 || site.delivered>=3){
+          const piece=model(site.kind,x,y,z,site.tree?treeScale[site.tree]:1);
+          if(piece){
+            const nodes=[piece,...piece.getDescendants()].filter((n):n is TransformNode=>n instanceof TransformNode);
+            if(site.kind==="hauling-basket"){
+              const basket=nodes.find(n=>n.name.split(".").at(-1)==="basket");
+              const rope=nodes.find(n=>n.name.split(".").at(-1)==="lift-rope");
+              if(basket&&rope)lifts.set(site.id,{basket,rope});
+            }else if(!site.complete){
+              for(const node of nodes)if(node.name.includes("sleeping-rainhood"))node.setEnabled(false);
+            }
+          }
+        }
+        if(!site.complete)bundles(x+1.15,z-.6,site.delivered);
       } else {
         const stage = site.complete
           ? 3
@@ -481,6 +514,7 @@ export function createClearing(
         if (!site.complete) bundles(x + 1.15, z - 0.6, site.delivered);
       }
     }
+    updateLifts(state);
   }
   let pointer: {id:number;x:number;y:number;moved:boolean}|null=null;
   const pointerDown=(event:PointerEvent)=>{
@@ -497,6 +531,8 @@ export function createClearing(
     const bounds=canvas.getBoundingClientRect(),x=event.clientX-bounds.left,y=event.clientY-bounds.top;
     const pick=scene.pick(x,y),id=pick?.pickedMesh?.metadata?.birdId as BirdId|undefined;
     if(id){onSelect(id);return;}
+    const treeId=pick?.pickedMesh?.metadata?.treeId as TreeId|undefined;
+    if(treeId){onTree(treeId);return;}
     const ground=scene.pick(x,y,mesh=>mesh===terrain);
     if(ground?.pickedPoint){const at={x:Math.round(ground.pickedPoint.x/2),z:Math.round(ground.pickedPoint.z/2)};if(validCell(at))onPick(at);}
   };
@@ -520,7 +556,7 @@ export function createClearing(
         reducedMotion.matches ? 1 : Math.min(1, delta * 12),
       );
       const worker = renderState?.birds.find((b) => b.id === id);
-      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo?"carry":"walk"):worker?.job?.kind==="build"?"weave":worker?.foraging&&worker.foraging.progress>0||worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
+      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo?"carry":"walk"):worker?.lift||worker?.job?.kind==="build"?"weave":worker?.foraging&&worker.foraging.progress>0||worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
       const pose=action+(reducedMotion.matches?"-still":"");
       if(pose!==bird.pose){
         bird.clips.forEach(g=>g.stop());
@@ -603,15 +639,28 @@ export function createClearing(
       renderState = state;
       for (const bird of state.birds) {
         const mesh = chickens.get(bird.id)!;
-        const p = presentedBirdPosition(bird);
+        const lifting=bird.lift&&state.sites.find(s=>s.id===bird.lift!.basket);
+        const tree=lifting?.tree&&trees.find(t=>t.id===lifting.tree);
+        const p=tree?presentedTreePosition(tree.id,{x:tree.x-.525,y:0,z:tree.z-.375}):presentedBirdPosition(bird);
         const index = settlers.findIndex((b) => b.id === bird.id);
-        const idle = !bird.edge && !bird.flight && !bird.perch && !bird.foraging;
+        const idle = !bird.edge && !bird.flight && !bird.perch && !bird.foraging && !bird.lift;
         const x = p.x + (idle ? (index % 2 === 0 ? -1.1 : 1.1) : 0),
           z = p.z + (idle ? (index < 2 ? -1.1 : 1.1) : 0);
         mesh.target.set(x, elevation(x, z) + p.y, z);
-        cargoMeshes.get(bird.id)!.setEnabled(bird.cargo > 0);
+        const cargo=cargoMeshes.get(bird.id)!;
+        cargo.setEnabled(bird.cargo>0);
+        if(tree){
+          cargo.parent=null;
+          const at=presentedTreePosition(tree.id,cargoPosition(state,bird));
+          cargo.position.set(at.x,elevation(tree.x*2,tree.z*2)+at.y,at.z);
+          cargo.scaling.setAll(.85*treeScale[tree.id]);
+          cargo.rotation.setAll(0);
+          mesh.root.rotation.y=Math.PI;
+        }else{
+          cargo.parent=mesh.root;cargo.position.set(0,.72,.6);cargo.scaling.setAll(.85);cargo.rotation.setAll(0);
+        }
         const delta = mesh.target.subtract(mesh.root.position);
-        if (Math.hypot(delta.x, delta.z) > 0.03)
+        if (!bird.lift && Math.hypot(delta.x, delta.z) > 0.03)
           mesh.root.rotation.y = Math.atan2(-delta.x, -delta.z);
       }
       const signature = JSON.stringify([
@@ -632,6 +681,7 @@ export function createClearing(
         layoutSignature = signature;
         rebuild(state);
       }
+      updateLifts(state);
       const dusk = state.phase === "evening";
       sun.intensity = dusk ? 0.38 : 1.8;
       sky.intensity = dusk ? .5 : .38;

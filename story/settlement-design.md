@@ -307,7 +307,15 @@ Everyone starts on the ground. Each tree has two natural sleeping branches from
 the start; all four adults can fly up and down. No construction is needed for
 basic roosting. A woven branch deck, rain hood and readable ladder are earned
 through reserve → pickup → visible carry → delivery → construction consumption.
-The output adds two sheltered places. Improved occupancy uses an actual ground
+The output adds two sheltered places. Selecting a tree reveals its residents,
+current work and contextual Build choices. At a completed home, a four-reed lateral
+sleeping deck adds two more sheltered places. A separate four-reed hauling-basket
+experiment turns three delivered bundles into a rig, then its named operator
+raises the fourth actual bundle before the flock learns the technique. The
+operator remembers the demonstration. Learned baskets can be built at other
+homes and raise subsequent deck supplies; the elevated deck requires a completed local basket for its supply access. Material, work and access are the cause of
+progress, without abstract research points. Exact costs and short durations are
+provisional. Saved lift progress and cargo retain one physical meaning. Improved occupancy uses an actual ground
 approach and ladder climb; it is not a cosmetic access label. Finished buildings
 cannot be demolished in this proof. Ground cells permit free placement of supporting
 store nests, while treehouses require one of the three existing trunks. Local
@@ -335,5 +343,5 @@ The old four-bird first-evening dilemma remains a historical technical fixture.
 Its separate save retains its original meaning and can be exported when present;
 settlement imports reject that incompatible story format explicitly. The current
 proof does not establish thirty-minute fun, food production, reproduction, predator
-encounters, population loss, neighboring politics or later technology. Those remain
+encounters, population loss, neighboring politics or advanced powered technology. Those remain
 the substantial settlement milestone and subsequent proofs above.

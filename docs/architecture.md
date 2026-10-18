@@ -62,19 +62,31 @@ placement. Keyboard/select controls provide equivalent placement and named selec
 
 The world fills desktop play space beside a scrollable inspector; narrow screens
 put the world first. The elevated orthographic camera is fixed, with responsive aspect fitting; no
-pan, zoom, drag navigation or Find action ships. Build mode gives arrows/Enter
+pan, zoom, drag navigation or Find action ships. Store placement gives arrows/Enter
 to its grid cursor. The compact primary tool strip and optional inspector keep
 the world dominant. Listeners, observer, scene and engine dispose
 on unmount. No assets are loaded from the visual reference.
 
+Tree selection opens `TreeInspector`, which reads canonical `treeBuildOptions`.
+Treehouse, sleeping deck and hauling basket are unique by tree and kind; the latter
+two require a completed home; the elevated deck also requires its local completed
+basket for supply access. Extra decks add slots 2/3 alongside existing home
+slots 0/1. A basket prototype weaves three supplied bundles, then lifts its fourth
+real reserved bundle before consuming the recipe and recording `basketTechnique`.
+Later completed baskets lift deck supplies. `Worker.lift` retains the delivery job
+and cargo until arrival; no renderer counter can complete a lift. Basket and rope
+nodes follow saved progress. Cargo uses `cargoPosition` and the same tree scale
+as authored sockets; operator staging is presentation only. Cancellation and
+phase changes remain simulation-owned. Migration grants no fabricated invention.
+
 ## Saves and ordering
 
 IndexedDB database `coop-chaos` version 1, object store `saves`, key `settlement`
-holds `{ schemaVersion: 3, simulationVersion: "settlement-3", state }`.
+holds `{ schemaVersion: 4, simulationVersion: "settlement-4", state }`.
 `src/persistence/settlement-save.ts` validates exact object fields, finite values,
 IDs/references, finite patch capacities and harvest ledgers, route edges, commitments, stock capacity, conservation,
 construction consumption, and exclusive perch occupancy. Imports validate before
-state replacement; malformed files leave current state unchanged. Valid settlement-1 and settlement-2
+state replacement; malformed files leave current state unchanged. Valid settlement-1, settlement-2 and settlement-3
 saves migrate without changing their existing sites, workers, supplies or histories.
 Old path data is retired while in-flight edges and work remain intact. New
 food state is introduced by versioned migration. New reed patches use free legal cells; crowded older worlds may receive fewer
@@ -109,7 +121,7 @@ layers. Forest clusters are political homes; productive open commons supply
 bounded mixed-food foraging and future richer ecology and shared-use disputes.
 Current geography and travel do not implement territory, complete nutrition, predators, or pacts. Food
 production, brood care, growing population, threats, district relationships,
-mechanical hauling, powered lifts, and late science-fiction elevators remain
+powered lifts, and late science-fiction elevators remain
 future. Keep their goods/jobs/capabilities with simulation; advance save versions
 intentionally when meanings change. Do not implement a universal defense counter.
 

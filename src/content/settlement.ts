@@ -71,12 +71,16 @@ export const settlers = [
   },
 ] as const;
 export type SettlerId = (typeof settlers)[number]["id"];
+/** Provisional playtest costs and timings, not measured chicken biology. */
 export const tuning = {
   treehouseCost: 6,
   storeCost: 4,
+  sleepingDeckCost: 4,
+  haulingBasketCost: 4,
   storeCapacity: 12,
   initialReeds: 8,
   gatherTicks: 24,
+  liftTicks: 40,
   stepSeconds: 0.1,
 } as const;
 

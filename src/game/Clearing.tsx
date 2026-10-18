@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { createClearing } from "./create-clearing";
+import { shelteredCapacity } from "../simulation/settlement";
 import type { Cell, Settlement } from "../simulation/settlement";
 import { foodPatches, settlers, trees } from "../content/settlement";
-import type { SettlerId } from "../content/settlement";
-export type Tool = "inspect" | "gather" | "forage" | "treehouse" | "store";
+import type { TreeId, SettlerId } from "../content/settlement";
+export type Tool = "inspect" | "gather" | "forage" | "build" | "store";
 export function Clearing({
   state,
   selected,
   onSelect,
   onPick,
+  onTree,
   onForage,
   cursor,
   tool,
@@ -18,6 +20,7 @@ export function Clearing({
   selected: SettlerId;
   onSelect: (id: SettlerId) => void;
   onPick: (at: Cell) => void;
+  onTree: (id: TreeId) => void;
   onForage: (id: string) => void;
   cursor: Cell;
   tool: Tool;
@@ -26,8 +29,8 @@ export function Clearing({
   const canvas = useRef<HTMLCanvasElement>(null);
   const world = useRef<ReturnType<typeof createClearing> | null>(null);
   const labels = useRef<Record<string, HTMLButtonElement | null>>({});
-  const latest = useRef({ onSelect, onPick });
-  latest.current = { onSelect, onPick };
+  const latest = useRef({ onSelect, onPick, onTree });
+  latest.current = { onSelect, onPick, onTree };
   const [error, setError] = useState("");
   const [assets, setAssets] = useState<"loading" | "ready" | "failed">("loading");
   useEffect(() => {
@@ -45,6 +48,7 @@ export function Clearing({
           }
         },
         (at) => latest.current.onPick(at),
+        (id) => latest.current.onTree(id),
         setAssets,
       );
     } catch (cause) {
@@ -66,7 +70,7 @@ export function Clearing({
     world.current?.select(selected);
   }, [selected]);
   useEffect(() => {
-    world.current?.cursor(cursor, tool === "treehouse" || tool === "store");
+    world.current?.cursor(cursor, tool === "store");
   }, [cursor, tool]);
   return (
     <section className="world" aria-label="The treehouse settlement">
@@ -78,9 +82,9 @@ export function Clearing({
         ref={canvas}
         tabIndex={0}
         aria-describedby="camera-hint"
-        aria-label="3D chicken settlement. Fixed view. In build mode arrow keys move the cell cursor and Enter uses the tool."
+        aria-label="3D chicken settlement. Fixed view. In store placement mode arrow keys move the cell cursor and Enter uses the tool."
         onKeyDownCapture={(e) => {
-          if (tool !== "treehouse" && tool !== "store") return;
+          if (tool !== "store") return;
           const d: Record<string, [number, number]> = {
             ArrowLeft: [-1, 0],
             ArrowRight: [1, 0],
@@ -121,18 +125,18 @@ export function Clearing({
               labels.current[t.id] = el;
             }}
             className="tree-label"
-            hidden={tool!=="treehouse"}
+            hidden={tool!=="build"}
             onClick={() => {
               onCursor({ x: t.x, z: t.z });
-              onPick({ x: t.x, z: t.z });
+              onTree(t.id);
             }}
             aria-label={`Choose ${t.name} tree`}
           >
             {t.name}
             <small>
               2 natural
-              {state.sites.some((s) => s.complete && s.tree === t.id)
-                ? " + 2 sheltered"
+              {shelteredCapacity(state,t.id)>0
+                ? ` + ${shelteredCapacity(state,t.id)} sheltered`
                 : " branches"}
             </small>
           </button>
@@ -148,7 +152,7 @@ export function Clearing({
             labels.current.reeds = el;
           }}
           className="tree-label source-label"
-          hidden={tool!=="gather" && tool!=="treehouse" && tool!=="store"}
+          hidden={tool!=="gather" && tool!=="build" && tool!=="store"}
           onClick={() => onCursor({ x: -3, z: -2 })}
         >
           Reed cache<small>{state.piles[0].stock} local bundles</small>
@@ -169,7 +173,7 @@ export function Clearing({
         </span>
       </div>
       <p id="camera-hint" className="camera-hint">
-        {tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · inspect or rest it" : tool === "gather" ? "Choose a construction reed patch" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
+        {tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · inspect or rest it" : tool === "gather" ? "Choose a construction reed patch" : tool === "build" ? "Choose a named tree · build where it belongs" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
       </p>
     </section>
   );

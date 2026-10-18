@@ -12,7 +12,7 @@ inventions, and distinct defensive purposes. The larger game remains future.
 This playable **construction proof** implements one finite-material chain,
 local storage, natural evening flight, and earned woven shelter with ladder use.
 It does not yet implement food production, predators, population growth, rival
-kingdoms, or a technology tree. Thirty minutes of enjoyable settlement play is a
+kingdoms, or a broad technology tree. Thirty minutes of enjoyable settlement play is a
 future playtest target, not a proven property of this slice.
 
 The visual reference is [Kingdoms and Castles](https://store.steampowered.com/app/569480/Kingdoms_and_Castles/):
@@ -75,12 +75,13 @@ mixed forage units do not establish a complete diet, starvation or survival syst
 Choose **Gather reeds** to designate a construction reed patch. Birds reserve yield
 and storage room, extract one bundle and carry it to the cache or a completed store.
 These reeds are not food and do not regrow. Undesignating preserves carried goods.
-Choose **Treehouse**, then Lowfork, Splitcrown or Reedside at its marked cell.
+Choose **Build**, then Lowfork, Splitcrown or Reedside in the world or named-tree list.
+The compact tree inspector shows occupied berths, existing work and available builds.
 Four named adults autonomously reserve, collect, carry and deliver six local reeds
 before weaving a platform, rain hood and ladder, with feeding breaks between jobs.
 Different trees retain real travel distances.
 
-Click terrain cells or use the X/Z controls and **Use tool**. In build mode,
+For a store nest, click terrain cells or use the X/Z controls and **Use tool**. In store mode,
 canvas arrow keys move the cell cursor and Enter uses the tool. The camera has
 no pan or zoom controls. **Settlement** opens secondary controls, local stocks,
 named bird selection and save tools; the selected bird alone carries a world tag.
@@ -100,6 +101,15 @@ generous prototype rules are provisional. **Begin day** returns birds to ground.
 There is no automatic calendar or predator combat. Woven shelter is not universal
 invulnerability.
 
+At a completed home, four reeds fund **Experiment with a hauling basket**: three
+bundles become a woven rig, and its operator must raise the last reserved bundle
+before the shared technique is learned. That named demonstration is remembered.
+Afterward, **Build hauling basket** is available at other completed homes. A
+finished local basket enables a four-reed **extra sleeping deck**, adding two
+more sheltered berths. It raises the real deck deliveries, one operator at a time;
+it does not create goods or carry chickens. Recipes and short lift times are
+provisional. Lift progress, cargo and the learned technique survive reload.
+
 Canceling unfinished sites leaves delivered reeds as local salvage; uncollected
 reservations release and carriers return their loads physically. Resting a food
 place redirects feeders without discarding material cargo. Pause stops simulation
@@ -107,14 +117,14 @@ ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-3` schema saves to IndexedDB about once per second and
+The `settlement-4` schema saves to IndexedDB about once per second and
 after commands. There is no offline catch-up or cloud/cross-tab synchronization;
 use one tab. Export to retain important progress. Import validates shape,
 references, resource conservation, jobs, and sleeping occupancy before replacing
 anything. Restart confirms replacement. In-flight loads, movement progress, food, feeding, sleep, rest,
 and memories are saved facts.
 
-Validated `settlement-1` and `settlement-2` saves migrate with their original material baseline,
+Validated `settlement-1`, `settlement-2` and `settlement-3` saves migrate with their original material baseline,
 sites, jobs and history intact. New patches relocate around existing sites. A
 fully occupied older map may fit only zero or one patch; the UI reports this and
 clearing space later does not respawn reed patches. Saved road data is retired,

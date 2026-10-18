@@ -8,6 +8,12 @@ export const treeScale: Record<TreeId, number> = {
   splitcrown: 0.76,
   reedside: 0.62,
 };
+/** Convert tree-local simulation coordinates without changing saved cells. */
+export function presentedTreePosition(treeId: TreeId, p: {x:number;y:number;z:number}) {
+  const tree=trees.find(t=>t.id===treeId)!;
+  const scale=treeScale[treeId];
+  return {x:tree.x*2+(p.x-tree.x)*2*scale,y:p.y*scale,z:tree.z*2+(p.z-tree.z)*2*scale};
+}
 export function presentedBirdPosition(bird: Worker) {
   const p = birdPosition(bird);
   const perch = bird.perch ?? bird.flight;

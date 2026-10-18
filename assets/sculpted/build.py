@@ -15,3 +15,5 @@ subprocess.run([candidate, '--background', '--python', str(root/'assets/sculpted
 subprocess.run([candidate, '--background', '--python', str(root/'assets/sculpted/author_ground.py')], cwd=root, check=True)
 subprocess.run([candidate, '--background', '--python', str(root/'assets/sculpted/author_dressing.py'), '--', '--no-render'], cwd=root, check=True)
 subprocess.run([candidate, '--background', '--python', str(root/'assets/sculpted/chickens/author_chickens.py'), '--', 'fern', 'rook', 'dapple', 'wren', '--no-render'], cwd=root, check=True)
+
+subprocess.run([candidate, '--background', '--python', str(root/'assets/sculpted/technology/author_technology.py')], cwd=root, check=True)

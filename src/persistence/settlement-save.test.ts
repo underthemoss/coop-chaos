@@ -29,18 +29,24 @@ function fortyBundleFixture() {
 }
 /** Old shapes are explicit: migration cannot accidentally depend on new fields. */
 function oldEnvelope(state: Settlement, version: 1 | 2) {
-  const { forage: _forage, ...legacy } = structuredClone(state);
+  const {
+    forage: _forage,
+    basketTechnique: _technique,
+    ...legacy
+  } = structuredClone(state);
   const birds = legacy.birds.map(
     ({
       satiety: _satiety,
       foragePreference: _preference,
       rememberedForage: _memory,
       foraging: _foraging,
+      lift: _lift,
       ...b
     }) => b,
   );
   const v2 = {
     ...legacy,
+    sites: legacy.sites.map(({ experiment: _experiment, ...site }) => site),
     paths: ["-3,-2", "-2,-2", "-2,-1", "-2,0", "-2,1", "-2,2"],
     birds,
   };
@@ -110,7 +116,7 @@ function expectLegacyFacts(migrated: Settlement, source: Settlement) {
   expect("paths" in migrated).toBe(false);
   expect(foodConserved(migrated)).toBe(true);
 }
-describe("strict settlement-three persistence", () => {
+describe("strict settlement-four persistence", () => {
   it("preserves the legacy story separately and orders tick/restart writes", async () => {
     await saveGame({ choice: "rank" });
     const save = saveQueue();
@@ -120,11 +126,11 @@ describe("strict settlement-three persistence", () => {
     expect(await loadSettlement()).toEqual(initialSettlement());
     expect(await legacyArchive()).toContain('"rank"');
   });
-  it("writes schema three and preserves independent food/material facts exactly", () => {
+  it("writes schema four and preserves independent food/material facts exactly", () => {
     const s = advance(initialSettlement(), 10);
     expect(JSON.parse(encodeSettlement(s))).toMatchObject({
-      schemaVersion: 3,
-      simulationVersion: "settlement-3",
+      schemaVersion: 4,
+      simulationVersion: "settlement-4",
     });
     expect(decodeSettlement(encodeSettlement(s))).toEqual(s);
     expect(s.totalReeds).toBe(8);
@@ -218,6 +224,7 @@ describe("strict settlement-three persistence", () => {
           stock: 0,
           target: 0,
           contributors: [],
+          experiment: false,
         });
       }
     const migrated = decodeSettlement(JSON.stringify(oldEnvelope(s, 1)));
@@ -253,6 +260,7 @@ describe("strict settlement-three persistence", () => {
         stock: 0,
         target: 0,
         contributors: [],
+        experiment: false,
       });
       s.consumed += 4;
       s.piles[0].stock -= 4;

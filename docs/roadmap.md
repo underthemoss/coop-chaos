@@ -2,6 +2,12 @@
 
 ## Construction proof now
 
+Named-tree Build cards now expose local work and residents. Completed homes can
+gain a two-berth sleeping deck or a hauling-basket prototype. The first real lift
+teaches the shared technique; completed baskets raise later deck materials.
+This is a bounded demonstrated invention, not a general research or power system.
+
+
 A working finite-reed chain supports the first earned woven treehouse: place a
 trunk site, reserve, collect, freely walk, visibly carry, deliver and
 consume. Supporting store nests hold local goods used in later builds. Natural
@@ -15,7 +21,7 @@ Construction centers on forest treehouse homes and access; open commons remain
 productive no-man's-land rather than a housing grid. Current landscape geography
 does not implement kingdoms, complete nutrition, danger or territorial ownership.
 [Life above the ground](../story/technology.md) develops future canopy neighborhoods,
-mechanical hauling, powered lifts, science-fiction elevators and distinct defenses.
+powered lifts, science-fiction elevators and distinct defenses.
 
 ## In progress: art-led living sandbox
 

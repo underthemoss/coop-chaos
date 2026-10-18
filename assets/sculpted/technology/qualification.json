@@ -1,0 +1,332 @@
+{
+  "revision": "canopy-technology-v1",
+  "tools": "Blender 4.5.3 LTS; glTF 2.0 embedded PBR export",
+  "assets": {
+    "sleeping-deck": {
+      "bytes": 710004,
+      "nodes": [
+        {
+          "name": "sheltered-perch-2",
+          "translation": [
+            1.4800000190734863,
+            2.8499999046325684,
+            -0.5
+          ],
+          "children": []
+        },
+        {
+          "name": "sheltered-perch-3",
+          "translation": [
+            2.5199999809265137,
+            2.8499999046325684,
+            -0.5
+          ],
+          "children": []
+        },
+        {
+          "name": "sleeping-deck-weave",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "mesh": 0,
+          "children": []
+        },
+        {
+          "name": "sleeping-deck",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "sleeping-deck-weave"
+          ]
+        },
+        {
+          "name": "sleeping-rainhood-weave",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "mesh": 1,
+          "children": []
+        },
+        {
+          "name": "sleeping-rainhood",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "sleeping-rainhood-weave"
+          ]
+        },
+        {
+          "name": "asset",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "sheltered-perch-2",
+            "sheltered-perch-3",
+            "sleeping-deck",
+            "sleeping-rainhood"
+          ]
+        }
+      ],
+      "vertices": 25996,
+      "triangles": 13396,
+      "meshes": {
+        "sleeping-deck-weave": {
+          "vertices": 17682,
+          "triangles": 9094,
+          "localBounds": [
+            [
+              -0.007248964160680771,
+              1.405779242515564,
+              -1.2017735242843628
+            ],
+            [
+              3.249135732650757,
+              3.213479518890381,
+              0.40977388620376587
+            ]
+          ]
+        },
+        "sleeping-rainhood-weave": {
+          "vertices": 8314,
+          "triangles": 4302,
+          "localBounds": [
+            [
+              0.7854081988334656,
+              2.7542593479156494,
+              -1.3402045965194702
+            ],
+            [
+              3.214909553527832,
+              4.006566524505615,
+              0.2386951893568039
+            ]
+          ]
+        }
+      }
+    },
+    "hauling-basket": {
+      "bytes": 871436,
+      "nodes": [
+        {
+          "name": "cargo-socket",
+          "translation": [
+            0,
+            0.2199999988079071,
+            0
+          ],
+          "children": []
+        },
+        {
+          "name": "hauling-basket-weave",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "mesh": 0,
+          "children": []
+        },
+        {
+          "name": "basket",
+          "translation": [
+            -1.649999976158142,
+            0.11999999731779099,
+            -0.44999998807907104
+          ],
+          "children": [
+            "cargo-socket",
+            "hauling-basket-weave"
+          ]
+        },
+        {
+          "name": "basket-ground",
+          "translation": [
+            -1.649999976158142,
+            0.11999999731779099,
+            -0.44999998807907104
+          ],
+          "children": []
+        },
+        {
+          "name": "basket-landing",
+          "translation": [
+            -1.649999976158142,
+            2.2200000286102295,
+            -0.44999998807907104
+          ],
+          "children": []
+        },
+        {
+          "name": "hauling-frame-weave",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "mesh": 1,
+          "children": []
+        },
+        {
+          "name": "hauling-frame",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "hauling-frame-weave"
+          ]
+        },
+        {
+          "name": "hauling-landing-weave",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "mesh": 2,
+          "children": []
+        },
+        {
+          "name": "hauling-landing",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "hauling-landing-weave"
+          ]
+        },
+        {
+          "name": "lift-rope-fiber",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "mesh": 3,
+          "children": []
+        },
+        {
+          "name": "lift-rope",
+          "translation": [
+            -1.8200000524520874,
+            3.359999895095825,
+            -0.44999998807907104
+          ],
+          "children": [
+            "lift-rope-fiber"
+          ]
+        },
+        {
+          "name": "operator-ground",
+          "translation": [
+            -1.0499999523162842,
+            0,
+            -0.75
+          ],
+          "children": []
+        },
+        {
+          "name": "asset",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "basket",
+            "basket-ground",
+            "basket-landing",
+            "hauling-frame",
+            "hauling-landing",
+            "lift-rope",
+            "operator-ground"
+          ]
+        }
+      ],
+      "vertices": 31852,
+      "triangles": 16280,
+      "meshes": {
+        "hauling-basket-weave": {
+          "vertices": 16030,
+          "triangles": 8126,
+          "localBounds": [
+            [
+              -0.47183290123939514,
+              0.004683483392000198,
+              -0.37258943915367126
+            ],
+            [
+              0.4723740220069885,
+              0.9030886292457581,
+              0.37169933319091797
+            ]
+          ]
+        },
+        "hauling-frame-weave": {
+          "vertices": 12994,
+          "triangles": 6676,
+          "localBounds": [
+            [
+              -2.3344788551330566,
+              0.018241511657834053,
+              -1.0400973558425903
+            ],
+            [
+              -0.5718680620193481,
+              3.6219699382781982,
+              0.24936501681804657
+            ]
+          ]
+        },
+        "hauling-landing-weave": {
+          "vertices": 2780,
+          "triangles": 1450,
+          "localBounds": [
+            [
+              -1.399999976158142,
+              2.0042593479156494,
+              -0.9206122756004333
+            ],
+            [
+              -0.5853418111801147,
+              2.5744378566741943,
+              -0.08004407584667206
+            ]
+          ]
+        },
+        "lift-rope-fiber": {
+          "vertices": 48,
+          "triangles": 28,
+          "localBounds": [
+            [
+              -0.02060014382004738,
+              -2.369999885559082,
+              -0.021734846755862236
+            ],
+            [
+              0.020375272259116173,
+              0,
+              0.021286223083734512
+            ]
+          ]
+        }
+      }
+    }
+  }
+}

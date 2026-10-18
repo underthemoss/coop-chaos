@@ -13,7 +13,8 @@ import type {
   TreeId,
 } from "../content/settlement";
 export type Cell = { x: number; z: number };
-export type BuildKind = "treehouse" | "store";
+export type BuildKind =
+  "treehouse" | "store" | "sleeping-deck" | "hauling-basket";
 export type Pile = {
   id: string;
   at: Cell;
@@ -39,6 +40,7 @@ export type Site = {
   stock: number;
   target: number;
   contributors: SettlerId[];
+  experiment: boolean;
 };
 export type Job = {
   kind: "haul" | "stock" | "return" | "build" | "gather";
@@ -69,6 +71,7 @@ export type Foraging = {
   progress: number;
 };
 export type Worker = {
+  lift: { basket: string; progress: number } | null;
   satiety: number;
   foragePreference: ForagePreference;
   rememberedForage: FoodPatchId | null;
@@ -88,6 +91,7 @@ export type Worker = {
   flight: Flight | null;
 };
 export type Settlement = {
+  basketTechnique: { inventor: SettlerId; tree: TreeId; tick: number } | null;
   tick: number;
   phase: "day" | "evening";
   paused: boolean;
@@ -120,7 +124,107 @@ export const validCell = (p: Cell) =>
   p.z >= -3 &&
   p.z <= 3;
 export const cost = (site: Pick<Site, "kind">) =>
-  site.kind === "treehouse" ? tuning.treehouseCost : tuning.storeCost;
+  site.kind === "treehouse"
+    ? tuning.treehouseCost
+    : site.kind === "sleeping-deck"
+      ? tuning.sleepingDeckCost
+      : site.kind === "hauling-basket"
+        ? tuning.haulingBasketCost
+        : tuning.storeCost;
+export function basketForTree(state: Settlement, tree: TreeId) {
+  return state.sites.find(
+    (s) => s.tree === tree && s.kind === "hauling-basket" && s.complete,
+  );
+}
+export function shelteredCapacity(state: Settlement, tree: TreeId) {
+  return state.sites.reduce(
+    (n, s) =>
+      n +
+      (s.tree === tree &&
+      s.complete &&
+      (s.kind === "treehouse" || s.kind === "sleeping-deck")
+        ? 2
+        : 0),
+    0,
+  );
+}
+export function treeBuildOptions(state: Settlement, tree: TreeId) {
+  const home = state.sites.some(
+    (s) => s.tree === tree && s.kind === "treehouse" && s.complete,
+  );
+  return (["treehouse", "sleeping-deck", "hauling-basket"] as const).map(
+    (kind) => {
+      const existing = state.sites.some(
+        (s) => s.tree === tree && s.kind === kind,
+      );
+      const reason =
+        state.phase !== "day"
+          ? "Begin day before placing construction."
+          : existing
+            ? "This construction already exists at this tree."
+            : kind !== "treehouse" && !home
+              ? "Complete this tree's home first."
+              : kind === "sleeping-deck" && !basketForTree(state, tree)
+                ? "Build a hauling basket to supply this elevated deck."
+                : "";
+      return {
+        kind,
+        cost: cost({ kind }),
+        available: !reason,
+        reason,
+        label:
+          kind === "treehouse"
+            ? "Home and ladder"
+            : kind === "sleeping-deck"
+              ? "Extra sleeping deck"
+              : state.basketTechnique
+                ? "Hauling basket"
+                : "Hauling basket experiment",
+      };
+    },
+  );
+}
+/** Cell-space X/Z, unscaled vertical metres; renderer converts X/Z to art metres. */
+export function basketLiftPosition(tree: TreeId, progress: number) {
+  const at = trees.find((t) => t.id === tree)!;
+  return { x: at.x - 0.825, z: at.z - 0.225, y: 0.34 + 2.1 * progress };
+}
+export function cargoPosition(state: Settlement, bird: Worker) {
+  const basket =
+    bird.lift && state.sites.find((s) => s.id === bird.lift!.basket);
+  return basket?.tree
+    ? basketLiftPosition(basket.tree, bird.lift!.progress)
+    : { ...birdPosition(bird), y: birdPosition(bird).y + 0.34 };
+}
+export function readyForBuild(state: Settlement, site: Site) {
+  return (
+    !site.complete &&
+    (site.delivered === cost(site) ||
+      (site.kind === "hauling-basket" &&
+        !state.basketTechnique &&
+        site.progress < 30 &&
+        site.delivered === 3))
+  );
+}
+function completeSite(state: Settlement, site: Site, operator: Worker) {
+  state.consumed += site.delivered;
+  site.delivered = 0;
+  site.complete = true;
+  site.contributors = [...new Set([...site.contributors, operator.id])];
+  if (!site.tree) return;
+  const name = trees.find((t) => t.id === site.tree)!.name;
+  for (const id of site.contributors) {
+    const contributor = state.birds.find((b) => b.id === id)!;
+    if (site.kind === "treehouse") {
+      if (!contributor.attachment) contributor.attachment = site.tree;
+      remember(contributor, `Helped build ${name}; wants to sleep there.`);
+    } else
+      remember(
+        contributor,
+        `Helped build the ${site.kind === "sleeping-deck" ? "extra sleeping deck" : "hauling basket"} at ${name}.`,
+      );
+  }
+}
 export function initialPatches(): ReedPatch[] {
   return reedPatches.map((p) => ({
     ...structuredClone(p),
@@ -151,6 +255,7 @@ export function initialAppetite(id: SettlerId) {
 }
 export function initialSettlement(): Settlement {
   return {
+    basketTechnique: null,
     tick: 0,
     phase: "day",
     paused: false,
@@ -170,6 +275,7 @@ export function initialSettlement(): Settlement {
     sites: [],
     birds: settlers.map((b) => ({
       id: b.id,
+      lift: null,
       ...initialAppetite(b.id),
       at: { x: -3, z: -2 },
       edge: null,
@@ -259,15 +365,25 @@ export function command(current: Settlement, action: Command): Settlement {
     if (state.phase !== "day")
       throw new Error("Begin day before placing construction.");
     const tree = trees.find((t) => same(t, action.at));
+    if (tree && action.kind !== "store") {
+      const option = treeBuildOptions(state, tree.id).find(
+        (o) => o.kind === action.kind,
+      )!;
+      if (!option.available) throw new Error(option.reason);
+    }
     if (
-      state.sites.some((s) => same(s.at, action.at)) ||
+      state.sites.some(
+        (s) =>
+          same(s.at, action.at) &&
+          (!tree || s.kind === action.kind || action.kind === "store"),
+      ) ||
       state.piles.some((p) => p.kind === "source" && same(p.at, action.at)) ||
       state.patches.some((p) => same(p.at, action.at)) ||
       state.forage.some((p) => same(p.at, action.at)) ||
       state.birds.some((b) => b.foraging && same(b.foraging.spot, action.at))
     )
       throw new Error("This place is already occupied.");
-    if (action.kind === "treehouse" && !tree)
+    if (action.kind !== "store" && !tree)
       throw new Error("Treehouses need one of the three marked trees.");
     if (action.kind === "store" && tree)
       throw new Error("Leave the trunk clear; choose another ground cell.");
@@ -275,13 +391,14 @@ export function command(current: Settlement, action: Command): Settlement {
       id: `site-${state.nextId++}`,
       kind: action.kind,
       at: { x: action.at.x, z: action.at.z },
-      tree: action.kind === "treehouse" ? tree!.id : null,
+      tree: action.kind !== "store" ? tree!.id : null,
       delivered: 0,
       progress: 0,
       complete: false,
       stock: 0,
       target: 0,
       contributors: [],
+      experiment: false,
     });
   }
   if (action.type === "cancel") {
@@ -305,6 +422,7 @@ export function command(current: Settlement, action: Command): Settlement {
     }
     for (const bird of state.birds)
       if (bird.job?.destination === site.id) {
+        bird.lift = null;
         if (bird.cargo)
           bird.job = {
             kind: "return",
@@ -407,7 +525,7 @@ function assign(state: Settlement, bird: Worker) {
   const sites = state.sites.filter((s) => !s.complete);
   for (const site of sites) {
     if (
-      site.delivered === cost(site) &&
+      readyForBuild(state, site) &&
       !state.birds.some(
         (b) => b.job?.kind === "build" && b.job.destination === site.id,
       ) &&
@@ -515,12 +633,12 @@ function settle(state: Settlement, bird: Worker) {
       (b.id === bird.attachment ? -10 : b.id === fixture.preference ? -5 : 0),
   );
   for (const tree of order) {
-    const improved = state.sites.some((s) => s.complete && s.tree === tree.id);
+    const capacity = shelteredCapacity(state, tree.id);
     const slots: Perch[] = [];
     const shelteredFirst = bird.id !== "rook" || bird.attachment === tree.id;
     for (const sheltered of shelteredFirst ? [true, false] : [false, true])
-      if (!sheltered || improved)
-        for (let slot = 0; slot < 2; slot++)
+      if (!sheltered || capacity)
+        for (let slot = 0; slot < (sheltered ? capacity : 2); slot++)
           slots.push({ tree: tree.id, slot, sheltered });
     const perch = slots.find((p) => !occupied(state, p));
     if (perch) {
@@ -542,9 +660,21 @@ export function groundPosition(bird: Worker): Cell {
 export function perchPosition(perch: Perch) {
   const tree = trees.find((t) => t.id === perch.tree)!;
   return {
-    x: tree.x + (perch.slot === 0 ? -0.43 : 0.43),
-    z: tree.z - (perch.sheltered ? 0.25 : -0.23),
-    y: perch.sheltered ? 2.25 : 3.15 + perch.slot * 0.18,
+    x:
+      tree.x +
+      (perch.sheltered && perch.slot >= 2
+        ? perch.slot === 2
+          ? 0.74
+          : 1.26
+        : perch.slot % 2 === 0
+          ? -0.43
+          : 0.43),
+    z: tree.z + (perch.sheltered ? -0.25 : 0.23),
+    y: perch.sheltered
+      ? perch.slot >= 2
+        ? 2.85
+        : 2.25
+      : 3.15 + perch.slot * 0.18,
   };
 }
 export function birdPosition(bird: Worker) {
@@ -794,26 +924,16 @@ export function step(current: Settlement): Settlement {
     if (!to || !move(state, bird, to)) continue;
     if (job.kind === "build") {
       const site = state.sites.find((s) => s.id === job.destination)!;
-      if (site.complete || site.delivered !== cost(site)) {
+      if (!readyForBuild(state, site)) {
         bird.job = null;
         continue;
       }
       site.progress = Math.min(30, site.progress + 1);
       bird.energy = Math.max(0, bird.energy - 0.08);
       if (site.progress === 30) {
-        state.consumed += site.delivered;
-        site.delivered = 0;
-        site.complete = true;
+        site.contributors = [...new Set([...site.contributors, bird.id])];
         bird.job = null;
-        if (site.tree)
-          for (const id of new Set([...site.contributors, bird.id])) {
-            const contributor = state.birds.find((b) => b.id === id)!;
-            if (!contributor.attachment) contributor.attachment = site.tree;
-            remember(
-              contributor,
-              `Helped build ${trees.find((t) => t.id === site.tree)!.name}; wants to sleep there.`,
-            );
-          }
+        if (site.delivered === cost(site)) completeSite(state, site, bird);
       }
     } else if (job.kind === "gather" && job.stage === "pickup") {
       const patch = state.patches.find((p) => p.id === job.source)!;
@@ -854,8 +974,60 @@ export function step(current: Settlement): Settlement {
         (s) => s.id === job.destination && !s.complete,
       );
       if (site) {
+        const prototype =
+          site.kind === "hauling-basket" && !state.basketTechnique;
+        const basket =
+          site.kind === "sleeping-deck" && site.tree
+            ? basketForTree(state, site.tree)
+            : prototype && site.delivered === 3
+              ? site
+              : undefined;
+        if (prototype && site.delivered === 3 && site.progress < 30) continue;
+        if (basket || bird.lift) {
+          const liftingBasket =
+            basket ?? state.sites.find((s) => s.id === bird.lift!.basket)!;
+          if (!bird.lift) {
+            if (state.birds.some((b) => b.lift?.basket === liftingBasket.id))
+              continue;
+            bird.lift = { basket: liftingBasket.id, progress: 0 };
+          }
+          bird.lift.progress = Math.min(
+            1,
+            bird.lift.progress + 1 / tuning.liftTicks,
+          );
+          if (bird.lift.progress < 1) continue;
+          bird.lift = null;
+          remember(
+            bird,
+            `Raised a construction bundle with the basket at ${trees.find((t) => t.id === site.tree)!.name}.`,
+          );
+          if (prototype) {
+            state.basketTechnique = {
+              inventor: bird.id,
+              tree: site.tree!,
+              tick: state.tick,
+            };
+            site.experiment = true;
+            // Discovery changes all pending prototypes to ordinary supplied work.
+            // Earlier birds may already have woven this tick; release their now
+            // ineligible jobs immediately so the resulting state remains saveable.
+            for (const builder of state.birds) {
+              if (builder.job?.kind !== "build") continue;
+              const pending = state.sites.find(
+                (s) => s.id === builder.job!.destination,
+              );
+              if (pending && !readyForBuild(state, pending)) builder.job = null;
+            }
+            remember(
+              bird,
+              `Demonstrated the first hauling basket at ${trees.find((t) => t.id === site.tree)!.name}; the coop learned the technique.`,
+            );
+          }
+        }
         site.delivered += bird.cargo;
-        site.contributors.push(bird.id);
+        site.contributors = [...new Set([...site.contributors, bird.id])];
+        if (site.progress === 30 && site.delivered === cost(site))
+          completeSite(state, site, bird);
       } else if (target) {
         if ("complete" in target && target.stock >= tuning.storeCapacity)
           continue;
@@ -871,6 +1043,20 @@ export function step(current: Settlement): Settlement {
   return state;
 }
 export function workerStatus(state: Settlement, bird: Worker): string {
+  if (bird.lift)
+    return `Operating the hauling basket · raising a real reed bundle · ${Math.round(bird.lift.progress * 100)}%`;
+  if (bird.cargo && bird.job?.kind === "haul") {
+    const site = state.sites.find((s) => s.id === bird.job!.destination);
+    if (
+      site?.kind === "hauling-basket" &&
+      !state.basketTechnique &&
+      site.delivered === 3 &&
+      site.progress < 30 &&
+      same(bird.at, site.at) &&
+      !bird.edge
+    )
+      return "Keeping the final bundle secure while the basket is woven";
+  }
   if (bird.flight)
     return `${bird.flight.direction === "up" ? (bird.flight.sheltered ? "Approaching / climbing the ladder" : "Flying up to a natural branch") : "Returning to the ground"} at ${trees.find((t) => t.id === bird.flight!.tree)!.name}`;
   if (bird.perch)
@@ -936,10 +1122,20 @@ export function workerStatus(state: Settlement, bird: Worker): string {
 }
 
 export function siteStatus(state: Settlement, site: Site) {
+  const operator = state.birds.find(
+    (b) =>
+      b.lift && (b.lift.basket === site.id || b.job?.destination === site.id),
+  );
+  if (operator)
+    return `${settlers.find((b) => b.id === operator.id)!.name} raising a construction bundle · ${Math.round(operator.lift!.progress * 100)}%`;
   if (site.complete)
     return site.kind === "store"
       ? `${site.stock} / ${tuning.storeCapacity} reeds stored locally`
-      : "Two sheltered perches ready · ladder access";
+      : site.kind === "sleeping-deck"
+        ? "Two extra sheltered berths ready · ladder access"
+        : site.kind === "hauling-basket"
+          ? `${site.experiment ? "First demonstrated basket" : "Hauling basket ready"} · lifts deck construction bundles`
+          : "Two sheltered perches ready · ladder access";
   if (
     ![
       ...state.piles,
@@ -956,6 +1152,14 @@ export function siteStatus(state: Settlement, site: Site) {
     )
   )
     return "Carrier waiting for an available destination; goods remain with the bird";
+  if (
+    site.kind === "hauling-basket" &&
+    !state.basketTechnique &&
+    site.delivered >= 3
+  )
+    return site.progress < 30
+      ? `Weaving prototype · ${Math.round((site.progress / 30) * 100)}% · final bundle reserved for demonstration`
+      : "Basket woven · waiting for the final bundle to be raised";
   return site.delivered === cost(site)
     ? `Weaving · ${Math.round((site.progress / 30) * 100)}%`
     : `${site.delivered} / ${cost(site)} reeds at site · ${incoming(state, site.id)} assigned`;

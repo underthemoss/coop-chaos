@@ -533,3 +533,14 @@ footer { display:none; }
 }
 
 .tree-label[hidden] { display:none; }
+
+.tree-tabs {display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap;}
+.tree-tabs button {flex:1;padding:8px 6px;font-size:11px;}
+.tree-tabs button[aria-pressed="true"] {background:#455b43;color:#fff4d7;}
+.berth-summary {display:flex;flex-wrap:wrap;gap:8px 16px;padding:10px 0;border-block:1px solid #dcd6c3;font-size:12px;}
+.tree-build-options button {width:100%;display:flex;justify-content:space-between;gap:12px;text-align:left;align-items:center;}
+.tree-build-options button span {font-size:11px;white-space:nowrap;}
+.tree-inspector h3 {font-size:14px;}
+.tree-inspector .site-card h3 span {font-weight:400;font-size:11px;}
+.technique-memory {padding:12px;border-left:3px solid #b29c61;background:#eee9d7;font-size:12px;line-height:1.5;}
+.all-controls {margin:0 18px 18px;}

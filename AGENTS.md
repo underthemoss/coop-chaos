@@ -40,11 +40,14 @@ individual ancestry, and growth form distinct; neither birds nor trees are caste
 Chickens move and forage freely; the player does not create roads. Optional worn
 trails from repeated traffic are later work. Ground travel is bounded by the simulation,
 not player-built connectivity. Food foraging and construction reeds have separate ledgers;
-[settlement design](story/settlement-design.md) records that mismatch.
+[settlement design](story/settlement-design.md) records their distinct meaning.
 The opening adults can fly to natural branches before building; future bodies
 need honest access appropriate to their mobility.
 Earned ladders and chicken-invented machinery, including future science-fiction
 elevators, belong to the direction in [technology design](story/technology.md).
+The current bounded invention proof includes an extra sleeping deck and a hauling
+basket learned through its first real construction lift. Keep availability, cargo,
+completion and technique with simulation; the renderer presents saved progress.
 Do not treat trees as universal predator safety.
 
 For consequential gameplay systems, trace:

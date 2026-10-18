@@ -405,6 +405,7 @@ describe("individual field foraging", () => {
         stock: 0,
         target: 0,
         contributors: [],
+        experiment: false,
       });
     }
     expect(feedingSpots(s, patch)).toEqual([]);

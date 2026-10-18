@@ -9,6 +9,9 @@ import {
   validCell,
   key,
   cost,
+  readyForBuild,
+  shelteredCapacity,
+  basketForTree,
 } from "../simulation/settlement";
 import type { Settlement, Cell } from "../simulation/settlement";
 import {
@@ -60,7 +63,7 @@ function list(v: unknown, max: number): unknown[] {
 function text(v: unknown): v is string {
   return typeof v === "string" && v.length > 0 && v.length < 200;
 }
-function perch(v: unknown, flying: boolean) {
+function perch(v: unknown, flying: boolean, upgraded: boolean) {
   const p = object(
     v,
     flying
@@ -69,7 +72,7 @@ function perch(v: unknown, flying: boolean) {
   );
   if (
     !trees.some((t) => t.id === p.tree) ||
-    !integer(p.slot, 0, 1) ||
+    !integer(p.slot, 0, upgraded && p.sheltered ? 3 : 1) ||
     typeof p.sheltered !== "boolean"
   )
     fail();
@@ -88,10 +91,12 @@ const maximumHarvest = reedPatches.reduce(
   0,
 );
 /** Version 1 has an immutable shape and material budget, independent of fresh-game tuning. */
-function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
+function validateVersion(value: unknown, version: 1 | 2 | 3 | 4): Settlement {
   const legacy = version === 1;
-  const current = version === 3;
+  const current = version >= 3;
+  const upgraded = version === 4;
   const s = object(value, [
+    ...(upgraded ? ["basketTechnique"] : []),
     "tick",
     "phase",
     "paused",
@@ -173,7 +178,7 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
     )
       fail();
   }
-  for (const value of list(s.sites, 63)) {
+  for (const value of list(s.sites, upgraded ? 69 : 63)) {
     const p = object(value, [
       "id",
       "kind",
@@ -185,11 +190,16 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
       "stock",
       "target",
       "contributors",
+      ...(upgraded ? ["experiment"] : []),
     ]);
     if (
       !text(p.id) ||
       !/^site-\d+$/.test(p.id as string) ||
-      !["treehouse", "store"].includes(p.kind as string) ||
+      ![
+        "treehouse",
+        "store",
+        ...(upgraded ? ["sleeping-deck", "hauling-basket"] : []),
+      ].includes(p.kind as string) ||
       !cell(p.at) ||
       typeof p.complete !== "boolean" ||
       !integer(p.delivered, 0, 6) ||
@@ -199,9 +209,15 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
     )
       fail();
     if (
-      p.kind === "treehouse"
+      p.kind !== "store"
         ? !trees.some((t) => t.id === p.tree && key(t) === key(p.at as Cell))
         : p.tree !== null || trees.some((t) => key(t) === key(p.at as Cell))
+    )
+      fail();
+    if (
+      upgraded &&
+      (typeof p.experiment !== "boolean" ||
+        (p.experiment && (p.kind !== "hauling-basket" || !p.complete)))
     )
       fail();
     for (const id of list(p.contributors, 6))
@@ -209,7 +225,9 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
     if (
       p.complete
         ? p.progress !== 30 || p.delivered !== 0
-        : p.progress !== 0 && p.delivered !== (p.kind === "treehouse" ? 6 : 4)
+        : p.progress !== 0 &&
+          p.delivered !== (p.kind === "treehouse" ? 6 : 4) &&
+          !(upgraded && p.kind === "hauling-basket" && p.delivered === 3)
     )
       fail();
     if (
@@ -233,6 +251,7 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
       "memories",
       "perch",
       "flight",
+      ...(upgraded ? ["lift"] : []),
       ...(legacy ? [] : ["gatheringProgress"]),
       ...(current
         ? ["satiety", "foragePreference", "rememberedForage", "foraging"]
@@ -292,8 +311,21 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
       );
       if (!patch || key(patch.at) !== key(b.at as Cell)) fail();
     }
-    if (b.perch !== null) perch(b.perch, false);
-    if (b.flight !== null) perch(b.flight, true);
+    if (upgraded && b.lift !== null) {
+      const lift = object(b.lift, ["basket", "progress"]);
+      if (
+        !text(lift.basket) ||
+        !number(lift.progress, 0, 0.999999999) ||
+        b.edge ||
+        b.perch ||
+        b.flight ||
+        b.foraging ||
+        b.cargo !== 1
+      )
+        fail();
+    }
+    if (b.perch !== null) perch(b.perch, false, upgraded);
+    if (b.flight !== null) perch(b.flight, true, upgraded);
     if (
       (b.perch || b.flight) &&
       (b.job || b.edge || b.cargo || (b.perch && b.flight))
@@ -402,7 +434,11 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
     new Set(ids).size !== ids.length ||
     state.birds.length !== 4 ||
     new Set(state.birds.map((b) => b.id)).size !== 4 ||
-    new Set(state.sites.map((p) => key(p.at))).size !== state.sites.length
+    new Set(
+      state.sites.map((p) =>
+        upgraded && p.tree ? `${p.tree}-${p.kind}` : key(p.at),
+      ),
+    ).size !== state.sites.length
   )
     fail();
   if (!legacy) {
@@ -415,6 +451,72 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
       if (occupied.has(key(patch.at))) fail();
       occupied.add(key(patch.at));
     }
+  }
+  if (upgraded) {
+    for (const site of state.sites) {
+      if (
+        (site.kind === "sleeping-deck" || site.kind === "hauling-basket") &&
+        !state.sites.some(
+          (h) => h.kind === "treehouse" && h.complete && h.tree === site.tree,
+        )
+      )
+        fail();
+    }
+    if (
+      !state.basketTechnique &&
+      state.sites.some(
+        (site) => site.kind === "hauling-basket" && site.delivered > 3,
+      )
+    )
+      fail();
+    if (
+      state.sites.some(
+        (site) =>
+          site.kind === "sleeping-deck" && !basketForTree(state, site.tree!),
+      )
+    )
+      fail();
+    const winners = state.sites.filter((s) => s.experiment);
+    if (state.basketTechnique !== null) {
+      const t = object(state.basketTechnique, ["inventor", "tree", "tick"]);
+      if (
+        !settlers.some((b) => b.id === t.inventor) ||
+        !trees.some((tree) => tree.id === t.tree) ||
+        !integer(t.tick, 0, state.tick) ||
+        winners.length !== 1 ||
+        winners[0].tree !== t.tree ||
+        !winners[0].contributors.includes(
+          t.inventor as Settlement["birds"][number]["id"],
+        )
+      )
+        fail();
+    } else if (
+      winners.length ||
+      state.sites.some((s) => s.kind === "hauling-basket" && s.complete)
+    )
+      fail();
+    const lifting = new Set<string>();
+    for (const b of state.birds)
+      if (b.lift) {
+        const basket = state.sites.find((s) => s.id === b.lift!.basket);
+        const target = state.sites.find((s) => s.id === b.job?.destination);
+        if (
+          !basket ||
+          basket.kind !== "hauling-basket" ||
+          !target ||
+          b.job?.kind !== "haul" ||
+          b.job.stage !== "deliver" ||
+          key(b.at) !== key(basket.at) ||
+          lifting.has(basket.id) ||
+          !(basket.complete
+            ? target.kind === "sleeping-deck" && target.tree === basket.tree
+            : target.id === basket.id &&
+              basket.delivered === 3 &&
+              basket.progress === 30)
+        )
+          fail();
+        lifting.add(basket!.id);
+      }
   }
   const source = state.piles.filter((p) => p.kind === "source");
   if (
@@ -465,7 +567,9 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
         j.kind === "build"
           ? !destination ||
             destination.complete ||
-            destination.delivered !== cost(destination)
+            !(upgraded
+              ? readyForBuild(state, destination)
+              : destination.delivered === cost(destination))
           : j.kind === "gather"
             ? !state.patches.some((p) => p.id === j.source)
             : ![
@@ -504,7 +608,9 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
       if (
         sleeping.has(id) ||
         (p.sheltered &&
-          !state.sites.some((s) => s.complete && s.tree === p.tree))
+          !(upgraded
+            ? p.slot < shelteredCapacity(state, p.tree)
+            : state.sites.some((s) => s.complete && s.tree === p.tree)))
       )
         fail();
       sleeping.add(id);
@@ -524,7 +630,7 @@ function validateVersion(value: unknown, version: 1 | 2 | 3): Settlement {
   return structuredClone(state);
 }
 export function validateSettlement(value: unknown): Settlement {
-  return validateVersion(value, 3);
+  return validateVersion(value, 4);
 }
 function migrationPatches(legacy: Settlement) {
   const occupied = new Set([
@@ -552,10 +658,19 @@ function migrationPatches(legacy: Settlement) {
     return [{ ...patch, at }];
   });
 }
+function migrateVersionThree(value: unknown): Settlement {
+  const state = validateVersion(value, 3);
+  return validateSettlement({
+    ...state,
+    basketTechnique: null,
+    sites: state.sites.map((s) => ({ ...s, experiment: false })),
+    birds: state.birds.map((b) => ({ ...b, lift: null })),
+  });
+}
 function migrateVersionTwo(value: unknown): Settlement {
   const state = validateVersion(value, 2);
   const { paths: _paths, ...facts } = state as Settlement & { paths: string[] };
-  return validateSettlement({
+  return migrateVersionThree({
     ...facts,
     forage: initialForage(),
     birds: state.birds.map((b) => ({ ...b, ...initialAppetite(b.id) })),
@@ -580,8 +695,8 @@ export function settlementMigrationNotice(state: Settlement): string | null {
 }
 export function encodeSettlement(state: Settlement): string {
   return JSON.stringify({
-    schemaVersion: 3,
-    simulationVersion: "settlement-3",
+    schemaVersion: 4,
+    simulationVersion: "settlement-4",
     state,
   });
 }
@@ -614,6 +729,11 @@ export function decodeSettlement(text: string): Settlement {
   if (
     envelope.schemaVersion === 3 &&
     envelope.simulationVersion === "settlement-3"
+  )
+    return migrateVersionThree(envelope.state);
+  if (
+    envelope.schemaVersion === 4 &&
+    envelope.simulationVersion === "settlement-4"
   )
     return validateSettlement(envelope.state);
   return fail();

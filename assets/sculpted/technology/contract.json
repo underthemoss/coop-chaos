@@ -1,0 +1,49 @@
+{
+  "revision": "canopy-technology-v1",
+  "coordinates": "X right, Y up, Z forward; tree-local origin; scale with existing home",
+  "deck": {
+    "berths": [
+      [
+        1.48,
+        2.85,
+        -0.5
+      ],
+      [
+        2.52,
+        2.85,
+        -0.5
+      ]
+    ]
+  },
+  "hauling": {
+    "basketRoot": "basket",
+    "basketBase": [
+      -1.65,
+      0.12,
+      -0.45
+    ],
+    "travelY": 2.1,
+    "cargoSocket": [
+      0,
+      0.22,
+      0
+    ],
+    "ropeRoot": "lift-rope",
+    "ropeTop": [
+      -1.8199999999999998,
+      3.36,
+      -0.45
+    ],
+    "ropeRestLength": 2.37
+  },
+  "exports": {
+    "sleeping-deck": {
+      "bytes": 710004,
+      "sha256": "5e145286fe06c263e240b7f43e6d7776a094fb8068ee0873a23ced28dd41faf8"
+    },
+    "hauling-basket": {
+      "bytes": 871436,
+      "sha256": "07688aadd7493c527b8b64460a68328b187766747c6b5717af412c58b0fb9936"
+    }
+  }
+}

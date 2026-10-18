@@ -3,7 +3,8 @@ import type { ChangeEvent } from "react";
 import { Clearing } from "../game/Clearing";
 import type { Tool } from "../game/Clearing";
 import { foodPatches, settlers, trees, tuning } from "../content/settlement";
-import type { SettlerId } from "../content/settlement";
+import { TreeInspector } from "./TreeInspector";
+import type { TreeId, SettlerId } from "../content/settlement";
 import {
   command,
   conserved,
@@ -42,11 +43,13 @@ export function App() {
   const [selected, setSelected] = useState<SettlerId>("fern");
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedForage, setSelectedForage] = useState<string | null>(null);
-  const [panelTarget, setPanelTarget] = useState<"bird" | "forage" | null>(null);
+  const [panelTarget, setPanelTarget] = useState<"bird" | "forage" | "tree" | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
+  const [selectedTree, setSelectedTree] = useState<TreeId>("lowfork");
+  const treeSection = useRef<HTMLDivElement>(null);
   const forageSection = useRef<HTMLElement>(null);
   const birdSection = useRef<HTMLElement>(null);
-  function showDetails(target: "bird" | "forage") {
+  function showDetails(target: "bird" | "forage" | "tree") {
     setPanelOpen(true);
     setPanelTarget(target);
     setFocusRequest(n => n + 1);
@@ -54,13 +57,13 @@ export function App() {
   useEffect(() => {
     if (!panelOpen || !panelTarget) return;
     const frame = requestAnimationFrame(() => {
-      const target = panelTarget === "bird" ? birdSection.current :
+      const target = panelTarget === "tree" ? treeSection.current : panelTarget === "bird" ? birdSection.current :
         (selectedForage ? document.getElementById(`food-${selectedForage}`) : forageSection.current);
-      target?.scrollIntoView({block: panelTarget === "forage" && !selectedForage ? "start" : "nearest"});
+      target?.scrollIntoView({block: panelTarget === "tree" || panelTarget === "forage" && !selectedForage ? "start" : "nearest"});
       target?.focus({preventScroll: true});
     });
     return () => cancelAnimationFrame(frame);
-  }, [panelOpen, panelTarget, selectedForage, focusRequest]);
+  }, [panelOpen, panelTarget, selectedForage, selectedTree, focusRequest]);
   const [tool, setTool] = useState<Tool>("inspect");
   const [cursor, setCursor] = useState<Cell>({ x: -2, z: 2 });
   const [ready, setReady] = useState(false);
@@ -149,9 +152,21 @@ export function App() {
       );
     }
   }
+  function selectTree(id: TreeId) {
+    const tree = trees.find(t => t.id === id)!;
+    setSelectedTree(id);
+    setCursor({ x: tree.x, z: tree.z });
+    setTool("build");
+    showDetails("tree");
+  }
   function pick(at: Cell) {
     setCursor({ x: at.x, z: at.z });
-    if(tool === "inspect")setPanelOpen(true);
+    if(tool === "inspect" || tool === "build") {
+      const tree = trees.find(t => t.x === at.x && t.z === at.z);
+      if (tree) selectTree(tree.id);
+      else if (tool === "build") setNotice("Choose a named tree to see its building places.");
+      else {setPanelTarget(null);setPanelOpen(true);}
+    }
     if(tool === "gather"){
       const patch=stateRef.current.patches.find(p=>p.at.x===at.x&&p.at.z===at.z);
       if(patch)act({type:"gather",id:patch.id,designated:!patch.designated});
@@ -162,7 +177,7 @@ export function App() {
       if (place) setSelectedForage(place.id);
       showDetails("forage");
     }
-    if (tool === "treehouse" || tool === "store")
+    if (tool === "store")
       act({ type: "build", kind: tool, at });
   }
   async function replace(next: Settlement, message: string) {
@@ -211,7 +226,7 @@ export function App() {
         <div className="header-actions"><span className="phase-label">{state.phase === "day" ? "Day" : "Evening"} · 4 chickens</span>
         <button disabled={!ready||busy} onClick={()=>act({type:"phase",phase:state.phase==="day"?"evening":"day"})}>{state.phase === "day" ? "Call evening" : "Begin day"}</button>
         <button disabled={!ready||busy} onClick={()=>act({type:"pause"})}>{state.paused?"Resume work":"Pause work"}</button>
-        <button aria-expanded={panelOpen} aria-controls="settlement-inspector" onClick={()=>setPanelOpen(!panelOpen)}>{panelOpen?"Close details":"Settlement"}</button></div>
+        <button aria-expanded={panelOpen} aria-controls="settlement-inspector" onClick={()=>{setPanelTarget(null);setPanelOpen(!panelOpen);}}>{panelOpen?"Close details":"Settlement"}</button></div>
       </header>
       <main>
         <div className="play-layout">
@@ -220,6 +235,7 @@ export function App() {
             selected={selected}
             onSelect={(id)=>{setSelected(id);showDetails("bird");}}
             onPick={pick}
+            onTree={selectTree}
             onForage={(id) => { setSelectedForage(id); showDetails("forage"); }}
             cursor={cursor}
             tool={tool}
@@ -228,14 +244,19 @@ export function App() {
           <div className="opening-card" hidden={panelOpen}>
             <span className="eyebrow">A LIVING GROVE</span>
             <h2>{hasHome?"Life in the branches":"Beneath Lowfork"}</h2>
-            <p>{tool === "inspect" ? (hasHome ? "A woven home now shelters two birds. Grow another branch of the settlement, or call the flock to rest." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "treehouse" ? "Choose a named tree. Six locally carried reeds become two sheltered berths." : tool === "store" ? "Four reeds make a local store. Choose open ground; carriers walk there freely." : tool === "forage" ? "The flock finds its own food. Inspect a place to rest it or reopen it." : "Choose a construction reed patch. Material gathering is separate from feeding."}</p>
+            <p>{tool === "inspect" ? (hasHome ? "A woven home awaits its sleepers. Inspect a tree to grow another branch of the settlement, or call the flock to rest." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "build" ? "Choose a named tree. Inspect its residents and choose what to build." : tool === "store" ? "Four reeds make a local store. Choose open ground; carriers walk there freely." : tool === "forage" ? "The flock finds its own food. Inspect a place to rest it or reopen it." : "Choose a construction reed patch. Material gathering is separate from feeding."}</p>
           </div>
           <nav className="primary-tools" aria-label="World tools">
-            {(["inspect","forage","treehouse","gather"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>{setTool(t);if(t==="forage") {setSelectedForage(null);showDetails("forage");}}}>{({inspect:"Inspect",forage:"Forage",gather:"Gather reeds",treehouse:"Treehouse",store:"Store"})[t]}</button>)}
+            {(["inspect","forage","build","gather"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>{setTool(t);if(t==="build")selectTree(selectedTree);if(t==="forage") {setSelectedForage(null);showDetails("forage");}}}>{({inspect:"Inspect",forage:"Forage",gather:"Gather reeds",build:"Build",store:"Store"})[t]}</button>)}
           </nav>
           {notice&&<p className="world-notice" role="alert">{notice}</p>}
           <aside id="settlement-inspector" className={`inspector${panelOpen?" is-open":""}`} aria-label="Settlement inspector" hidden={!panelOpen}>
             <button className="close-inspector" onClick={()=>setPanelOpen(false)}>Close details ×</button>
+            {panelTarget === "tree" && <div ref={treeSection} tabIndex={-1}>
+              <TreeInspector state={state} treeId={selectedTree} disabled={busy || !ready} onSelect={selectTree} onCommand={act} />
+              <button className="all-controls" onClick={()=>setPanelTarget(null)}>Settlement controls & saves</button>
+            </div>}
+            <div hidden={panelTarget === "tree"}>
             <section>
               <div className="section-heading">
                 <span className="eyebrow">GROVE & COMMONS</span>
@@ -286,7 +307,7 @@ export function App() {
                   </select>
                 </label>
                 <button
-                  disabled={tool === "inspect" || busy || !ready}
+                  disabled={tool !== "store" || busy || !ready}
                   onClick={() => pick(cursor)}
                 >
                   Use tool at {key(cursor)}
@@ -298,7 +319,7 @@ export function App() {
                     key={tree.id}
                     onClick={() => {
                       setCursor({ x: tree.x, z: tree.z });
-                      setTool("treehouse");
+                      selectTree(tree.id);
                     }}
                   >
                     <strong>{tree.name}</strong>
@@ -343,15 +364,13 @@ export function App() {
               </div>
               {!state.sites.length && (
                 <p className="quiet">
-                  No sites yet. Choose a tree, then use the treehouse tool.
+                  No sites yet. Choose a tree to see its Build choices.
                 </p>
               )}
               {state.sites.map((site) => (
                 <article className="site-card" key={site.id}>
                   <h4>
-                    {site.kind === "treehouse"
-                      ? `${trees.find((t) => t.id === site.tree)!.name} treehouse`
-                      : `Store nest (${key(site.at)})`}
+                    {site.tree ? `${trees.find((t) => t.id === site.tree)!.name} ${site.kind.replaceAll("-", " ")}` : `Store nest (${key(site.at)})`}
                     <span>
                       {site.complete
                         ? "READY"
@@ -518,6 +537,7 @@ export function App() {
                 retained. Single tab recommended; no offline catch-up.
               </p>
             </section>
+            </div>
           </aside>
         </div>
         <footer>

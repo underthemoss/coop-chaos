@@ -65,8 +65,8 @@ construction-delivery proof. New individuals should become recognizable through
 work and history rather than inheriting this cast's special status.
 
 Existing first-evening saves retain their exact branch meaning at their original
-key. Settlement now uses a separate strict `settlement-3` envelope, migrates validated
-`settlement-1` and `settlement-2` worlds while preserving existing work and resources, validates imports,
+key. Settlement now uses a separate strict `settlement-4` envelope, migrates validated
+`settlement-1`, `settlement-2` and `settlement-3` worlds while preserving existing work and resources, validates imports,
 and explicitly rejects legacy story files as incompatible settlement state. The
 app offers export of an old device story when present. Legacy rule/save tests
 remain; new settlement tests cover in-flight work and persistent experiences.

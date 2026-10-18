@@ -9,8 +9,10 @@ Their inventions should solve chicken problems and generate new social choices.
 
 The progression and examples below develop that direction. Names, recipes,
 research requirements, and numerical effects are design proposals. The current
-implementation milestone covers natural roosting and the first constructed
-improvement; this document does not claim the later technologies exist in code.
+implementation includes natural roosting, treehouses with ladders, an extra
+sleeping deck, and a first hauling-basket technique learned by raising a real
+construction bundle. Baskets subsequently lift deck deliveries; they do not yet
+transport birds. Powered lifts, bridges and defenses below remain proposals.
 [Settlement design](settlement-design.md) owns the wider game loop, and
 [biology research](../docs/research/chicken-biology.md) distinguishes animal
 constraints from this fictional civilization.

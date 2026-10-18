@@ -53,7 +53,7 @@ assets, farmers, or borrowed human barns. Coops are social identities; chicken-i
 Work must be readable before detail: where a carrier is heading, what it carries,
 which site is unfinished, and where a route is exposed. Repeated posture, pace,
 companionship, and protective behavior should reveal individuals without forcing
-biography reading. The current proof conveys work with procedural movement and visible cargo, not finished animation clips.
+biography reading. The current proof conveys work with seven authored rigid-articulation clips and visible cargo, not production skeletal animation.
 
 Character design must express individuality without mapping worth to beauty,
 sex, color, or size. Hens need differentiated carriage and presence. A rooster's
@@ -98,7 +98,7 @@ not simulated kingdoms or a safety boundary. Future fields supply forage and ins
 Treehouses anchor to trunks; supporting stores and transport occupy the ground.
 
 Show a woven branch deck, crooked readable ladder, rain hood, local reed stacks,
-visible carried bundles and real player paths. Delivered material, deck, roof and
+visible carried bundles and free ground travel. Delivered material, deck, roof and
 ladder stages precede useful sheltered occupancy. Natural branches work before
 building: adults fly up/down; improved access uses a visible approach and ladder
 climb. Evening light makes the saved phase legible. Shelter does not imply
@@ -113,7 +113,7 @@ and distinctive material shapes as inventions grow. Human housing assets remain
 inappropriate; machinery itself is welcome.
 
 Before acceptance, inspect silhouettes and cargo at the fixed gameplay framing,
-readable paths and construction, natural and improved occupancy, flight/ladder
+readable travel and construction, natural and improved occupancy, flight/ladder
 use, names and selection, fixed responsive framing, narrow layout, and non-motion work
 feedback. Reduced motion suppresses decorative bob and flutter; essential travel
 and textual state remain. Avoid a generic dashboard or a close-up character stage.
