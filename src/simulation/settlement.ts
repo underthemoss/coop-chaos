@@ -1,3 +1,4 @@
+import { habitatAnchor, habitatPosition, treeHabitat, treeWorkCell, type HabitatAnchor } from "../content/tree-habitats";
 import {
   foodPatches,
   forageTuning,
@@ -187,7 +188,10 @@ export function treeBuildOptions(state: Settlement, tree: TreeId) {
 /** Cell-space X/Z, unscaled vertical metres; renderer converts X/Z to art metres. */
 export function basketLiftPosition(tree: TreeId, progress: number) {
   const at = trees.find((t) => t.id === tree)!;
-  return { x: at.x - 0.825, z: at.z - 0.225, y: 0.34 + 2.1 * progress };
+  const profile = treeHabitat(tree);
+  const base = habitatAnchor(tree, "basket-ground");
+  const socket = habitatAnchor(tree, "cargo-socket");
+  return { x: at.x + (base.x + socket.x) / 2, z: at.z + (base.z + socket.z) / 2, y: base.y + socket.y + profile.hauling.travelY * progress };
 }
 export function cargoPosition(state: Settlement, bird: Worker) {
   const basket =
@@ -295,6 +299,9 @@ export function initialSettlement(): Settlement {
   };
 }
 export function route(_state: Settlement, from: Cell, to: Cell): Cell[] | null {
+  return groundRoute(from, to);
+}
+function groundRoute(from: Cell, to: Cell): Cell[] | null {
   if (!validCell(from) || !validCell(to)) return null;
   const queue: Cell[][] = [[from]];
   const visited = new Set([key(from)]);
@@ -308,7 +315,7 @@ export function route(_state: Settlement, from: Cell, to: Cell): Cell[] | null {
       { x: p.x, z: p.z + 1 },
       { x: p.x, z: p.z - 1 },
     ]) {
-      if (!visited.has(key(n)) && validCell(n)) {
+      if (!visited.has(key(n)) && validCell(n) && !trees.some(t => same(t, n))) {
         visited.add(key(n));
         queue.push([...path, n]);
       }
@@ -480,7 +487,7 @@ export function command(current: Settlement, action: Command): Settlement {
             ...bird.perch,
             direction: "down",
             progress: 1,
-            from: { ...bird.at },
+            from: treeWorkCell(bird.perch.tree),
           };
           bird.perch = null;
         } else if (bird.flight?.direction === "up")
@@ -490,16 +497,20 @@ export function command(current: Settlement, action: Command): Settlement {
   }
   return state;
 }
+/** Existing site identities stay at tree origins; work takes place beside the trunk.
+ * This also makes legacy salvage at a tree accessible without walking into wood. */
+export function groundAccess(at: Cell): Cell {
+  const tree = trees.find(t => same(t, at));
+  return tree ? treeWorkCell(tree.id) : at;
+}
 function destination(state: Settlement, bird: Worker): Cell | undefined {
   if (!bird.job) return undefined;
-  if (bird.job.stage === "pickup")
-    return bird.job.kind === "gather"
-      ? state.patches.find((p) => p.id === bird.job!.source)?.at
-      : location(state, bird.job.source)?.at;
-  return (
-    location(state, bird.job.destination)?.at ??
-    state.sites.find((s) => s.id === bird.job!.destination)?.at
-  );
+  const at = bird.job.stage === "pickup"
+    ? bird.job.kind === "gather"
+      ? state.patches.find(p => p.id === bird.job!.source)?.at
+      : location(state, bird.job.source)?.at
+    : location(state, bird.job.destination)?.at ?? state.sites.find(s => s.id === bird.job!.destination)?.at;
+  return at && groundAccess(at);
 }
 function move(state: Settlement, bird: Worker, to: Cell): boolean {
   if (same(bird.at, to) && !bird.edge) return true;
@@ -529,7 +540,7 @@ function assign(state: Settlement, bird: Worker) {
       !state.birds.some(
         (b) => b.job?.kind === "build" && b.job.destination === site.id,
       ) &&
-      route(state, bird.at, site.at)
+      route(state, bird.at, groundAccess(site.at))
     ) {
       bird.job = {
         kind: "build",
@@ -558,13 +569,13 @@ function assign(state: Settlement, bird: Worker) {
         (p) =>
           p.id !== site.id &&
           available(state, p.id) > 0 &&
-          route(state, bird.at, p.at) &&
-          route(state, p.at, site.at),
+          route(state, bird.at, groundAccess(p.at)) &&
+          route(state, groundAccess(p.at), groundAccess(site.at)),
       )
       .sort(
         (a, b) =>
-          route(state, a.at, site.at)!.length -
-            route(state, b.at, site.at)!.length || a.id.localeCompare(b.id),
+          route(state, groundAccess(a.at), groundAccess(site.at))!.length -
+            route(state, groundAccess(b.at), groundAccess(site.at))!.length || a.id.localeCompare(b.id),
       );
     // Storage refill originates at loose material; stores never endlessly refill one another.
     const source = sources.find(
@@ -657,45 +668,48 @@ export function groundPosition(bird: Worker): Cell {
       }
     : bird.at;
 }
-export function perchPosition(perch: Perch) {
-  const tree = trees.find((t) => t.id === perch.tree)!;
-  return {
-    x:
-      tree.x +
-      (perch.sheltered && perch.slot >= 2
-        ? perch.slot === 2
-          ? 0.74
-          : 1.26
-        : perch.slot % 2 === 0
-          ? -0.43
-          : 0.43),
-    z: tree.z + (perch.sheltered ? -0.25 : 0.23),
-    y: perch.sheltered
-      ? perch.slot >= 2
-        ? 2.85
-        : 2.25
-      : 3.15 + perch.slot * 0.18,
-  };
+export function perchPosition(perch: Perch, anchorScale = 1) {
+  const profile = treeHabitat(perch.tree);
+  const name = (perch.sheltered ? profile.shelteredPerches : profile.naturalPerches)[perch.slot] as HabitatAnchor;
+  const at = habitatAnchor(perch.tree, name);
+  return habitatPosition(perch.tree, { x: at.x * anchorScale, y: at.y * anchorScale, z: at.z * anchorScale });
 }
-export function birdPosition(bird: Worker) {
+function interpolatePoint(a: {x:number;y:number;z:number}, b: {x:number;y:number;z:number}, t: number) {
+  return { x: a.x + (b.x-a.x)*t, y: a.y + (b.y-a.y)*t, z: a.z + (b.z-a.z)*t };
+}
+/** Pure spatial read: anchorScale lets the renderer use the same authored route,
+ * without changing saved cells, progress, or outcomes. Downward travel reverses it. */
+export function birdPosition(bird: Worker, anchorScale = 1) {
   const perch = bird.perch ?? bird.flight;
   if (!perch) return { ...groundPosition(bird), y: 0 };
-  const end = perchPosition(perch);
+  const end = perchPosition(perch, anchorScale);
   if (!bird.flight) return end;
   const f = bird.flight;
   const t = f.progress;
-  // Improved platforms have a readable ground approach followed by a ladder ascent.
   if (f.sheltered) {
-    const tree = trees.find((t) => t.id === f.tree)!;
-    const base = { x: tree.x, z: tree.z - 0.54 };
-    const approach = Math.min(1, t / 0.4);
-    const climb = Math.min(1, Math.max(0, (t - 0.4) / 0.45));
-    const exit = Math.max(0, (t - 0.85) / 0.15);
-    return {
-      x: f.from.x + (base.x - f.from.x) * approach + (end.x - base.x) * exit,
-      z: f.from.z + (base.z - f.from.z) * approach + (end.z - base.z) * exit,
-      y: end.y * climb,
+    const profile = treeHabitat(f.tree);
+    const access = f.slot >= 2 ? profile.deckAccess : profile.homeAccess;
+    const anchor = (name: string) => {
+      const p = habitatAnchor(f.tree, name as HabitatAnchor);
+      return habitatPosition(f.tree, {x:p.x*anchorScale,y:p.y*anchorScale,z:p.z*anchorScale});
     };
+    // Walk the existing ground grid around trunk bases before the short ladder approach.
+    // Legacy starts inside a trunk are allowed to leave, never newly traversed.
+    const approach = groundRoute(f.from, treeWorkCell(f.tree)) ?? [f.from];
+    const points = approach.map(p => ({...p,y:0}));
+    points.push(anchor("ladder-base"));
+    if (t <= access[0].progress) {
+      const u = t / access[0].progress * (points.length-1);
+      const i = Math.min(points.length-2, Math.floor(u));
+      return interpolatePoint(points[i], points[i+1], u-i);
+    }
+    let start = anchor(access[0].anchor), previous = access[0].progress;
+    for (const waypoint of [...access.slice(1), {progress:1,anchor:"berth"}]) {
+      const next = waypoint.anchor === "berth" ? end : anchor(waypoint.anchor);
+      if (t <= waypoint.progress) return interpolatePoint(start,next,(t-previous)/(waypoint.progress-previous));
+      start=next;previous=waypoint.progress;
+    }
+    return end;
   }
   return {
     x: f.from.x + (end.x - f.from.x) * t,
@@ -873,6 +887,17 @@ export function step(current: Settlement): Settlement {
         );
       continue;
     }
+    // Legacy saves may stand on, or finish an already committed edge through, a
+    // trunk. Egress before taking new work; an active old lift must finish first.
+    const trunk = !bird.lift && trees.find(t => same(t, bird.at));
+    if (trunk) {
+      move(state, bird, bird.edge?.to ?? treeWorkCell(trunk.id));
+      continue;
+    }
+    if (bird.edge && !bird.job && !bird.foraging) {
+      move(state, bird, bird.edge.to);
+      continue;
+    }
     if (state.phase === "day") {
       // Carried goods always reach their destination. Interrupt uncollected work only
       // at a ground-cell boundary, preserving every committed material bundle.
@@ -921,7 +946,9 @@ export function step(current: Settlement): Settlement {
       continue;
     }
     const to = destination(state, bird);
-    if (!to || !move(state, bird, to)) continue;
+    // A saved v4 lift may already be operating at the old trunk cell. Finish that
+    // reserved lift in place; subsequent trips use the adjacent work cell.
+    if (!to || (!bird.lift && !move(state, bird, to))) continue;
     if (job.kind === "build") {
       const site = state.sites.find((s) => s.id === job.destination)!;
       if (!readyForBuild(state, site)) {
@@ -1052,7 +1079,7 @@ export function workerStatus(state: Settlement, bird: Worker): string {
       !state.basketTechnique &&
       site.delivered === 3 &&
       site.progress < 30 &&
-      same(bird.at, site.at) &&
+      same(bird.at, groundAccess(site.at)) &&
       !bird.edge
     )
       return "Keeping the final bundle secure while the basket is woven";
@@ -1140,7 +1167,7 @@ export function siteStatus(state: Settlement, site: Site) {
     ![
       ...state.piles,
       ...state.sites.filter((p) => p.complete && p.kind === "store"),
-    ].some((p) => available(state, p.id) > 0 && route(state, p.at, site.at)) &&
+    ].some((p) => available(state, p.id) > 0 && route(state, groundAccess(p.at), groundAccess(site.at))) &&
     site.delivered + incoming(state, site.id) < cost(site)
   )
     return "Needs available local construction reeds";

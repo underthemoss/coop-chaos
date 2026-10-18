@@ -45,3 +45,16 @@ describe("canopy additions share the existing tree transform",()=>{
     }
   });
 });
+
+describe("supported deck access follows the same saved parameter in both directions",()=>{
+  for(const tree of trees)for(const slot of [2,3])test(`${tree.id} berth ${slot}: ladder then home, ramp and deck`,()=>{
+    const bird=initialSettlement().birds[0],scale=treeScale[tree.id];
+    const stops=[{t:.7,p:[0,2.25,-1.08]},{t:.76,p:[0,2.25,-.5]},{t:.82,p:[.78,2.25,-.5]},{t:.9,p:[1.07,2.48,-.5]},{t:.95,p:[1.27,2.85,-.5]}];
+    for(const {t,p} of stops){
+      bird.flight={tree:tree.id,slot,sheltered:true,direction:"up",progress:t,from:{x:tree.x,z:tree.z-1}};
+      const up=presentedBirdPosition(bird);
+      expect(up.x).toBeCloseTo(tree.x*2+p[0]*scale,8);expect(up.y).toBeCloseTo(p[1]*scale,8);expect(up.z).toBeCloseTo(tree.z*2+p[2]*scale,8);
+      bird.flight.direction="down";expect(presentedBirdPosition(bird)).toEqual(up);
+    }
+  });
+});

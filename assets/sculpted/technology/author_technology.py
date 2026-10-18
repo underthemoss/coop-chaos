@@ -2,7 +2,7 @@
 Run: BLENDER --background --python assets/sculpted/technology/author_technology.py
 No existing sources are regenerated. Helpers use X right / Y up / Z forward.
 """
-import bpy, math, json, hashlib, sys
+import bpy, math, json, hashlib, sys, argparse
 from pathlib import Path
 from mathutils import Vector
 ROOT=Path(__file__).resolve().parents[3]
@@ -60,17 +60,21 @@ def setup():
 def export(name):
     bpy.ops.object.select_all(action='SELECT')
     bpy.context.scene['author']='Original Coop Chaos project-authored geometry'
-    bpy.context.scene['revision']='canopy-technology-v1'
+    bpy.context.scene['revision']='sleeping-hood-v2' if name=='sleeping-deck' else 'canopy-technology-v1'
     bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/f'{name}.blend'))
     bpy.ops.export_scene.gltf(filepath=str(OUT/f'{name}.glb'),export_format='GLB',use_selection=True,export_animations=False,export_yup=True)
 
 # Attachment contract is kept in tree-local exported units, not map-cell units.
-DECK_CENTER=(2.0,2.85,-.5)
-BERTHS=[(1.48,2.85,-.5),(2.52,2.85,-.5)]
-BASKET_BASE=(-1.65,.12,-.45)
-BASKET_TRAVEL=2.10
-PULLEY=(-1.65,3.36,-.45)
-BASKET_ATTACH=.87
+HABITATS=json.loads((ROOT/'src/content/tree-habitats.json').read_text())
+PROFILE=HABITATS['profiles']['canopy-proof']
+ANCHORS=PROFILE['anchors']
+HAULING=PROFILE['hauling']
+BERTHS=[tuple(ANCHORS[f'sheltered-perch-{i}']) for i in (2,3)]
+DECK_CENTER=tuple(sum(p[i] for p in BERTHS)/2 for i in range(3))
+BASKET_BASE=tuple(ANCHORS['basket-ground'])
+BASKET_TRAVEL=HAULING['travelY']
+PULLEY=(BASKET_BASE[0],ANCHORS['lift-rope'][1],BASKET_BASE[2])
+BASKET_ATTACH=HAULING['bridleAboveBasket']
 
 def sleeping_deck():
     root=setup();deck=empty('sleeping-deck',parent=root);roof=empty('sleeping-rainhood',parent=root)
@@ -92,23 +96,52 @@ def sleeping_deck():
         for r in range(4):hoop('individual shallow nesting cup',(bx,by+.008+r*.018,bz),.34+r*.028,.29+r*.021,.023,reed if r%2 else pale,deck,28)
         tube('sleeping grasp perch',[(bx-.34,by+.035,bz-.08),(bx,by+.05,bz-.11),(bx+.34,by+.035,bz-.08)],.045,wood,deck)
     # Lateral bridge joins the original home edge, with emphatic tied supports.
-    for j in range(5):tube('home connecting weave',[(.78,2.18,-.76+j*.13),(1.07,2.48,-.76+j*.13),(1.27,y-.09,-.76+j*.13)],.045,wood,deck)
+    edge,middle,entry=(ANCHORS[n] for n in ('home-edge','ramp-middle','deck-entry'))
+    for j in range(5):tube('home connecting weave',[(edge[0],edge[1]-.07,edge[2]-.26+j*.13),(middle[0],middle[1],middle[2]-.26+j*.13),(entry[0],entry[1]-.09,entry[2]-.26+j*.13)],.045,wood,deck)
     for j in range(6):
         t=j/5;tube('connecting ramp grasp rung',[(.80+t*.48,2.20+t*.57,-.81),(.80+t*.48,2.20+t*.57,-.19)],.031,binding,deck)
     for pts in [[(.05,1.50,.07),(.75,1.90,-.18),(2.25,y-.16,-.51)],[(.15,2.10,.30),(1.24,2.30,.23),(2.84,y-.18,-.06)]]:
         tube('crooked cradling brace',pts,[.11,.09,.055],wood,deck,10)
         lash(pts[1],deck,.12);lash(pts[-1],deck,.1)
-    for dx in [-1.04,1.04]:
-        tube('hood arched rib',[(cx+dx,y-.07,cz+.45),(cx+dx*.97,y+.68,cz+.52),(cx+dx*.84,y+1.04,cz+.03),(cx+dx*.90,y+.88,cz-.77)],[.065,.055,.044,.035],wood,roof,8)
-        lash((cx+dx,y+.15,cz+.47),roof,.09)
-    for i in range(55):
-        dx=(i-27)*.044;edge=abs(dx)/1.23
-        pts=[(cx+dx,y+.54-edge*.07,cz+.72),(cx+dx,y+.96-edge*.09,cz+.41),(cx+dx,y+1.12-edge*.1,cz-.02),(cx+dx,y+1.03-edge*.09,cz-.44),(cx+dx,y+.88-edge*.09-.04*math.sin(i*1.7),cz-.83)]
-        tube('leaflike curved rainhood',pts,.026,wood if i%7==0 else reed,roof,6)
-    for z,h in [(cz+.43,y+.97),(cz-.02,y+1.13),(cz-.43,y+1.04)]:
-        tube('rainhood cross binding',[(cx-1.19,h-.1,z),(cx,h,z),(cx+1.19,h-.1,z)],.027,binding,roof)
+    # Leaflike hood: a deep rear cradle rises to a high, scalloped open mouth.
+    # Its front lip sits above and behind the fixed-camera head sightlines;
+    # weather cover remains opaque, supported by two curved side ribs.
+    def hood(u,t):
+        # Transverse width swells through the middle and tapers at both ends.
+        width=1.17*math.sin(math.pi*(.17+.67*t))**.38
+        x=cx+u*width
+        z=cz+.71-1.19*t+.34*abs(u)**1.7*t
+        arch=math.sin(math.pi*.65*t)
+        h=.35+1.22*arch-.60*abs(u)**1.8*arch
+        # A small off-centre crown and unequal lip give a handwoven silhouette.
+        h+=.065*math.sin(u*2.6+.35)*arch
+        return (x,y+h,z)
+    # Side ribs follow the curving shelter into the original rear deck rim.
+    for u in [-1,1]:
+        pts=[hood(u,t) for t in [0,.18,.38,.60,.80,1]]
+        tube('swept hood side rib',[(pts[0][0],y-.04,pts[0][2])]+pts,[.058,.055,.052,.048,.044,.038,.028],wood,roof,8)
+        lash((pts[0][0],y+.18,pts[0][2]),roof,.085)
+    for i in range(49):
+        u=(i-24)/24
+        pts=[hood(u,j/8) for j in range(9)]
+        # Narrow split reeds taper toward the curled front edge; no solid panel.
+        tube('swept leafhood split reed',pts,[.025,.025,.024,.024,.023,.022,.021,.020,.015],wood if i%9==0 else reed,roof,6)
+    for k,t in enumerate([.05,.19,.34,.49,.64,.79,.93]):
+        pts=[]
+        for j in range(25):
+            u=(j-12)/12;p=Vector(hood(u,t));p.y+=.018*math.sin(j*math.pi+k)
+            pts.append(p)
+        tube('curved hood cross weave',pts,.019,binding if k in [0,3,6] else pale,roof,6)
+    lip=[hood((j-16)/16,1) for j in range(33)]
+    tube('scalloped open shelter mouth',lip,[.038-.013*abs((j-16)/16) for j in range(33)],wood,roof,8)
+    # Open lower sides admit birds and expose the cups. Short curved return
+    # stakes tie hood to the rear crescent rather than raising a front wall.
+    for u in [-.84,.84]:
+        p=hood(u,.16);tube('rear cradle hood support',[(p[0],y+.15,cz+.62),(p[0]+u*.04,y+.55,cz+.64),p],[.034,.029,.024],binding,roof,7)
+        lash((p[0],y+.34,cz+.62),roof,.065)
     join_under(deck,'sleeping-deck-weave');join_under(roof,'sleeping-rainhood-weave')
     for i,p in enumerate(BERTHS):empty(f'sheltered-perch-{i+2}',p,root)
+    for name in ('home-edge','ramp-middle','deck-entry'):empty(name,ANCHORS[name],root)
     export('sleeping-deck')
 
 def hauling_basket():
@@ -143,9 +176,9 @@ def hauling_basket():
         xx=-1.34+j*.08;tube('operator woven foothold',[(xx,.045,-1.03),(xx+.015,.055,-.77),(xx,.045,-.51)],.028,reed,frame)
     for zz in [-1.0,-.53]:tube('operator grasping foot perch',[(-1.4,.08,zz),(-.75,.08,zz)],.043,wood,frame)
     lash((-1.14,.42,-.65),frame,.055)
-    rope=empty('lift-rope',(px-.17,py,pz),root)
-    tube('lift-rope-fiber',[(0,0,0),(0,-(py-(y+BASKET_ATTACH)),0)],.021,binding,rope,8)
-    basket=empty('basket',BASKET_BASE,root)
+    rope=empty(HAULING['ropeNode'],ANCHORS['lift-rope'],root)
+    tube('lift-rope-fiber',[(0,0,0),(0,-HAULING['ropeRestLength'],0)],.021,binding,rope,8)
+    basket=empty(HAULING['basketNode'],BASKET_BASE,root)
     # Basket geometry is local to this moving root; cargo remains its child.
     for i in range(13):
         h=.06+i*.032;rx=.37+.06*(h/.45)
@@ -160,14 +193,18 @@ def hauling_basket():
     for zz in [-.24,.24]:
         tube('basket suspension bridle',[(-.36,.42,zz),(-.17,.74,zz*.32),(-.17,.87,0),(.12,.70,zz*.32),(.36,.42,zz)],[.023,.021,.028,.021,.023],binding,basket)
     lash((-.17,.83,0),basket,.065)
-    empty('cargo-socket',(0,.22,0),basket)
-    empty('basket-ground',BASKET_BASE,root);empty('basket-landing',(x,y+BASKET_TRAVEL,z),root)
-    empty('operator-ground',(-1.05,0,-.75),root)
+    empty('cargo-socket',ANCHORS['cargo-socket'],basket)
+    empty('basket-ground',BASKET_BASE,root);empty('basket-landing',ANCHORS['basket-landing'],root)
+    empty('operator-ground',ANCHORS['operator-ground'],root)
     join_under(frame,'hauling-frame-weave');join_under(landing,'hauling-landing-weave');join_under(basket,'hauling-basket-weave')
     export('hauling-basket')
 
-sleeping_deck();hauling_basket()
-contract={'revision':'canopy-technology-v1','coordinates':'X right, Y up, Z forward; tree-local origin; scale with existing home','deck':{'berths':BERTHS},'hauling':{'basketRoot':'basket','basketBase':BASKET_BASE,'travelY':BASKET_TRAVEL,'cargoSocket':[0,.22,0],'ropeRoot':'lift-rope','ropeTop':[PULLEY[0]-.17,PULLEY[1],PULLEY[2]],'ropeRestLength':PULLEY[1]-(BASKET_BASE[1]+BASKET_ATTACH)},'exports':{}}
+parser=argparse.ArgumentParser()
+parser.add_argument('--only',choices=['sleeping-deck','hauling-basket'])
+args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
+if args.only in (None,'sleeping-deck'):sleeping_deck()
+if args.only in (None,'hauling-basket'):hauling_basket()
+contract={'revision':'sleeping-hood-v2; hauling-v1','habitatRevision':HABITATS['revision'],'coordinates':'X right, Y up, Z forward; tree-local origin; scale with existing home','deck':{'berths':BERTHS},'hauling':{'basketRoot':HAULING['basketNode'],'basketBase':BASKET_BASE,'travelY':BASKET_TRAVEL,'cargoSocket':ANCHORS['cargo-socket'],'ropeRoot':HAULING['ropeNode'],'ropeTop':ANCHORS['lift-rope'],'ropeRestLength':HAULING['ropeRestLength']},'exports':{}}
 for name in ['sleeping-deck','hauling-basket']:
     path=OUT/f'{name}.glb';contract['exports'][name]={'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
 (RECORD/'contract.json').write_text(json.dumps(contract,indent=2)+'\n')

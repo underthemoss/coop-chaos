@@ -1,3 +1,4 @@
+import { treeHabitat } from "../content/tree-habitats";
 import { settlers, trees, type TreeId } from "../content/settlement";
 import { siteStatus, shelteredCapacity, treeBuildOptions, type Command, type Settlement } from "../simulation/settlement";
 
@@ -20,6 +21,8 @@ export function TreeInspector({state, treeId, disabled, onSelect, onCommand}: {
   const sites = state.sites.filter(s => s.tree === treeId);
   const occupants = state.birds.filter(b => (b.perch ?? b.flight)?.tree === treeId);
   const technique = state.basketTechnique;
+  const places = treeHabitat(treeId).places;
+  const placeFor = {treehouse:places.home,"hauling-basket":places.hauling,"sleeping-deck":places.deck,store:"Ground store"};
   const buildOrder = ["treehouse", "hauling-basket", "sleeping-deck"];
   const options = treeBuildOptions(state, treeId)
     .filter(option => !sites.some(site => site.kind === option.kind))
@@ -31,10 +34,11 @@ export function TreeInspector({state, treeId, disabled, onSelect, onCommand}: {
     <span className="eyebrow">A PLACE TO CALL HOME</span>
     <h2>{tree.name}</h2>
     <p>{tree.description}</p>
-    <div className="berth-summary"><strong>2 natural branches</strong><span>{shelteredCapacity(state, treeId)} sheltered berths</span></div>
-    <p className="quiet">{occupants.length ? occupants.map(b => `${settlers.find(s => s.id === b.id)!.name}${b.flight ? b.flight.direction === "down" ? " leaving" : " arriving" : b.perch?.sheltered ? " in shelter" : " on a branch"}`).join(" · ") : "No birds sleeping here now. Natural branches work before building."}</p>
+    <div className="berth-summary"><strong>{places.natural} · 2 branches</strong><span>{shelteredCapacity(state, treeId)} sheltered berths</span></div>
+    <p className="quiet">{occupants.length ? occupants.map(b => `${settlers.find(s => s.id === b.id)!.name}${b.flight ? b.flight.direction === "down" ? " leaving" : " arriving" : b.perch?.sheltered ? ` at ${b.perch.slot < 2 ? places.home : places.deck}` : ` at ${places.natural}`}`).join(" · ") : "No birds sleeping here now. Natural branches work before building."}</p>
     {sites.map(site => <article className="site-card" key={site.id}>
       <h3>{names[site.kind]} <span>{site.complete ? "Ready" : "In progress"}</span></h3>
+      <p className="quiet">{placeFor[site.kind]}</p>
       <p className="work-status">{siteStatus(state, site)}</p>
       {site.contributors.length > 0 && <p className="quiet">Made by {site.contributors.map(id => settlers.find(s => s.id === id)!.name).join(", ")}</p>}
       {!site.complete && <button disabled={disabled} onClick={() => onCommand({type:"cancel", id:site.id})}>Cancel {names[site.kind].toLowerCase()}</button>}

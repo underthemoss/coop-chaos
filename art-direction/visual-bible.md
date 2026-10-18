@@ -94,17 +94,17 @@ checks or a similar layout alone do not establish art quality.
 Four original GLB adult mesh proofs inhabit a broad faceted landscape. Three branching
 landmarks sit in small forest home clusters around the glade: Lowfork, Splitcrown
 and Reedside. A reed cache lies across open common ground. These are map geography,
-not simulated kingdoms or a safety boundary. Future fields supply forage and insects.
-Treehouses anchor to trunks; supporting stores and transport occupy the ground.
+not simulated kingdoms or a safety boundary. Current mixed-food places support bounded autonomous foraging; broader field ecology remains future.
+Treehouses rest on supported forks and boughs; the tree origin is only their placement reference. Supporting stores and transport occupy the ground.
 
 Show a woven branch deck, crooked readable ladder, rain hood, local reed stacks,
 visible carried bundles and free ground travel. Delivered material, deck, roof and
 ladder stages precede useful sheltered occupancy. Natural branches work before
 building: adults fly up/down; improved access uses a visible approach and ladder
-climb. Evening light makes the saved phase legible. Shelter does not imply
+climb, then the supported home edge and ramp for the upper deck. Evening light makes the saved phase legible. Shelter does not imply
 unimplemented universal defense. Readiness, work and remembered contribution have
-written feedback as well as motion. These remain provisional procedural poses,
-not production rigs, authored walk cycles or completed character art.
+written feedback as well as motion. The current birds use seven authored rigid-articulation clips, not production rigs
+or completed character art.
 
 [Technology design](../story/technology.md) extends the chicken aesthetic toward
 canopy links, counterweight hauling, powered lifts, and late science-fiction
@@ -117,3 +117,12 @@ readable travel and construction, natural and improved occupancy, flight/ladder
 use, names and selection, fixed responsive framing, narrow layout, and non-motion work
 feedback. Reduced motion suppresses decorative bob and flutter; essential travel
 and textual state remain. Avoid a generic dashboard or a close-up character stage.
+
+
+The inhabited-tree proof uses the content-owned [habitat contract](../src/content/tree-habitats.json)
+for natural roost, home fork, hauling cleft and upper sleeping deck. Anatomy must
+support those places and preserve visible crown windows, occupied faces and the
+cargo shaft. A ground workcourt is useful space beside the trunk, not transit
+through its center. Lowfork anatomy and open rainhoods are incremental runtime
+art improvements; neither concept parity nor new tree food/shade/defense mechanics
+follows from them.

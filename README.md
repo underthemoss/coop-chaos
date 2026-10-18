@@ -11,6 +11,9 @@ The [settlement design](story/settlement-design.md) owns the loop;
 inventions, and distinct defensive purposes. The larger game remains future.
 This playable **construction proof** implements one finite-material chain,
 local storage, natural evening flight, and earned woven shelter with ladder use.
+The inhabited-tree proof joins the upper deck through the home edge and ramp;
+ground deliveries approach beside the trunk. A shared content habitat contract
+keeps six berths, cargo and access aligned with authored assets and existing saves.
 It does not yet implement food production, predators, population growth, rival
 kingdoms, or a broad technology tree. Thirty minutes of enjoyable settlement play is a
 future playtest target, not a proven property of this slice.

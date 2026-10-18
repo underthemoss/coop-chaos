@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { treeWorkCell } from "../content/tree-habitats";
 import { settlers, trees, tuning } from "../content/settlement";
 import {
   decodeSettlement,
@@ -276,7 +277,7 @@ describe("supplied canopy construction and demonstrated shared technique", () =>
       });
       const builder = s.birds.find((b) => b.id === "fern")!;
       Object.assign(builder, {
-        at: { ...pending.at },
+        at: treeWorkCell(pending.tree!),
         job: {
           kind: "build",
           source: "",
@@ -345,7 +346,7 @@ describe("supplied canopy construction and demonstrated shared technique", () =>
     };
     const boundary = decodeSettlement(oldThree(completed));
     expect(boundary).toEqual(completed);
-    expect(ticks(boundary).sites[0].complete).toBe(true);
+    expect(until(boundary, v=>v.sites[0].complete).sites[0].complete).toBe(true);
     const lifted = liftingPrototype();
     const mutations = [
       (s: Settlement) => {

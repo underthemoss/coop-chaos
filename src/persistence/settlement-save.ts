@@ -1,3 +1,4 @@
+import { treeWorkCell } from "../content/tree-habitats";
 import {
   initialSettlement,
   initialForage,
@@ -506,7 +507,7 @@ function validateVersion(value: unknown, version: 1 | 2 | 3 | 4): Settlement {
           !target ||
           b.job?.kind !== "haul" ||
           b.job.stage !== "deliver" ||
-          key(b.at) !== key(basket.at) ||
+          (key(b.at) !== key(basket.at) && (!basket.tree || key(b.at) !== key(treeWorkCell(basket.tree)))) ||
           lifting.has(basket.id) ||
           !(basket.complete
             ? target.kind === "sleeping-deck" && target.tree === basket.tree

@@ -1,5 +1,6 @@
 {
-  "revision": "canopy-technology-v1",
+  "revision": "sleeping-hood-v2; hauling-v1",
+  "habitatRevision": "inhabited-tree-v1",
   "coordinates": "X right, Y up, Z forward; tree-local origin; scale with existing home",
   "deck": {
     "berths": [
@@ -38,8 +39,8 @@
   },
   "exports": {
     "sleeping-deck": {
-      "bytes": 710004,
-      "sha256": "5e145286fe06c263e240b7f43e6d7776a094fb8068ee0873a23ced28dd41faf8"
+      "bytes": 1015368,
+      "sha256": "22a17a15e4620fa29d54086d756c7df9dc3f95194fac5df56f9368a0aa7810e3"
     },
     "hauling-basket": {
       "bytes": 871436,

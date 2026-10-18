@@ -1,6 +1,8 @@
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {describe,test,expect} from 'vitest';
+const habitat=JSON.parse(readFileSync(new URL('../../../src/content/tree-habitats.json',import.meta.url))).profiles['canopy-proof'];
+const anchors=habitat.anchors;
 const contract=JSON.parse(readFileSync(new URL('./contract.json',import.meta.url)));
 function read(name){
   const bytes=readFileSync(new URL(`../../../public/assets/environment/${name}.glb`,import.meta.url));
@@ -35,20 +37,23 @@ describe('canopy technology authored assets',()=>{
     }
   });
   test('additional named berths preserve tree-local metre positions',()=>{
-    const {node}=read('sleeping-deck');contract.deck.berths.forEach((p,i)=>at(node(`sheltered-perch-${i+2}`),p));
+    const {gltf,node}=read('sleeping-deck');["sheltered-perch-2","sheltered-perch-3","home-edge","ramp-middle","deck-entry"].forEach(name=>at(node(name),anchors[name]));
     expect(node('sleeping-deck')).toBeDefined();expect(node('sleeping-rainhood')).toBeDefined();
+    // The inspection studio may contain birds; the shipped addition contains
+    // only its two structural mesh groups and the canonical attachment sockets.
+    expect(gltf.nodes.filter(n=>n.mesh!==undefined).map(n=>n.name).sort()).toEqual(['sleeping-deck-weave','sleeping-rainhood-weave']);
   });
   test('basket and cargo move together and rope meets its bridle throughout the saved lift range',()=>{
-    const {gltf,node}=read('hauling-basket'),h=contract.hauling,basket=node('basket'),cargo=node('cargo-socket');
-    at(basket,[-1.65,.12,-.45]);at(cargo,[0,.22,0]);expect(basket.children).toContain(gltf.nodes.indexOf(cargo));
+    const {gltf,node}=read('hauling-basket'),h={...habitat.hauling,basketBase:anchors['basket-ground'],ropeTop:anchors['lift-rope'],cargoSocket:anchors['cargo-socket']},basket=node('basket'),cargo=node('cargo-socket');
+    at(basket,anchors["basket-ground"]);at(cargo,anchors["cargo-socket"]);expect(basket.children).toContain(gltf.nodes.indexOf(cargo));
     at(node('basket-ground'),h.basketBase);at(node('basket-landing'),[h.basketBase[0],h.basketBase[1]+h.travelY,h.basketBase[2]]);
-    at(node('lift-rope'),h.ropeTop);at(node('operator-ground'),[-1.05,0,-.75]);
+    at(node('lift-rope'),h.ropeTop);at(node('operator-ground'),anchors['operator-ground']);
     const childNames=(basket.children||[]).map(i=>gltf.nodes[i].name);expect(childNames).toContain('hauling-basket-weave');expect(childNames).not.toContain('hauling-frame');
     for(const progress of [0,.25,.5,.75,1]){
       const ropeScale=(h.ropeRestLength-h.travelY*progress)/h.ropeRestLength;
       expect(ropeScale).toBeGreaterThan(0);
       const ropeEnd=h.ropeTop[1]-h.ropeRestLength*ropeScale;
-      expect(ropeEnd).toBeCloseTo(h.basketBase[1]+h.travelY*progress+.87,5);
+      expect(ropeEnd).toBeCloseTo(h.basketBase[1]+h.travelY*progress+h.bridleAboveBasket,5);
       const cargoY=h.basketBase[1]+h.travelY*progress+h.cargoSocket[1];expect(cargoY).toBeCloseTo(.34+2.10*progress,5);
     }
   });

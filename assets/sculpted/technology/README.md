@@ -1,4 +1,4 @@
-# Chicken-built canopy additions, v1
+# Chicken-built canopy additions
 
 Original project-authored geometry, created in Blender 4.5.3 LTS on 2026-10-18.
 The editable sources are `../environment/sleeping-deck.blend` and
@@ -14,10 +14,18 @@ fresh split-reed accent. Individual reeds, curved hood layers, twig braces,
 oversized knots and shallow nest cups remain editable in the retained Blender
 mesh groups. There are no human house forms or new world-canon assertions.
 
+The sleeping hood revision is `sleeping-hood-v2`; the hauling rig remains v1.
+The hood is a curved split-reed cradle with a raised scalloped mouth, layered
+cross-weave and tied rear supports. The original deck, cups, ramp and braces
+retain their exact exported mesh arrays. Birds in the inspection studio are
+context only and are absent from the exported deck.
+
 Run with Blender 4.5 LTS:
 
 ```sh
 "$BLENDER_BIN" --background --python assets/sculpted/technology/author_technology.py
+# Bounded hood regeneration; does not write the hauling GLB or Blender source:
+"$BLENDER_BIN" --background --python assets/sculpted/technology/author_technology.py -- --only sleeping-deck
 npx vitest run assets/sculpted/technology/technology.test.js
 ```
 
@@ -31,12 +39,17 @@ recipe directly; it does not regenerate or replace unrelated accepted art.
 All numbers are exported metres: X right, Y up, Z forward. Each `asset` root is
 at tree-local `(0,0,0)` and takes the exact same position and `treeScale` as the
 existing tree and woven home. Simulation X/Z cells are half these metre offsets.
-`contract.json` holds the reviewed coordinates and export hashes.
+`src/content/tree-habitats.json` is the physical anchor authority, in
+`profiles['canopy-proof']['anchors']`. The recipe consumes its deck berth and
+connection anchors. `contract.json` is a generated receipt of coordinates and
+export hashes, not a separate geometry authority.
 
 The sleeping extension has a sloping grasp-rung connection from the original
 home to two shallow nest cups. `sheltered-perch-2` is `(1.48,2.85,-.5)` and
 `sheltered-perch-3` is `(2.52,2.85,-.5)`. Separate `sleeping-deck` and
 `sleeping-rainhood` roots allow construction stages to reveal useful work.
+The deck also exports `home-edge`, `ramp-middle` and `deck-entry` sockets from
+the same canonical contract.
 
 The hauling rig includes crooked lashed masts, triangular braces, a grooved
 six-spoke wooden pulley, return rope with a beak grip, landing, and a ground
@@ -63,6 +76,17 @@ authored animation loops or clips; runtime movement follows saved simulation.
 normals, indexed nondegenerate triangles, PBR factors, exact berth anchors,
 basket/cargo parentage and continuous bridle/rope alignment over the lift range.
 `qualification.json` records exported counts, local mesh bounds and hierarchy.
+`hood-v2-qualification.json` records exact floor/ramp/brace array preservation
+and unchanged hauling GLB/Blender hashes for the bounded hood revision.
+`qualify_hood.py` reads the retained before/after evidence in ignored output;
+it does not regenerate assets. The deck has 19,054 triangles, of which the
+unchanged deck/cups/ramp/braces account for 9,094.
+
+`render_sleeping_hood.py` produces the neutral daylight close proof in
+`output/playwright/technology-art/sleeping-hood-v2/`, with proof-only birds at
+the canonical berths. `sleeping-hood-v2-fixed-angle-clean.png` is the clean v2
+source-art proof. Actual runtime comb clearance and fixed-frame acceptance
+remain with the integrator and primary art owner.
 
 `render_technology.py` produces close views and a Lowfork/home/extension/rig
 assembly in ignored `output/playwright/technology-art/`. These use Cycles/AgX

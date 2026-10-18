@@ -1,0 +1,157 @@
+{
+  "revision": "sleeping-hood-v2",
+  "unchanged_files": {
+    "public/assets/environment/hauling-basket.glb": true,
+    "assets/sculpted/environment/hauling-basket.blend": true
+  },
+  "preserved_floor_ramp_brace_mesh_digest": "2cd4f7c634c3388e5a52d9d815cf4d240bbb06411405606e9a2f0d8945a90337",
+  "preserved_geometry_arrays": "All original deck primitive attribute arrays and indices, across all original materials; exact array equality",
+  "canonical_habitat_revision": "inhabited-tree-v1",
+  "source_proof": "output/playwright/technology-art/sleeping-hood-v2/sleeping-hood-v2-fixed-angle-clean.png",
+  "deck": {
+    "bytes": 1015368,
+    "sha256": "22a17a15e4620fa29d54086d756c7df9dc3f95194fac5df56f9368a0aa7810e3",
+    "nodes": [
+      {
+        "name": "deck-entry",
+        "translation": [
+          1.2699999809265137,
+          2.8499999046325684,
+          -0.5
+        ],
+        "children": []
+      },
+      {
+        "name": "home-edge",
+        "translation": [
+          0.7799999713897705,
+          2.25,
+          -0.5
+        ],
+        "children": []
+      },
+      {
+        "name": "ramp-middle",
+        "translation": [
+          1.0700000524520874,
+          2.4800000190734863,
+          -0.5
+        ],
+        "children": []
+      },
+      {
+        "name": "sheltered-perch-2",
+        "translation": [
+          1.4800000190734863,
+          2.8499999046325684,
+          -0.5
+        ],
+        "children": []
+      },
+      {
+        "name": "sheltered-perch-3",
+        "translation": [
+          2.5199999809265137,
+          2.8499999046325684,
+          -0.5
+        ],
+        "children": []
+      },
+      {
+        "name": "sleeping-deck-weave",
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "mesh": 0,
+        "children": []
+      },
+      {
+        "name": "sleeping-deck",
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "children": [
+          "sleeping-deck-weave"
+        ]
+      },
+      {
+        "name": "sleeping-rainhood-weave",
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "mesh": 1,
+        "children": []
+      },
+      {
+        "name": "sleeping-rainhood",
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "children": [
+          "sleeping-rainhood-weave"
+        ]
+      },
+      {
+        "name": "asset",
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "children": [
+          "deck-entry",
+          "home-edge",
+          "ramp-middle",
+          "sheltered-perch-2",
+          "sheltered-perch-3",
+          "sleeping-deck",
+          "sleeping-rainhood"
+        ]
+      }
+    ],
+    "vertices": 37270,
+    "triangles": 19054,
+    "meshes": {
+      "sleeping-deck-weave": {
+        "vertices": 17682,
+        "triangles": 9094,
+        "localBounds": [
+          [
+            -0.007248964160680771,
+            1.405779242515564,
+            -1.2017735242843628
+          ],
+          [
+            3.249135732650757,
+            3.213479518890381,
+            0.40977388620376587
+          ]
+        ]
+      },
+      "sleeping-rainhood-weave": {
+        "vertices": 19588,
+        "triangles": 9960,
+        "localBounds": [
+          [
+            0.7947641015052795,
+            2.78425931930542,
+            -1.0192692279815674
+          ],
+          [
+            3.2055962085723877,
+            4.480676174163818,
+            0.2800019681453705
+          ]
+        ]
+      }
+    }
+  }
+}

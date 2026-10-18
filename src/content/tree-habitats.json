@@ -1,0 +1,62 @@
+{
+  "revision": "inhabited-tree-v1",
+  "coordinates": "Tree-local art metres: X right, Y up, Z forward. Simulation X/Z cells are two metres; vertical values remain metres.",
+  "trees": {
+    "lowfork": { "profile": "canopy-proof", "scale": 1 },
+    "splitcrown": { "profile": "canopy-proof", "scale": 0.76 },
+    "reedside": { "profile": "canopy-proof", "scale": 0.62 }
+  },
+  "profiles": {
+    "canopy-proof": {
+      "places": {
+        "natural": "Natural roost",
+        "home": "Home fork",
+        "hauling": "Hauling cleft",
+        "deck": "Upper sleeping deck"
+      },
+      "groundWorkCell": [0, -1],
+      "anchors": {
+        "natural-perch-0": [-0.86, 3.15, 0.46],
+        "natural-perch-1": [0.86, 3.33, 0.46],
+        "sheltered-perch-0": [-0.86, 2.25, -0.5],
+        "sheltered-perch-1": [0.86, 2.25, -0.5],
+        "sheltered-perch-2": [1.48, 2.85, -0.5],
+        "sheltered-perch-3": [2.52, 2.85, -0.5],
+        "sheltered-deck": [0, 2.25, -0.5],
+        "ladder-base": [0, 0, -1.08],
+        "ladder-top": [0, 2.25, -1.08],
+        "home-entry": [0, 2.25, -0.5],
+        "home-edge": [0.78, 2.25, -0.5],
+        "ramp-middle": [1.07, 2.48, -0.5],
+        "deck-entry": [1.27, 2.85, -0.5],
+        "basket-ground": [-1.65, 0.12, -0.45],
+        "basket-landing": [-1.65, 2.22, -0.45],
+        "cargo-socket": [0, 0.22, 0],
+        "lift-rope": [-1.82, 3.36, -0.45],
+        "operator-ground": [-1.05, 0, -0.75]
+      },
+      "naturalPerches": ["natural-perch-0", "natural-perch-1"],
+      "shelteredPerches": ["sheltered-perch-0", "sheltered-perch-1", "sheltered-perch-2", "sheltered-perch-3"],
+      "homeAccess": [
+        { "progress": 0.4, "anchor": "ladder-base" },
+        { "progress": 0.85, "anchor": "ladder-top" },
+        { "progress": 0.93, "anchor": "home-entry" }
+      ],
+      "deckAccess": [
+        { "progress": 0.4, "anchor": "ladder-base" },
+        { "progress": 0.7, "anchor": "ladder-top" },
+        { "progress": 0.76, "anchor": "home-entry" },
+        { "progress": 0.82, "anchor": "home-edge" },
+        { "progress": 0.9, "anchor": "ramp-middle" },
+        { "progress": 0.95, "anchor": "deck-entry" }
+      ],
+      "hauling": {
+        "basketNode": "basket",
+        "ropeNode": "lift-rope",
+        "travelY": 2.1,
+        "ropeRestLength": 2.37,
+        "bridleAboveBasket": 0.87
+      }
+    }
+  }
+}

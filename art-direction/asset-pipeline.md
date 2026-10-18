@@ -95,8 +95,22 @@ a flat crown to the exporter or adding another effect.
 
 `assets/sculpted/technology/author_technology.py` is included in `assets:build`.
 It authors the lateral sleeping deck and hauling basket with editable Blender
-sources and checked GLBs. Its [contract](../assets/sculpted/technology/contract.json)
-records tree-local perches, moving basket, cargo socket and scalable lift-rope
-anchors. The runtime applies one shared tree transform to art and occupants;
+sources and checked GLBs. The content-owned [habitat contract](../src/content/tree-habitats.json)
+defines tree-local perches, supported access routes, moving basket, cargo socket,
+operator and scalable lift-rope anchors. Its generated [export receipt](../assets/sculpted/technology/contract.json)
+records the resulting asset hashes and sockets; it is not a second source of truth. The runtime applies one shared tree transform to art and occupants;
 saved simulation progress drives essential lift movement even under reduced motion.
 The basket is an original woven beak-scale rig, not a powered elevator.
+
+
+## Inhabited tree proof
+
+Lowfork anatomy is being compared with the provisional [anatomy and infrastructure
+exploration](tree-design-exploration.md): supported home forks, crown windows,
+clear cargo shaft and accessible occupied berths. Keep the six existing berth
+endpoints and saved movement parameter stable while replacing the anatomy. Qualify
+actual mesh/node world coordinates after glTF handedness and tree scale, not only
+matching numeric tables. The upper sleeping route must follow the ladder, home
+edge and connecting ramp in both directions. This proves usable habitat; it does
+not introduce food, shade or predator effects. Concept fidelity remains a separate
+visual acceptance condition.

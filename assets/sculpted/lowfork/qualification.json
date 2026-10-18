@@ -1,0 +1,478 @@
+{
+  "revision": "lowfork-anatomy-v3-bark-v4",
+  "sha256": "c39a09de0690fc056e32dfa7e9b55b29be607ab78b20062382836f2aa8c66f27",
+  "bytes": 2649088,
+  "meshes": [
+    {
+      "name": "living bough 0",
+      "triangles": 10302,
+      "vertices": 28502,
+      "minTriangleArea": 3.9445968528550587e-07,
+      "maxNormalError": 1.0058283295144577e-07,
+      "collisions": {
+        "basket-sweep-with-10cm-margin": 0,
+        "cargo-sweep-with-10cm-margin": 0,
+        "operator-body": 0,
+        "loading-approach": 0,
+        "adjacent-ground-arrival": 0,
+        "ladder-approach": 0,
+        "landing-standing-space": 0,
+        "natural-perch-0-body": 0,
+        "natural-perch-1-body": 0,
+        "sheltered-perch-0-body": 0,
+        "sheltered-perch-1-body": 0,
+        "sheltered-perch-2-body": 0,
+        "sheltered-perch-3-body": 0
+      },
+      "collisionSamples": {
+        "basket-sweep-with-10cm-margin": [],
+        "cargo-sweep-with-10cm-margin": [],
+        "operator-body": [],
+        "loading-approach": [],
+        "adjacent-ground-arrival": [],
+        "ladder-approach": [],
+        "landing-standing-space": [],
+        "natural-perch-0-body": [],
+        "natural-perch-1-body": [],
+        "sheltered-perch-0-body": [],
+        "sheltered-perch-1-body": [],
+        "sheltered-perch-2-body": [],
+        "sheltered-perch-3-body": []
+      }
+    },
+    {
+      "name": "Lowfork grown old scar",
+      "triangles": 96,
+      "vertices": 192,
+      "minTriangleArea": 0.000675986023639335,
+      "maxNormalError": 9.685754309707306e-08,
+      "collisions": {
+        "basket-sweep-with-10cm-margin": 0,
+        "cargo-sweep-with-10cm-margin": 0,
+        "operator-body": 0,
+        "loading-approach": 0,
+        "adjacent-ground-arrival": 0,
+        "ladder-approach": 0,
+        "landing-standing-space": 0,
+        "natural-perch-0-body": 0,
+        "natural-perch-1-body": 0,
+        "sheltered-perch-0-body": 0,
+        "sheltered-perch-1-body": 0,
+        "sheltered-perch-2-body": 0,
+        "sheltered-perch-3-body": 0
+      },
+      "collisionSamples": {
+        "basket-sweep-with-10cm-margin": [],
+        "cargo-sweep-with-10cm-margin": [],
+        "operator-body": [],
+        "loading-approach": [],
+        "adjacent-ground-arrival": [],
+        "ladder-approach": [],
+        "landing-standing-space": [],
+        "natural-perch-0-body": [],
+        "natural-perch-1-body": [],
+        "sheltered-perch-0-body": [],
+        "sheltered-perch-1-body": [],
+        "sheltered-perch-2-body": [],
+        "sheltered-perch-3-body": []
+      }
+    },
+    {
+      "name": "Lowfork spreading living crown v3",
+      "triangles": 17220,
+      "vertices": 40180,
+      "minTriangleArea": 0.003902033798294896,
+      "maxNormalError": 1.401640377096669e-07,
+      "collisions": {
+        "basket-sweep-with-10cm-margin": 0,
+        "cargo-sweep-with-10cm-margin": 0,
+        "operator-body": 0,
+        "loading-approach": 0,
+        "adjacent-ground-arrival": 0,
+        "ladder-approach": 0,
+        "landing-standing-space": 0,
+        "natural-perch-0-body": 0,
+        "natural-perch-1-body": 0,
+        "sheltered-perch-0-body": 0,
+        "sheltered-perch-1-body": 0,
+        "sheltered-perch-2-body": 0,
+        "sheltered-perch-3-body": 0
+      },
+      "collisionSamples": {
+        "basket-sweep-with-10cm-margin": [],
+        "cargo-sweep-with-10cm-margin": [],
+        "operator-body": [],
+        "loading-approach": [],
+        "adjacent-ground-arrival": [],
+        "ladder-approach": [],
+        "landing-standing-space": [],
+        "natural-perch-0-body": [],
+        "natural-perch-1-body": [],
+        "sheltered-perch-0-body": [],
+        "sheltered-perch-1-body": [],
+        "sheltered-perch-2-body": [],
+        "sheltered-perch-3-body": []
+      }
+    }
+  ],
+  "clearanceVolumes": {
+    "basket-sweep-with-10cm-margin": [
+      [
+        -2.222,
+        0.025,
+        -0.923
+      ],
+      [
+        -1.078,
+        3.223,
+        0.022
+      ]
+    ],
+    "cargo-sweep-with-10cm-margin": [
+      [
+        -1.9,
+        0.245,
+        -1.019
+      ],
+      [
+        -1.4,
+        2.756,
+        0.228
+      ]
+    ],
+    "operator-body": [
+      [
+        -1.34,
+        0.1,
+        -1.04
+      ],
+      [
+        -0.76,
+        0.94,
+        -0.46
+      ]
+    ],
+    "loading-approach": [
+      [
+        -2.16,
+        0.12,
+        -1.4
+      ],
+      [
+        -0.76,
+        0.84,
+        -1.06
+      ]
+    ],
+    "adjacent-ground-arrival": [
+      [
+        -0.32,
+        0.1,
+        -2.32
+      ],
+      [
+        0.32,
+        0.85,
+        -1.68
+      ]
+    ],
+    "ladder-approach": [
+      [
+        -0.32,
+        0.1,
+        -1.43
+      ],
+      [
+        0.32,
+        0.8,
+        -0.83
+      ]
+    ],
+    "landing-standing-space": [
+      [
+        -1.08,
+        2.32,
+        -0.84
+      ],
+      [
+        -0.73,
+        2.95,
+        -0.3
+      ]
+    ],
+    "natural-perch-0-body": [
+      [
+        -1.13,
+        3.4299999999999997,
+        0.21000000000000002
+      ],
+      [
+        -0.59,
+        4.48,
+        0.71
+      ]
+    ],
+    "natural-perch-1-body": [
+      [
+        0.59,
+        3.6100000000000003,
+        0.21000000000000002
+      ],
+      [
+        1.13,
+        4.66,
+        0.71
+      ]
+    ],
+    "sheltered-perch-0-body": [
+      [
+        -1.13,
+        2.5300000000000002,
+        -0.75
+      ],
+      [
+        -0.59,
+        3.58,
+        -0.25
+      ]
+    ],
+    "sheltered-perch-1-body": [
+      [
+        0.59,
+        2.5300000000000002,
+        -0.75
+      ],
+      [
+        1.13,
+        3.58,
+        -0.25
+      ]
+    ],
+    "sheltered-perch-2-body": [
+      [
+        1.21,
+        3.13,
+        -0.75
+      ],
+      [
+        1.75,
+        4.18,
+        -0.25
+      ]
+    ],
+    "sheltered-perch-3-body": [
+      [
+        2.25,
+        3.13,
+        -0.75
+      ],
+      [
+        2.79,
+        4.18,
+        -0.25
+      ]
+    ]
+  },
+  "collisions": {
+    "basket-sweep-with-10cm-margin": 0,
+    "cargo-sweep-with-10cm-margin": 0,
+    "operator-body": 0,
+    "loading-approach": 0,
+    "adjacent-ground-arrival": 0,
+    "ladder-approach": 0,
+    "landing-standing-space": 0,
+    "natural-perch-0-body": 0,
+    "natural-perch-1-body": 0,
+    "sheltered-perch-0-body": 0,
+    "sheltered-perch-1-body": 0,
+    "sheltered-perch-2-body": 0,
+    "sheltered-perch-3-body": 0
+  },
+  "perches": {
+    "natural-perch-0": [
+      -0.86,
+      3.15,
+      0.46
+    ],
+    "natural-perch-1": [
+      0.86,
+      3.33,
+      0.46
+    ],
+    "sheltered-perch-0": [
+      -0.86,
+      2.25,
+      -0.5
+    ],
+    "sheltered-perch-1": [
+      0.86,
+      2.25,
+      -0.5
+    ],
+    "sheltered-perch-2": [
+      1.48,
+      2.85,
+      -0.5
+    ],
+    "sheltered-perch-3": [
+      2.52,
+      2.85,
+      -0.5
+    ]
+  },
+  "source": {
+    "Lowfork continuous living wood v3": {
+      "vertices": 5183,
+      "triangles": 10302
+    },
+    "Lowfork grown old scar": {
+      "vertices": 75,
+      "triangles": 96
+    },
+    "Lowfork spreading living crown v3": {
+      "vertices": 18655,
+      "triangles": 17220
+    }
+  },
+  "sourceHashes": {
+    "lowfork": "9fc3dcaa24fa0476cadddeb79c2b8cdfd587e1ffb7ecd169eb8e0d554034d82a",
+    "woven-home": "d1d25f0361b50238793ed4eac27b6bc6ff8bc0ed40d91035e03a95fa70ce15e2"
+  },
+  "geometryPreservation": {
+    "baselineGlbSha256": "d5a7171505b4425ccb0520e78b5793ee0037212698e6270ac5a1c289286da5b0",
+    "baseline": {
+      "living bough 0": {
+        "triangles": 10302,
+        "positionsSha256": "20b2e44292ae9ffbf720f57fd43ef390cb4b69b392994431f792da783659fe83"
+      },
+      "Lowfork grown old scar": {
+        "triangles": 96,
+        "positionsSha256": "d0900aeaf95c00062c9f7cde947be21748bdb5258fffa9a80cec2f0a33f9f8fe"
+      },
+      "Lowfork spreading living crown v3": {
+        "triangles": 17220,
+        "positionsSha256": "5cdd669bd2419ac6396e28a42ee5594964708b8e41c8edc5af0e861a696b20ad"
+      }
+    },
+    "current": {
+      "living bough 0": {
+        "triangles": 10302,
+        "positionsSha256": "20b2e44292ae9ffbf720f57fd43ef390cb4b69b392994431f792da783659fe83"
+      },
+      "Lowfork grown old scar": {
+        "triangles": 96,
+        "positionsSha256": "d0900aeaf95c00062c9f7cde947be21748bdb5258fffa9a80cec2f0a33f9f8fe"
+      },
+      "Lowfork spreading living crown v3": {
+        "triangles": 17220,
+        "positionsSha256": "5cdd669bd2419ac6396e28a42ee5594964708b8e41c8edc5af0e861a696b20ad"
+      }
+    }
+  },
+  "woodNormalPlanes": {
+    "triangles": 10302,
+    "equivalentCornerNormalTriangles": 10302,
+    "maxCornerNormalDeviation": 0.00875747439038973
+  },
+  "triangles": 27618,
+  "primitives": 3,
+  "bounds": {
+    "min": [
+      -6.141346454620361,
+      -0.28696081042289734,
+      -1.3666205406188965
+    ],
+    "max": [
+      5.048173904418945,
+      7.948525428771973,
+      2.834360122680664
+    ]
+  },
+  "naturalSupport": {
+    "natural-perch-0": {
+      "topY": 3.1552367210388184,
+      "footGap": -0.005236721038818448
+    },
+    "natural-perch-1": {
+      "topY": 3.315995931625366,
+      "footGap": 0.01400406837463386
+    }
+  },
+  "anchors": {
+    "asset": [
+      0.0,
+      0.0,
+      -0.0
+    ],
+    "natural-perch-0": [
+      -0.8600000143051147,
+      3.1500000953674316,
+      0.46000000834465027
+    ],
+    "natural-perch-1": [
+      0.8600000143051147,
+      3.3299999237060547,
+      0.46000000834465027
+    ],
+    "sheltered-perch-0": [
+      -0.8600000143051147,
+      2.25,
+      -0.5
+    ],
+    "sheltered-perch-1": [
+      0.8600000143051147,
+      2.25,
+      -0.5
+    ],
+    "sheltered-perch-2": [
+      1.4800000190734863,
+      2.8499999046325684,
+      -0.5
+    ],
+    "sheltered-perch-3": [
+      2.5199999809265137,
+      2.8499999046325684,
+      -0.5
+    ],
+    "sheltered-deck": [
+      0.0,
+      2.25,
+      -0.5
+    ],
+    "ladder-base": [
+      0.0,
+      0.0,
+      -1.0800000429153442
+    ]
+  },
+  "checks": {
+    "boundedTriangleBudget": true,
+    "threeToFivePrimitives": true,
+    "finiteUnitNormals": true,
+    "nondegenerateTriangles": true,
+    "physicalClearances": true,
+    "naturalPerchesSupported": true,
+    "perchAnchorsPreserved": true,
+    "embeddedPBR": true,
+    "positionsAndTrianglesUnchangedByBarkCorrection": true,
+    "splitBarkPlaneNormals": true,
+    "homeFloorAndLadderPreserved": true,
+    "homeSourceGroupsPreserved": true
+  },
+  "home": {
+    "baselineRevision": "375589beb5647f33e35af568a5ea0e101c5ac8ab",
+    "sha256": "c160a9d698f090aee5cec9f81a38fd6666013e5e381316a919ea43643ef1c04c",
+    "bytes": 705408,
+    "geometryBefore": {
+      "deck": "b9779868d404cb83ba8331b621187f07eea39f6273b52476c56321ec31ae7d63",
+      "ladder": "ee05d7f487d0d98c8e2a10cc1b6f46d72a643d0b1d0847008e6ba89125d1dc71",
+      "rainhood": "3b4bbac718ee60341f67dc578682080036c67d0ceb919286617fba5758a9a9ec"
+    },
+    "geometryAfter": {
+      "deck": "b9779868d404cb83ba8331b621187f07eea39f6273b52476c56321ec31ae7d63",
+      "ladder": "ee05d7f487d0d98c8e2a10cc1b6f46d72a643d0b1d0847008e6ba89125d1dc71",
+      "rainhood": "18866f9fb6d9d5757618db33350804aa6c3e2d57f7fe8957f5abbd2b13acaf31"
+    }
+  },
+  "ready": true
+}

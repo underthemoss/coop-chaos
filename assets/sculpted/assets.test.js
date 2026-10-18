@@ -17,6 +17,8 @@ function read(path) {
   };
   return {gltf,values};
 }
+const habitat=JSON.parse(readFileSync(new URL('../../src/content/tree-habitats.json',import.meta.url)));
+const anchors=habitat.profiles['canopy-proof'].anchors;
 const birds = ['fern','rook','dapple','wren'];
 const environment = ['lowfork','splitcrown','reedside','reed-bundle','woven-home','woven-store','understory','reed-clump'];
 describe('shipped Blender asset contracts',()=>{
@@ -69,7 +71,7 @@ describe('shipped Blender asset contracts',()=>{
   });
   for(const id of ['lowfork','splitcrown','reedside'])test(`${id}: stable roost and access attachment coordinates`,()=>{
     const {gltf}=read(`environment/${id}`);
-    for(const [name,at] of Object.entries({'natural-perch-0':[-.86,3.15,.46],'natural-perch-1':[.86,3.33,.46],'sheltered-deck':[0,2.25,-.5],'ladder-base':[0,0,-1.08]})){
+    for(const [name,at] of Object.entries(anchors).filter(([name])=>['natural-perch-0','natural-perch-1','sheltered-deck','ladder-base'].includes(name))){
       const actual=gltf.nodes.find(n=>n.name===name)?.translation;
       expect(actual).toBeDefined();actual.forEach((v,i)=>expect(v).toBeCloseTo(at[i],4));
     }

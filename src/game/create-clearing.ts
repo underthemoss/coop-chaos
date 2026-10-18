@@ -22,6 +22,7 @@ import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import type { Settlement, Cell } from "../simulation/settlement";
 import { cost, validCell, cargoPosition } from "../simulation/settlement";
+import { habitatAnchor, habitatPosition, treeHabitat } from "../content/tree-habitats";
 import { settlers, trees } from "../content/settlement";
 import { treeScale, presentedBirdPosition, presentedTreePosition } from "./tree-presentation";
 import type { TreeId, SettlerId as BirdId } from "../content/settlement";
@@ -288,12 +289,10 @@ export function createClearing(
         if (disposed) { root.dispose(false, true); return; }
         root.setEnabled(false);
         staged.push(root);
-        if(task.template){
-          // These additions declare +X tree-local sockets. Babylon's default glTF
-          // conversion mirrors X; compensate once at their presentation root.
-          if(task.template === "sleeping-deck" || task.template === "hauling-basket")root.scaling.x *= -1;
-          templates.set(task.template,root as Mesh);
-        }
+        // Trees and the additions declare +X tree-local sockets. Babylon's default glTF
+        // conversion mirrors X; compensate once at their presentation root.
+          if(task.tree || task.template === "sleeping-deck" || task.template === "hauling-basket")root.scaling.x *= -1;
+        if(task.template)templates.set(task.template,root as Mesh);
         if(task.tree){
           const locations=task.tree.id === "lowfork" ? [[-11,5,.6],[-12,10,.64],[-8,12,.55],[-5,15,.48]] : task.tree.id === "splitcrown" ? [[-11,8,.4]] : [[-14,3,.36]];
           for(const [x,z,scale] of locations){const copy=root.clone(`${task.tree.id}-woodland`,null)!;copy.position.set(x,elevation(x,z),z);copy.scaling.scaleInPlace(scale);copy.rotation.y=(x+z)*.13;copy.getChildMeshes().forEach(m=>{m.isPickable=false;});copy.setEnabled(false);staged.push(copy);}
@@ -429,12 +428,13 @@ export function createClearing(
     cargoMeshes.set(id, bundle);
   }
   let builtMeshes: Mesh[] = [];
-  const lifts = new Map<string,{basket:TransformNode;rope:TransformNode}>();
+  const lifts = new Map<string,{basket:TransformNode;rope:TransformNode;tree:TreeId}>();
   function updateLifts(state: Settlement) {
     for(const [id, rig] of lifts){
       const progress=state.birds.find(b=>b.lift?.basket===id)?.lift?.progress??0;
-      rig.basket.position.y=.12+2.1*progress;
-      rig.rope.scaling.y=(2.37-2.1*progress)/2.37;
+      const profile=treeHabitat(rig.tree), haul=profile.hauling;
+      rig.basket.position.y=habitatAnchor(rig.tree,"basket-ground").y+haul.travelY*progress;
+      rig.rope.scaling.y=(haul.ropeRestLength-haul.travelY*progress)/haul.ropeRestLength;
     }
   }
   function rebuild(state: Settlement) {
@@ -487,9 +487,10 @@ export function createClearing(
           if(piece){
             const nodes=[piece,...piece.getDescendants()].filter((n):n is TransformNode=>n instanceof TransformNode);
             if(site.kind==="hauling-basket"){
-              const basket=nodes.find(n=>n.name.split(".").at(-1)==="basket");
-              const rope=nodes.find(n=>n.name.split(".").at(-1)==="lift-rope");
-              if(basket&&rope)lifts.set(site.id,{basket,rope});
+              const haul=treeHabitat(site.tree!).hauling;
+              const basket=nodes.find(n=>n.name.split(".").at(-1)===haul.basketNode);
+              const rope=nodes.find(n=>n.name.split(".").at(-1)===haul.ropeNode);
+              if(basket&&rope)lifts.set(site.id,{basket,rope,tree:site.tree!});
             }else if(!site.complete){
               for(const node of nodes)if(node.name.includes("sleeping-rainhood"))node.setEnabled(false);
             }
@@ -641,7 +642,7 @@ export function createClearing(
         const mesh = chickens.get(bird.id)!;
         const lifting=bird.lift&&state.sites.find(s=>s.id===bird.lift!.basket);
         const tree=lifting?.tree&&trees.find(t=>t.id===lifting.tree);
-        const p=tree?presentedTreePosition(tree.id,{x:tree.x-.525,y:0,z:tree.z-.375}):presentedBirdPosition(bird);
+        const p=tree?presentedTreePosition(tree.id,habitatPosition(tree.id,habitatAnchor(tree.id,"operator-ground"))):presentedBirdPosition(bird);
         const index = settlers.findIndex((b) => b.id === bird.id);
         const idle = !bird.edge && !bird.flight && !bird.perch && !bird.foraging && !bird.lift;
         const x = p.x + (idle ? (index % 2 === 0 ? -1.1 : 1.1) : 0),

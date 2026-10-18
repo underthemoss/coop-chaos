@@ -1,0 +1,18 @@
+{
+  "revision": "lowfork-anatomy-v3-before-bark-v4",
+  "glbSha256": "d5a7171505b4425ccb0520e78b5793ee0037212698e6270ac5a1c289286da5b0",
+  "meshes": {
+    "living bough 0": {
+      "triangles": 10302,
+      "positionsSha256": "20b2e44292ae9ffbf720f57fd43ef390cb4b69b392994431f792da783659fe83"
+    },
+    "Lowfork grown old scar": {
+      "triangles": 96,
+      "positionsSha256": "d0900aeaf95c00062c9f7cde947be21748bdb5258fffa9a80cec2f0a33f9f8fe"
+    },
+    "Lowfork spreading living crown v3": {
+      "triangles": 17220,
+      "positionsSha256": "5cdd669bd2419ac6396e28a42ee5594964708b8e41c8edc5af0e861a696b20ad"
+    }
+  }
+}

@@ -345,3 +345,23 @@ settlement imports reject that incompatible story format explicitly. The current
 proof does not establish thirty-minute fun, food production, reproduction, predator
 encounters, population loss, neighboring politics or advanced powered technology. Those remain
 the substantial settlement milestone and subsequent proofs above.
+
+
+## Inhabited anatomy: current proof and next questions
+
+The current inhabited-tree slice keeps the existing natural roost, home fork,
+hauling cleft and upper sleeping deck as physical places. Six saved berth endpoints
+remain stable. Extra-deck occupants climb the home ladder and cross its edge and
+connecting ramp; they do not climb an imaginary vertical extension. Ground
+construction and deliveries approach beside the trunk. The tree identity stays at
+its origin, while free movement avoids new transit through tree bases. Existing
+saved journeys and carried goods remain compatible.
+
+This proves anatomy as usable habitat: roosts, supported homes, cargo clearance,
+access and a ground workcourt. It adds no new food, shade or predator effects.
+Next provisional ecosystem work should connect species-specific usable fork/crown
+profiles to capabilities; root and leaf-litter food places to actual local foods
+and regrowth; and canopy exposure, shelter and mobility to distinct predator
+approaches. Mixed-family complementarity must follow usable places, materials and
+work, not a mandatory diversity bonus. These questions remain future design and
+require their own rule and art proof.

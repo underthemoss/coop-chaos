@@ -1,10 +1,38 @@
 {
-  "revision": "canopy-technology-v1",
-  "tools": "Blender 4.5.3 LTS; glTF 2.0 embedded PBR export",
+  "revision": "sleeping-hood-v2; hauling-v1",
+  "tools": "Blender4.5.3 LTS; glTF2.0 embedded PBR export",
   "assets": {
     "sleeping-deck": {
-      "bytes": 710004,
+      "bytes": 1015368,
+      "sha256": "22a17a15e4620fa29d54086d756c7df9dc3f95194fac5df56f9368a0aa7810e3",
       "nodes": [
+        {
+          "name": "deck-entry",
+          "translation": [
+            1.2699999809265137,
+            2.8499999046325684,
+            -0.5
+          ],
+          "children": []
+        },
+        {
+          "name": "home-edge",
+          "translation": [
+            0.7799999713897705,
+            2.25,
+            -0.5
+          ],
+          "children": []
+        },
+        {
+          "name": "ramp-middle",
+          "translation": [
+            1.0700000524520874,
+            2.4800000190734863,
+            -0.5
+          ],
+          "children": []
+        },
         {
           "name": "sheltered-perch-2",
           "translation": [
@@ -73,6 +101,9 @@
             0
           ],
           "children": [
+            "deck-entry",
+            "home-edge",
+            "ramp-middle",
             "sheltered-perch-2",
             "sheltered-perch-3",
             "sleeping-deck",
@@ -80,8 +111,8 @@
           ]
         }
       ],
-      "vertices": 25996,
-      "triangles": 13396,
+      "vertices": 37270,
+      "triangles": 19054,
       "meshes": {
         "sleeping-deck-weave": {
           "vertices": 17682,
@@ -100,18 +131,18 @@
           ]
         },
         "sleeping-rainhood-weave": {
-          "vertices": 8314,
-          "triangles": 4302,
+          "vertices": 19588,
+          "triangles": 9960,
           "localBounds": [
             [
-              0.7854081988334656,
-              2.7542593479156494,
-              -1.3402045965194702
+              0.7947641015052795,
+              2.78425931930542,
+              -1.0192692279815674
             ],
             [
-              3.214909553527832,
-              4.006566524505615,
-              0.2386951893568039
+              3.2055962085723877,
+              4.480676174163818,
+              0.2800019681453705
             ]
           ]
         }
@@ -119,6 +150,7 @@
     },
     "hauling-basket": {
       "bytes": 871436,
+      "sha256": "07688aadd7493c527b8b64460a68328b187766747c6b5717af412c58b0fb9936",
       "nodes": [
         {
           "name": "cargo-socket",
@@ -321,7 +353,7 @@
             ],
             [
               0.020375272259116173,
-              0,
+              0.0,
               0.021286223083734512
             ]
           ]

@@ -16,7 +16,7 @@ perches, movement progress, and sparse memories. No UI, DOM, engine, persistence
 wall clock, or randomness enters this module. A bounded grid and deterministic
 breadth-first route search are sufficient here; there is no general engine framework.
 
-Ground routes join legal neighboring cells without player-created paths. Jobs reserve one source bundle before walking to collect
+Ground routes join legal neighboring cells without player-created paths. New trips avoid tree-base cells; tree jobs use the adjacent front work cell while `Site.at` retains the tree origin. Legacy edges into or through a trunk finish and egress, and an already-active old lift finishes its reserved bundle in place. Jobs reserve one source bundle before walking to collect
 it. Reserved quantities derive from pickup jobs, so there is no second counter
 to drift. Pickup moves source stock into bird cargo; delivery moves cargo into a
 site allocation or local store. Building consumes its exact delivered recipe
@@ -47,7 +47,7 @@ places from the start; improvements add two sheltered places. Contributors gain
 a persistent attachment that changes their preferred tree. Temperament also
 changes preferred trees or open/sheltered berths. Natural travel uses saved
 fly-up/down progress; improved access has a ground approach, ladder climb, and
-arrival on the deck. Perched rest affects saved readiness: natural up to 80,
+home-edge/ramp traversal before the additional deck, reversed on descent. Perched rest affects saved readiness: natural up to 80,
 sheltered up to 100. Tired workers slow and can recover on the ground.
 
 `src/app/App.tsx` drives one 100 ms step per foreground interval. Hidden time
@@ -66,6 +66,16 @@ pan, zoom, drag navigation or Find action ships. Store placement gives arrows/En
 to its grid cursor. The compact primary tool strip and optional inspector keep
 the world dominant. Listeners, observer, scene and engine dispose
 on unmount. No assets are loaded from the visual reference.
+
+`src/content/tree-habitats.json` owns the shared habitat profile, tree bindings and
+presentation scales: six berth endpoints, ladder/home/ramp waypoints, ground work
+cell, basket/cargo/rope/operator sockets and lift travel. TypeScript simulation and
+presentation consume it; Python authoring reads the same data. Generated asset
+receipts describe exports, rather than establishing another anchor table. Existing
+saved progress remains the parameter for the supported route, with no schema change.
+All three trees explicitly share this proof profile; their art does not establish
+species-specific capabilities. All tree GLBs and the new additions compensate glTF X
+handedness once, before their shared presentation scale.
 
 Tree selection opens `TreeInspector`, which reads canonical `treeBuildOptions`.
 Treehouse, sleeping deck and hauling basket are unique by tree and kind; the latter

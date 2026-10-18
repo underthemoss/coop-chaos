@@ -179,10 +179,70 @@ cluster. Reuse materials and modular construction parts without flattening every
 tree into the same silhouette. Do not remodel the whole forest before this one
 tree earns its place.
 
-## Deliverables and provenance
+## 2026-10-18: provisional anatomy and infrastructure exploration
 
-The three PNG boards above are saved in this repository. They were created with
+These four new images explore beauty and inhabitation, without superseding the
+accepted targets or establishing runtime-art acceptance. The anatomical board
+and construction details are the strongest direction: a rooted sculptural trunk,
+continuous tapering limbs, uneven branch neighborhoods, crown windows, and
+unbuilt places that remain valuable in their own right.
+
+![Anatomy and branching possibilities](concepts/tree-anatomy-v3.png)
+
+![Roots, branch neighborhoods, and hauling details](concepts/tree-infrastructure-details-v1.png)
+
+Roots supply a working court; a low branch offers accessible homes; a broad
+middle fork invites communal work; a quiet upper nest keeps its distance. A
+clear lift shaft sits outside the wood. Neighboring species invite construction
+suited to their different limbs, rather than copies of the oak's buildings.
+These are proposed spatial relationships, not new building rules. **Morrow is a
+proposed character name; saved Lowfork is not renamed.**
+
+![Atmosphere exploration](concepts/tree-kingdom-atmosphere-v1.png)
+
+The atmosphere image crops the crown and uses too low a view. Its passenger
+basket is not part of the current game. The refined composition below is a more
+useful full-tree illustration, but neither image proves the actual fixed camera,
+readability, routes, or performance.
+
+![Refined elevated whole-tree composition](concepts/tree-kingdom-elevated-v1.png)
+
+All four are aspirational generated concepts. Additional nests, communal decks,
+bridges, counterweights and other depicted infrastructure are not implemented
+mechanics; the current material-hauling basket and sleeping extension remain
+bounded by the [settlement design](../story/settlement-design.md). Generated
+ropes, anchors and load paths require coherent mechanical modeling and access
+routes before implementation.
+
+The built-in image generation tool used
+[opening-view-v2](concepts/opening-view-v2.png) as its style reference.
+[Exact prompts and refinement instructions](concepts/tree-infrastructure-prompts.json)
+are retained unchanged. These PNGs are concepts, not shipped runtime assets.
+
+## Earlier exploration provenance
+
+The earlier growth-form, progression and grove boards are saved in this repository. They were created with
 the built-in image generation tool; no existing runtime screenshot was used as
 the starting reference. The final progression board refines the generated first
 maquette. [Exact prompts and refinement instructions](concepts/prompts.md) are
 retained alongside the images. None of these PNGs is a runtime tree asset.
+
+### Inhabited-tree implementation comparison
+
+The bounded runtime proof replaces Lowfork’s leaf-heavy, mostly coplanar branch
+rods with continuous unequal forks, an open ground workcourt and a reserved
+cargo cleft. Open home and deck rainhoods expose the actual sleeping occupants.
+The upper deck route climbs the existing ladder, crosses the home edge and
+connecting ramp, then reaches its berth; construction work approaches a nearby
+ground cell instead of the trunk center. All six saved berth endpoints remain
+unchanged. The three playable trees intentionally share one habitat profile;
+this does not implement species-specific capabilities.
+
+Matched fixed-camera evidence is retained in the ignored
+`output/playwright/tree-comparison/` qualification bundle: baseline
+`fresh-day-world.png` / `built-evening-world.png`, and revised
+`final-fresh-day.png` / `final-built-evening.png`. Its manifest identifies exact
+source, asset and image hashes. These are actual Babylon frames; the generated
+boards above remain aspirations. Handcrafted terrain richness, more varied
+secondary anatomy and the concept’s full tree-neighborhood detail remain open.
+No tree-food, shade, or predator outcome was introduced by this anatomy proof.
