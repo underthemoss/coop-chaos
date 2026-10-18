@@ -7,6 +7,13 @@ gain a two-berth sleeping deck or a hauling-basket prototype. The first real lif
 teaches the shared technique; completed baskets raise later deck materials.
 This is a bounded demonstrated invention, not a general research or power system.
 
+Scale-first habitat work keeps adults independent of tree size and structures
+in true metres, while preserving the four-adult/six-berth proof and existing saves.
+The separate [household planning targets](../story/settlement-design.md#scale-sleeping-places-and-future-households)
+(Lowfork24, Splitcrown16, Reedside12 sheltered residents) require usable layout,
+care and food support before population rules expand. Static occupancy studies
+are design evidence, not a claim that those residents already exist in play.
+
 
 A working finite-reed chain supports the first earned woven treehouse: place a
 trunk site, reserve, collect, freely walk, visibly carry, deliver and

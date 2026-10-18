@@ -349,6 +349,46 @@ the substantial settlement milestone and subsequent proofs above.
 
 ## Inhabited anatomy: current proof and next questions
 
+### Scale, sleeping places and future households
+
+Adult presentation is `.365` times the editable chicken meshes: roughly
+0.55–0.66m standing, with 0.31–0.36m body width. This is a fictional visual
+envelope, not a claim that every breed has those dimensions. A bird keeps the
+same size at every tree. Habitat anchors, structures, ladders and baskets use
+metres at scale one on all three trees; secondary trees no longer shrink their
+homes and access. Simulation ground cells remain two metres wide.
+
+The implemented roster is still four adults. Each tree offers two natural
+fallback berths, two commissioned home berths, and two extra-deck berths. These
+six slot identities prove access and saved occupancy; they do not establish a
+mature tree's carrying capacity. The existing home floor is about 2.16×1.69m,
+with only two commissioned sleepers. Materials also keep one visible size:
+the same reed bundle is about 0.615m long on the ground, in a beak or in a basket.
+
+Future planning targets are 24 sheltered residents at Lowfork in four six-place
+households, 16 at Splitcrown in four four-place households, and 12 at Reedside in
+three four-place households. These are design targets requiring an actual layout
+proof, not implemented populations or guaranteed botanical capacities. Natural
+sleepers are separate fallback space, not extra sustainable population. Food,
+land and care must independently support any future population.
+
+The accepted static Lowfork study places 24 actual adult meshes in four six-place
+households. Each has a 2.4×2.2m clear sleeping floor, two 1.5m perches (3m total),
+0.5m adult centres, a 0.65m side/service aisle, a separate 1.5×0.9m arrival and
+turning landing, and 0.9m clear headroom. The deeper floor replaces the initial
+2.4×1.8m study input. Actual body bounds, tree clearance and spread fork support
+were checked; this is not implemented population growth, animated turning,
+structural load or biological carrying-capacity proof. Splitcrown's 16 and
+Reedside's 12 remain targets without occupied layout proofs. Reserve a 0.6m
+clear doorway, 0.65m single-bird circulation/ladder and 0.9–1.0m passing courts.
+These are generous fictional design envelopes, not husbandry minima. Sleeping perches,
+shared laying nests, brooding/care places and work/cargo circulation have distinct
+purposes and cannot be counted interchangeably. For context, [University of
+Minnesota Extension](https://extension.umn.edu/agriculture/animals-and-livestock/poultry/raising-chickens-for-eggs)
+describes shared laying nests for four to five birds and managed indoor floor
+space of three to five square feet per bird. That backyard-husbandry guidance
+does not establish our fictional household design or a tree's population limit.
+
 The current inhabited-tree slice keeps the existing natural roost, home fork,
 hauling cleft and upper sleeping deck as physical places. Six saved berth endpoints
 remain stable. Extra-deck occupants climb the home ladder and cross its edge and

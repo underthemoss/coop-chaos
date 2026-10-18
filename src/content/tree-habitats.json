@@ -1,10 +1,11 @@
 {
-  "revision": "inhabited-tree-v1",
+  "revision": "metre-habitat-v2",
   "coordinates": "Tree-local art metres: X right, Y up, Z forward. Simulation X/Z cells are two metres; vertical values remain metres.",
+  "presentation": { "adultScale": 0.365, "reedBundleScale": 0.5, "selectedLabelHeight": 0.72, "birdPickDiameter": 0.8 },
   "trees": {
     "lowfork": { "profile": "canopy-proof", "scale": 1 },
-    "splitcrown": { "profile": "canopy-proof", "scale": 0.76 },
-    "reedside": { "profile": "canopy-proof", "scale": 0.62 }
+    "splitcrown": { "profile": "canopy-proof", "scale": 1 },
+    "reedside": { "profile": "canopy-proof", "scale": 1 }
   },
   "profiles": {
     "canopy-proof": {

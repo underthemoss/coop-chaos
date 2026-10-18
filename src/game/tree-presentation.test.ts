@@ -1,7 +1,21 @@
 import { describe, expect, test } from "vitest";
 import { initialSettlement, basketLiftPosition } from "../simulation/settlement";
 import { trees } from "../content/settlement";
-import { presentedBirdPosition, presentedTreePosition, treeScale } from "./tree-presentation";
+import { presentedBirdPosition, presentedTreePosition, treeScale, carriedBundleScale, birdHeading } from "./tree-presentation";
+import { habitatPresentation } from "../content/tree-habitats";
+
+test("adult and material world sizes are independent of the inhabited tree",()=>{
+  expect(habitatPresentation.adultScale).toBe(.365);
+  // All previously saved endpoints now refer to actual metres, without
+  // shrinking either the house or a delivered bundle on secondary trees.
+  for(const tree of trees){
+    expect(treeScale[tree.id]).toBe(1);
+    expect(carriedBundleScale*habitatPresentation.adultScale).toBeCloseTo(habitatPresentation.reedBundleScale,12);
+    expect(habitatPresentation.reedBundleScale*treeScale[tree.id]).toBe(habitatPresentation.reedBundleScale);
+  }
+  expect(habitatPresentation.reedBundleScale*1.23).toBeLessThan(.744); // actual bundle length / basket depth
+  expect(habitatPresentation.birdPickDiameter).toBeGreaterThan(.364);
+});
 
 describe("tree presentation preserves attachment truth",()=>{
   for(const tree of trees) test(`${tree.id}: natural and sheltered anchors, ladder and unchanged ground`,()=>{
@@ -57,4 +71,12 @@ describe("supported deck access follows the same saved parameter in both directi
       bird.flight.direction="down";expect(presentedBirdPosition(bird)).toEqual(up);
     }
   });
+});
+
+test("authored +Z beak and carried load face the direction of travel",()=>{
+  for(const [x,z] of [[1,0],[-1,0],[0,1],[0,-1],[2,-3]]){
+    const a=birdHeading({x,z}),length=Math.hypot(x,z);
+    expect(Math.sin(a)).toBeCloseTo(x/length,12);
+    expect(Math.cos(a)).toBeCloseTo(z/length,12);
+  }
 });

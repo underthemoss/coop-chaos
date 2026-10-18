@@ -1,3 +1,9 @@
+> Historical anatomy-v3/bark-v4 receipt. The current larger true-metre trees,
+> sources, qualification and scale study are documented in [../trees/README.md](../trees/README.md).
+> The adjacent v3/v4 JSON and geometry baseline remain historical evidence, not
+> qualification of the current shipped trees. `qualify.py` now delegates to the
+> current shared tree qualification.
+
 # Lowfork living anatomy v3
 
 Original Coop Chaos geometry authored in Blender 4.5.3 LTS on 2026-10-18.

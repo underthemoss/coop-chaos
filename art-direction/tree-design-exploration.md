@@ -246,3 +246,36 @@ source, asset and image hashes. These are actual Babylon frames; the generated
 boards above remain aspirations. Handcrafted terrain richness, more varied
 secondary anatomy and the concept’s full tree-neighborhood detail remain open.
 No tree-food, shade, or predator outcome was introduced by this anatomy proof.
+
+### Size-first spatial tree study
+
+The next bounded implementation authors larger trees in true metres: Lowfork
+about 11m high with a 14m-wide, 8m-deep crown, Splitcrown about 9m / 10m / 7m,
+and Reedside about 8m / 9m / 6m. These are authored branch architectures, not
+scaled rooms. Adults use canonical .365 presentation scale, about .55–.66m
+high; the first actual home and sleeping deck retain two commissioned berths
+each. The canonical six foot sockets and current hauling/access transforms
+remain unchanged. Each tree keeps natural roost continuations, open crown
+windows, a front working court and its low working saddles.
+
+Lowfork's separate occupied planning fixture tests four future six-resident
+households on actual forks, with staggered elevations and orientations. The
+clear sleeping floor is 2.4 × 2.2m rather than the initial 2.4 × 1.8m envelope:
+complete adult bodies and tails need the added depth. Two 1.5m perches, a .65m
+side aisle, .9m headroom and a separate 1.5 × .9m turning landing are measured separately.
+The lower home neighborhood expands onto a neighboring fork; its old floors
+become shared work landings, without uncounted extra bedrooms. Proposed service
+walkways, landings, a distinct first-stage hoist and climb provision establish
+an access study, not implemented construction or movement rules.
+
+The labeled opening and mature source renders, original Blender fixtures and
+actual-mesh packing/clearance receipts are described in
+[the tree asset provenance](../assets/sculpted/trees/README.md). The mature
+cutaway omits foliage and shelter roofs so occupants and
+usable floor can be inspected; the normal source proof retains opaque foliage.
+Twenty-four Lowfork, sixteen Splitcrown and twelve Reedside residents are future
+habitation planning targets, conditional on food, water and care, not biological
+carrying capacity or numeric load claims. Splitcrown/Reedside mature interiors
+are not occupied proofs in this slice. Current gameplay capacity is unchanged.
+Source checks do not replace runtime acceptance of grove overlap, lighting,
+route traversal and saved identity.

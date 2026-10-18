@@ -1,0 +1,20 @@
+{
+  "revision": "small-adult-open-home-v1",
+  "glbSha256": "f2e14e6ec3ce95f1593cd658acc3cac72b27f56900f902ddd4ea7299d32322c3",
+  "sourceSha256": "73d7077049c523f1829c6b442a0bc92013d7640862e1cd6ae757525f86766775",
+  "recipeSha256": "9fcb7f3121393c448e6f441bf5a6cba7ff3c28bd288ec425e7a66dea871e4803",
+  "rimTop": 2.5242273807525635,
+  "doorClearWidth": 0.6,
+  "doorCollisionTriangles": 0,
+  "floorCordCount": 13,
+  "checks": {
+    "thirteenOriginalFloorCords": true,
+    "frontSideWallBelow2525": true,
+    "clearFrontEntrance": true,
+    "floorCordsExact": true,
+    "rainhoodExact": true,
+    "ladderExact": true
+  },
+  "baselineSha256": "c160a9d698f090aee5cec9f81a38fd6666013e5e381316a919ea43643ef1c04c",
+  "ready": true
+}

@@ -68,14 +68,20 @@ the world dominant. Listeners, observer, scene and engine dispose
 on unmount. No assets are loaded from the visual reference.
 
 `src/content/tree-habitats.json` owns the shared habitat profile, tree bindings and
-presentation scales: six berth endpoints, ladder/home/ramp waypoints, ground work
+presentation sizes: six berth endpoints, ladder/home/ramp waypoints, ground work
 cell, basket/cargo/rope/operator sockets and lift travel. TypeScript simulation and
 presentation consume it; Python authoring reads the same data. Generated asset
 receipts describe exports, rather than establishing another anchor table. Existing
 saved progress remains the parameter for the supported route, with no schema change.
 All three trees explicitly share this proof profile; their art does not establish
 species-specific capabilities. All tree GLBs and the new additions compensate glTF X
-handedness once, before their shared presentation scale.
+handedness once. All inhabited trees and structures use metre-scale habitats
+(scale one); the independent adult mesh scale is `.365`. Saved simulation
+X/Z cells still map to two render metres, while Y and local anchors are metres.
+The same physical reed bundle uses scale `.5` when staged or lifted; its parent
+scale is canceled when attached to a chicken, so transfers never change its size.
+Small invisible bird hit proxies preserve selection without enlarging their art;
+selected labels use the revised body envelope. No save schema or berth ID changes.
 
 Tree selection opens `TreeInspector`, which reads canonical `treeBuildOptions`.
 Treehouse, sleeping deck and hauling basket are unique by tree and kind; the latter
@@ -85,8 +91,8 @@ slots 0/1. A basket prototype weaves three supplied bundles, then lifts its four
 real reserved bundle before consuming the recipe and recording `basketTechnique`.
 Later completed baskets lift deck supplies. `Worker.lift` retains the delivery job
 and cargo until arrival; no renderer counter can complete a lift. Basket and rope
-nodes follow saved progress. Cargo uses `cargoPosition` and the same tree scale
-as authored sockets; operator staging is presentation only. Cancellation and
+nodes follow saved progress. Lifted cargo uses `cargoPosition` and authored
+sockets; its visible size stays independent of bird and tree. Operator staging is presentation only. Cancellation and
 phase changes remain simulation-owned. Migration grants no fabricated invention.
 
 ## Saves and ordering

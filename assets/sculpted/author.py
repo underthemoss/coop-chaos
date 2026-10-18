@@ -337,87 +337,7 @@ def lowfork_healed_knot(trunk,root):
 
 
 def oak(name="lowfork"):
-
-    clear();root=empty('asset');global bark;bark=mat('old oak warm bark','#90613e')
-    pieces=[]
-    branches=[
-      ([(0,.1,0),(-.4,.8,-.08),(-.75,1.7,0),(-.75,2.7,.1),(-.35,3.7,.25),(.25,4.8,.55),(.45,5.8,.65),(.6,6.25,.7)],[.86,.77,.66,.58,.49,.34,.17,.045]),
-      ([(-.65,1.55,0),(-1.5,2.05,.2),(-2.7,2.15,.35),(-3.7,2.65,.45),(-4.25,3.35,.6),(-4.45,3.8,.65)],[.59,.49,.39,.28,.16,.04]),
-      ([(-.65,2.55,.1),(.5,2.95,.3),(1.55,3.3,.4),(2.6,3.8,.55),(3.05,4.55,.7)],[.51,.43,.32,.23,.06]),
-      ([(-.75,2.7,.1),(-1.25,3.03,.35),(-.86,3.15,.46)],[.31,.23,.17]),
-      ([(.5,2.95,.3),(.95,3.17,.43),(.86,3.33,.46)],[.31,.22,.16]),
-      ([(-.35,3.7,.25),(-1.2,4.4,1.1),(-1.6,5.25,1.4)],[.3,.23,.055]),
-    ]
-    if name=='splitcrown':
-        branches[:3]=[
-          ([(0,.1,0),(.15,1.2,0),(.05,2.5,.1),(-.7,3.6,.2),(-1.15,4.7,.4),(-1.7,5.5,.5)],[.72,.63,.51,.39,.23,.045]),
-          ([(.05,2,.1),(.8,2.9,.05),(1.6,3.8,.1),(1.85,5,.2),(2.3,5.8,.3)],[.5,.43,.34,.2,.04]),
-          ([(.1,2.5,.1),(-1.1,2.8,.1),(-2.3,3.3,.3),(-2.8,4,.4)],[.42,.3,.19,.04])]
-    elif name=='reedside':
-        branches[:3]=[
-          ([(0,.1,0),(.2,1,.05),(.65,2.1,.1),(1.05,3,.1),(1.35,4,.3),(1.25,5.1,.4),(1.7,5.8,.6)],[.65,.57,.47,.37,.29,.19,.04]),
-          ([(.5,1.8,0),(-.4,2.5,.15),(-1.6,2.8,.3),(-2.2,3.5,.5)],[.42,.33,.23,.045]),
-          ([(1.05,3,.1),(2.2,3.2,.3),(3,3.9,.5),(3.15,4.6,.6)],[.36,.27,.17,.04])]
-    if name=='lowfork': branches=lowfork_growth()
-    for i,(points,radii) in enumerate(branches):
-        pieces.append(lowfork_living_tube('living bough '+str(i),points,radii,bark) if name=='lowfork' else tube('swept bough '+str(i),points,radii,bark,sides=16))
-    root_paths=[
-      ([(0,.6,0),(-.7,.3,-.2),(-1.7,.12,-.5),(-2.6,.03,-.3)],[.5,.37,.16,.018]),
-      ([(.1,.65,0),(.8,.3,-.6),(1.6,.08,-1.1),(2.1,.015,-1.6)],[.46,.28,.11,.015]),
-      ([(-.1,.5,.1),(-.5,.2,1),(-1.5,.08,1.65),(-2.6,.02,1.7)],[.48,.32,.12,.015]),
-      ([(.1,.4,.1),(.65,.17,1.25),(.6,.06,2.35),(.95,.01,3.1)],[.44,.24,.09,.01]),
-      ([(-.2,.4,-.1),(-.65,.16,-1.1),(-.6,.05,-2.1),(-1.2,.01,-2.55)],[.4,.23,.085,.012]),
-      ([(.15,.4,.05),(1.1,.19,.3),(2.05,.06,.75),(2.65,.01,.65)],[.4,.25,.09,.012]),
-      ([(-1.6,.12,-.5),(-1.9,.06,-1.1),(-2.4,.015,-1.35)],[.13,.07,.01]),
-      ([(-1.5,.08,1.65),(-1.7,.04,2.15),(-2.1,.01,2.55)],[.12,.07,.01]),
-    ]
-    if name=='lowfork': root_paths=lowfork_roots()
-    for i,(points,radii) in enumerate(root_paths):
-        pieces.append(lowfork_living_tube('flowing buttress '+str(i),points,radii,bark,root=True) if name=='lowfork' else tube('curved buttress '+str(i),points,radii,bark,sides=12))
-    trunk=sculpt(pieces,'Lowfork continuous living wood v3' if name=='lowfork' else 'muscular fused oak',.065 if name=='lowfork' else .058,.18);trunk.parent=root;color_faces(trunk,['#906341','#926542','#8f6240','#946644'],3)
-    # Lowfork alone receives the bounded hero bark pass; other exports retain their recipe.
-    if name=='lowfork':
-        lowfork_bark(trunk,branches,root_paths)
-        for poly in trunk.data.polygons: poly.use_smooth=True
-        trunk['anatomy_revision']='lowfork-anatomy-v3'
-        lowfork_healed_knot(trunk,root)
-    else:
-        scar=mat('healed amber heartwood','#be8b54')
-        tube('healed scar rim',[(-.27,1.25,-.56),(-.48,1.65,-.5),(-.12,2,-.39),(.1,1.6,-.49),(-.27,1.25,-.56)],[.045]*5,scar,root,7)
-    leaves=[];colors=[];verts=[];faces=[]
-    leafmat=vertex_mat('oak living leaf color')
-    crowns=[((.5,6.25,.7),(2.2,1.1,1.7),600),((-4,3.9,.6),(2.05,.88,1.35),450),((2.75,4.85,.7),(1.8,.9,1.4),400),((-1.6,5.5,1.4),(1.35,.75,1.1),220)]
-    if name=='splitcrown':crowns=[((-1.7,5.65,.5),(1.8,1,1.5),450),((2.25,5.9,.3),(1.7,1.1,1.4),450),((-2.75,4.15,.4),(1.7,.85,1.2),350)]
-    elif name=='reedside':crowns=[((1.6,5.9,.6),(1.8,1,1.4),450),((-2,3.6,.5),(1.7,.85,1.2),350),((3.1,4.7,.6),(1.4,.85,1.2),300)]
-    # Individual concave-lobed leaves make the scalloped crown silhouette and open underside.
-    outline=[(0,-1),(-.3,-.7),(-.55,-.72),(-.48,-.3),(-.8,-.2),(-.56,.1),(-.78,.38),(-.37,.45),(-.42,.73),(0,1),(.42,.73),(.37,.45),(.78,.38),(.56,.1),(.8,-.2),(.48,-.3),(.55,-.72),(.3,-.7)]
-    palette=['#718636','#819342','#667b30','#8d9945','#586f2b','#9ba14b','#657832']
-    for center,size,count in crowns:
-        for j in range(count):
-            a=rng.random()*math.tau;r=math.sqrt(rng.random());y=(1-r*r)*.55+rng.uniform(-.35,.35)
-            # Several shoulders inside each broad shelf, never regular discs.
-            x=center[0]+math.cos(a)*r*size[0];z=center[2]+math.sin(a)*r*size[2]
-            yy=center[1]+y*size[1]+.15*math.sin(a*3+r*4)
-            length=rng.uniform(.28,.49);width=length*rng.uniform(.62,.88);angle=rng.random()*math.tau;pitch=rng.uniform(-.5,.7)
-            start=len(verts);verts.append((x,yy+.045,z))
-            for u,v in outline:
-                xx=u*width;zz=v*length
-                verts.append((x+xx*math.cos(angle)-zz*math.sin(angle),yy+pitch*zz-.025*(u*u+v*v),z+xx*math.sin(angle)+zz*math.cos(angle)))
-            c=rgb(palette[rng.randrange(len(palette))])
-            for k in range(len(outline)):
-                faces.append((start,start+1+k,start+1+(k+1)%len(outline)));colors.append(c)
-    if name=='lowfork': lowfork_canopy(root)
-    else:
-        foliage=mesh('scalloped oak leaves',verts,faces,leafmat,root,colors);leafmat.use_backface_culling=False
-    # Attachment references are explicit, matching current simulation/renderer units.
-    if name=='lowfork':
-        for key in HABITAT['naturalPerches']+HABITAT['shelteredPerches']+['sheltered-deck','ladder-base']: empty(key,root,ANCHORS[key])
-        trunk['growth_paths']=json.dumps(branches)
-        bpy.context.scene['habitat_revision']=HABITATS['revision']
-    else:
-        for key in ['natural-perch-0','natural-perch-1','sheltered-deck','ladder-base']:empty(key,root,ANCHORS[key])
-    export('environment/'+name,list(bpy.context.scene.objects))
-    return root
+    return spatial_tree(name)
 
 def samples():
     clear();root=empty('asset');reed=mat('sun dried reed','#bd964d');dark=mat('woven binding','#896437')
@@ -436,20 +356,30 @@ def woven_home():
     for i in range(13):
         x=(i-6)*.15
         tube('branch deck reed',[(x,2.14,-1.22),(x+.025,2.17,-.45),(x,2.13,.35)],[.055,.055,.045],wood,root,7)
-    # Oval basket side: thin reeds alternate in and out around upright stakes.
+    # A low beak-woven guard exposes the .365-scale residents. Its open front
+    # doorway meets the actual ladder/home-entry route; there is no wall to cross.
+    def open_arc(name, points, radius, material, sides):
+        runs=[];run=[]
+        for point in points:
+            if abs(point[0]) < .36 and point[2] < -.85:
+                if len(run)>1:runs.append(run)
+                run=[]
+            else:run.append(point)
+        if len(run)>1:runs.append(run)
+        for segment in runs:tube(name,segment,[radius]*len(segment),material,root,sides)
     for i in range(11):
-        y=2.18+i*.054;points=[]
-        for j in range(29):
-            a=-math.pi*.05+j/28*math.pi*1.1
+        y=2.18+i*.028;points=[]
+        for j in range(57):
+            a=-math.pi*.05+j/56*math.pi*1.1
             points.append((math.cos(a)*(1.01+.018*math.sin(j*math.pi+i*math.pi)),y+.015*math.sin(j*.7+i),-.42-math.sin(a)*.85))
-        tube('fine horizontal basket weave',points,[.019]*len(points),reed if i%3 else wood,root,5)
-    for i in range(25):
-        a=-math.pi*.05+i/24*math.pi*1.1
-        points=[(math.cos(a)*(1.02+.02*math.sin(j*math.pi+i*math.pi)),2.16+j*.068,-.42-math.sin(a)*.86) for j in range(10)]
-        tube('interlaced upright fiber',points,[.016]*len(points),shadow if i%4==0 else reed,root,5)
-    for y in [2.16,2.79]:
-        points=[(math.cos(a)*1.04,y,-.42-math.sin(a)*.88) for a in [-.15+i/28*math.pi*1.14 for i in range(29)]]
-        tube('rounded basket rim',points,[.043]*len(points),wood,root,7)
+        open_arc('fine horizontal basket weave',points,.019,reed if i%3 else wood,5)
+    for i in range(49):
+        a=-math.pi*.05+i/48*math.pi*1.1
+        points=[(math.cos(a)*(1.02+.02*math.sin(j*math.pi+i*math.pi)),2.16+j*.0355,-.42-math.sin(a)*.86) for j in range(10)]
+        open_arc('interlaced upright fiber',points,.016,shadow if i%4==0 else reed,5)
+    for y in [2.16,2.48]:
+        points=[(math.cos(a)*1.04,y,-.42-math.sin(a)*.88) for a in [-.15+i/64*math.pi*1.14 for i in range(65)]]
+        open_arc('rounded basket rim',points,.043,wood,7)
     # A broad leaf-like rear canopy with a scalloped open front. The roof still
     # covers the rear nesting space, while its high cut edge exposes occupants.
     # Nothing projects into the natural roosts behind the home at Z=.46.
@@ -532,14 +462,17 @@ def understory():
 for sub in ['environment','characters']:
     (SOURCE/sub).mkdir(parents=True,exist_ok=True);(OUT/sub).mkdir(parents=True,exist_ok=True)
 import sys
-if '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['lowfork']:
+exec(compile((SOURCE/'trees.py').read_text(),str(SOURCE/'trees.py'),'exec'))
+if '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['trees']:
+    for tree_name in ['lowfork','splitcrown','reedside']: oak(tree_name)
+elif '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['lowfork']:
     oak()
 elif '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['lowfork-bark']:
     # Runtime-derived normal/material correction: preserve every existing vertex,
     # triangle, socket and scar while changing only wood corner normals/colors.
     bpy.ops.wm.open_mainfile(filepath=str(SOURCE/'environment/lowfork.blend'))
-    trunk=bpy.data.objects['Lowfork continuous living wood v3']
-    lowfork_bark(trunk,lowfork_growth(),lowfork_roots(),relief=False)
+    trunk=bpy.data.objects['lowfork continuous living boughs metre-v2']
+    lowfork_bark(trunk,json.loads(trunk['growth_paths']),json.loads(trunk['root_paths']),relief=False)
     export('environment/lowfork',list(bpy.context.scene.objects))
 elif '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['woven-home']:
     woven_home()

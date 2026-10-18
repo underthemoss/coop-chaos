@@ -22,9 +22,9 @@ import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import type { Settlement, Cell } from "../simulation/settlement";
 import { cost, validCell, cargoPosition } from "../simulation/settlement";
-import { habitatAnchor, habitatPosition, treeHabitat } from "../content/tree-habitats";
+import { habitatAnchor, habitatPosition, treeHabitat, habitatPresentation } from "../content/tree-habitats";
 import { settlers, trees } from "../content/settlement";
-import { treeScale, presentedBirdPosition, presentedTreePosition } from "./tree-presentation";
+import { treeScale, presentedBirdPosition, presentedTreePosition, carriedBundleScale, birdHeading } from "./tree-presentation";
 import type { TreeId, SettlerId as BirdId } from "../content/settlement";
 
 export type BirdLabels = Record<
@@ -65,11 +65,11 @@ export function createClearing(
   const resize = () => {
     engine.resize();
     const aspect = canvas.clientWidth/Math.max(1,canvas.clientHeight);
-    const halfHeight = Math.max(8.8,10.8/aspect);
+    const halfHeight = Math.max(10.8,10.8/aspect);
     camera.orthoTop=halfHeight;camera.orthoBottom=-halfHeight;
     camera.orthoLeft=-halfHeight*aspect;camera.orthoRight=halfHeight*aspect;
   };
-  camera.setTarget(new Vector3(-.6,2.7,.5),false,false,true);
+  camera.setTarget(new Vector3(-.6,4.5,.5),false,false,true);
   const sky = new HemisphericLight("soft-sky", new Vector3(0, 1, 0), scene);
   sky.intensity = 0.65;
   sky.groundColor = Color3.FromHexString("#485744");
@@ -251,13 +251,16 @@ export function createClearing(
   for (const person of settlers) {
     const root = new TransformNode(person.id, scene);
     root.position.set(-6, .18, -4);
-    root.scaling.setAll(.73);
+    root.scaling.setAll(habitatPresentation.adultScale);
     const body = new TransformNode(`${person.id}-body`, scene);
     body.parent = root;
     const head = new TransformNode(`${person.id}-head`, scene);
     head.parent = body;
     const wing = new TransformNode(`${person.id}-wing`, scene);
     wing.parent = body;
+    const hit=MeshBuilder.CreateSphere(`${person.id}-hit`,{diameter:habitatPresentation.birdPickDiameter/habitatPresentation.adultScale,segments:8},scene);
+    hit.parent=root;hit.position.y=.32/habitatPresentation.adultScale;
+    hit.visibility=0;hit.metadata={birdId:person.id,birdHitProxy:true};
     chickens.set(person.id, { root, body, head, wing, target: root.position.clone(),clips:[],pose:"" });
   }
   let disposed = false;
@@ -359,7 +362,7 @@ export function createClearing(
         for(const [id,bird] of chickens){
           cargoMeshes.get(id)?.dispose();
           const carried=bundle.clone(`${id}-carried-reeds`,bird.root)!;
-          carried.position.set(0,.72,.6);carried.scaling.scaleInPlace(.85);
+          carried.position.set(0,1.1,.7);carried.scaling.setAll(carriedBundleScale);
           carried.setEnabled((renderState?.birds.find(b=>b.id===id)?.cargo??0)>0);
           carried.getChildMeshes().forEach(m=>{m.isPickable=false;shadows.addShadowCaster(m);});
           cargoMeshes.set(id,carried);
@@ -378,10 +381,11 @@ export function createClearing(
   void loadAssets();
   const selection = MeshBuilder.CreateTorus(
     "selected-character",
-    { diameter: 1.65, thickness: 0.045, tessellation: 32 },
+    { diameter: 2.1, thickness: 0.075, tessellation: 32 },
     scene,
   );
   selection.material = material("selection-ochre", "#e9cd87");
+  selection.isPickable=false;
   selection.parent = chickens.get("fern")!.root;
   selection.position.y = 0.035;
   let selectedBird: BirdId = "fern";
@@ -451,7 +455,7 @@ export function createClearing(
       builtMeshes.push(copy);return copy;
     }
     function bundles(x:number,z:number,count:number){
-      for(let i=0;i<Math.min(12,count);i++)model("reed-bundle",x+((i%3)-1)*.3,elevation(x,z)+.08+Math.floor(i/6)*.13,z+((Math.floor(i/3)%2)-.5)*.38,.5);
+      for(let i=0;i<Math.min(12,count);i++)model("reed-bundle",x+((i%3)-1)*.3,elevation(x,z)+.08+Math.floor(i/6)*.13,z+((Math.floor(i/3)%2)-.5)*.38,habitatPresentation.reedBundleScale);
     }
     // Food places are quiet ground habitat clusters, distinct from tall construction reeds.
     for (const patch of state.forage) {
@@ -530,7 +534,10 @@ export function createClearing(
     const p=pointer;pointer=null;
     if(!p||p.id!==event.pointerId||p.moved||event.type!=="pointerup")return;
     const bounds=canvas.getBoundingClientRect(),x=event.clientX-bounds.left,y=event.clientY-bounds.top;
-    const pick=scene.pick(x,y),id=pick?.pickedMesh?.metadata?.birdId as BirdId|undefined;
+    // Prioritize the small bird's dedicated hit proxy, including through foliage.
+    // Accessible named controls remain available when a tree hides its occupant.
+    const birdPick=scene.pick(x,y,m=>!!m.metadata?.birdHitProxy);
+    const pick=birdPick?.hit?birdPick:scene.pick(x,y),id=pick?.pickedMesh?.metadata?.birdId as BirdId|undefined;
     if(id){onSelect(id);return;}
     const treeId=pick?.pickedMesh?.metadata?.treeId as TreeId|undefined;
     if(treeId){onTree(treeId);return;}
@@ -566,7 +573,7 @@ export function createClearing(
         bird.pose=pose;
       }
       const label = Vector3.Project(
-        bird.root.position.add(new Vector3(0, 1.1, 0)),
+        bird.root.position.add(new Vector3(0, habitatPresentation.selectedLabelHeight, 0)),
         Matrix.IdentityReadOnly,
         scene.getTransformMatrix(),
         viewport,
@@ -654,15 +661,16 @@ export function createClearing(
           cargo.parent=null;
           const at=presentedTreePosition(tree.id,cargoPosition(state,bird));
           cargo.position.set(at.x,elevation(tree.x*2,tree.z*2)+at.y,at.z);
-          cargo.scaling.setAll(.85*treeScale[tree.id]);
+          cargo.scaling.setAll(habitatPresentation.reedBundleScale);
           cargo.rotation.setAll(0);
-          mesh.root.rotation.y=Math.PI;
+          // The authored return-rope grip is forward (+Z) of the operator station.
+          mesh.root.rotation.y=0;
         }else{
-          cargo.parent=mesh.root;cargo.position.set(0,.72,.6);cargo.scaling.setAll(.85);cargo.rotation.setAll(0);
+          cargo.parent=mesh.root;cargo.position.set(0,1.1,.7);cargo.scaling.setAll(carriedBundleScale);cargo.rotation.setAll(0);
         }
         const delta = mesh.target.subtract(mesh.root.position);
         if (!bird.lift && Math.hypot(delta.x, delta.z) > 0.03)
-          mesh.root.rotation.y = Math.atan2(-delta.x, -delta.z);
+          mesh.root.rotation.y = birdHeading(delta);
       }
       const signature = JSON.stringify([
         state.patches,

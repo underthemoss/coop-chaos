@@ -14,6 +14,11 @@ local storage, natural evening flight, and earned woven shelter with ladder use.
 The inhabited-tree proof joins the upper deck through the home edge and ramp;
 ground deliveries approach beside the trunk. A shared content habitat contract
 keeps six berths, cargo and access aligned with authored assets and existing saves.
+Adults now have a consistent roughly half-metre standing scale; homes and access
+retain their metre dimensions at every tree. The four-bird roster and six logical
+berths per tree are a bounded proof, not mature settlement capacity. See the
+[household scale targets](story/settlement-design.md#scale-sleeping-places-and-future-households)
+for the separate future population study.
 It does not yet implement food production, predators, population growth, rival
 kingdoms, or a broad technology tree. Thirty minutes of enjoyable settlement play is a
 future playtest target, not a proven property of this slice.

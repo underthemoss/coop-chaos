@@ -1,0 +1,100 @@
+{
+  "revision": "spatial-metre-v2",
+  "runtimeTreeHashes": {
+    "lowfork": "fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1",
+    "splitcrown": "2328d9672947ee4418aebd269c4bd4a7f2b0f0e515c1a4f29002a6f5aaf68367",
+    "reedside": "3fdc74cb02fac99efcbb48fde092145187ef214e9af71702be7d05d878b90591"
+  },
+  "inputHomeGlbSha256": "f2e14e6ec3ce95f1593cd658acc3cac72b27f56900f902ddd4ea7299d32322c3",
+  "proofPopulation": {
+    "opening-planning-final.png": 4,
+    "mature-planning-final.png": 24,
+    "occupied-whole-final.png": "six-socket clearance gauge, not the opening roster"
+  },
+  "matureStudyOnly": true,
+  "implementedPopulationGrowth": false,
+  "files": {
+    "assets/sculpted/trees/qualification.json": {
+      "sha256": "fc18d1e39a4b085d8b0a091caeaccc313d5d6257d3ea7e0a048be048a523573c",
+      "bytes": 34622
+    },
+    "assets/sculpted/trees/planning.py": {
+      "sha256": "b348f44c3cf423379ddaf8ec67bf6e91b5ee4228e88a8680b658d9a23c14cd2a",
+      "bytes": 15193
+    },
+    "assets/sculpted/trees/render.py": {
+      "sha256": "4f7870462bdd9c4869b92915368d8826b7d8f522fd2facb4fae2cc6f07f391c0",
+      "bytes": 4290
+    },
+    "assets/sculpted/trees/qualify.py": {
+      "sha256": "6380b33d8c2db6a7cf4b5f3be2bd1b4af12beadd27c6189eb74cf3923e9837c0",
+      "bytes": 13217
+    },
+    "assets/sculpted/trees/opening-study.blend": {
+      "sha256": "0831c26d19aa19b91e877cd7e4f2c6470974445d35f2a1b73c8351fe12d993d4",
+      "bytes": 11923645
+    },
+    "assets/sculpted/trees/opening-study.json": {
+      "sha256": "0157d5e38653b41c5f692c7e3d846bc895240ec1483bf05102073fba83e8511c",
+      "bytes": 10291
+    },
+    "assets/sculpted/trees/mature-study.blend": {
+      "sha256": "144287c35cc8b11e47f9264c175110def940bff5380fd6177d6f5d5553fa63c1",
+      "bytes": 13214989
+    },
+    "assets/sculpted/trees/mature-study.json": {
+      "sha256": "ed6f95af70c91a97ce2549e25d1aab390bca16eb552067f920f7e354d374136b",
+      "bytes": 16282
+    },
+    "output/playwright/tree-metre-v2/lowfork-occupied-whole-final.png": {
+      "sha256": "cb97152e8e3a4fc8001553b78192afd8138bfa194fc5ec750095203425ba2520",
+      "bytes": 1398549
+    },
+    "output/playwright/tree-metre-v2/splitcrown-occupied-whole-final.png": {
+      "sha256": "68ba4af2926d6700009750656587e7ae99b9c77d670af63768505a5bb3d3f5f8",
+      "bytes": 1318582
+    },
+    "output/playwright/tree-metre-v2/reedside-occupied-whole-final.png": {
+      "sha256": "873a8b4faf6f31cec78fe60d534fdfb7658e0b02a9d197437f30e650cec5da18",
+      "bytes": 1298234
+    },
+    "output/playwright/tree-metre-v2/opening-planning-final.png": {
+      "sha256": "47c19d7445e407b0688de21d3162ec7ce3c7b223b433fab7b1d5fa15c274f4ba",
+      "bytes": 2241316
+    },
+    "output/playwright/tree-metre-v2/mature-planning-final.png": {
+      "sha256": "f76f9c6ba86ef4ae49d6d398c2004c55e8f689025d5b676dce8c7290726199f7",
+      "bytes": 2260003
+    },
+    "assets/sculpted/chickens/rook.blend": {
+      "sha256": "23c1429858ad028b4a7b59b8ec5e3671291cf087123a5285706be4de422cd52e",
+      "bytes": 3531305
+    },
+    "assets/sculpted/chickens/fern.blend": {
+      "sha256": "04c274ecf89b42da196999955291d9a4ce49e7cb906d50283b9c597b9af07cb0",
+      "bytes": 2686548
+    },
+    "assets/sculpted/chickens/dapple.blend": {
+      "sha256": "e6cbfa4b6c98a2e9da10e0bdd629caa916120dc76fba70be33943d7d22bef7dd",
+      "bytes": 4226742
+    },
+    "assets/sculpted/chickens/wren.blend": {
+      "sha256": "2c25b651a66468d007090c59e5313e419432192697ef9f61813acaf8c8020026",
+      "bytes": 4918356
+    },
+    "assets/sculpted/environment/woven-home.blend": {
+      "sha256": "73d7077049c523f1829c6b442a0bc92013d7640862e1cd6ae757525f86766775",
+      "bytes": 1116974
+    },
+    "assets/sculpted/environment/sleeping-deck.blend": {
+      "sha256": "b6b19512aa6a97cd69381b6aff1ad3f01dac7043547db6ed5631b57690f10726",
+      "bytes": 1219965
+    },
+    "assets/sculpted/environment/hauling-basket.blend": {
+      "sha256": "71b7a77443787bb760873cdd4125a83dbece2398671a550d5e4bd666822ae932",
+      "bytes": 1223513
+    }
+  },
+  "qualification": "Actual exported triangles, unit normals, eight canonical sockets per tree, current clearances/support, future Lowfork room/access/hoist/turning clearance and floor bindings pass. Actual frozen adult AABB packing passes. These are bounded source checks; no all-animation, load or biological carrying-capacity claim.",
+  "captionClarification": "The accepted planning PNGs say tree crown ~11m, referring to height. Current recipe says tree height ~11m; this text-only correction has no geometry or occupancy effect."
+}

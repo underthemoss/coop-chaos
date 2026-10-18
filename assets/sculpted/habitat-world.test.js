@@ -2,12 +2,46 @@ import {readFileSync} from "node:fs";
 import {expect,test} from "vitest";
 import {NullEngine} from "@babylonjs/core/Engines/nullEngine";
 import {Scene} from "@babylonjs/core/scene";
+import {TransformNode} from "@babylonjs/core/Meshes/transformNode";
+import {Vector3} from "@babylonjs/core/Maths/math.vector";
 import {ImportMeshAsync} from "@babylonjs/core/Loading/sceneLoader";
 import "@babylonjs/loaders/glTF";
 import {trees} from "../../src/content/settlement";
-import {habitatAnchor,habitatPosition,treeHabitat} from "../../src/content/tree-habitats";
+import {habitatAnchor,habitatPosition,treeHabitat,habitatPresentation} from "../../src/content/tree-habitats";
 import {basketLiftPosition} from "../../src/simulation/settlement";
-import {presentedTreePosition,treeScale} from "../../src/game/tree-presentation";
+import {presentedTreePosition,treeScale,carriedBundleScale} from "../../src/game/tree-presentation";
+
+test("actual reed geometry keeps one basket-fitting world size through every parent transfer",async()=>{
+  const engine=new NullEngine(),scene=new Scene(engine);
+  try{
+    const loaded=await ImportMeshAsync(readFileSync(new URL("../../public/assets/environment/reed-bundle.glb",import.meta.url)),scene,{pluginExtension:".glb"});
+    const root=loaded.meshes[0],bird=new TransformNode("adult",scene);
+    bird.scaling.setAll(habitatPresentation.adultScale);
+    const size=()=>{
+      const lo=new Vector3(Infinity,Infinity,Infinity),hi=new Vector3(-Infinity,-Infinity,-Infinity);
+      for(const mesh of root.getChildMeshes()){
+        const matrix=mesh.computeWorldMatrix(true),positions=mesh.getVerticesData("position")??[];
+        for(let i=0;i<positions.length;i+=3){
+          const p=Vector3.TransformCoordinates(Vector3.FromArray(positions,i),matrix);
+          lo.minimizeInPlace(p);hi.maximizeInPlace(p);
+        }
+      }
+      return hi.subtract(lo).asArray();
+    };
+    root.parent=bird;root.scaling.setAll(carriedBundleScale);
+    const carried=size();
+    root.parent=null;root.scaling.setAll(habitatPresentation.reedBundleScale);
+    size().forEach((n,i)=>expect(n).toBeCloseTo(carried[i],6));
+    for(const tree of trees){
+      root.position.set(tree.x*2,.34,tree.z*2);
+      root.scaling.setAll(habitatPresentation.reedBundleScale);
+      size().forEach((n,i)=>expect(n).toBeCloseTo(carried[i],6));
+      expect(treeScale[tree.id]).toBe(1);
+    }
+    expect(Math.max(...carried)).toBeGreaterThan(.6);
+    expect(Math.max(...carried)).toBeLessThan(.744); // authored moving basket's outer envelope; visual seating is checked in-browser
+  }finally{scene.dispose();engine.dispose();}
+});
 
 test("actual glTF node world positions share canonical habitat handedness and scale",async()=>{
   const engine=new NullEngine(),scene=new Scene(engine);

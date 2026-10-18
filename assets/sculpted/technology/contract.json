@@ -1,7 +1,7 @@
 {
   "revision": "sleeping-hood-v2; hauling-v1",
-  "habitatRevision": "inhabited-tree-v1",
-  "coordinates": "X right, Y up, Z forward; tree-local origin; scale with existing home",
+  "habitatRevision": "metre-habitat-v2",
+  "coordinates": "X right, Y up, Z forward; tree-local metres at scale one on every tree",
   "deck": {
     "berths": [
       [

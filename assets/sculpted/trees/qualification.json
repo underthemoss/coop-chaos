@@ -1,0 +1,1244 @@
+{
+  "revision": "spatial-metre-v2",
+  "habitatRevision": "metre-habitat-v2",
+  "adultScale": 0.365,
+  "clearanceVolumes": {
+    "basket-sweep-with-10cm-margin": [
+      [
+        -2.222,
+        0.025,
+        -0.923
+      ],
+      [
+        -1.078,
+        3.223,
+        0.022
+      ]
+    ],
+    "cargo-sweep-conservative-previous-large-bundle": [
+      [
+        -1.9,
+        0.245,
+        -1.019
+      ],
+      [
+        -1.4,
+        2.756,
+        0.228
+      ]
+    ],
+    "operator-body": [
+      [
+        -1.34,
+        0.1,
+        -1.04
+      ],
+      [
+        -0.76,
+        0.8,
+        -0.46
+      ]
+    ],
+    "loading-approach": [
+      [
+        -2.16,
+        0.12,
+        -1.4
+      ],
+      [
+        -0.76,
+        0.8,
+        -1.06
+      ]
+    ],
+    "adjacent-ground-arrival": [
+      [
+        -0.32,
+        0.1,
+        -2.32
+      ],
+      [
+        0.32,
+        0.8,
+        -1.68
+      ]
+    ],
+    "ladder-approach": [
+      [
+        -0.32,
+        0.1,
+        -1.43
+      ],
+      [
+        0.32,
+        0.8,
+        -0.83
+      ]
+    ],
+    "landing-standing-space": [
+      [
+        -1.08,
+        2.32,
+        -0.84
+      ],
+      [
+        -0.73,
+        2.95,
+        -0.3
+      ]
+    ],
+    "ground-route-from-left": [
+      [
+        -2.2,
+        0.1,
+        -2.2
+      ],
+      [
+        0.2,
+        0.8,
+        -1.8
+      ]
+    ],
+    "ground-route-from-right": [
+      [
+        -0.2,
+        0.1,
+        -2.2
+      ],
+      [
+        2.2,
+        0.8,
+        -1.8
+      ]
+    ],
+    "ground-route-from-front": [
+      [
+        -0.2,
+        0.1,
+        -4.2
+      ],
+      [
+        0.2,
+        0.8,
+        -1.8
+      ]
+    ],
+    "natural-perch-0-body": [
+      [
+        -1.06,
+        3.33,
+        -0.06
+      ],
+      [
+        -0.6599999999999999,
+        3.82,
+        0.73
+      ]
+    ],
+    "natural-perch-1-body": [
+      [
+        0.6599999999999999,
+        3.5100000000000002,
+        -0.06
+      ],
+      [
+        1.06,
+        4.0,
+        0.73
+      ]
+    ],
+    "sheltered-perch-0-body": [
+      [
+        -1.06,
+        2.43,
+        -1.02
+      ],
+      [
+        -0.6599999999999999,
+        2.92,
+        -0.22999999999999998
+      ]
+    ],
+    "sheltered-perch-1-body": [
+      [
+        0.6599999999999999,
+        2.43,
+        -1.02
+      ],
+      [
+        1.06,
+        2.92,
+        -0.22999999999999998
+      ]
+    ],
+    "sheltered-perch-2-body": [
+      [
+        1.28,
+        3.0300000000000002,
+        -1.02
+      ],
+      [
+        1.68,
+        3.52,
+        -0.22999999999999998
+      ]
+    ],
+    "sheltered-perch-3-body": [
+      [
+        2.32,
+        3.0300000000000002,
+        -1.02
+      ],
+      [
+        2.72,
+        3.52,
+        -0.22999999999999998
+      ]
+    ]
+  },
+  "trees": {
+    "lowfork": {
+      "sha256": "fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1",
+      "bytes": 3594204,
+      "sourceSha256": "20cec2e396c55a164452a2be26a7d68ad54bbdade6593ab7c5eba1d0c275edb2",
+      "meshes": [
+        {
+          "name": "lowfork broad layered branch fans",
+          "triangles": 17370,
+          "vertices": 47540,
+          "minTriangleArea": 0.006304232429056831,
+          "maxNormalError": 1.3224779693565836e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        },
+        {
+          "name": "lowfork continuous living boughs metre-v2",
+          "triangles": 16937,
+          "vertices": 46263,
+          "minTriangleArea": 1.569769946476975e-06,
+          "maxNormalError": 1.266598621540993e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        },
+        {
+          "name": "Lowfork grown old scar",
+          "triangles": 96,
+          "vertices": 192,
+          "minTriangleArea": 0.0006358187266142288,
+          "maxNormalError": 1.0803341288223578e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        }
+      ],
+      "collisions": {
+        "basket-sweep-with-10cm-margin": 0,
+        "cargo-sweep-conservative-previous-large-bundle": 0,
+        "operator-body": 0,
+        "loading-approach": 0,
+        "adjacent-ground-arrival": 0,
+        "ladder-approach": 0,
+        "landing-standing-space": 0,
+        "ground-route-from-left": 0,
+        "ground-route-from-right": 0,
+        "ground-route-from-front": 0,
+        "natural-perch-0-body": 0,
+        "natural-perch-1-body": 0,
+        "sheltered-perch-0-body": 0,
+        "sheltered-perch-1-body": 0,
+        "sheltered-perch-2-body": 0,
+        "sheltered-perch-3-body": 0
+      },
+      "naturalSupport": {
+        "natural-perch-0": {
+          "topY": 3.145345687866211,
+          "footGap": 0.004654312133788974
+        },
+        "natural-perch-1": {
+          "topY": 3.319511890411377,
+          "footGap": 0.010488109588623118
+        }
+      },
+      "futureRoomClearances": {
+        "A": {
+          "collisionSamples": [],
+          "clear": true
+        },
+        "B": {
+          "collisionSamples": [],
+          "clear": true
+        },
+        "C": {
+          "collisionSamples": [],
+          "clear": true
+        },
+        "D": {
+          "collisionSamples": [],
+          "clear": true
+        }
+      },
+      "futureFloorSupport": {
+        "A": {
+          "points": [
+            {
+              "floorPoint": [
+                -4.2404022216796875,
+                3.3500000476837157,
+                0.8022575378417969
+              ],
+              "branchPoint": [
+                -4.2404022216796875,
+                3.239720106124878,
+                0.8022575378417969
+              ],
+              "bindingLength": 0.1102799415588378
+            },
+            {
+              "floorPoint": [
+                -4.611392498016357,
+                3.3500000476837157,
+                2.4612832069396973
+              ],
+              "branchPoint": [
+                -4.611392498016357,
+                3.2353830337524414,
+                2.4612832069396973
+              ],
+              "bindingLength": 0.11461701393127433
+            },
+            {
+              "floorPoint": [
+                -3.752453565597534,
+                3.3500000476837157,
+                0.9113723635673523
+              ],
+              "branchPoint": [
+                -3.752453565597534,
+                3.264763355255127,
+                0.9113723635673523
+              ],
+              "bindingLength": 0.08523669242858878
+            },
+            {
+              "floorPoint": [
+                -3.264504909515381,
+                3.3500000476837157,
+                1.0204871892929077
+              ],
+              "branchPoint": [
+                -3.264504909515381,
+                2.9475934505462646,
+                1.0204871892929077
+              ],
+              "bindingLength": 0.4024065971374511
+            },
+            {
+              "floorPoint": [
+                -2.7765560150146484,
+                3.3500000476837157,
+                1.1296019554138184
+              ],
+              "branchPoint": [
+                -2.7765560150146484,
+                2.7653536796569824,
+                1.1296019554138184
+              ],
+              "bindingLength": 0.5846463680267333
+            },
+            {
+              "floorPoint": [
+                -2.9620513916015625,
+                3.3500000476837157,
+                1.9591147899627686
+              ],
+              "branchPoint": [
+                -2.9620513916015625,
+                3.033365249633789,
+                1.9591147899627686
+              ],
+              "bindingLength": 0.31663479804992667
+            },
+            {
+              "floorPoint": [
+                -2.288607597351074,
+                3.3500000476837157,
+                1.2387168407440186
+              ],
+              "branchPoint": [
+                -2.288607597351074,
+                2.7155678272247314,
+                1.2387168407440186
+              ],
+              "bindingLength": 0.6344322204589843
+            }
+          ],
+          "spread": 2.675856089415522,
+          "supported": true
+        },
+        "B": {
+          "points": [
+            {
+              "floorPoint": [
+                2.5369110107421875,
+                5.099999809265137,
+                2.2077603340148926
+              ],
+              "branchPoint": [
+                2.5369110107421875,
+                5.01391077041626,
+                2.2077603340148926
+              ],
+              "bindingLength": 0.08608903884887731
+            },
+            {
+              "floorPoint": [
+                3.1034035682678223,
+                5.099999809265137,
+                1.023874282836914
+              ],
+              "branchPoint": [
+                3.1034035682678223,
+                4.974490165710449,
+                1.023874282836914
+              ],
+              "bindingLength": 0.12550964355468786
+            },
+            {
+              "floorPoint": [
+                3.450000047683716,
+                5.099999809265137,
+                1.7999999523162842
+              ],
+              "branchPoint": [
+                3.450000047683716,
+                5.003418922424316,
+                1.7999999523162842
+              ],
+              "bindingLength": 0.09658088684082067
+            },
+            {
+              "floorPoint": [
+                3.559948205947876,
+                5.099999809265137,
+                0.8199941515922546
+              ],
+              "branchPoint": [
+                3.559948205947876,
+                4.967275142669678,
+                0.8199941515922546
+              ],
+              "bindingLength": 0.13272466659545934
+            },
+            {
+              "floorPoint": [
+                4.253140926361084,
+                5.099999809265137,
+                2.3722453117370605
+              ],
+              "branchPoint": [
+                4.253140926361084,
+                4.925423622131348,
+                2.3722453117370605
+              ],
+              "bindingLength": 0.17457618713378942
+            },
+            {
+              "floorPoint": [
+                4.01649284362793,
+                5.099999809265137,
+                0.6161139011383057
+              ],
+              "branchPoint": [
+                4.01649284362793,
+                4.865151405334473,
+                0.6161139011383057
+              ],
+              "bindingLength": 0.23484840393066442
+            }
+          ],
+          "spread": 2.178217195436892,
+          "supported": true
+        },
+        "C": {
+          "points": [
+            {
+              "floorPoint": [
+                -3.1900553703308105,
+                6.749999904632569,
+                0.8276797533035278
+              ],
+              "branchPoint": [
+                -3.1900553703308105,
+                6.546455383300781,
+                0.8276797533035278
+              ],
+              "bindingLength": 0.20354452133178746
+            },
+            {
+              "floorPoint": [
+                -3.391535997390747,
+                6.749999904632569,
+                2.5881927013397217
+              ],
+              "branchPoint": [
+                -3.391535997390747,
+                6.700410842895508,
+                2.5881927013397217
+              ],
+              "bindingLength": 0.0495890617370609
+            },
+            {
+              "floorPoint": [
+                -2.2689943313598633,
+                6.749999904632569,
+                1.2170982360839844
+              ],
+              "branchPoint": [
+                -2.2689943313598633,
+                6.636415958404541,
+                1.2170982360839844
+              ],
+              "bindingLength": 0.1135839462280277
+            },
+            {
+              "floorPoint": [
+                -2.1394693851470947,
+                6.749999904632569,
+                2.194709062576294
+              ],
+              "branchPoint": [
+                -2.1394693851470947,
+                6.689609527587891,
+                2.194709062576294
+              ],
+              "bindingLength": 0.06039037704467809
+            },
+            {
+              "floorPoint": [
+                -1.678938865661621,
+                6.749999904632569,
+                2.389418363571167
+              ],
+              "branchPoint": [
+                -1.678938865661621,
+                6.380678176879883,
+                2.389418363571167
+              ],
+              "bindingLength": 0.3693217277526859
+            }
+          ],
+          "spread": 2.1794454904252927,
+          "supported": true
+        },
+        "D": {
+          "points": [
+            {
+              "floorPoint": [
+                1.2639812231063843,
+                7.15,
+                2.4427623748779297
+              ],
+              "branchPoint": [
+                1.2639812231063843,
+                7.130820274353027,
+                2.4427623748779297
+              ],
+              "bindingLength": 0.01917972564697301
+            },
+            {
+              "floorPoint": [
+                2.4000000953674316,
+                7.15,
+                3.0999999046325684
+              ],
+              "branchPoint": [
+                2.4000000953674316,
+                7.0702338218688965,
+                3.0999999046325684
+              ],
+              "bindingLength": 0.07976617813110387
+            },
+            {
+              "floorPoint": [
+                2.7397468090057373,
+                7.15,
+                2.174217939376831
+              ],
+              "branchPoint": [
+                2.7397468090057373,
+                7.147804260253906,
+                2.174217939376831
+              ],
+              "bindingLength": 0.0021957397460941053
+            },
+            {
+              "floorPoint": [
+                3.231668710708618,
+                7.15,
+                2.084703207015991
+              ],
+              "branchPoint": [
+                3.231668710708618,
+                7.134377479553223,
+                2.084703207015991
+              ],
+              "bindingLength": 0.015622520446777699
+            }
+          ],
+          "spread": 2.000003252831531,
+          "supported": true
+        }
+      },
+      "futureTurningClearances": {
+        "A": {
+          "clear": true,
+          "size": [
+            1.5,
+            0.9
+          ],
+          "collisionSamples": []
+        },
+        "B": {
+          "clear": true,
+          "size": [
+            1.5,
+            0.9
+          ],
+          "collisionSamples": []
+        },
+        "C": {
+          "clear": true,
+          "size": [
+            1.5,
+            0.9
+          ],
+          "collisionSamples": []
+        },
+        "D": {
+          "clear": true,
+          "size": [
+            1.5,
+            0.9
+          ],
+          "collisionSamples": []
+        }
+      },
+      "futureServiceClearances": [
+        {
+          "from": [
+            -3.450000047683716,
+            3.450000047683716,
+            3.3499999046325684
+          ],
+          "to": [
+            -2.549999952316284,
+            3.950000047683716,
+            3.8499999046325684
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            -2.549999952316284,
+            3.950000047683716,
+            3.8499999046325684
+          ],
+          "to": [
+            -0.5,
+            4.650000095367432,
+            3.9000000953674316
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            -0.5,
+            4.650000095367432,
+            3.9000000953674316
+          ],
+          "to": [
+            1.7999999523162842,
+            5.050000190734863,
+            3.950000047683716
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            1.7999999523162842,
+            5.050000190734863,
+            3.950000047683716
+          ],
+          "to": [
+            3.450000047683716,
+            5.199999809265137,
+            3.3499999046325684
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            3.450000047683716,
+            5.199999809265137,
+            3.3499999046325684
+          ],
+          "to": [
+            4.0,
+            5.75,
+            4.650000095367432
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            4.0,
+            5.75,
+            4.650000095367432
+          ],
+          "to": [
+            2.1500000953674316,
+            6.449999809265137,
+            5.050000190734863
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            2.1500000953674316,
+            6.449999809265137,
+            5.050000190734863
+          ],
+          "to": [
+            -0.40000009536743164,
+            6.849999904632568,
+            4.699999809265137
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            -0.4000000059604645,
+            6.849999904632568,
+            4.699999809265137
+          ],
+          "to": [
+            -2.5999999046325684,
+            6.849999904632568,
+            3.5
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            2.1500000953674316,
+            6.449999809265137,
+            5.050000190734863
+          ],
+          "to": [
+            2.4000000953674316,
+            7.25,
+            4.599999904632568
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            -4.699999809265137,
+            3.450000047683716,
+            -0.6000000238418579
+          ],
+          "to": [
+            -4.699999809265137,
+            3.450000047683716,
+            3.3499999046325684
+          ],
+          "clear": true,
+          "collisionSamples": []
+        },
+        {
+          "from": [
+            -4.699999809265137,
+            3.450000047683716,
+            3.3499999046325684
+          ],
+          "to": [
+            -3.450000047683716,
+            3.450000047683716,
+            3.3499999046325684
+          ],
+          "clear": true,
+          "collisionSamples": []
+        }
+      ],
+      "futureHoistClearance": {
+        "min": [
+          -5.15,
+          0.1,
+          -1.05
+        ],
+        "max": [
+          -4.25,
+          4.1,
+          -0.15
+        ],
+        "clear": true,
+        "collisionSamples": []
+      },
+      "triangles": 34403,
+      "primitives": 3,
+      "bounds": {
+        "min": [
+          -7.245378494262695,
+          -0.29333606362342834,
+          -2.304103136062622
+        ],
+        "max": [
+          7.295855522155762,
+          10.658831596374512,
+          5.463189125061035
+        ]
+      },
+      "dimensions": [
+        14.541234016418457,
+        10.95216765999794,
+        7.767292261123657
+      ],
+      "sourceMeshCount": 3,
+      "checks": {
+        "boundedTriangleBudget": true,
+        "twoToThreePrimitives": true,
+        "allEightCanonicalSockets": true,
+        "finiteUnitNormals": true,
+        "nondegenerateTriangles": true,
+        "noAuthoredAnimation": true,
+        "allClearanceVolumesEmpty": true,
+        "naturalFeetOnLivingWood": true,
+        "futureRoomHeadroom": true,
+        "futureServiceHeadroom": true,
+        "futureHoistClear": true,
+        "futureTurningLandingsClear": true,
+        "futureFloorsBindToForks": true
+      },
+      "ready": true
+    },
+    "splitcrown": {
+      "sha256": "2328d9672947ee4418aebd269c4bd4a7f2b0f0e515c1a4f29002a6f5aaf68367",
+      "bytes": 2753140,
+      "sourceSha256": "0cd41bdd8f0beef6b24e23dab29d87032f0ef647f96b6096712707096a30e7b2",
+      "meshes": [
+        {
+          "name": "splitcrown broad layered branch fans",
+          "triangles": 13800,
+          "vertices": 37696,
+          "minTriangleArea": 0.006284221698105205,
+          "maxNormalError": 1.387670540697883e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        },
+        {
+          "name": "splitcrown continuous living boughs metre-v2",
+          "triangles": 12549,
+          "vertices": 34305,
+          "minTriangleArea": 1.246025868364182e-06,
+          "maxNormalError": 1.0216626300518783e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        }
+      ],
+      "collisions": {
+        "basket-sweep-with-10cm-margin": 0,
+        "cargo-sweep-conservative-previous-large-bundle": 0,
+        "operator-body": 0,
+        "loading-approach": 0,
+        "adjacent-ground-arrival": 0,
+        "ladder-approach": 0,
+        "landing-standing-space": 0,
+        "ground-route-from-left": 0,
+        "ground-route-from-right": 0,
+        "ground-route-from-front": 0,
+        "natural-perch-0-body": 0,
+        "natural-perch-1-body": 0,
+        "sheltered-perch-0-body": 0,
+        "sheltered-perch-1-body": 0,
+        "sheltered-perch-2-body": 0,
+        "sheltered-perch-3-body": 0
+      },
+      "naturalSupport": {
+        "natural-perch-0": {
+          "topY": 3.146784543991089,
+          "footGap": 0.003215456008911044
+        },
+        "natural-perch-1": {
+          "topY": 3.319511890411377,
+          "footGap": 0.010488109588623118
+        }
+      },
+      "triangles": 26349,
+      "primitives": 2,
+      "bounds": {
+        "min": [
+          -5.379376411437988,
+          -0.29333606362342834,
+          -2.206824779510498
+        ],
+        "max": [
+          5.257282257080078,
+          8.666099548339844,
+          5.063139915466309
+        ]
+      },
+      "dimensions": [
+        10.636658668518066,
+        8.959435611963272,
+        7.269964694976807
+      ],
+      "sourceMeshCount": 2,
+      "checks": {
+        "boundedTriangleBudget": true,
+        "twoToThreePrimitives": true,
+        "allEightCanonicalSockets": true,
+        "finiteUnitNormals": true,
+        "nondegenerateTriangles": true,
+        "noAuthoredAnimation": true,
+        "allClearanceVolumesEmpty": true,
+        "naturalFeetOnLivingWood": true
+      },
+      "ready": true
+    },
+    "reedside": {
+      "sha256": "3fdc74cb02fac99efcbb48fde092145187ef214e9af71702be7d05d878b90591",
+      "bytes": 2461364,
+      "sourceSha256": "7d9664a4bae00693a9947bb98004abcc527aa6f38d708802c231713175042f1a",
+      "meshes": [
+        {
+          "name": "reedside broad layered branch fans",
+          "triangles": 12600,
+          "vertices": 34326,
+          "minTriangleArea": 0.0062654262338039364,
+          "maxNormalError": 1.272710425936907e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        },
+        {
+          "name": "reedside continuous living boughs metre-v2",
+          "triangles": 11021,
+          "vertices": 30025,
+          "minTriangleArea": 1.1369774357018139e-06,
+          "maxNormalError": 1.0058283295144577e-07,
+          "collisions": {
+            "basket-sweep-with-10cm-margin": 0,
+            "cargo-sweep-conservative-previous-large-bundle": 0,
+            "operator-body": 0,
+            "loading-approach": 0,
+            "adjacent-ground-arrival": 0,
+            "ladder-approach": 0,
+            "landing-standing-space": 0,
+            "ground-route-from-left": 0,
+            "ground-route-from-right": 0,
+            "ground-route-from-front": 0,
+            "natural-perch-0-body": 0,
+            "natural-perch-1-body": 0,
+            "sheltered-perch-0-body": 0,
+            "sheltered-perch-1-body": 0,
+            "sheltered-perch-2-body": 0,
+            "sheltered-perch-3-body": 0
+          },
+          "collisionSamples": {
+            "basket-sweep-with-10cm-margin": [],
+            "cargo-sweep-conservative-previous-large-bundle": [],
+            "operator-body": [],
+            "loading-approach": [],
+            "adjacent-ground-arrival": [],
+            "ladder-approach": [],
+            "landing-standing-space": [],
+            "ground-route-from-left": [],
+            "ground-route-from-right": [],
+            "ground-route-from-front": [],
+            "natural-perch-0-body": [],
+            "natural-perch-1-body": [],
+            "sheltered-perch-0-body": [],
+            "sheltered-perch-1-body": [],
+            "sheltered-perch-2-body": [],
+            "sheltered-perch-3-body": []
+          }
+        }
+      ],
+      "collisions": {
+        "basket-sweep-with-10cm-margin": 0,
+        "cargo-sweep-conservative-previous-large-bundle": 0,
+        "operator-body": 0,
+        "loading-approach": 0,
+        "adjacent-ground-arrival": 0,
+        "ladder-approach": 0,
+        "landing-standing-space": 0,
+        "ground-route-from-left": 0,
+        "ground-route-from-right": 0,
+        "ground-route-from-front": 0,
+        "natural-perch-0-body": 0,
+        "natural-perch-1-body": 0,
+        "sheltered-perch-0-body": 0,
+        "sheltered-perch-1-body": 0,
+        "sheltered-perch-2-body": 0,
+        "sheltered-perch-3-body": 0
+      },
+      "naturalSupport": {
+        "natural-perch-0": {
+          "topY": 3.1461195945739746,
+          "footGap": 0.003880405426025302
+        },
+        "natural-perch-1": {
+          "topY": 3.319512128829956,
+          "footGap": 0.010487871170044016
+        }
+      },
+      "triangles": 23621,
+      "primitives": 2,
+      "bounds": {
+        "min": [
+          -4.753498554229736,
+          -0.29333606362342834,
+          -1.8006033897399902
+        ],
+        "max": [
+          4.796629905700684,
+          7.730278491973877,
+          4.929664611816406
+        ]
+      },
+      "dimensions": [
+        9.55012845993042,
+        8.023614555597305,
+        6.7302680015563965
+      ],
+      "sourceMeshCount": 2,
+      "checks": {
+        "boundedTriangleBudget": true,
+        "twoToThreePrimitives": true,
+        "allEightCanonicalSockets": true,
+        "finiteUnitNormals": true,
+        "nondegenerateTriangles": true,
+        "noAuthoredAnimation": true,
+        "allClearanceVolumesEmpty": true,
+        "naturalFeetOnLivingWood": true
+      },
+      "ready": true
+    }
+  },
+  "ready": true,
+  "sourceRecipeHashes": {
+    "assets/sculpted/author.py": "9fcb7f3121393c448e6f441bf5a6cba7ff3c28bd288ec425e7a66dea871e4803",
+    "assets/sculpted/trees.py": "36edeaf548938c3dd61649cbd1fde23f7faf521af7b5b44f28486b7a19270422"
+  }
+}

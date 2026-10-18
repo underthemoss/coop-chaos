@@ -4,6 +4,8 @@ import { trees, type TreeId } from "./settlement";
 export type HabitatPoint = { x: number; y: number; z: number };
 export type HabitatAnchor = keyof typeof contract.profiles["canopy-proof"]["anchors"];
 export const habitatContract = contract;
+/** World sizes do not depend on which tree a chicken inhabits. */
+export const habitatPresentation = contract.presentation;
 export const treeHabitat = (tree: TreeId) =>
   contract.profiles[contract.trees[tree].profile as keyof typeof contract.profiles];
 export const habitatScale = (tree: TreeId) => contract.trees[tree].scale;
