@@ -72,8 +72,8 @@ export function createClearing(
   camera.setTarget(new Vector3(-.6,4.5,.5),false,false,true);
   const sky = new HemisphericLight("soft-sky", new Vector3(0, 1, 0), scene);
   sky.intensity = 0.65;
-  sky.groundColor = Color3.FromHexString("#485744");
-  sky.diffuse=Color3.FromHexString("#c9dfec");
+  sky.groundColor = Color3.FromHexString("#425c70");
+  sky.diffuse=Color3.FromHexString("#a8cbee");
   const sun = new DirectionalLight(
     "evening-sun",
     new Vector3(-0.6, -1, 0.45),
@@ -81,7 +81,7 @@ export function createClearing(
   );
   sun.position = new Vector3(15, 25, -15);
   sun.intensity = 0.8;
-  sun.diffuse = Color3.FromHexString("#ffe9c5");
+  sun.diffuse = Color3.FromHexString("#fff0cf");
   const shadows = new ShadowGenerator(2048, sun);
   shadows.usePercentageCloserFiltering=true;
   shadows.filteringQuality=ShadowGenerator.QUALITY_MEDIUM;
@@ -206,6 +206,47 @@ export function createClearing(
     landMaterial,
     terrainColors,
   );
+  // A few settled leaf pockets ground the hero's buttresses. They are flat
+  // surface detail, never obstacles or an alternate route/collision system.
+  const soilPositions:number[]=[],soilIndices:number[]=[],soilColors:number[]=[];
+  const rootPatches=[[-6.5,3.8,.8,.48],[-6.25,5.6,.75,.55],[-4.8,6.5,.7,.5],[-1.65,4.9,.65,.45],[-2,3.15,.55,.38]];
+  for(let patch=0;patch<rootPatches.length;patch++){
+    const [cx,cz,rx,rz]=rootPatches[patch],start=soilPositions.length/3;
+    const center=Color3.FromHexString(patch%2?"#7d7952":"#82704e");
+    soilPositions.push(cx,elevation(cx,cz)+.006,cz);soilColors.push(center.r,center.g,center.b,1);
+    for(let ring=0;ring<2;ring++)for(let step=0;step<16;step++){
+      const angle=step*Math.PI/8,irregular=1+.16*Math.sin(step*2.3+patch)+.08*Math.cos(step*3.7-patch);
+      const radius=(ring===0?.55:1)*irregular,x=cx+Math.cos(angle)*rx*radius,z=cz+Math.sin(angle)*rz*radius;
+      const color=Color3.Lerp(center,groundColor(x,z),ring===0?.28:1);
+      soilPositions.push(x,elevation(x,z)+.006,z);soilColors.push(color.r,color.g,color.b,1);
+    }
+    for(let step=0;step<16;step++){
+      const next=(step+1)%16,a=start+1+step,b=start+1+next,c=start+17+step,d=start+17+next;
+      soilIndices.push(start,b,a,a,d,c,a,b,d);
+    }
+  }
+  const soil=surface("lowfork-root-soil-transition",soilPositions,soilIndices,material("root-leafmould","#ffffff"),soilColors);
+  soil.isPickable=false;
+  const rootLeaves:number[]=[],rootLeafIndices:number[]=[],rootLeafColors:number[]=[];
+  const hero=trees.find(tree=>tree.id==="lowfork")!;
+  const leafTints=["#948052","#a38b59","#7d8251"].map(Color3.FromHexString);
+  const leafPockets=[[-2.7,-.6],[-2.4,1.5],[-.9,2.5],[2.6,.9],[2.2,-.9]];
+  for(let pocket=0;pocket<leafPockets.length;pocket++)for(let leaf=0;leaf<18;leaf++){
+    const [px,pz]=leafPockets[pocket],angle=leaf*2.399+pocket*.7;
+    const spread=Math.sqrt((leaf+.5)/18),x=hero.x*2+px+Math.cos(angle)*spread*.45,z=hero.z*2+pz+Math.sin(angle)*spread*.3;
+    const length=.14+(leaf%4)*.025,width=length*.28,turn=angle*.8;
+    const points=[[-length/2,0,0],[-length*.1,0,width],[length/2,0,0],[-length*.1,0,-width],[0,.008,0]];
+    const start=rootLeaves.length/3,tint=leafTints[(leaf+pocket)%leafTints.length];
+    for(const [lx,ly,lz] of points){
+      rootLeaves.push(x+lx*Math.cos(turn)-lz*Math.sin(turn),elevation(x,z)+.012+ly,z+lx*Math.sin(turn)+lz*Math.cos(turn));
+      rootLeafColors.push(tint.r,tint.g,tint.b,1);
+    }
+    for(let edge=0;edge<4;edge++)rootLeafIndices.push(start+4,start+edge,start+(edge+1)%4);
+  }
+  const leafMaterial=material("settled-root-leaves","#ffffff");
+  leafMaterial.backFaceCulling=false;
+  const rootLitter=surface("lowfork-root-litter",rootLeaves,rootLeafIndices,leafMaterial,rootLeafColors);
+  rootLitter.isPickable=false;
   // Cross-sections form shallow shelves, irregular banks and a darker deep channel.
   const creekPositions:number[]=[],creekIndices:number[]=[],creekColors:number[]=[],bankPositions:number[]=[],bankIndices:number[]=[],bankColors:number[]=[];
   const riverSteps=160;
@@ -319,7 +360,7 @@ export function createClearing(
       if (!disposed) {
         scene.environmentTexture?.dispose();
         scene.environmentTexture = environment;
-        scene.environmentIntensity = .45;
+        scene.environmentIntensity = .28;
         staged.forEach(root => {
           for (const mesh of root.getChildMeshes()) { shadows.addShadowCaster(mesh); mesh.receiveShadows = true; }
           root.setEnabled(true);
@@ -343,6 +384,10 @@ export function createClearing(
         }
         // Root skirts remain low and clear of the trunk's work/ladder approach.
         dress("bush-b",-6.1,4.8,.5,1);dress("bush-a",-3.4,6,.45,2);dress("rock-b",-5.8,5.8,.5,.8);
+        dress("grass",-6.8,4.9,.6,.7);dress("grass",-1.5,5.2,.48,2.1);
+        dress("grass",-3.1,6.8,.65,1.6);dress("grass",-6.3,3.7,.5,1.4);
+        for(const [x,z,scale,turn] of [[-6.8,4.35,.19,.5],[-6,5.7,.23,1.7],[-4.9,6.5,.17,2.3],[-1.4,4.85,.18,.8],[-2.2,3.25,.16,1.2]])
+          dress("rock-b",x,z,scale,turn,-.04);
         // Asymmetric submerged rock groups and cattails break the creek's outline.
         for(const [x,z,scale] of [[-6.5,2.5,.36],[-5.4,5.3,.42],[-2.9,6.9,.35],[-8.7,-5.7,.5],[-3.6,-8.4,.45],[5.5,-6.9,.4],[7.6,-.8,.38],[7.9,4.1,.4]]) {
           dress("grass",x,z,scale,x*.8-z*.3);
@@ -692,8 +737,8 @@ export function createClearing(
       }
       updateLifts(state);
       const dusk = state.phase === "evening";
-      sun.intensity = dusk ? 0.38 : 1.8;
-      sky.intensity = dusk ? .5 : .38;
+      sun.intensity = dusk ? 0.38 : 3.25;
+      sky.intensity = dusk ? .5 : .22;
       scene.clearColor = Color4.FromHexString(dusk ? "#647d95ff" : "#a9caccff");
     },
     cursor(at: Cell, show: boolean) {

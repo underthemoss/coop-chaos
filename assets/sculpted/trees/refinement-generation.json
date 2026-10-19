@@ -1,0 +1,14 @@
+{
+  "runtimeSha256": "7c2f275858b42d5763189e9e4c881517941a2828f305c9cfdff5ce996c88bf40",
+  "independentRegenerationSha256": "7c2f275858b42d5763189e9e4c881517941a2828f305c9cfdff5ce996c88bf40",
+  "barkOnlyReexportSha256": "7c2f275858b42d5763189e9e4c881517941a2828f305c9cfdff5ce996c88bf40",
+  "checks": {
+    "independentRecipeReproducesRuntime": true,
+    "legacyBarkLauncherIsIdempotent": true
+  },
+  "sourceRecipeHashes": {
+    "assets/sculpted/author.py": "01396de56954fd478ff3a34f74f891359b2ba9a5cec91e43fd600c22d7df03b1",
+    "assets/sculpted/trees.py": "ee1d6182fcbcf6f884f3f504a8999f8fb584548c27c85c7dcf42c2caf23c9c29",
+    "assets/sculpted/trees/reproduce.py": "e6a6da4fce5a79dcff0024387a9fe1631a5f2a5577329922780a00715af568ab"
+  }
+}

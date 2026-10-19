@@ -65,9 +65,10 @@ camera, motion, materials and environment. Current visual acceptance remains ope
 
 The renderer stages the complete kit, reports loading/failure, permits retry and
 disposes late async loads on unmount. Preserve simulation identities, cargo,
-perch/deck/ladder anchors and saved coordinates when replacing art. Smaller
-secondary trees share one presentation transform with homes, ladder approaches,
-flight endpoints and occupied perches; never scale only the visible tree. Keep fixed
+perch/deck/ladder anchors and saved coordinates when replacing art. All three
+inhabited trees use metre-scale habitats; homes, ladder approaches, flight
+endpoints and occupied perches share that transform. Adults keep their independent
+`.365` presentation scale; never enlarge them to compensate for tree framing. Keep fixed
 responsive framing, with no camera navigation or zoom. Validate topology, finite
 normals, PBR materials, embedded resources, anchors and clips, then qualify actual
 movement/work, attachment alignment, narrow layout and measured local performance.
@@ -90,6 +91,13 @@ Helena Hansen's original [Lush Tree breakdown](https://gamesartist.co.uk/lush-tr
 is a craft reference for authored foliage volume and material structure, not a
 source of copied assets. Compare matched camera/light evidence before attributing
 a flat crown to the exporter or adding another effect.
+
+The Lowfork refinement keeps two comparisons separate: the new crown under the
+previous runtime light, then a warmer directional key with cooler, lower ambient
+fill under the same fixed camera and exposure. Root-edge leafmould, fallen leaves
+and small partly buried stones are local surface dressing; the front workcourt
+and existing movement rules remain clear. Check cream feathers, occupied faces,
+raised bundles and evening readability before accepting either light or materials.
 
 ## Canopy additions
 

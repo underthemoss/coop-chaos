@@ -42,22 +42,57 @@ triangles. Downward rays also establish multiple spread floor-to-fork binding po
 The current woven-home and technology exports have separate owners and receipts.
 This qualification does not freeze their bytes during independent corrections.
 
+## Lowfork crown and bark refinement
+
+`lowfork-nested-crown-v3` is a Lowfork-only refinement over accepted revision
+`2aeca35`. Its main/secondary branch paths, roots, six foot sockets and reserved
+future room/access volumes remain fixed. The actual exported unique wood-position
+SHA-256 is compared with the accepted export in `qualification.json`; this
+comparison covers all 8,509 support-wood positions. The other two tree exports
+and editable sources are retained byte for byte. The recipe dispatches the new
+Lowfork-specific crown and bark functions only for `name == 'lowfork'`.
+
+The crown replaces oversized .76–1.14m full-span leaf slabs and shallow fans with
+63 irregular, deep support lobes, nested shoulders and 5,533 overlapping folded
+leaves at .16–.30m full tip span. Recessed support surfaces carry continuous
+light/shadow through the crevices; leaves cover the visible shoulders and break
+exposed edges. Adjacent leaves share each shoulder's mid-green value, with
+selective golden upper faces and cooler undersides. Cool interiors, warmer outer zones and
+smooth volume normals are source material/normal decisions, not a baked light
+or a runtime effect. Leaves and support faces are omitted conservatively from
+canonical future room/service reservations; actual exported triangle checks
+remain the authority for empty space.
+
+`lowfork-growth-ribbons-v5` changes wood corner color and normals only. Broad
+planes and irregular crease patches follow the nearest living branch/root path;
+selective low damp pockets retain restrained moss. The old scar remains the
+accepted separate grown-in mesh. No added bark relief changes support, collision
+space, limb geometry or footprint. This is an original editable Blender recipe,
+not a concept image or a copied mesh. Source geometry proof does not claim that
+the accepted concept's finished artistic quality has been reached.
+
 ## Qualified geometry snapshot
 
-The existing planning-board caption “tree crown ~11m” refers to height; the
-recipe now labels this “tree height ~11m”. Lowfork spans 14.541m across.
+The planning-board caption “tree height ~11m” refers to height above ground;
+Lowfork's revised crown spans 14.120m across.
 Dimensions are complete exported W × H × D, including roots below soil; the
 separate top-Y value measures height above the authored ground plane.
 
 | Tree | Dimensions (m) | Top Y (m) | Triangles | Primitives |
 | --- | --- | --- | ---: | ---: |
-| Lowfork | 14.541 × 10.952 × 7.767 | 10.659 | 34,403 | 3 |
+| Lowfork | 14.120 × 10.873 × 7.483 | 10.579 | 44,502 | 3 |
 | Splitcrown | 10.637 × 8.959 × 7.270 | 8.666 | 26,349 | 2 |
 | Reedside | 9.550 × 8.024 × 6.730 | 7.730 | 23,621 | 2 |
 
 Exact source/runtime hashes and bounds are in `qualification.json`. `proofs.json`
 fingerprints the paired source renders, editable planning fixtures and their mesh inputs. The tree
-recipe is qualified against author.py SHA-256 `9fcb7f3121393c448e6f441bf5a6cba7ff3c28bd288ec425e7a66dea871e4803`.
+recipe is qualified against author.py SHA-256 `01396de56954fd478ff3a34f74f891359b2ba9a5cec91e43fd600c22d7df03b1`.
+The 10,099-triangle increase over the accepted 34,403-triangle Lowfork supplies
+smaller overlapping leaves and nested crown coverage; the support wood is
+unchanged and the export retains three primitives. `refinement-generation.json`
+records byte-identical independent generation and bark-only re-export after
+reopening the editable source. Broad bark normals and color are computed from
+explicit vertex geometry, avoiding stale Blender normal/centroid caches.
 
 ## Static habitation study
 
@@ -97,7 +132,8 @@ Lowfork's 24-resident future layout is occupied and measured in this slice.
 ## Bounded reproduction
 
 ```sh
-"$BLENDER_BIN" --background --threads 2 --python assets/sculpted/author.py -- trees
+"$BLENDER_BIN" --background --threads 2 --python assets/sculpted/author.py -- lowfork
+"$BLENDER_BIN" --background --threads 2 --python assets/sculpted/trees/reproduce.py
 "$BLENDER_BIN" --background --threads 2 --python assets/sculpted/trees/qualify.py
 "$BLENDER_BIN" --background --threads 2 --python assets/sculpted/trees/render.py -- lowfork occupied final
 "$BLENDER_BIN" --background --threads 2 --python assets/sculpted/trees/planning.py -- opening final
@@ -110,3 +146,10 @@ bounded orthographic studio framing. They are source geometry evidence. Actual
 Babylon lighting, the three-tree grove overlap, saved state, world routes and
 full application qualification remain with the runtime/browser owner. No commit,
 publication, deployment or population-growth mechanic is implied.
+
+The refinement comparison retains the fixed original camera/light in
+`output/playwright/lowfork-refinement-v3/before-occupied-whole.png` (accepted
+`2aeca35` input) and `after-v3-occupied-whole.png` (current qualified input).
+These opaque source renders are distinct from the runtime owner's matched
+Babylon captures. Neither the source proof nor the static planning cutaway
+claims concept-art parity or animated circulation clearance.

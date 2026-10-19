@@ -1,7 +1,7 @@
 {
   "revision": "spatial-metre-v2",
   "runtimeTreeHashes": {
-    "lowfork": "fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1",
+    "lowfork": "7c2f275858b42d5763189e9e4c881517941a2828f305c9cfdff5ce996c88bf40",
     "splitcrown": "2328d9672947ee4418aebd269c4bd4a7f2b0f0e515c1a4f29002a6f5aaf68367",
     "reedside": "3fdc74cb02fac99efcbb48fde092145187ef214e9af71702be7d05d878b90591"
   },
@@ -15,8 +15,8 @@
   "implementedPopulationGrowth": false,
   "files": {
     "assets/sculpted/trees/qualification.json": {
-      "sha256": "fc18d1e39a4b085d8b0a091caeaccc313d5d6257d3ea7e0a048be048a523573c",
-      "bytes": 34622
+      "sha256": "41572651678eeab5f7ceabbdbd69f02149fba01babebb8044df6867c23b60def",
+      "bytes": 36137
     },
     "assets/sculpted/trees/planning.py": {
       "sha256": "b348f44c3cf423379ddaf8ec67bf6e91b5ee4228e88a8680b658d9a23c14cd2a",
@@ -27,28 +27,28 @@
       "bytes": 4290
     },
     "assets/sculpted/trees/qualify.py": {
-      "sha256": "6380b33d8c2db6a7cf4b5f3be2bd1b4af12beadd27c6189eb74cf3923e9837c0",
-      "bytes": 13217
+      "sha256": "488b122a0e63cf886d7e5cb56cae970416f67804e5a3ebdacef693db405b0be2",
+      "bytes": 14922
     },
     "assets/sculpted/trees/opening-study.blend": {
-      "sha256": "0831c26d19aa19b91e877cd7e4f2c6470974445d35f2a1b73c8351fe12d993d4",
-      "bytes": 11923645
+      "sha256": "219763092af12a633c01dd0ec41a95972e5c19befaa3c994c9e465a08c5f8be3",
+      "bytes": 13298629
     },
     "assets/sculpted/trees/opening-study.json": {
-      "sha256": "0157d5e38653b41c5f692c7e3d846bc895240ec1483bf05102073fba83e8511c",
+      "sha256": "cd1e460651ccb522a9cc5fbf270b02b8b14d038774d656f4efa8c1337803e417",
       "bytes": 10291
     },
     "assets/sculpted/trees/mature-study.blend": {
-      "sha256": "144287c35cc8b11e47f9264c175110def940bff5380fd6177d6f5d5553fa63c1",
-      "bytes": 13214989
+      "sha256": "6ce884c80a00cb9b6536480bab1c912bc0b80e9a8f864f66dd61311bf5e205ac",
+      "bytes": 14589973
     },
     "assets/sculpted/trees/mature-study.json": {
-      "sha256": "ed6f95af70c91a97ce2549e25d1aab390bca16eb552067f920f7e354d374136b",
+      "sha256": "4b93aabd4856b52baeabc301f3cc818345dc2c2fda983920480f1b7bee451a52",
       "bytes": 16282
     },
     "output/playwright/tree-metre-v2/lowfork-occupied-whole-final.png": {
-      "sha256": "cb97152e8e3a4fc8001553b78192afd8138bfa194fc5ec750095203425ba2520",
-      "bytes": 1398549
+      "sha256": "ce7e0d561829479921738ecbae8f2578b1cd1328342840df5ebbfba8f7428d66",
+      "bytes": 1504216
     },
     "output/playwright/tree-metre-v2/splitcrown-occupied-whole-final.png": {
       "sha256": "68ba4af2926d6700009750656587e7ae99b9c77d670af63768505a5bb3d3f5f8",
@@ -59,12 +59,12 @@
       "bytes": 1298234
     },
     "output/playwright/tree-metre-v2/opening-planning-final.png": {
-      "sha256": "47c19d7445e407b0688de21d3162ec7ce3c7b223b433fab7b1d5fa15c274f4ba",
-      "bytes": 2241316
+      "sha256": "b57b9c840fed5b320b588ae789669545d06043e6bee60efabb04b243ea96eb82",
+      "bytes": 2385693
     },
     "output/playwright/tree-metre-v2/mature-planning-final.png": {
-      "sha256": "f76f9c6ba86ef4ae49d6d398c2004c55e8f689025d5b676dce8c7290726199f7",
-      "bytes": 2260003
+      "sha256": "fa79f3288c522b1b8891ebdea698069d6b1d355ac791d21e3acbae21b498832b",
+      "bytes": 2272560
     },
     "assets/sculpted/chickens/rook.blend": {
       "sha256": "23c1429858ad028b4a7b59b8ec5e3671291cf087123a5285706be4de422cd52e",
@@ -93,8 +93,50 @@
     "assets/sculpted/environment/hauling-basket.blend": {
       "sha256": "71b7a77443787bb760873cdd4125a83dbece2398671a550d5e4bd666822ae932",
       "bytes": 1223513
+    },
+    "assets/sculpted/author.py": {
+      "sha256": "01396de56954fd478ff3a34f74f891359b2ba9a5cec91e43fd600c22d7df03b1",
+      "bytes": 29471
+    },
+    "assets/sculpted/trees.py": {
+      "sha256": "ee1d6182fcbcf6f884f3f504a8999f8fb584548c27c85c7dcf42c2caf23c9c29",
+      "bytes": 20887
+    },
+    "assets/sculpted/trees/reproduce.py": {
+      "sha256": "e6a6da4fce5a79dcff0024387a9fe1631a5f2a5577329922780a00715af568ab",
+      "bytes": 2571
+    },
+    "assets/sculpted/trees/refinement-generation.json": {
+      "sha256": "6b4059e583ce148c8ba0d6fde3e5b46026e1644c6d81321cbe688aa2534e6ab2",
+      "bytes": 740
+    },
+    "assets/sculpted/home/qualification.json": {
+      "sha256": "912af6df29d129ced74175e62eae227f56cebc174fb0978cc40c08fcabcd2764",
+      "bytes": 1161
+    },
+    "output/playwright/lowfork-refinement-v3/before-occupied-whole.png": {
+      "sha256": "cb97152e8e3a4fc8001553b78192afd8138bfa194fc5ec750095203425ba2520",
+      "bytes": 1398549
+    },
+    "output/playwright/lowfork-refinement-v3/after-v3-occupied-whole.png": {
+      "sha256": "ce7e0d561829479921738ecbae8f2578b1cd1328342840df5ebbfba8f7428d66",
+      "bytes": 1504216
     }
   },
   "qualification": "Actual exported triangles, unit normals, eight canonical sockets per tree, current clearances/support, future Lowfork room/access/hoist/turning clearance and floor bindings pass. Actual frozen adult AABB packing passes. These are bounded source checks; no all-animation, load or biological carrying-capacity claim.",
-  "captionClarification": "The accepted planning PNGs say tree crown ~11m, referring to height. Current recipe says tree height ~11m; this text-only correction has no geometry or occupancy effect."
+  "refinementRevision": "lowfork-nested-crown-v3",
+  "sourceComparison": {
+    "baselineRevision": "2aeca35",
+    "before": {
+      "path": "output/playwright/lowfork-refinement-v3/before-occupied-whole.png",
+      "lowforkSha256": "fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1"
+    },
+    "after": {
+      "path": "output/playwright/lowfork-refinement-v3/after-v3-occupied-whole.png",
+      "lowforkSha256": "7c2f275858b42d5763189e9e4c881517941a2828f305c9cfdff5ce996c88bf40"
+    },
+    "sameCameraAndLight": true,
+    "population": "Six current socket clearance gauge, not four-bird opening roster; opaque crown."
+  },
+  "planningCaption": "tree height ~11m denotes above-ground height; full current W/H/D is recorded in qualification.json."
 }

@@ -473,6 +473,7 @@ elif '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['lowfork-bark']:
     bpy.ops.wm.open_mainfile(filepath=str(SOURCE/'environment/lowfork.blend'))
     trunk=bpy.data.objects['lowfork continuous living boughs metre-v2']
     lowfork_bark(trunk,json.loads(trunk['growth_paths']),json.loads(trunk['root_paths']),relief=False)
+    lowfork_growth_bark(trunk,json.loads(trunk['growth_paths'])+json.loads(trunk['root_paths']))
     export('environment/lowfork',list(bpy.context.scene.objects))
 elif '--' in sys.argv and sys.argv[sys.argv.index('--')+1:]==['woven-home']:
     woven_home()

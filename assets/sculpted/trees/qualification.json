@@ -198,16 +198,16 @@
   },
   "trees": {
     "lowfork": {
-      "sha256": "fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1",
-      "bytes": 3594204,
-      "sourceSha256": "20cec2e396c55a164452a2be26a7d68ad54bbdade6593ab7c5eba1d0c275edb2",
+      "sha256": "7c2f275858b42d5763189e9e4c881517941a2828f305c9cfdff5ce996c88bf40",
+      "bytes": 4676456,
+      "sourceSha256": "42bf49b90cf5740b50d09713da6dbd2110a60df55b6a72145a7f1de9a57238b9",
       "meshes": [
         {
           "name": "lowfork broad layered branch fans",
-          "triangles": 17370,
-          "vertices": 47540,
-          "minTriangleArea": 0.006304232429056831,
-          "maxNormalError": 1.3224779693565836e-07,
+          "triangles": 27469,
+          "vertices": 71341,
+          "minTriangleArea": 1.267956540456865e-05,
+          "maxNormalError": 1.4342366627673186e-07,
           "collisions": {
             "basket-sweep-with-10cm-margin": 0,
             "cargo-sweep-conservative-previous-large-bundle": 0,
@@ -250,7 +250,7 @@
           "triangles": 16937,
           "vertices": 46263,
           "minTriangleArea": 1.569769946476975e-06,
-          "maxNormalError": 1.266598621540993e-07,
+          "maxNormalError": 1.452863109818736e-07,
           "collisions": {
             "basket-sweep-with-10cm-margin": 0,
             "cargo-sweep-conservative-previous-large-bundle": 0,
@@ -894,24 +894,26 @@
         "clear": true,
         "collisionSamples": []
       },
-      "triangles": 34403,
+      "uniqueWoodPositionSha256": "bc38aad1d3528c9c5c847cffc9545600189428f85288abd4fb159928d0d66c1c",
+      "woodTrianglePositionSha256": "8a2fc4a0a3d83307ee32a3450caa9fd6ef651f96d376e29eeab5b1092ca491ab",
+      "triangles": 44502,
       "primitives": 3,
       "bounds": {
         "min": [
-          -7.245378494262695,
+          -7.101742267608643,
           -0.29333606362342834,
-          -2.304103136062622
+          -2.092498540878296
         ],
         "max": [
-          7.295855522155762,
-          10.658831596374512,
-          5.463189125061035
+          7.018387794494629,
+          10.579459190368652,
+          5.39030647277832
         ]
       },
       "dimensions": [
-        14.541234016418457,
-        10.95216765999794,
-        7.767292261123657
+        14.120130062103271,
+        10.87279525399208,
+        7.482805013656616
       ],
       "sourceMeshCount": 3,
       "checks": {
@@ -923,11 +925,29 @@
         "noAuthoredAnimation": true,
         "allClearanceVolumesEmpty": true,
         "naturalFeetOnLivingWood": true,
+        "unchangedAcceptedWoodPositions": true,
+        "unchangedAcceptedWoodTriangles": true,
+        "smallEdgeLeaves": true,
         "futureRoomHeadroom": true,
         "futureServiceHeadroom": true,
         "futureHoistClear": true,
         "futureTurningLandingsClear": true,
         "futureFloorsBindToForks": true
+      },
+      "refinement": {
+        "revision": "lowfork-nested-crown-v3",
+        "barkRevision": "lowfork-growth-ribbons-v5",
+        "leafCount": 5533,
+        "lobeCount": 63,
+        "leafFullTipSpanRange": [
+          0.16008551319559383,
+          0.2999913718864152
+        ],
+        "baselineRevision": "2aeca35",
+        "baselineGlbSha256": "fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1",
+        "baselineUniqueWoodPositionSha256": "bc38aad1d3528c9c5c847cffc9545600189428f85288abd4fb159928d0d66c1c",
+        "baselineWoodTrianglePositionSha256": "8a2fc4a0a3d83307ee32a3450caa9fd6ef651f96d376e29eeab5b1092ca491ab",
+        "positionPolicy": "Support wood positions unchanged; foliage replaced, wood corner normals and color refined"
       },
       "ready": true
     },
@@ -1051,6 +1071,8 @@
           "footGap": 0.010488109588623118
         }
       },
+      "uniqueWoodPositionSha256": "7b54ea4b9d0f49e0f220842eecc652fa8b9da909255f6dbda58d2a0ffec7fe58",
+      "woodTrianglePositionSha256": "1e95409059c608cc5f619069d80f78f9734f445a2258a79cb406110893996760",
       "triangles": 26349,
       "primitives": 2,
       "bounds": {
@@ -1203,6 +1225,8 @@
           "footGap": 0.010487871170044016
         }
       },
+      "uniqueWoodPositionSha256": "5fe5c6adb4c43358fb598a5029693fe977e9421667b40af29b85b723cd64d2e8",
+      "woodTrianglePositionSha256": "325989d94362b55a75a47744ca44b70c8f8a4cfde295b17c57ca908db569c6af",
       "triangles": 23621,
       "primitives": 2,
       "bounds": {
@@ -1238,7 +1262,7 @@
   },
   "ready": true,
   "sourceRecipeHashes": {
-    "assets/sculpted/author.py": "9fcb7f3121393c448e6f441bf5a6cba7ff3c28bd288ec425e7a66dea871e4803",
-    "assets/sculpted/trees.py": "36edeaf548938c3dd61649cbd1fde23f7faf521af7b5b44f28486b7a19270422"
+    "assets/sculpted/author.py": "01396de56954fd478ff3a34f74f891359b2ba9a5cec91e43fd600c22d7df03b1",
+    "assets/sculpted/trees.py": "ee1d6182fcbcf6f884f3f504a8999f8fb584548c27c85c7dcf42c2caf23c9c29"
   }
 }

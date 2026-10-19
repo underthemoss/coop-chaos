@@ -132,6 +132,10 @@ for name in ['lowfork','splitcrown','reedside']:
     for k in profile['naturalPerches']:
         x,y,z=anchors[k];hit,normal,index,dist=bvh.ray_cast(Vector((x,y+.10,z)),Vector((0,-1,0)),1)
         info['naturalSupport'][k]={'topY':hit.y if hit else None,'footGap':y-hit.y if hit else None}
+    position_bytes=b''.join(struct.pack('<fff',*p) for p in sorted(set(tuple(p) for p in woodpos)))
+    info['uniqueWoodPositionSha256']=hashlib.sha256(position_bytes).hexdigest()
+    wood_triangles=sorted(tuple(sorted(tuple(woodpos[i]) for i in face)) for face in woodfaces)
+    info['woodTrianglePositionSha256']=hashlib.sha256(b''.join(struct.pack('<fff',*p) for triangle in wood_triangles for p in triangle)).hexdigest()
     info['triangles']=sum(m['triangles'] for m in info['meshes']);info['primitives']=sum(len(m['primitives']) for m in g['meshes'])
     info['bounds']={'min':[min(v[i] for v in allpos) for i in range(3)],'max':[max(v[i] for v in allpos) for i in range(3)]};info['dimensions']=[info['bounds']['max'][i]-info['bounds']['min'][i] for i in range(3)]
     info['collisions']={k:sum(m['collisions'][k] for m in info['meshes']) for k in volumes}
@@ -149,6 +153,11 @@ for name in ['lowfork','splitcrown','reedside']:
       'naturalFeetOnLivingWood':all(v['footGap'] is not None and -.025<=v['footGap']<=.08 for v in info['naturalSupport'].values()),
     }
     if name=='lowfork':
+        foliage=bpy.data.objects['lowfork broad layered branch fans'];wood=bpy.data.objects['lowfork continuous living boughs metre-v2']
+        info['refinement']={'revision':foliage.get('crown_revision'),'barkRevision':wood.get('bark_revision'),'leafCount':foliage.get('leaf_count'),'lobeCount':foliage.get('lobe_count'),'leafFullTipSpanRange':json.loads(foliage.get('leaf_full_tip_span_range','[0,0]')),'baselineRevision':'2aeca35','baselineGlbSha256':'fed2bfebea3f14e677211aaa0da1366d19809f6207cb186e7848d94ff49ef0e1','baselineUniqueWoodPositionSha256':'bc38aad1d3528c9c5c847cffc9545600189428f85288abd4fb159928d0d66c1c','baselineWoodTrianglePositionSha256':'8a2fc4a0a3d83307ee32a3450caa9fd6ef651f96d376e29eeab5b1092ca491ab','positionPolicy':'Support wood positions unchanged; foliage replaced, wood corner normals and color refined'}
+        info['checks']['unchangedAcceptedWoodPositions']=info['uniqueWoodPositionSha256']==info['refinement']['baselineUniqueWoodPositionSha256']
+        info['checks']['unchangedAcceptedWoodTriangles']=info['woodTrianglePositionSha256']==info['refinement']['baselineWoodTrianglePositionSha256']
+        info['checks']['smallEdgeLeaves']=.15<=info['refinement']['leafFullTipSpanRange'][0]<=info['refinement']['leafFullTipSpanRange'][1]<=.301
         info['checks']['futureRoomHeadroom']=all(v['clear'] for v in info['futureRoomClearances'].values())
         info['checks']['futureServiceHeadroom']=all(v['clear'] for v in info['futureServiceClearances'])
         info['checks']['futureHoistClear']=info['futureHoistClearance']['clear']

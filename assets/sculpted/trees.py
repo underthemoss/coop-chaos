@@ -123,6 +123,150 @@ def spatial_canopy(name,root):
         n=(xyz(n)*.82+poly.normal*.18).normalized();poly.use_smooth=True;normals.extend([tuple(n)]*len(poly.loop_indices))
     foliage.data.normals_split_custom_set(normals);foliage['leaf_count']=len(verts)//11;foliage['fan_count']=len(spatial_fans(name))
 
+def lowfork_growth_bark(wood,paths):
+    """Corner normals/color only: long growth planes over unchanged support wood.
+
+    The broad field bends with the owning limb, including collars and roots.
+    Creases break into irregular patches instead of repeating all the way around
+    every stem. No normal map, fine grain, baked sun or added collision surface.
+    """
+    def field(p):
+        best=None
+        for points,radii in paths:
+            arc=0
+            for i in range(len(points)-1):
+                a=Vector(points[i]);d=Vector(points[i+1])-a;length=d.length
+                t=max(0,min(1,(p-a).dot(d)/(length*length)));center=a+d*t
+                radius=radii[i]*(1-t)+radii[i+1]*t;score=(p-center).length/max(radius,.055)
+                if best is None or score<best[0]:best=(score,center,d/length,arc+t*length)
+                arc+=length
+        _,center,tangent,arc=best
+        across=tangent.cross(Vector((0,0,1)) if abs(tangent.z)<.9 else Vector((1,0,0))).normalized()
+        along=tangent.cross(across).normalized();radial=p-center
+        return tangent,across,along,math.atan2(radial.dot(along),radial.dot(across)),arc
+    dark=Vector(rgb('#584632')[:3]);warm=Vector(rgb('#be8950')[:3]);ridge=Vector(rgb('#d1aa6b')[:3]);moss=Vector(rgb('#626b48')[:3])
+    attr=wood.data.color_attributes['Color'];normals=[None]*len(wood.data.loops)
+    # Explicit geometry avoids using Blender's cached pre-relief centres/normals
+    # on a fresh build versus a reopened source. This also makes bark-only
+    # reapplication reproduce the same corner data.
+    geometric=[Vector() for _ in wood.data.vertices]
+    for poly in wood.data.polygons:
+        a,b,c=[wood.data.vertices[i].co for i in list(poly.vertices)[:3]]
+        normal=(b-a).cross(c-a)
+        for i in poly.vertices:geometric[i]+=normal
+    geometric=[n.normalized() for n in geometric]
+    for poly in wood.data.polygons:
+        center=sum((wood.data.vertices[i].co for i in poly.vertices),Vector())/len(poly.vertices)
+        p=Vector((center.x,center.z,-center.y));tangent,across,along,theta,arc=field(p)
+        drift=.23*arc+.19*math.sin(arc*1.2)
+        angle=round((theta-drift)/(math.tau/9))*(math.tau/9)+drift
+        plane=xyz(across*math.cos(angle)+along*math.sin(angle))
+        actual=sum((geometric[i] for i in poly.vertices),Vector()).normalized()
+        # Keep real fork/collar curvature while stretching planar changes along
+        # the local grain. Neighbouring angular bands share a split normal.
+        plane=(plane*.72+actual*.28).normalized()
+        if plane.dot(actual)<.4:plane=actual
+        flow=math.sin(3*theta-.46*arc+.58*math.sin(theta*1.7+arc*.42))
+        patch=.5+.5*math.sin(arc*1.13+theta*1.37+.4*math.sin(arc*.6))
+        crease=max(0,(-flow-.25)/.75)*(.30+.70*patch)
+        tone=.73+.12*math.sin(theta*1.7+arc*.64)-.62*crease
+        c=dark.lerp(warm,max(0,min(1,tone))).lerp(ridge,max(0,flow)**1.3*(.24+.26*patch))
+        # Selective damp pockets on low/rear grain; never a green trunk wash.
+        mossmask=max(0,1-p.y/1.5)*max(0,(patch-.63)/.37)*crease*.48
+        c=c.lerp(moss,mossmask)
+        for loop in poly.loop_indices:attr.data[loop].color=tuple(c)+(1,);normals[loop]=tuple(plane)
+    wood.data.normals_split_custom_set(normals)
+    wood['bark_revision']='lowfork-growth-ribbons-v5'
+    wood['refinement_position_policy']='Unchanged metre-v2 wood vertices; corner color and normal treatment only'
+
+
+def lowfork_nested_crown(root):
+    """Irregular solid crown volumes with localized smaller folded edge leaves.
+
+    Rounded lobe support carries the light/shadow volume economically. Secondary
+    shoulders interrupt each outline; short overlapping leaves cover the exposed surfaces,
+    with dark support volumes recessed into their crevices. All geometry remains original.
+    """
+    verts=[];faces=[];colors=[];normals=[];leaf_spans=[]
+    shade=Vector(rgb('#3e583d')[:3]);mid=Vector(rgb('#7e8b43')[:3]);sun=Vector(rgb('#b5b154')[:3])
+    def addface(indices,color,normal):
+        faces.append(tuple(indices));colors.append(tuple(color)+(1,));normals.append(normal)
+    def tone(n,patch=0):
+        # The radial outward normal creates a crown volume under any runtime
+        # lighting; material zones vary by growth lobe, not painted hard sun.
+        value=max(0,min(1,.70+n.y*.25+patch))
+        return shade.lerp(mid,value).lerp(sun,max(0,(n.y-.58)*1.25))
+    def lobe(center,size,seed,detail):
+        center=Vector(center);sx,sy,sz=size;rnd=random.Random(seed)
+        ring_count=4;segments=12;local=[];localnorm=[]
+        # Tiny nonpolar caps avoid collapsed tip triangles.
+        for j in range(ring_count+1):
+            phi=-math.pi/2+.045+j*(math.pi-.09)/ring_count
+            for k in range(segments):
+                theta=k*math.tau/segments
+                scallop=1+.10*math.sin(3*theta+seed)+.055*math.cos(5*theta-seed*.2)
+                r=math.cos(phi)*scallop
+                q=Vector((math.cos(theta)*sx*r,math.sin(phi)*sy+.10*math.sin(theta*3+seed)*math.cos(phi),math.sin(theta)*sz*r))
+                p=center+q;n=Vector((q.x/(sx*sx),q.y/(sy*sy),q.z/(sz*sz))).normalized()
+                local.append(center+q*.86);localnorm.append(n)
+        start=len(verts);verts.extend(local)
+        def face(ids):
+            p=sum((local[i] for i in ids),Vector())/len(ids)
+            # Conservative centre/edge reservation prevents cutting a room-shaped
+            # hole into a solid leaf lobe. Whole colliding triangles are omitted.
+            if future_air_reserved(p) or any(future_air_reserved(local[i]) for i in ids):return
+            n=sum((localnorm[i] for i in ids),Vector()).normalized()
+            c=tone(n,-.025+.025*math.sin(seed*.7))
+            addface([start+i for i in ids],c,[localnorm[i] for i in ids])
+        for j in range(ring_count):
+            for k in range(segments):
+                a=j*segments+k;b=j*segments+(k+1)%segments
+                c=b+segments;d=a+segments
+                face([a,c,b]);face([a,d,c])
+        for j in [0,ring_count]:
+            ids=[j*segments+k for k in range(segments)]
+            for k in range(1,segments-1):face([ids[0],ids[k+1],ids[k]] if j==ring_count else [ids[0],ids[k],ids[k+1]])
+        # Localized sprays on the upper/outer surface; underside stays broad and
+        # cool. Full tip span .16–.30m, versus the old .76–1.14m slabs.
+        for i in range(detail):
+            theta=i*2.39996323+rnd.uniform(-.35,.35)
+            phi=math.asin(1-1.56*(i+.5)/detail)
+            r=math.cos(phi)*(1+.10*math.sin(3*theta+seed)+.055*math.cos(5*theta-seed*.2))
+            q=Vector((math.cos(theta)*sx*r,math.sin(phi)*sy+.10*math.sin(theta*3+seed)*math.cos(phi),math.sin(theta)*sz*r))
+            n=Vector((q.x/(sx*sx),q.y/(sy*sy),q.z/(sz*sz))).normalized();p=center+q+n*.035
+            if future_air_reserved(p):continue
+            u=n.cross(Vector((0,0,1))).normalized();v=n.cross(u);spin=rnd.uniform(-math.pi,math.pi)
+            u,v=u*math.cos(spin)+v*math.sin(spin),-u*math.sin(spin)+v*math.cos(spin)
+            length=rnd.uniform(.105,.15) if i%4 else rnd.uniform(.08,.12);width=length*rnd.uniform(.76,.90);first=len(verts)
+            outline=[(0,-1),(-.65,-.38),(-.56,.45),(0,1),(.56,.45),(.65,-.38)]
+            points=[p+u*a*width+v*b*length+n*(.020 if k in [0,3] else -.012) for k,(a,b) in enumerate(outline)]
+            if any(future_air_reserved(point) for point in points):continue
+            verts.extend(points);leaf_spans.append(length*2)
+            rnd.random() # Retain the accepted deterministic positions/spins of later leaves.
+            c=tone(n,.025*math.sin(seed*.7))
+            for tri in [(0,3,1),(1,3,2),(0,5,3),(3,5,4)]:addface([first+k for k in tri],c,n)
+    for fi,(center,sx,sz,top,depth,count) in enumerate(spatial_fans('lowfork')):
+        # Main volumes are deep and unequally shouldered, with six subsidiary
+        # lobes that change both level and span. Original crown windows survive.
+        lobe((center[0],top-.25,center[1]),(sx*.64,depth*.60,sz*.64),fi*23+3,210)
+        for j in range(6):
+            theta=fi*.43+j*math.tau/6;scale=[.36,.41,.32,.39,.34,.38][(fi+j)%6];dy=[.06,-.27,-.13,.10,-.32,-.04][(fi+j)%6]
+            dx=math.cos(theta)*sx*.65;dz=math.sin(theta)*sz*.65
+            lobe((center[0]+dx,top+dy-.26,center[1]+dz),(sx*scale,depth*(.36+.08*(j%2)),sz*scale),fi*23+j+4,95)
+    material=vertex_mat('Lowfork nested crown olive and cool interior v3');material.use_backface_culling=False
+    foliage=mesh('lowfork broad layered branch fans',verts,faces,material,root,colors)
+    split=[]
+    for poly,n in zip(foliage.data.polygons,normals):
+        poly.use_smooth=True
+        # Rounded volume shading with a small geometric component keeps leaves
+        # legible while avoiding glitter from arbitrary tiny triangle normals.
+        for nloop in (n if isinstance(n,list) else [n]*len(poly.loop_indices)):
+            normal=(xyz(nloop)*.90+poly.normal*.10).normalized();split.append(tuple(normal))
+    foliage.data.normals_split_custom_set(split)
+    foliage['crown_revision']='lowfork-nested-crown-v3';foliage['lobe_count']=63
+    foliage['leaf_count']=len(leaf_spans);foliage['leaf_full_tip_span_range']=json.dumps([min(leaf_spans),max(leaf_spans)])
+    foliage['crown_policy']='Original deep irregular lobes; localized small edge leaves; canonical rooms and circulation reserved'
+
 def spatial_tree(name):
     clear();root=empty('asset');material=mat(name+' warm living bark','#90613e')
     branches=spatial_growth(name);roots=lowfork_roots()
@@ -132,9 +276,11 @@ def spatial_tree(name):
     import bmesh
     bm=bmesh.new();bm.from_mesh(wood.data);bmesh.ops.remove_doubles(bm,verts=list(bm.verts),dist=.000001);bmesh.ops.dissolve_degenerate(bm,edges=list(bm.edges),dist=.000001);bm.to_mesh(wood.data);bm.free();wood.data.update()
     color_faces(wood,['#906341','#926542','#8f6240','#946644'],3);lowfork_bark(wood,branches,roots)
+    if name=='lowfork':lowfork_growth_bark(wood,branches+roots)
     wood['growth_paths']=json.dumps(branches);wood['root_paths']=json.dumps(roots);wood['anatomy_revision']='spatial-metre-v2'
     if name=='lowfork':lowfork_healed_knot(wood,root)
-    spatial_canopy(name,root)
+    if name=='lowfork':lowfork_nested_crown(root)
+    else:spatial_canopy(name,root)
     for key in HABITAT['naturalPerches']+HABITAT['shelteredPerches']+['sheltered-deck','ladder-base']:empty(key,root,ANCHORS[key])
     bpy.context.scene['habitat_revision']=HABITATS['revision'];bpy.context.scene['tree_revision']='spatial-metre-v2'
     bpy.context.scene['future_households_study']=json.dumps(FUTURE_HOUSEHOLDS if name=='lowfork' else [])

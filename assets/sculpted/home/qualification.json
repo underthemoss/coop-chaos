@@ -2,7 +2,7 @@
   "revision": "small-adult-open-home-v1",
   "glbSha256": "f2e14e6ec3ce95f1593cd658acc3cac72b27f56900f902ddd4ea7299d32322c3",
   "sourceSha256": "73d7077049c523f1829c6b442a0bc92013d7640862e1cd6ae757525f86766775",
-  "recipeSha256": "9fcb7f3121393c448e6f441bf5a6cba7ff3c28bd288ec425e7a66dea871e4803",
+  "recipeSha256": "01396de56954fd478ff3a34f74f891359b2ba9a5cec91e43fd600c22d7df03b1",
   "rimTop": 2.5242273807525635,
   "doorClearWidth": 0.6,
   "doorCollisionTriangles": 0,
@@ -16,5 +16,13 @@
     "ladderExact": true
   },
   "baselineSha256": "c160a9d698f090aee5cec9f81a38fd6666013e5e381316a919ea43643ef1c04c",
-  "ready": true
+  "ready": true,
+  "recipeRebindEvidence": {
+    "baselineRevision": "2aeca35",
+    "unchangedWovenHomeFunction": true,
+    "unchangedSharedHelperDefinitions": true,
+    "wovenHomeFunctionSha256": "e116279852a318a9d29175090278d93282c4072e85668a094d5730b68744f313",
+    "unchangedHomeGlbAndBlend": true,
+    "onlyAuthorChange": "Lowfork bark-only launcher applies lowfork_growth_bark; woven_home and shared helper definitions remain byte-identical."
+  }
 }
