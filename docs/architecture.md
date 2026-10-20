@@ -83,7 +83,12 @@ scale is canceled when attached to a chicken, so transfers never change its size
 Small invisible bird hit proxies preserve selection without enlarging their art;
 selected labels use the revised body envelope. No save schema or berth ID changes.
 
-Tree selection opens `TreeInspector`, which reads canonical `treeBuildOptions`.
+The persistent header Build command and tree selection open `TreeInspector` at
+its named-tree choices. It reads canonical `treeBuildOptions` for costs and locked
+reasons; ground Store placement lives in the same construction flow. Menu opens
+food/brood and saved-settlement controls. Bird selection keeps a world name tag
+without opening a roster/profile panel; identities, memories and needs remain in
+simulation/save state. Existing commissions follow build choices.
 Treehouse, sleeping deck and hauling basket are unique by tree and kind; the latter
 two require a completed home; the elevated deck also requires its local completed
 basket for supply access. Extra decks add slots 2/3 alongside existing home
@@ -147,7 +152,11 @@ The saved automatic clock advances phase after 1,800 day or 600 evening ticks;
 all progress. Import/reload creates no elapsed-time catch-up. Carer presence,
 local typed meals, egg viability and growth all advance in the same step.
 Nursery food and egg meshes present saved state. The nursery is beside the root
-workcourt and does not add or obstruct adult routes.
+workcourt and does not add or obstruct adult routes. Its low rainhood reuses only
+the authored woven-home roof/support meshes over the existing woven-store base.
+A shallow scaled woven nest holds clustered 0.08m eggs (0.104m high); viable
+unhatched saved eggs alone create these meshes. No oversized egg markers or
+smooth nursery domes are used.
 
 Food patch ledgers separate eaten and typed harvested units. Harvested food
 must equal all nursery stock, food cargo and consumed care food. Renewable reed

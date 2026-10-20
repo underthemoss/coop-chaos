@@ -98,16 +98,19 @@ mixed forage units do not establish a complete diet, starvation or survival syst
 Choose **Gather reeds** to designate a construction reed patch. Birds reserve yield
 and storage room, extract one bundle and carry it to the cache or a completed store.
 These reeds are not food and recover one unit per 240 daytime ticks up to capacity. Undesignating preserves carried goods.
-Choose **Build**, then Lowfork, Splitcrown or Reedside in the world or named-tree list.
-The compact tree inspector shows occupied berths, existing work and available builds.
+Choose the persistent **Build** command in the header, then Lowfork, Splitcrown or
+Reedside in the named-tree list or world. The construction inspector shows costs,
+available builds and locked reasons before existing work and occupied berths.
 Four named adults autonomously reserve, collect, carry and deliver six local reeds
 before weaving a platform, rain hood and ladder, with feeding breaks between jobs.
 Different trees retain real travel distances.
 
-For a store nest, click terrain cells or use the X/Z controls and **Use tool**. In store mode,
+For a ground store, choose **Place store nest** in Build, then click open terrain
+or use its X/Z controls and **Build store**. In store mode,
 canvas arrow keys move the cell cursor and Enter uses the tool. The camera has
-no pan or zoom controls. **Settlement** opens secondary controls, local stocks,
-named bird selection and save tools; the selected bird alone carries a world tag.
+no pan or zoom controls. **Menu** opens food/brood, secondary controls, local stocks,
+and save tools. Select birds in the scene; the selected bird alone carries a
+world name tag and selection keeps the grove unobstructed.
 
 A **store nest** costs four reeds and holds twelve at its actual location.
 Set its local stocking target, watch deliveries fill it, then place another

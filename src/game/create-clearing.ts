@@ -488,7 +488,6 @@ export function createClearing(
   }
   const foodMeshes=new Map<BirdId,Mesh>();
   const eggMat=material("brood-eggs","#efe1b5");
-  const nurseryCoverMat=material("nursery-woven-cover","#3f301e");
   const stapleMat=material("gathered-seeds","#d6aa53"),proteinMat=material("gathered-protein","#5d6d3c");
   const populated=new Set<string>();
   function ensureBird(worker:Worker) {
@@ -587,15 +586,23 @@ export function createClearing(
         const court=groundAccess(site.at), nx=court.x*2-1.05,nz=court.z*2+.55,ny=elevation(nx,nz);
         model("woven-store",nx,ny,nz,.85);
         if(site.complete){
-          const hood=MeshBuilder.CreateSphere("root-nursery-reed-cover",{diameter:1.7,segments:6,slice:.5,sideOrientation:Mesh.DOUBLESIDE},scene);
-          hood.position.set(nx,ny+.6,nz+.2);hood.scaling.set(1,.6,.8);hood.material=nurseryCoverMat;hood.isPickable=false;builtMeshes.push(hood);
+          // Reuse the authored bundled-reed roof and twig supports, with its
+          // open front facing the care court. No smooth dome or new art export.
+          const hood=model("woven-home",nx,ny-1,nz+.3);
+          if(hood){
+            hood.name="root-nursery-reed-rainhood";
+            hood.scaling.set(.72,.5,1.4);
+            for(const mesh of hood.getChildMeshes())mesh.setEnabled(mesh.name.toLowerCase().includes("rainhood"));
+          }
+          const nest=model("woven-store",nx,ny+.04,nz-.58);
+          if(nest){nest.name="root-nursery-egg-nest";nest.scaling.set(.2,.1,.2);}
           const nursery=state.economy.nurseries.find(n=>n.site===site.id);
           for(const [type,count] of Object.entries(nursery?.food??{}))for(let i=0;i<count;i++){
             const food=MeshBuilder.CreateSphere("nursery-food",{diameter:.12,segments:4},scene);food.position.set(nx+(type==="staple"?-.55:.55)+(i%2)*.11,ny+.13,nz-.35+Math.floor(i/2)*.1);food.material=type==="staple"?stapleMat:proteinMat;food.isPickable=false;builtMeshes.push(food);
           }
           const brood=state.economy.broods.find(b=>b.id===nursery?.brood);
           for(const [i,egg] of (brood?.eggs??[]).entries())if(egg.viable&&!egg.child){
-            const mesh=MeshBuilder.CreateSphere(egg.id,{diameter:.24,segments:6},scene);mesh.scaling.y=1.3;mesh.position.set(nx-.15+i*.3,ny+.27,nz-.65);mesh.material=eggMat;mesh.isPickable=false;builtMeshes.push(mesh);
+            const mesh=MeshBuilder.CreateSphere(egg.id,{diameter:.08,segments:8},scene);mesh.scaling.y=1.3;mesh.position.set(nx-.045+i*.09,ny+.105,nz-.58+(i%2)*.02);mesh.material=eggMat;mesh.isPickable=false;builtMeshes.push(mesh);
           }
         }else bundles(nx,nz,site.delivered);
       } else if(site.kind === "sleeping-deck" || site.kind === "hauling-basket") {

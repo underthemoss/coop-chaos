@@ -14,10 +14,8 @@ import {
   key,
   siteStatus,
   step,
-  workerStatus,
   patchStatus,
   forageStatus,
-  birdProfile,
   growthForecast,
 } from "../simulation/settlement";
 import type { Cell, Command, Settlement } from "../simulation/settlement";
@@ -46,21 +44,27 @@ export function App() {
   const [selected, setSelected] = useState<SettlerId>("fern");
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedForage, setSelectedForage] = useState<string | null>(null);
-  const [panelTarget, setPanelTarget] = useState<"bird" | "forage" | "tree" | null>(null);
+  const [panelTarget, setPanelTarget] = useState<"forage" | "tree" | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
   const [selectedTree, setSelectedTree] = useState<TreeId>("lowfork");
+  const inspector = useRef<HTMLElement>(null);
   const treeSection = useRef<HTMLDivElement>(null);
   const forageSection = useRef<HTMLElement>(null);
-  const birdSection = useRef<HTMLElement>(null);
-  function showDetails(target: "bird" | "forage" | "tree") {
+  function showDetails(target: "forage" | "tree") {
     setPanelOpen(true);
     setPanelTarget(target);
     setFocusRequest(n => n + 1);
   }
+  function showMenu() {
+    setPanelTarget(null);
+    setPanelOpen(true);
+    setFocusRequest(n => n + 1);
+  }
   useEffect(() => {
-    if (!panelOpen || !panelTarget) return;
+    if (!panelOpen) return;
     const frame = requestAnimationFrame(() => {
-      const target = panelTarget === "tree" ? treeSection.current : panelTarget === "bird" ? birdSection.current :
+      if (!panelTarget) { inspector.current?.scrollTo({top:0}); return; }
+      const target = panelTarget === "tree" ? treeSection.current :
         (selectedForage ? document.getElementById(`food-${selectedForage}`) : forageSection.current);
       target?.scrollIntoView({block: panelTarget === "tree" || panelTarget === "forage" && !selectedForage ? "start" : "nearest"});
       target?.focus({preventScroll: true});
@@ -220,7 +224,6 @@ export function App() {
     }
   }
   const bird = state.birds.find((b) => b.id === selected)??state.birds[0];
-  const person = birdProfile(bird);
   const forecast = growthForecast(state);
   const localFood=state.economy.nurseries.reduce((n,p)=>({staple:n.staple+p.food.staple,protein:n.protein+p.food.protein}),{staple:0,protein:0});
   const hasHome = state.sites.some(s=>s.kind==="treehouse"&&s.complete);
@@ -234,7 +237,8 @@ export function App() {
         <div className="header-actions"><span className="phase-label">Cycle {state.economy.clock.day} · {state.phase === "day" ? "Day" : "Evening"} · {Math.ceil(((state.phase==="day"?economyTuning.dayTicks:economyTuning.eveningTicks)-state.economy.clock.phaseTick)*tuning.stepSeconds)}s · {state.birds.length} chickens</span>
         <button disabled={!ready||busy} onClick={()=>act({type:"speed",speed:state.economy.clock.speed===1?4:1})} aria-label="Change simulation speed">{state.economy.clock.speed}× time</button>
         <button disabled={!ready||busy} onClick={()=>act({type:"pause"})}>{state.paused?"Resume work":"Pause work"}</button>
-        <button aria-expanded={panelOpen} aria-controls="settlement-inspector" onClick={()=>{setPanelTarget(null);setPanelOpen(!panelOpen);}}>{panelOpen?"Close details":"Settlement"}</button></div>
+        <button className="build-command" aria-expanded={panelOpen&&panelTarget==="tree"} aria-controls="settlement-inspector" onClick={()=>selectTree(selectedTree)}>Build</button>
+        <button aria-expanded={panelOpen&&panelTarget!=="tree"} aria-controls="settlement-inspector" onClick={showMenu}>Menu</button></div>
       </header>
       <main>
         <div className="economy-strip" aria-label="Settlement resources and capacity">
@@ -242,13 +246,13 @@ export function App() {
           <span><strong>{localFood.staple}</strong> staple · <strong>{localFood.protein}</strong> protein stored</span>
           <span><strong>{forecast.committed}/{forecast.capacity}</strong> future adult berths</span>
           <span>{forecast.adults} adults · {forecast.carers} caring · {state.economy.priority} work</span>
-          <button onClick={()=>{setPanelTarget(null);setPanelOpen(true);}}>Food & brood</button>
+          <button onClick={showMenu}>Food & brood</button>
         </div>
         <div className="play-layout">
           <Clearing
             state={state}
             selected={bird.id}
-            onSelect={(id)=>{setSelected(id);showDetails("bird");}}
+            onSelect={(id)=>{setSelected(id);setPanelOpen(false);}}
             onPick={pick}
             onTree={selectTree}
             onForage={(id) => { setSelectedForage(id); showDetails("forage"); }}
@@ -265,11 +269,52 @@ export function App() {
             {(["inspect","forage","build","gather"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>{setTool(t);if(t==="build")selectTree(selectedTree);if(t==="forage") {setSelectedForage(null);showDetails("forage");}}}>{({inspect:"Inspect",forage:"Forage",gather:"Gather reeds",build:"Build",store:"Store"})[t]}</button>)}
           </nav>
           {notice&&<p className="world-notice" role="alert">{notice}</p>}
-          <aside id="settlement-inspector" className={`inspector${panelOpen?" is-open":""}`} aria-label="Settlement inspector" hidden={!panelOpen}>
+          <aside ref={inspector} id="settlement-inspector" className={`inspector${panelOpen?" is-open":""}`} aria-label="Settlement inspector" hidden={!panelOpen}>
             <button className="close-inspector" onClick={()=>setPanelOpen(false)}>Close details ×</button>
             {panelTarget === "tree" && <div ref={treeSection} tabIndex={-1}>
-              <TreeInspector state={state} treeId={selectedTree} disabled={busy || !ready} onSelect={selectTree} onCommand={act} />
-              <button className="all-controls" onClick={()=>setPanelTarget(null)}>Settlement controls & saves</button>
+              <TreeInspector state={state} treeId={selectedTree} disabled={busy || !ready} onSelect={selectTree} onCommand={act}>
+                <article className="ground-build"><h3>Ground structures</h3>
+                  <button disabled={busy || !ready} aria-pressed={tool==="store"} onClick={()=>{setTool("store");setNotice("Store nest: choose open ground in the grove, or choose a ground position below.");}}>Place store nest · {cost({kind:"store"})} reeds</button>
+                  <p className="quiet">Ground storage holds {tuning.storeCapacity} local reed bundles. Select Place store nest, then choose open ground in the scene.</p>
+                  {tool === "store" && <div className="cell-controls">
+                    <label>
+                      Cell X
+                      <select
+                        aria-label="Cell X"
+                        value={cursor.x}
+                        onChange={(e) =>
+                          setCursor({ ...cursor, x: Number(e.target.value) })
+                        }
+                      >
+                        {Array.from({ length: 9 }, (_, i) => i - 4).map((n) => (
+                          <option key={n}>{n}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      Z
+                      <select
+                        aria-label="Cell Z"
+                        value={cursor.z}
+                        onChange={(e) =>
+                          setCursor({ ...cursor, z: Number(e.target.value) })
+                        }
+                      >
+                        {Array.from({ length: 7 }, (_, i) => i - 3).map((n) => (
+                          <option key={n}>{n}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <button
+                      disabled={tool !== "store" || busy || !ready}
+                      onClick={() => pick(cursor)}
+                    >
+                      Build store at {key(cursor)}
+                    </button>
+                  </div>}
+                </article>
+              </TreeInspector>
+              <button className="all-controls" onClick={showMenu}>Settlement controls & saves</button>
             </div>}
             <div hidden={panelTarget === "tree"}>
             <EconomyInspector state={state} disabled={busy || !ready} onCommand={act} />
@@ -292,43 +337,7 @@ export function App() {
             </section>
             <section>
               <h3>Shape the settlement</h3>
-              <button aria-pressed={tool==="store"} onClick={()=>setTool("store")}>Store nest</button>
-              <div className="cell-controls">
-                <label>
-                  Cell X
-                  <select
-                    aria-label="Cell X"
-                    value={cursor.x}
-                    onChange={(e) =>
-                      setCursor({ ...cursor, x: Number(e.target.value) })
-                    }
-                  >
-                    {Array.from({ length: 9 }, (_, i) => i - 4).map((n) => (
-                      <option key={n}>{n}</option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  Z
-                  <select
-                    aria-label="Cell Z"
-                    value={cursor.z}
-                    onChange={(e) =>
-                      setCursor({ ...cursor, z: Number(e.target.value) })
-                    }
-                  >
-                    {Array.from({ length: 7 }, (_, i) => i - 3).map((n) => (
-                      <option key={n}>{n}</option>
-                    ))}
-                  </select>
-                </label>
-                <button
-                  disabled={tool !== "store" || busy || !ready}
-                  onClick={() => pick(cursor)}
-                >
-                  Use tool at {key(cursor)}
-                </button>
-              </div>
+              <button onClick={()=>selectTree(selectedTree)}>Open Build tools</button>
               <div className="tree-choices">
                 {trees.map((tree) => (
                   <button
@@ -445,56 +454,6 @@ export function App() {
                 {conserved(state)}/{state.totalReeds} accounted for
               </p>
             </section>
-            <section aria-label="Named workers" ref={birdSection} tabIndex={-1}>
-              <h3>Every chicken is someone</h3>
-              <div className="bird-picker">
-                {state.birds.map((worker) => { const s=birdProfile(worker); return (
-                  <button
-                    aria-pressed={selected === s.id}
-                    key={s.id}
-                    onClick={() => {setSelected(s.id);showDetails("bird");}}
-                  >
-                    <i style={{ background: s.color }} />
-                    {s.name}
-                  </button>
-                );})}
-              </div>
-              <article className="character">
-                <div className="section-heading">
-                  <h2>{person.name}</h2>
-                  <span>{bird.life.stage} · {person.role}</span>
-                </div>
-                <p>{person.want}</p>
-                <p className="work-status">{workerStatus(state, bird)}</p>
-                <p>
-                  Readiness {Math.round(bird.energy)} / 100 · protein {Math.round(bird.protein)} / 100 · {bird.deliveries}{" "}
-                  completed deliveries
-                </p>
-                <p>Appetite {Math.round(100 - bird.satiety)} / 100 · {({cover:"sheltered leaf litter",open:"open seedheads",mixed:"mixed edges"})[bird.foragePreference]} preference</p>
-                <p className="quiet">{bird.rememberedForage ? `Remembers productive feeding at ${foodName(bird.rememberedForage)}.` : "Still discovering productive feeding places."}</p>
-                <p className="quiet">
-                  {bird.attachment
-                    ? `Work or care tied this bird to ${trees.find((t) => t.id === bird.attachment)!.name}; prefers sleeping there.`
-                    : `Usually seeks ${trees.find((t) => t.id === person.preference)!.name}.`}
-                  {bird.id === "rook" && !bird.attachment
-                    ? " Prefers an open high fork."
-                    : ""}
-                  {bird.deliveries >= 3
-                    ? " Practiced carrying is now a little quicker."
-                    : ""}
-                </p>
-                {bird.memories.slice(-3).map((m) => (
-                  <p className="memory" key={m}>
-                    ↳ {m}
-                  </p>
-                ))}
-              </article>
-              <p className="quiet">
-                Short prototype rules: ground rest recovers work readiness;
-                natural sleep restores up to 80, shelter up to 100. Hungry
-                birds feed between jobs; carriers deliver their bundles first.
-              </p>
-            </section>
             <section className="save-tools">
               <p role="status">{storage}</p>
               <div>
@@ -537,7 +496,7 @@ export function App() {
                       download(archive, "coop-chaos-first-evening.json")
                     }
                   >
-                    Export old first evening
+                    Export archived story
                   </button>
                 )}
               </div>
@@ -549,8 +508,7 @@ export function App() {
                 onChange={(e) => void importSave(e)}
               />
               <p className="quiet">
-                Separate settlement save. Old first-evening stories are
-                retained. Single tab recommended; no offline catch-up.
+                Saved on this device. No offline time elapses.
               </p>
             </section>
             </div>

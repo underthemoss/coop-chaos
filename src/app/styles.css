@@ -574,3 +574,19 @@ footer { display:none; }
  .inspector {top:auto;max-height:68%;}
  .primary-tools button {padding:9px 10px;font-size:11px;}
 }
+
+/* Construction remains a visible main command, independent of work priority. */
+.header-actions .build-command {background:#455b43;color:#fff4d7;border-color:#455b43;font-weight:700;}
+.ground-build {border-top:1px solid #dcd6c3;margin-top:18px;padding-top:4px;}
+.ground-build>button {width:100%;text-align:left;}
+.primary-tools {bottom:max(24px,env(safe-area-inset-bottom));width:max-content;max-width:calc(100% - 20px);box-sizing:border-box;}
+.inspector {bottom:max(88px,calc(env(safe-area-inset-bottom) + 64px));}
+@media(max-width:760px){
+ .header-actions {margin-left:0;flex:1;}
+ .primary-tools button {white-space:nowrap;}
+}
+@media(max-height:600px){
+ .inspector {top:8px;max-height:none;}
+ .primary-tools {bottom:max(12px,env(safe-area-inset-bottom));}
+ .world-notice {bottom:68px;max-height:70px;overflow:auto;padding:8px 12px;}
+}

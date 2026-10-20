@@ -122,3 +122,14 @@ matching numeric tables. The upper sleeping route must follow the ladder, home
 edge and connecting ramp in both directions. This proves usable habitat; it does
 not introduce food, shade or predator effects. Concept fidelity remains a separate
 visual acceptance condition.
+
+## Root nursery presentation
+
+The covered nursery reuses the original `woven-home.glb` rainhood group (bundled
+reeds, cross lashings and twig supports), with its deck/ladder hidden, above the
+existing `woven-store.glb` base. Presentation scales the roof to a low open-front
+shelter and a second store to a shallow egg nest. Sources remain
+`assets/sculpted/author.py`; no new mesh export or external asset is introduced.
+Small pale egg meshes are 0.08m across and 0.104m high, clustered in the nest;
+saved viability and hatch state control their visibility. Care/entry positions
+and simulation footprint are unchanged.
