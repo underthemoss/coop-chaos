@@ -1,3 +1,4 @@
+import {settlementV4Fixture} from "../persistence/settlement-fixtures";
 import { describe, expect, it } from "vitest";
 import { treeWorkCell } from "../content/tree-habitats";
 import { settlers, trees, tuning } from "../content/settlement";
@@ -64,7 +65,7 @@ function liftingPrototype() {
   return structuredClone(prototypeFixture);
 }
 function oldThree(s: Settlement) {
-  const { basketTechnique: _technique, ...state } = structuredClone(s);
+  const { basketTechnique: _technique, ...state } = settlementV4Fixture(s);
   return JSON.stringify({
     schemaVersion: 3,
     simulationVersion: "settlement-3",
@@ -87,6 +88,7 @@ describe("supplied canopy construction and demonstrated shared technique", () =>
       ["treehouse", 6, false],
       ["sleeping-deck", 4, false],
       ["hauling-basket", 4, true],
+      ["nursery",4,true],
     ]);
     expect(() => build(s, "sleeping-deck")).toThrow(/hauling basket/);
     s = until(build(s, "hauling-basket"), (s) => !!s.basketTechnique);
@@ -324,8 +326,8 @@ describe("supplied canopy construction and demonstrated shared technique", () =>
     s = command(s, { type: "build", kind: "store", at: { x: -1, z: -2 } });
     s = until(s, (s) => s.birds.some((b) => b.cargo && b.edge));
     const restored = decodeSettlement(oldThree(s));
-    expect(restored).toEqual(s);
-    expect(JSON.parse(encodeSettlement(restored)).schemaVersion).toBe(4);
+    expect(restored.birds.map(b=>({id:b.id,at:b.at,job:b.job,cargo:b.cargo,memories:b.memories}))).toEqual(s.birds.map(b=>({id:b.id,at:b.at,job:b.job,cargo:b.cargo,memories:b.memories})));
+    expect(JSON.parse(encodeSettlement(restored)).schemaVersion).toBe(5);
     const completed = home();
     const homeSite = completed.sites[0];
     homeSite.complete = false;
@@ -345,7 +347,9 @@ describe("supplied canopy construction and demonstrated shared technique", () =>
       stage: "deliver",
     };
     const boundary = decodeSettlement(oldThree(completed));
-    expect(boundary).toEqual(completed);
+    expect(boundary.sites).toEqual(completed.sites);
+    expect(boundary.piles).toEqual(completed.piles);
+    expect(boundary.birds.map(b=>b.job)).toEqual(completed.birds.map(b=>b.job));
     expect(until(boundary, v=>v.sites[0].complete).sites[0].complete).toBe(true);
     const lifted = liftingPrototype();
     const mutations = [

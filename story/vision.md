@@ -1,5 +1,22 @@
 # A small world. Long memories.
 
+## Current bounded economy status
+
+The implemented scope now includes renewable reeds, typed staple/protein food,
+physical local nursery deliveries, a covered grounded nursery after a home,
+named willing-hen support, actual fertility and laying, supplied incubation,
+chicks, grounded juveniles and adult workers. Care removes an adult from ordinary
+work and establishes a persistent named bond and home attachment. An automatic
+four-minute cycle, pause, 1×/4× and conservative food/housing forecasts make
+constraints visible. Six reachable adult places per tree remain the maximum
+implemented layout; larger household targets are future studies. Structural wood,
+cultivation, threats, politics and powered access remain future.
+
+[Settlement design](settlement-design.md) owns the accepted rules and provisional numbers. This
+extends the inhabited-tree proof; it does not prove thirty-minute enjoyment or
+complete balance. Young stay grounded until adulthood; upper broodrooms await
+real access.
+
 ## Established premise
 
 Coop Chaos is a chicken settlement builder that personifies human social and
@@ -97,12 +114,12 @@ editable Blender assets now supply trees, chickens, reeds and woven structures,
 with rigid-articulation action clips. Actual-camera visual acceptance remains
 open; the concept images do not prove mesh, lighting or motion quality.
 
-The current thin proof has four provisional adults gathering finite construction
+The opening has four provisional adults gathering renewable construction
 reeds from designated patches and hauling them through
 free ground travel to a useful treehouse or supporting local store. Natural flight,
 ladder access, saved rest, and a contributor's attachment connect work to home.
 Tree characterhood, botanical families and reciprocal community relationships
 remain design direction; the saved contributor attachment is a small existing
-behavior, not those full systems. The larger settlement loop, food, reproduction,
-threats, kingdoms and inventions are unimplemented. The old first-evening cast
+behavior, not those full systems. Broader cultivated production, threats,
+kingdoms and inventions are unimplemented. The old first-evening cast
 and dilemma remain historical fixtures, without privileged status or a required sequel.

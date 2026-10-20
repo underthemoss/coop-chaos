@@ -20,12 +20,12 @@ import { SSAO2RenderingPipeline } from "@babylonjs/core/PostProcesses/RenderPipe
 import { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTexture";
 import { CubeTexture } from "@babylonjs/core/Materials/Textures/cubeTexture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
-import type { Settlement, Cell } from "../simulation/settlement";
-import { cost, validCell, cargoPosition } from "../simulation/settlement";
+import type { Settlement, Cell, Worker } from "../simulation/settlement";
+import { cost, validCell, cargoPosition, groundAccess } from "../simulation/settlement";
 import { habitatAnchor, habitatPosition, treeHabitat, habitatPresentation } from "../content/tree-habitats";
 import { settlers, trees } from "../content/settlement";
 import { treeScale, presentedBirdPosition, presentedTreePosition, carriedBundleScale, birdHeading } from "./tree-presentation";
-import type { TreeId, SettlerId as BirdId } from "../content/settlement";
+import type { Appearance, TreeId, SettlerId as BirdId } from "../content/settlement";
 
 export type BirdLabels = Record<
   string,
@@ -289,21 +289,25 @@ export function createClearing(
   >();
 
   // Controllers survive asset replacement so cargo, selection and saved poses stay attached.
-  for (const person of settlers) {
-    const root = new TransformNode(person.id, scene);
+  function controller(id: BirdId) {
+    const root = new TransformNode(id, scene);
     root.position.set(-6, .18, -4);
     root.scaling.setAll(habitatPresentation.adultScale);
-    const body = new TransformNode(`${person.id}-body`, scene);
+    const body = new TransformNode(`${id}-body`, scene);
     body.parent = root;
-    const head = new TransformNode(`${person.id}-head`, scene);
+    const head = new TransformNode(`${id}-head`, scene);
     head.parent = body;
-    const wing = new TransformNode(`${person.id}-wing`, scene);
+    const wing = new TransformNode(`${id}-wing`, scene);
     wing.parent = body;
-    const hit=MeshBuilder.CreateSphere(`${person.id}-hit`,{diameter:habitatPresentation.birdPickDiameter/habitatPresentation.adultScale,segments:8},scene);
+    const hit=MeshBuilder.CreateSphere(`${id}-hit`,{diameter:habitatPresentation.birdPickDiameter/habitatPresentation.adultScale,segments:8},scene);
     hit.parent=root;hit.position.y=.32/habitatPresentation.adultScale;
-    hit.visibility=0;hit.metadata={birdId:person.id,birdHitProxy:true};
-    chickens.set(person.id, { root, body, head, wing, target: root.position.clone(),clips:[],pose:"" });
+    hit.visibility=0;hit.metadata={birdId:id,birdHitProxy:true};
+    const value={ root, body, head, wing, target: root.position.clone(),clips:[],pose:"" };
+    chickens.set(id,value);
+    return value;
   }
+  for(const person of settlers)controller(person.id);
+  const appearances=new Map<Appearance,{root:Mesh;clips:AnimationGroup[]}>();
   let disposed = false;
   let loading = false;
   const assetRoots: TransformNode[] = [];
@@ -353,6 +357,7 @@ export function createClearing(
           controller.wing = nodes.find(n => n.name === "wing")!;
           imported.animationGroups.forEach(g=>g.stop());
           controller.clips=imported.animationGroups;controller.pose="";
+          appearances.set(task.bird.id,{root:root as Mesh,clips:imported.animationGroups});
           for (const mesh of root.getChildMeshes()) mesh.metadata = { birdId: task.bird.id };
         }
         for (const mesh of root.getChildMeshes()) { shadows.addShadowCaster(mesh); mesh.receiveShadows = true; }
@@ -413,7 +418,12 @@ export function createClearing(
           cargoMeshes.set(id,carried);
         }
         layoutSignature="";
-        if(renderState)rebuild(renderState);
+        if(renderState){
+          // A paused import may have published dynamic controllers before assets
+          // arrived. Populate them now; waiting for another tick hides the young.
+          renderState.birds.forEach(ensureBird);
+          rebuild(renderState);
+        }
         assetRoots.push(...staged);
         onAssets("ready");
       }
@@ -476,6 +486,50 @@ export function createClearing(
     bundle.isPickable = false;
     cargoMeshes.set(id, bundle);
   }
+  const foodMeshes=new Map<BirdId,Mesh>();
+  const eggMat=material("brood-eggs","#efe1b5");
+  const nurseryCoverMat=material("nursery-woven-cover","#3f301e");
+  const stapleMat=material("gathered-seeds","#d6aa53"),proteinMat=material("gathered-protein","#5d6d3c");
+  const populated=new Set<string>();
+  function ensureBird(worker:Worker) {
+    let bird=chickens.get(worker.id);
+    const template=appearances.get(worker.life.appearance);
+    if(!bird){
+      bird=controller(worker.id);
+    }
+    if(template&&!settlers.some(b=>b.id===worker.id)&&!populated.has(worker.id)){
+        populated.add(worker.id);
+        const copy=template.root.clone(`${worker.id}-appearance`,bird.root)!;
+        const original=[template.root,...template.root.getDescendants()];
+        const cloned=[copy,...copy.getDescendants()];
+        const targets=new Map(original.map((node,i)=>[node,cloned[i]]));
+        bird.clips=template.clips.map(group=>group.clone(group.name,target=>targets.get(target)??target));
+        bird.clips.forEach(group=>group.stop());copy.setEnabled(true);
+        copy.getChildMeshes().forEach(mesh=>{mesh.metadata={birdId:worker.id};shadows.addShadowCaster(mesh);mesh.receiveShadows=true;});
+        // Dependent young inherit the named parent's appearance, with restrained comb/tail.
+        copy.getDescendants().filter(n=>/comb|tail/i.test(n.name)).forEach(node=>{
+          if(node instanceof TransformNode){node.metadata={...node.metadata,youngScale:node.scaling.clone()};}
+        });
+      }
+    if(!cargoMeshes.has(worker.id)){
+      const bundle=templates.get("reed-bundle")?.clone(`${worker.id}-carried-reeds`,bird.root);
+      if(bundle){bundle.scaling.setAll(carriedBundleScale);bundle.setEnabled(false);cargoMeshes.set(worker.id,bundle);}
+    }
+    const scale=worker.life.stage==="chick"?.44:worker.life.stage==="juvenile"?.7:1;
+    bird.root.scaling.setAll(habitatPresentation.adultScale*scale);
+    bird.root.getDescendants().forEach(node=>{
+      if(node instanceof TransformNode&&node.metadata?.youngScale){
+        const base=node.metadata.youngScale as Vector3;
+        node.scaling.copyFrom(base).scaleInPlace(worker.life.stage==="chick"?.35:worker.life.stage==="juvenile"?.6:1);
+      }
+    });
+    if(!foodMeshes.has(worker.id)){
+      const food=MeshBuilder.CreateSphere(`${worker.id}-food-cargo`,{diameter:.55,segments:5},scene);
+      food.parent=bird.root;food.position.set(0,1.15,.9);food.isPickable=false;foodMeshes.set(worker.id,food);
+    }
+    const food=foodMeshes.get(worker.id)!;food.material=worker.foodCargo==="protein"?proteinMat:stapleMat;food.setEnabled(!!worker.foodCargo);
+    return bird;
+  }
   let builtMeshes: Mesh[] = [];
   const lifts = new Map<string,{basket:TransformNode;rope:TransformNode;tree:TreeId}>();
   function updateLifts(state: Settlement) {
@@ -529,6 +583,21 @@ export function createClearing(
         const basket=model("woven-store",x,y,z);
         if(basket&&!site.complete)basket.scaling.y*=.3;
         bundles(x, z, site.complete ? site.stock : site.delivered);
+      } else if(site.kind === "nursery") {
+        const court=groundAccess(site.at), nx=court.x*2-1.05,nz=court.z*2+.55,ny=elevation(nx,nz);
+        model("woven-store",nx,ny,nz,.85);
+        if(site.complete){
+          const hood=MeshBuilder.CreateSphere("root-nursery-reed-cover",{diameter:1.7,segments:6,slice:.5,sideOrientation:Mesh.DOUBLESIDE},scene);
+          hood.position.set(nx,ny+.6,nz+.2);hood.scaling.set(1,.6,.8);hood.material=nurseryCoverMat;hood.isPickable=false;builtMeshes.push(hood);
+          const nursery=state.economy.nurseries.find(n=>n.site===site.id);
+          for(const [type,count] of Object.entries(nursery?.food??{}))for(let i=0;i<count;i++){
+            const food=MeshBuilder.CreateSphere("nursery-food",{diameter:.12,segments:4},scene);food.position.set(nx+(type==="staple"?-.55:.55)+(i%2)*.11,ny+.13,nz-.35+Math.floor(i/2)*.1);food.material=type==="staple"?stapleMat:proteinMat;food.isPickable=false;builtMeshes.push(food);
+          }
+          const brood=state.economy.broods.find(b=>b.id===nursery?.brood);
+          for(const [i,egg] of (brood?.eggs??[]).entries())if(egg.viable&&!egg.child){
+            const mesh=MeshBuilder.CreateSphere(egg.id,{diameter:.24,segments:6},scene);mesh.scaling.y=1.3;mesh.position.set(nx-.15+i*.3,ny+.27,nz-.65);mesh.material=eggMat;mesh.isPickable=false;builtMeshes.push(mesh);
+          }
+        }else bundles(nx,nz,site.delivered);
       } else if(site.kind === "sleeping-deck" || site.kind === "hauling-basket") {
         // The authored pieces become visible as local supplies turn into construction.
         if(site.complete || site.progress>0 || site.delivered>=3){
@@ -609,7 +678,7 @@ export function createClearing(
         reducedMotion.matches ? 1 : Math.min(1, delta * 12),
       );
       const worker = renderState?.birds.find((b) => b.id === id);
-      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo?"carry":"walk"):worker?.lift||worker?.job?.kind==="build"?"weave":worker?.foraging&&worker.foraging.progress>0||worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
+      const action=worker?.perch?"roost":worker?.flight?(worker.flight.sheltered?"walk":"flight"):worker?.edge?(worker.cargo||worker.foodCargo?"carry":"walk"):worker?.care&&!worker?.foraging?"roost":worker?.lift||worker?.job?.kind==="build"?"weave":worker?.foraging&&worker.foraging.progress>0||worker?.job?.kind==="gather"&&worker.gatheringProgress>0?"gather":"idle";
       const pose=action+(reducedMotion.matches?"-still":"");
       if(pose!==bird.pose){
         bird.clips.forEach(g=>g.stop());
@@ -618,7 +687,7 @@ export function createClearing(
         bird.pose=pose;
       }
       const label = Vector3.Project(
-        bird.root.position.add(new Vector3(0, habitatPresentation.selectedLabelHeight, 0)),
+        bird.root.position.add(new Vector3(0, habitatPresentation.selectedLabelHeight*(worker?.life.stage==="chick"?.5:worker?.life.stage==="juvenile"?.75:1), 0)),
         Matrix.IdentityReadOnly,
         scene.getTransformMatrix(),
         viewport,
@@ -662,7 +731,7 @@ export function createClearing(
       };
     }
     const placed: { x: number; y: number }[] = [];
-    for (const id of settlers.map((b) => b.id)) {
+    for (const id of chickens.keys()) {
       const point = labelPositions[id];
       for (
         let retry = 0;
@@ -685,22 +754,26 @@ export function createClearing(
     retryAssets: loadAssets,
     select(id: BirdId) {
       selectedBird=id;
-      selection.parent = chickens.get(id)!.root;
+      selection.parent = chickens.get(id)?.root??null;
       selection.position.y = 0.035;
     },
     update(state: Settlement) {
       renderState = state;
+      for(const [id,bird] of chickens)if(!state.birds.some(b=>b.id===id)){if(selection.parent===bird.root)selection.parent=null;bird.clips.forEach(g=>g.dispose());bird.root.dispose();chickens.delete(id);populated.delete(id);cargoMeshes.delete(id);foodMeshes.delete(id);}
       for (const bird of state.birds) {
-        const mesh = chickens.get(bird.id)!;
+        const mesh = ensureBird(bird);
         const lifting=bird.lift&&state.sites.find(s=>s.id===bird.lift!.basket);
         const tree=lifting?.tree&&trees.find(t=>t.id===lifting.tree);
-        const p=tree?presentedTreePosition(tree.id,habitatPosition(tree.id,habitatAnchor(tree.id,"operator-ground"))):presentedBirdPosition(bird);
-        const index = settlers.findIndex((b) => b.id === bird.id);
-        const idle = !bird.edge && !bird.flight && !bird.perch && !bird.foraging && !bird.lift;
+        let p=tree?presentedTreePosition(tree.id,habitatPosition(tree.id,habitatAnchor(tree.id,"operator-ground"))):presentedBirdPosition(bird);
+        const index = state.birds.findIndex((b) => b.id === bird.id);
+        if(bird.life.stage!=="adult")p={...p,x:p.x-1.05+(index%2?-.4:.4),z:p.z-.9,y:.05};
+        else if(bird.care&&!bird.edge&&!bird.foraging){p={...p,x:p.x-1.05,z:p.z-.25};}
+        const idle = !bird.edge && !bird.flight && !bird.perch && !bird.foraging && !bird.lift && !bird.provision && !bird.care && bird.life.stage==="adult";
         const x = p.x + (idle ? (index % 2 === 0 ? -1.1 : 1.1) : 0),
           z = p.z + (idle ? (index < 2 ? -1.1 : 1.1) : 0);
         mesh.target.set(x, elevation(x, z) + p.y, z);
         const cargo=cargoMeshes.get(bird.id)!;
+        if(!cargo)continue;
         cargo.setEnabled(bird.cargo>0);
         if(tree){
           cargo.parent=null;
@@ -718,7 +791,9 @@ export function createClearing(
           mesh.root.rotation.y = birdHeading(delta);
       }
       const signature = JSON.stringify([
-        state.patches,
+        state.patches.map(p=>[p.id,p.remaining,p.designated]),
+        state.economy.nurseries.map(n=>[n.site,n.food,n.brood]),
+        state.economy.broods.map(b=>[b.id,b.stage,b.eggs]),
         state.forage.map(p=>[p.id,p.at,p.remaining,p.open]),
         state.piles,
         state.sites.map((s) => [

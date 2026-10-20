@@ -70,7 +70,8 @@ export const settlers = [
     energy: 60,
   },
 ] as const;
-export type SettlerId = (typeof settlers)[number]["id"];
+export type Appearance = (typeof settlers)[number]["id"];
+export type SettlerId = string;
 /** Provisional playtest costs and timings, not measured chicken biology. */
 export const tuning = {
   treehouseCost: 6,
@@ -130,7 +131,32 @@ export const forageTuning = {
   satisfied: 80,
   biteSatiety: 24,
   scratchTicks: 18,
-  recoveryTicks: 110,
+  recoveryTicks: 45,
   maximumOccupancy: 2,
   browseInterval: 120,
 } as const;
+
+/** Bounded economy tuning: fictional play time, never biological measurements. */
+export const economyTuning = {
+  dayTicks: 1800,
+  eveningTicks: 600,
+  reedRecoveryTicks: 240,
+  nurseryCost: 4,
+  foodCapacity: 8,
+  nurseryTarget: 6,
+  balancedNurseryBuffer: 3,
+  urgentNurseryBuffer: 2,
+  matingTicks: 180,
+  fertilityTicks: 14400,
+  layingTicks: 300,
+  incubationTicks: 7200,
+  juvenileTicks: 7200,
+  adultTicks: 14400,
+  eggViabilityTicks: 2400,
+  mealTicks: 180,
+  juvenileMealTicks: 240,
+  proteinDrain: 0.012,
+  proteinBite: 30,
+  proteinMinimum: 30,
+} as const;
+export const offspringNames = ["Pip", "Clover", "Hazel", "Moss", "Ash", "Bramble", "Sorrel", "Finch", "Pebble", "Thistle", "Flint", "Juniper", "Aster", "Rowan"] as const;

@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { Clearing } from "../game/Clearing";
 import type { Tool } from "../game/Clearing";
-import { foodPatches, settlers, trees, tuning } from "../content/settlement";
+import { foodPatches, trees, tuning, economyTuning } from "../content/settlement";
+import { EconomyInspector } from "./EconomyInspector";
 import { TreeInspector } from "./TreeInspector";
 import type { TreeId, SettlerId } from "../content/settlement";
 import {
@@ -16,6 +17,8 @@ import {
   workerStatus,
   patchStatus,
   forageStatus,
+  birdProfile,
+  growthForecast,
 } from "../simulation/settlement";
 import type { Cell, Command, Settlement } from "../simulation/settlement";
 import {
@@ -124,10 +127,12 @@ export function App() {
     if (!ready) return;
     const id = setInterval(() => {
       if (locked.current || restoreFailed.current || document.hidden) return;
-      const next = step(stateRef.current);
+      const previousTick=stateRef.current.tick;
+      let next = stateRef.current;
+      for(let i=0;i<stateRef.current.economy.clock.speed;i++)next=step(next);
       if (next === stateRef.current) return;
       display(next);
-      if (next.tick % 10 === 0) void save(next);
+      if (Math.floor(next.tick/10)>Math.floor(previousTick/10)) void save(next);
     }, tuning.stepSeconds * 1000);
     return () => clearInterval(id);
   }, [ready]);
@@ -170,7 +175,7 @@ export function App() {
     if(tool === "gather"){
       const patch=stateRef.current.patches.find(p=>p.at.x===at.x&&p.at.z===at.z);
       if(patch)act({type:"gather",id:patch.id,designated:!patch.designated});
-      else setNotice("Choose one of the finite construction reed patches.");
+      else setNotice("Choose one of the construction reed patches.");
     }
     if (tool === "forage") {
       const place = stateRef.current.forage.find(p => p.at.x === at.x && p.at.z === at.z);
@@ -184,6 +189,7 @@ export function App() {
     locked.current = true;
     restoreFailed.current = false;
     setBusy(true);
+    setSelected(current=>next.birds.some(b=>b.id===current)?current:next.birds[0].id);
     display(next);
     await save(next);
     setNotice(message);
@@ -213,8 +219,10 @@ export function App() {
       setBusy(false);
     }
   }
-  const bird = state.birds.find((b) => b.id === selected)!;
-  const person = settlers.find((b) => b.id === selected)!;
+  const bird = state.birds.find((b) => b.id === selected)??state.birds[0];
+  const person = birdProfile(bird);
+  const forecast = growthForecast(state);
+  const localFood=state.economy.nurseries.reduce((n,p)=>({staple:n.staple+p.food.staple,protein:n.protein+p.food.protein}),{staple:0,protein:0});
   const hasHome = state.sites.some(s=>s.kind==="treehouse"&&s.complete);
   return (
     <div className="shell">
@@ -223,16 +231,23 @@ export function App() {
           coop chaos<span>.</span>
         </h1>
         <span className="edition">GROUND WORK. CANOPY DREAMS.</span>
-        <div className="header-actions"><span className="phase-label">{state.phase === "day" ? "Day" : "Evening"} · 4 chickens</span>
-        <button disabled={!ready||busy} onClick={()=>act({type:"phase",phase:state.phase==="day"?"evening":"day"})}>{state.phase === "day" ? "Call evening" : "Begin day"}</button>
+        <div className="header-actions"><span className="phase-label">Cycle {state.economy.clock.day} · {state.phase === "day" ? "Day" : "Evening"} · {Math.ceil(((state.phase==="day"?economyTuning.dayTicks:economyTuning.eveningTicks)-state.economy.clock.phaseTick)*tuning.stepSeconds)}s · {state.birds.length} chickens</span>
+        <button disabled={!ready||busy} onClick={()=>act({type:"speed",speed:state.economy.clock.speed===1?4:1})} aria-label="Change simulation speed">{state.economy.clock.speed}× time</button>
         <button disabled={!ready||busy} onClick={()=>act({type:"pause"})}>{state.paused?"Resume work":"Pause work"}</button>
         <button aria-expanded={panelOpen} aria-controls="settlement-inspector" onClick={()=>{setPanelTarget(null);setPanelOpen(!panelOpen);}}>{panelOpen?"Close details":"Settlement"}</button></div>
       </header>
       <main>
+        <div className="economy-strip" aria-label="Settlement resources and capacity">
+          <span><strong>{conserved(state)-state.consumed}</strong> reeds available</span>
+          <span><strong>{localFood.staple}</strong> staple · <strong>{localFood.protein}</strong> protein stored</span>
+          <span><strong>{forecast.committed}/{forecast.capacity}</strong> future adult berths</span>
+          <span>{forecast.adults} adults · {forecast.carers} caring · {state.economy.priority} work</span>
+          <button onClick={()=>{setPanelTarget(null);setPanelOpen(true);}}>Food & brood</button>
+        </div>
         <div className="play-layout">
           <Clearing
             state={state}
-            selected={selected}
+            selected={bird.id}
             onSelect={(id)=>{setSelected(id);showDetails("bird");}}
             onPick={pick}
             onTree={selectTree}
@@ -244,7 +259,7 @@ export function App() {
           <div className="opening-card" hidden={panelOpen}>
             <span className="eyebrow">A LIVING GROVE</span>
             <h2>{hasHome?"Life in the branches":"Beneath Lowfork"}</h2>
-            <p>{tool === "inspect" ? (hasHome ? "A woven home awaits its sleepers. Inspect a tree to grow another branch of the settlement, or call the flock to rest." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "build" ? "Choose a named tree. Inspect its residents and choose what to build." : tool === "store" ? "Four reeds make a local store. Choose open ground; carriers walk there freely." : tool === "forage" ? "The flock finds its own food. Inspect a place to rest it or reopen it." : "Choose a construction reed patch. Material gathering is separate from feeding."}</p>
+            <p>{tool === "inspect" ? (hasHome ? "A woven home awaits its sleepers. Inspect a tree to grow another branch of the settlement, while food deliveries support its young." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "build" ? "Choose a named tree. Inspect its residents and choose what to build." : tool === "store" ? "Four reeds make a local store. Choose open ground; carriers walk there freely." : tool === "forage" ? "The flock finds its own food. Inspect a place to rest it or reopen it." : "Choose a construction reed patch. Material gathering is separate from feeding."}</p>
           </div>
           <nav className="primary-tools" aria-label="World tools">
             {(["inspect","forage","build","gather"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>{setTool(t);if(t==="build")selectTree(selectedTree);if(t==="forage") {setSelectedForage(null);showDetails("forage");}}}>{({inspect:"Inspect",forage:"Forage",gather:"Gather reeds",build:"Build",store:"Store"})[t]}</button>)}
@@ -257,6 +272,7 @@ export function App() {
               <button className="all-controls" onClick={()=>setPanelTarget(null)}>Settlement controls & saves</button>
             </div>}
             <div hidden={panelTarget === "tree"}>
+            <EconomyInspector state={state} disabled={busy || !ready} onCommand={act} />
             <section>
               <div className="section-heading">
                 <span className="eyebrow">GROVE & COMMONS</span>
@@ -337,7 +353,7 @@ export function App() {
             </section>
             <section aria-label="Foraging places" ref={forageSection} tabIndex={-1}>
               <h3>Food in the commons</h3>
-              <p className="quiet">Hungry birds stop to feed. Rest a place to leave its food for later; resting places replenish while unused.</p>
+              <p className="quiet">Hungry birds and adults short of protein stop to feed. Rest a place to leave its food for later. Food below capacity renews during daylight, including when birds visit.</p>
               {state.forage.map(p => <article className="site-card" id={`food-${p.id}`} tabIndex={-1} key={p.id} aria-current={selectedForage === p.id ? "true" : undefined}>
                 <h4>{foodName(p.id)} <span>{p.remaining}/{p.capacity} food</span></h4>
                 <p>{foodPatches.find(f => f.id === p.id)?.description}</p>
@@ -347,11 +363,11 @@ export function App() {
             </section>
             <section aria-label="Gather construction reeds">
               <h3>Reeds from the commons</h3>
-              <p className="quiet">Finite construction reeds, not food. Adults carry gathered bundles to the cache or a completed store. Reed patches do not regrow in this study.</p>
+              <p className="quiet">Renewable construction fiber, separate from food. Adults carry gathered bundles to the cache or a completed store. Cut patches recover slowly during daylight; harvesting still takes real work.</p>
               {state.patches.map(p=><article className="site-card" key={p.id}>
                 <h4>{p.id==="patch-west"?"West reed patch":"Creek reed patch"} <span>({key(p.at)})</span></h4>
                 <p>{patchStatus(state,p)}</p>
-                <button disabled={!p.remaining||busy||!ready} onClick={()=>act({type:"gather",id:p.id,designated:!p.designated})}>{p.designated?"Stop gathering":"Gather reeds"}</button>
+                <button disabled={busy||!ready} onClick={()=>act({type:"gather",id:p.id,designated:!p.designated})}>{p.designated?"Stop gathering":"Gather reeds"}</button>
               </article>)}
             </section>
             <section aria-label="Construction and local stocks">
@@ -410,7 +426,7 @@ export function App() {
                           (b) =>
                             b.perch?.tree === site.tree && b.perch.sheltered,
                         )
-                        .map((b) => settlers.find((s) => s.id === b.id)!.name)
+                        .map((b) => b.life.name)
                         .join(" & ") || "No sheltered occupants yet"}
                     </p>
                   )}
@@ -432,7 +448,7 @@ export function App() {
             <section aria-label="Named workers" ref={birdSection} tabIndex={-1}>
               <h3>Every chicken is someone</h3>
               <div className="bird-picker">
-                {settlers.map((s) => (
+                {state.birds.map((worker) => { const s=birdProfile(worker); return (
                   <button
                     aria-pressed={selected === s.id}
                     key={s.id}
@@ -441,24 +457,24 @@ export function App() {
                     <i style={{ background: s.color }} />
                     {s.name}
                   </button>
-                ))}
+                );})}
               </div>
               <article className="character">
                 <div className="section-heading">
                   <h2>{person.name}</h2>
-                  <span>{person.role}</span>
+                  <span>{bird.life.stage} · {person.role}</span>
                 </div>
                 <p>{person.want}</p>
                 <p className="work-status">{workerStatus(state, bird)}</p>
                 <p>
-                  Readiness {Math.round(bird.energy)} / 100 · {bird.deliveries}{" "}
+                  Readiness {Math.round(bird.energy)} / 100 · protein {Math.round(bird.protein)} / 100 · {bird.deliveries}{" "}
                   completed deliveries
                 </p>
                 <p>Appetite {Math.round(100 - bird.satiety)} / 100 · {({cover:"sheltered leaf litter",open:"open seedheads",mixed:"mixed edges"})[bird.foragePreference]} preference</p>
                 <p className="quiet">{bird.rememberedForage ? `Remembers productive feeding at ${foodName(bird.rememberedForage)}.` : "Still discovering productive feeding places."}</p>
                 <p className="quiet">
                   {bird.attachment
-                    ? `Helped build ${trees.find((t) => t.id === bird.attachment)!.name}; prefers sleeping there.`
+                    ? `Work or care tied this bird to ${trees.find((t) => t.id === bird.attachment)!.name}; prefers sleeping there.`
                     : `Usually seeks ${trees.find((t) => t.id === person.preference)!.name}.`}
                   {bird.id === "rook" && !bird.attachment
                     ? " Prefers an open high fork."
@@ -545,8 +561,7 @@ export function App() {
             A chicken-built forest home. The open commons lie between kingdoms.
           </span>
           <span>
-            Provisional construction proof · larger settlement loop still to
-            come
+            Provisional economy · 1× real play time; 4× accelerates every rule
           </span>
         </footer>
       </main>

@@ -26,7 +26,7 @@ owns the artifact inventory and actual-camera visual proof.
 
 This direction is accepted. The current app implements bounded autonomous food
 foraging alongside the [thin treehouse construction and roost proof](#treehouse-direction-and-current-thin-proof);
-food production, population growth, threats and politics remain future. The old
+renewable food/material gathering, local nursery supplies and bounded population growth are implemented below; cultivated food production, threats and politics remain future. The old
 four-bird dilemma in [story-system.md](story-system.md) is a historical technical
 study, whose cast and event have no privileged place in the future game. This document owns the accepted progression and construction
 direction. [The earlier gameplay analysis](proposals/gameplay-rules-analysis.md)
@@ -38,6 +38,87 @@ farmers. [Biology research](../docs/research/chicken-biology.md) supplies constr
 on nutrition, reproduction, care, bodies, and danger. Exact recipes, counts,
 starting roster, rates, calendar, predator species, and behavioral formulas remain
 provisional.
+
+## Implemented bounded food, care and population economy
+
+This accepted MVP extends the existing construction owner; all numerical rates
+remain provisional fictional playtest tuning. It does not establish thirty-minute
+fun or full ecological balance. A fresh four-adult community can build a home,
+commission its covered **root nursery** for four reeds, deliver local food, and
+support a named willing hen. The nursery is beside the ground workcourt, clear
+of the hauling approach. It has two dependent care places and storage of eight
+staple and eight protein units, targeted to six each. It adds **no adult berths**.
+A completed home is required. Current reachable adult capacity is two natural,
+two home and two deck places per tree: at most eighteen across three trees, not
+the future twenty-four-resident Lowfork layout study.
+
+Seedhead Common provides staple food, Leaf-litter Hollow protein, and Insect
+Verge alternates the two. Food recovery is one unit per 45 daytime ticks, bounded
+by each patch's twelve-unit capacity. Browsing consumes nothing and does not
+freeze recovery. Adult satiety and protein both matter: hungry or low-protein
+birds seek the appropriate food before new ordinary work; low condition slows
+work and prevents a new brood. Water and mineral access are dependable authored
+facts of this small grove. This is not a complete nutrition model. Structural
+wood, cultivation recipes and larger food chains remain future.
+
+An adult physically scratches up one food unit, carries its typed cargo, and
+delivers it to a specific nursery. Food never teleports from a global counter.
+Balanced maintains a moderate buffer of three of each food before construction;
+Provision fills the full saved target of six before construction. Build chooses
+construction first. Essential meals, secured cargo and urgent active-brood supply
+(the emergency floor of two of each) take precedence under every policy. These policies order eligible jobs; they grant no
+stat bonus. An active carer is removed from ordinary construction and gathering.
+
+Initial adult sex and expressed willingness are provisional named fixture facts,
+not castes. A willing fed adult pair must spend 180 actual nearby ground ticks
+together to establish saved fertility history, valid for 14,400 ticks. No past
+mate or eggs are invented when migrating an old save. Support checks the named
+hen's willingness/condition/history, completed nursery, at least two local units
+of each food, two future adult berths, other adult delivery capacity and food
+forecast. The hen lays two durable eggs over 300 supplied care ticks, consuming
+one unit of each food per egg. Unincubated eggs expire after 2,400 ticks. First
+fertile, well-cared eggs hatch deterministically after 7,200 supplied incubation
+ticks; broader stochastic loss is deferred. One egg can create only one child.
+
+Care requires the assigned adult to be physically at the nursery, with continuing
+local staple and protein food. A care meal costs one of each per 180 care ticks,
+including evening. Shortages pause care, incubation and dependent growth with an
+explicit reason; they do not create free progress. Self-care breaks are real.
+Chicks remain grounded, consume continuing care and become juveniles after 7,200
+qualified post-hatch ticks. Juveniles remain grounded, feed themselves and become
+adult workers at 14,400 qualified post-hatch ticks. They never use adult flight
+early. Newborns inherit their mother's existing visual appearance with smaller
+bodies and restrained comb/tail; their own names, parents, age, stage, birthplace,
+carer bond and memories persist. Repeated care establishes an attachment to the
+nursery tree which contributes to later adult home choice.
+
+The automatic clock uses 1,800 daytime and 600 evening ticks (four minutes at
+1×), with pause and 1×/4× controls. Every need, recovery and development uses the
+same 0.1-second simulation ticks. There is no offline catch-up. The support-only
+phase command changes neither age nor resources; normal UI has no phase button.
+A supplied incubation is three cycles; juvenile and adult thresholds are three
+and six cycles after hatching. Full adulthood is therefore roughly forty minutes
+from a fresh opening, not a claimed thirty-minute complete growth loop.
+
+Growth planning counts existing residents and pending eggs once. The displayed
+food forecast counts each open habitat's recovery once, retains a 15% habitat
+reserve, and caps supply by available non-carers and average route distance.
+Its blended unit cost is a scratch bout plus eighteen ticks per average route
+cell; this is a conservative planning estimate, never credited stock. Existing
+and pending residents plus active care costs are subtracted before another plan.
+Food can constrain new support before the eighteen-berth maximum. A second tree
+adds actual home berths and a nursery nearer some food; it grants no territory
+or free yield. Capacity gates govern starting a new community-supported plan,
+never deletion or refusal of an already existing birth.
+
+Conservation is exact: each patch's initial capacity plus regrowth equals its
+remaining units plus eating and harvested cargo. Typed harvested food equals
+local storage plus current cargo plus consumed care food. Initial loose reeds
+plus harvested reeds equal physical stock, cargo, allocations and construction
+consumption; patch capacity plus regrowth equals remaining plus harvested reeds.
+Version-five saves preserve every durable egg/child reference and validate these
+ledgers. Versions one through four migrate after validating their original shape
+and preserve their actual goods, work, identities and memories.
 
 ## What the player does
 
@@ -52,17 +133,16 @@ a carrier secures its current bundle first. Idle fed birds still browse, without
 endlessly eating. Distance, food remaining, up to two distinct feeding spots,
 provisional individual cover/open preferences and remembered productive ground
 influence choice. Scratching and pecking precede actual consumption and satiety
-gain. An unused place recovers on simulation ticks; Rest/Open changes availability,
+gain. A depleted place recovers on daytime simulation ticks, including while visited; Rest/Open changes availability,
 not a refill button. Exact timing, yields and satiety are fictional tuning, not
-claims about a complete diet or measured natural recovery. There is no death,
-starvation, water demand, egg production, predator or dominance model in this slice.
+claims about a complete diet or measured natural recovery. There is no random death, explicit water demand, predator or dominance model in this slice. The bounded nursery loop below adds egg laying and growth.
 
 Construction reed designation creates work with reserved yield and local storage
-room. Extraction atomically depletes one finite reed into carried cargo; stopping
-collection preserves already carried bundles. Reeds do not regrow and are never
+room. Extraction atomically removes one available reed into carried cargo; stopping
+collection preserves already carried bundles. Reeds recover one unit per 240 daytime ticks up to patch capacity and are never
 food. Source stock, local stores, delivered allocations, cargo and consumed building
 materials retain their own conservation ledger. Food capacity plus recovered food
-separately equals remaining plus eaten food. Reloading or switching day/evening
+separately equals remaining plus eaten and physically harvested food. Reloading or switching day/evening
 creates neither resource. The construction/save chain remains reusable; actual-camera
 art quality is still an acceptance condition.
 
@@ -295,7 +375,7 @@ powered lifts, then science-fiction elevators and responsive defenses. These
 are chicken inventions, not a prohibition on machinery or copied human housing.
 
 The implemented construction proof uses four provisional adults: Fern, Rook,
-Dapple and Wren. Fresh worlds have eight loose reeds and two finite patches of
+Dapple and Wren. Fresh worlds have eight loose reeds and two renewable, capacity-limited patches of
 twelve construction reeds. Existing forty-reed worlds retain their supplies.
 The cast, patch counts, a six-bundle treehouse, a
 four-bundle store of capacity twelve, and all rates are tuning fixtures. Lowfork,
@@ -342,7 +422,7 @@ familiar places. The player can build another improvement or rest or reopen a fe
 The old four-bird first-evening dilemma remains a historical technical fixture.
 Its separate save retains its original meaning and can be exported when present;
 settlement imports reject that incompatible story format explicitly. The current
-proof does not establish thirty-minute fun, food production, reproduction, predator
+proof does not establish thirty-minute fun, cultivated food production, predator
 encounters, population loss, neighboring politics or advanced powered technology. Those remain
 the substantial settlement milestone and subsequent proofs above.
 
@@ -358,7 +438,7 @@ same size at every tree. Habitat anchors, structures, ladders and baskets use
 metres at scale one on all three trees; secondary trees no longer shrink their
 homes and access. Simulation ground cells remain two metres wide.
 
-The implemented roster is still four adults. Each tree offers two natural
+The opening roster is four adults; the bounded economy can add named young. Each tree offers two natural
 fallback berths, two commissioned home berths, and two extra-deck berths. These
 six slot identities prove access and saved occupancy; they do not establish a
 mature tree's carrying capacity. The existing home floor is about 2.16×1.69m,

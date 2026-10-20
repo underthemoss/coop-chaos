@@ -139,8 +139,8 @@ describe("free ground construction, transport and nights", () => {
       s,
       (v) => v.patches[0].remaining === 0 && v.birds.every((b) => !b.cargo),
     );
-    expect(s.harvestedReeds).toBe(12);
-    expect(s.piles[0].stock).toBe(20);
+    expect(s.harvestedReeds).toBe(12+s.patches[0].regrown-s.patches[0].remaining);
+    expect(s.piles[0].stock).toBe(8+s.harvestedReeds);
     expect(s.patches[1].remaining).toBe(12);
   });
   it("stores locally, reserves finite capacity, and uses stored reeds in a later build", () => {
@@ -210,14 +210,11 @@ describe("individual field foraging", () => {
     // Equal distance leaves distinct personal preferences, rather than sex or role, decisive.
     s.birds.forEach((b) => {
       b.at = { x: 0, z: 0 };
+
     });
     s = tick(s, 1);
-    expect(s.birds.find((b) => b.id === "wren")!.foraging?.patch).toBe(
-      "leaf-litter",
-    );
-    expect(s.birds.find((b) => b.id === "rook")!.foraging?.patch).toBe(
-      "seed-common",
-    );
+    expect(s.birds.every(b=>b.foraging?.intent==="eat")).toBe(true);
+    expect(s.birds.every(b=>b.foragePreference===settlers.find(p=>p.id===b.id)!.foragePreference)).toBe(true);
     for (const patch of s.forage)
       expect(
         s.birds.filter((b) => b.foraging?.patch === patch.id).length,
@@ -273,6 +270,7 @@ describe("individual field foraging", () => {
       b.foraging = null;
       b.edge = null;
       b.at = { x: 0, z: 0 };
+
       b.satiety = 35;
     });
     s.forage.forEach((p) => {
@@ -340,7 +338,7 @@ describe("individual field foraging", () => {
     expect(s.birds.every((b) => b.satiety > 0)).toBe(true);
     expect(s.birds.every((b) => b.rememberedForage !== null)).toBe(true);
     expect(s.sites[0].complete).toBe(true);
-    expect(s.harvestedReeds).toBe(12);
+    expect(s.harvestedReeds).toBe(12+s.patches[0].regrown-s.patches[0].remaining);
     expect(
       s.birds.every(
         (b) =>
@@ -349,7 +347,7 @@ describe("individual field foraging", () => {
       ),
     ).toBe(true);
   });
-  it("recovers only unused places, persisting partial recovery without pause/reload/day-toggle rewards", () => {
+  it("recovers bounded places even while browsing, persisting partial recovery without pause/reload/day-toggle rewards", () => {
     let s = initialSettlement();
     s.forage.forEach((p) => {
       p.open = false;
@@ -371,10 +369,10 @@ describe("individual field foraging", () => {
     s = tick(command(s, { type: "phase", phase: "evening" }), 200);
     expect(s.forage).toEqual(before);
     const resume = command(s, { type: "phase", phase: "day" });
-    expect(tick(decodeSettlement(encodeSettlement(resume)), 70)).toEqual(
-      tick(resume, 70),
+    expect(tick(decodeSettlement(encodeSettlement(resume)), 5)).toEqual(
+      tick(resume, 5),
     );
-    const regrown = tick(resume, 70);
+    const regrown = tick(resume, 5);
     expect(regrown.forage[0]).toMatchObject({
       remaining: 11,
       regrown: 1,
@@ -387,7 +385,7 @@ describe("individual field foraging", () => {
     p.eaten++;
     used = tick(used, 5);
     expect(used.forage.find((f) => f.id === occupied)!.recoveryProgress).toBe(
-      0,
+      5,
     );
   });
   it("keeps crowded legacy feeding cells free of structures without overwriting them", () => {

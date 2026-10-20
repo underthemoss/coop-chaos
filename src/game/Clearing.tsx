@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createClearing } from "./create-clearing";
 import { shelteredCapacity } from "../simulation/settlement";
 import type { Cell, Settlement } from "../simulation/settlement";
-import { foodPatches, settlers, trees } from "../content/settlement";
+import { foodPatches, trees } from "../content/settlement";
 import type { TreeId, SettlerId } from "../content/settlement";
 export type Tool = "inspect" | "gather" | "forage" | "build" | "store";
 export function Clearing({
@@ -105,7 +105,7 @@ export function Clearing({
         }}
       />
       <div className="landscape-labels">
-        {settlers.map((b) => (
+        {state.birds.map((worker) => { const b={id:worker.id,name:worker.life.name}; return (
           <button
             key={b.id}
             ref={(el) => {
@@ -117,7 +117,7 @@ export function Clearing({
           >
             {b.name}
           </button>
-        ))}
+        );})}
         {trees.map((t) => (
           <button
             key={t.id}

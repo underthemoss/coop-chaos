@@ -1,5 +1,22 @@
 # Life above the ground
 
+## Current bounded economy status
+
+The implemented scope now includes renewable reeds, typed staple/protein food,
+physical local nursery deliveries, a covered grounded nursery after a home,
+named willing-hen support, actual fertility and laying, supplied incubation,
+chicks, grounded juveniles and adult workers. Care removes an adult from ordinary
+work and establishes a persistent named bond and home attachment. An automatic
+four-minute cycle, pause, 1×/4× and conservative food/housing forecasts make
+constraints visible. Six reachable adult places per tree remain the maximum
+implemented layout; larger household targets are future studies. Structural wood,
+cultivation, threats, politics and powered access remain future.
+
+[Settlement design](settlement-design.md) owns the accepted rules and provisional numbers. This
+extends the inhabited-tree proof; it does not prove thirty-minute enjoyment or
+complete balance. Young stay grounded until adulthood; upper broodrooms await
+real access.
+
 ## Direction and scope
 
 The accepted direction begins with chickens living and working on the ground,

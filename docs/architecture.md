@@ -6,7 +6,7 @@ The elevated low-poly world follows the spatial qualities of the user's
 [Kingdoms and Castles reference](https://store.steampowered.com/app/569480/Kingdoms_and_Castles/),
 using original chicken-built structures and Blender-authored GLB bird/tree proofs.
 
-## Current construction proof
+## Current deterministic settlement economy
 
 `src/content/settlement.ts` adapts the provisional roster, three tree landmarks,
 and numerical tuning from [settlement design](../story/settlement-design.md).
@@ -22,7 +22,7 @@ to drift. Pickup moves source stock into bird cargo; delivery moves cargo into a
 site allocation or local store. Building consumes its exact delivered recipe
 once; `consumed` records permanent structure material. Local piles, stores,
 site allocations, cargo, and consumption sum to initial loose supply plus harvested
-reeds. Finite designated patches reserve yield before walking; extraction atomically
+reeds. Capacity-limited renewable designated patches reserve yield before walking; extraction atomically
 reduces the patch and introduces exactly one carried bundle.
 A store refill uses loose piles, preventing stores endlessly refilling each other;
 construction can use either piles or completed local stores by shortest route.
@@ -34,13 +34,13 @@ an invisible lost-resource sink.
 
 Three food places are separate from construction reeds. The simulation owns
 appetite, at most two feeder spots per place, choice/preferences, productive-place
-memory, scratch/peck progress, consumption and unused-place recovery. Cargo is
-delivered before feeding; night roosting takes precedence. Food remaining plus
-eaten equals initial capacity plus recovered units per place. Recovery uses ticks,
+memory, scratch/peck progress, consumption and bounded daytime recovery. Cargo is
+delivered before feeding. Active care and secured food deliveries continue at night. Food remaining plus
+eaten and harvested units equals initial capacity plus recovered units per place. Recovery uses ticks,
 not wall time; pause, refresh and day changes cannot grant food. Bounded ground
 routing is independent of renderer scenery; no general collision engine was added.
 
-Explicit day/evening is saved simulation state, not a full calendar. Evening
+Automatic day/evening and cycle progress are saved simulation state. Evening
 stops new collection, lets existing loads and active weaving finish where
 reachable, then allocates distinct perches. Three trees each offer two natural
 places from the start; improvements add two sheltered places. Contributors gain
@@ -98,11 +98,11 @@ phase changes remain simulation-owned. Migration grants no fabricated invention.
 ## Saves and ordering
 
 IndexedDB database `coop-chaos` version 1, object store `saves`, key `settlement`
-holds `{ schemaVersion: 4, simulationVersion: "settlement-4", state }`.
+holds `{ schemaVersion: 5, simulationVersion: "settlement-5", state }`.
 `src/persistence/settlement-save.ts` validates exact object fields, finite values,
 IDs/references, finite patch capacities and harvest ledgers, route edges, commitments, stock capacity, conservation,
 construction consumption, and exclusive perch occupancy. Imports validate before
-state replacement; malformed files leave current state unchanged. Valid settlement-1, settlement-2 and settlement-3
+state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-4
 saves migrate without changing their existing sites, workers, supplies or histories.
 Old path data is retired while in-flight edges and work remain intact. New
 food state is introduced by versioned migration. New reed patches use free legal cells; crowded older worlds may receive fewer
@@ -117,10 +117,10 @@ playability with an export notice. A failed initial decode does not autosave ove
 the unread original; an explicit restart or valid import is needed first.
 No cloud, cross-tab conflict resolution, offline simulation, or general migration framework.
 
-Fresh settlements start with 8 loose construction reeds and two finite patches.
+Fresh settlements start with 8 loose construction reeds and two renewable capacity-limited patches.
 Extraction atomically transfers one patch reed into worker cargo. Initial loose
 reeds plus harvested reeds equal loose stock, local stores, cargo, unfinished
-deliveries and material consumed by completed structures. Patch capacity separately
+deliveries and material consumed by completed structures. Patch capacity plus bounded regrowth separately
 equals remaining plus harvested reeds; unharvested reeds are not loose stock.
 
 Legacy `src/simulation/flock.ts`, `src/content/first-evening.ts`, and
@@ -130,13 +130,42 @@ export is offered when found. The settlement decoder explicitly rejects that
 format. Legacy tests remain useful compatibility checks. It is no longer the
 app's default experience or a privileged campaign cast.
 
+## Dynamic population and fixed time
+
+`src/simulation/settlement.ts` owns saved life profiles, typed food cargo,
+nursery stocks, fertility events, brood/care assignment, durable eggs and child
+identities. It also owns canonical support/blocked reasons and growth forecasts.
+React renders those outputs; Babylon never decides births, access or completion.
+Original IDs and adult mobility remain stable. Dynamic consumers resolve names
+and appearance through `birdProfile`; appearance selects an existing original
+asset, while identity remains the saved worker ID. Grounded young do not enter
+adult flight, hauling or construction code. The renderer clones inherited
+appearance and animation targets independently and applies stage proportions.
+
+The saved automatic clock advances phase after 1,800 day or 600 evening ticks;
+`speed` changes how many canonical fixed steps the app schedules. Pause halts
+all progress. Import/reload creates no elapsed-time catch-up. Carer presence,
+local typed meals, egg viability and growth all advance in the same step.
+Nursery food and egg meshes present saved state. The nursery is beside the root
+workcourt and does not add or obstruct adult routes.
+
+Food patch ledgers separate eaten and typed harvested units. Harvested food
+must equal all nursery stock, food cargo and consumed care food. Renewable reed
+ledgers include cumulative regrowth, so lifetime harvest may exceed initial patch
+capacity. Source-version validation precedes additive v5 migration: existing
+cargo, edges, jobs, construction, identities and memories survive; new biological
+fields begin without fabricated mating history. Strict egg-child references,
+parent/carer links, growth age bounds and exclusive care assignments protect
+reload/replay. Durable states include care self-feeding breaks and secured cargo
+which must finish delivery before care.
+
 ## Next boundaries, not implemented
 
 [Technology design](../story/technology.md) develops ground, trunk, and canopy
 layers. Forest clusters are political homes; productive open commons supply
 bounded mixed-food foraging and future richer ecology and shared-use disputes.
-Current geography and travel do not implement territory, complete nutrition, predators, or pacts. Food
-production, brood care, growing population, threats, district relationships,
+Current geography and travel do not implement territory, complete nutrition, predators, or pacts. Cultivated food
+production, threats, district relationships,
 powered lifts, and late science-fiction elevators remain
 future. Keep their goods/jobs/capabilities with simulation; advance save versions
 intentionally when meanings change. Do not implement a universal defense counter.

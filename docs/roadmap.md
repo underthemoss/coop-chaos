@@ -1,5 +1,22 @@
 # Roadmap
 
+## Current bounded economy status
+
+The implemented scope now includes renewable reeds, typed staple/protein food,
+physical local nursery deliveries, a covered grounded nursery after a home,
+named willing-hen support, actual fertility and laying, supplied incubation,
+chicks, grounded juveniles and adult workers. Care removes an adult from ordinary
+work and establishes a persistent named bond and home attachment. An automatic
+four-minute cycle, pause, 1×/4× and conservative food/housing forecasts make
+constraints visible. Six reachable adult places per tree remain the maximum
+implemented layout; larger household targets are future studies. Structural wood,
+cultivation, threats, politics and powered access remain future.
+
+[Settlement design](../story/settlement-design.md) owns the accepted rules and provisional numbers. This
+extends the inhabited-tree proof; it does not prove thirty-minute enjoyment or
+complete balance. Young stay grounded until adulthood; upper broodrooms await
+real access.
+
 ## Construction proof now
 
 Named-tree Build cards now expose local work and residents. Completed homes can
@@ -8,14 +25,14 @@ teaches the shared technique; completed baskets raise later deck materials.
 This is a bounded demonstrated invention, not a general research or power system.
 
 Scale-first habitat work keeps adults independent of tree size and structures
-in true metres, while preserving the four-adult/six-berth proof and existing saves.
+in true metres, while preserving original adult mobility and six reachable berths per tree and existing saves.
 The separate [household planning targets](../story/settlement-design.md#scale-sleeping-places-and-future-households)
 (Lowfork24, Splitcrown16, Reedside12 sheltered residents) require usable layout,
 care and food support before population rules expand. Static occupancy studies
 are design evidence, not a claim that those residents already exist in play.
 
 
-A working finite-reed chain supports the first earned woven treehouse: place a
+A working renewable-reed chain supports the first earned woven treehouse: place a
 trunk site, reserve, collect, freely walk, visibly carry, deliver and
 consume. Supporting store nests hold local goods used in later builds. Natural
 branches work before construction; explicit saved evening/day demonstrates
@@ -61,11 +78,10 @@ atomic extraction, visible cargo and local storage, with strict versioned saves.
 Fresh worlds start with eight loose reeds and two twelve-reed patches; these
 counts are provisional. Three open mixed-food places now support autonomous
 feeding and browsing, appetite, provisional individual habitat preferences and
-remembered productive places. Food recovers only on unused simulation ticks;
+remembered productive places. Food recovers on bounded daytime simulation ticks, even while browsed;
 food and reeds have separate ledgers. Player-created roads and connectivity
-are removed. Strict settlement-3 saves migrate prior work and movement progress.
-Complete nutrition, richer food ecology, pecking-order effects, predators and
-reproduction remain future. Browser proof includes feeding choice, Rest/Open,
+are removed. Strict settlement-5 saves migrate versions one through four without dropping prior work and movement progress.
+Complete nutrition, richer food ecology, pecking-order effects and predators remain future. The bounded nursery loop above implements reproduction. Browser proof includes feeding choice, Rest/Open,
 free carry/build, night access, refresh, narrow layout and reduced motion.
 
 ## Later tree and chicken systems

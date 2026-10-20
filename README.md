@@ -9,30 +9,45 @@ egg sales. Every chicken is someone.
 The [settlement design](story/settlement-design.md) owns the loop;
 [Life above the ground](story/technology.md) develops treehouses, access,
 inventions, and distinct defensive purposes. The larger game remains future.
-This playable **construction proof** implements one finite-material chain,
-local storage, natural evening flight, and earned woven shelter with ladder use.
-The inhabited-tree proof joins the upper deck through the home edge and ramp;
-ground deliveries approach beside the trunk. A shared content habitat contract
-keeps six berths, cargo and access aligned with authored assets and existing saves.
-Adults now have a consistent roughly half-metre standing scale; homes and access
-retain their metre dimensions at every tree. The four-bird roster and six logical
-berths per tree are a bounded proof, not mature settlement capacity. See the
-[household scale targets](story/settlement-design.md#scale-sleeping-places-and-future-households)
-for the separate future population study.
-It does not yet implement food production, predators, population growth, rival
-kingdoms, or a broad technology tree. Thirty minutes of enjoyable settlement play is a
-future playtest target, not a proven property of this slice.
+This playable bounded economy connects renewable reeds, staple/protein foraging,
+physical nursery deliveries, home construction, care and named population growth.
+Four starting adults can support two chicks which grow into workers. A covered
+root nursery costs four reeds after a home; it supplies grounded care places,
+not adult housing. Existing natural, home and deck routes provide six actual
+adult berths per tree. Broader household layouts, cultivated food production,
+predators, rival kingdoms and advanced technology remain future. Thirty minutes
+of enjoyable play is a playtest target, not a proven property.
 
 The visual reference is [Kingdoms and Castles](https://store.steampowered.com/app/569480/Kingdoms_and_Castles/):
 faceted landscape, forest masses, shoreline, elevated strategy view.
 The earlier Node-authored pass was visually rejected. Original editable Blender
 trees, chickens and resource/building assets now replace it; visual acceptance
 against opening-view-v2 remains open. The [art-led sandbox brief](art-direction/opening-view-exploration.md)
-requires high-quality artifacts in the actual scene. Finite construction-reed
+requires high-quality artifacts in the actual scene. Renewable construction-reed
 gathering and autonomous mixed-food foraging are implemented with separate resource ledgers.
 The elevated view is fixed; responsive framing keeps the playable grove visible.
 Seven rigid-articulation action clips support the current birds; production rigs,
 a campaign, and multiplayer remain future work.
+
+## Food and a first brood
+
+Choose **Balanced**, **Build** or **Provision** in Food & brood. Policies order
+new work: Balanced buffers three of each nursery food before construction,
+Provision fills the target of six, and Build chooses construction first. Urgent
+meals, carried deliveries and the active-brood emergency floor take priority.
+Build a home, then its four-reed **covered root nursery**. Adults deliver staple
+and protein food to local targets of six each (capacity eight each). Support is
+offered for named willing hens with actual recent fertility, good condition,
+local supplies, future adult housing and a sustainable food/work forecast.
+
+Laying two eggs takes supplied work. Incubation needs three four-minute cycles;
+chicks need another three cycles of care to become juveniles and three further
+cycles to become adult workers. Shortages pause progress and explain why.
+Chicks and juveniles stay grounded; their care history affects later attachment.
+No offline progress, free growth button or commercial egg inventory exists.
+Water/mineral access is dependable within this grove; structural wood is future.
+See [the owning economy rules](story/settlement-design.md#implemented-bounded-food-care-and-population-economy)
+for provisional rates, conservation and forecast limits.
 
 ## Run locally
 
@@ -66,7 +81,7 @@ local qualification does not establish publication.
 
 ## Gather and build freely
 
-Fresh worlds begin with eight loose construction reeds, two finite reed patches,
+Fresh worlds begin with eight loose construction reeds, two capacity-limited renewable reed patches,
 and three open mixed-food places. Birds walk freely over the bounded clearing;
 there is no player-created road network or connectivity tool.
 
@@ -75,14 +90,14 @@ interrupts new work, while a carrier first delivers its existing bundle safely.
 Fed idle birds also browse without endlessly consuming food. Distance, available
 food, occupancy, individual cover/open-ground preference and a remembered productive
 place affect the next choice. **Forage** reveals these places; **Settlement** shows
-food remaining, occupants/recovery and **Rest/Open** controls. Unused food recovers
+food remaining, occupants/recovery and **Rest/Open** controls. Food recovers while below capacity, including while visited,
 on simulation ticks, including a resting place. No offline or phase-change food bonus
 occurs. Quantities, appetite and recovery rates are fictional prototype tuning;
 mixed forage units do not establish a complete diet, starvation or survival system.
 
 Choose **Gather reeds** to designate a construction reed patch. Birds reserve yield
 and storage room, extract one bundle and carry it to the cache or a completed store.
-These reeds are not food and do not regrow. Undesignating preserves carried goods.
+These reeds are not food and recover one unit per 240 daytime ticks up to capacity. Undesignating preserves carried goods.
 Choose **Build**, then Lowfork, Splitcrown or Reedside in the world or named-tree list.
 The compact tree inspector shows occupied berths, existing work and available builds.
 Four named adults autonomously reserve, collect, carry and deliver six local reeds
@@ -100,7 +115,7 @@ treehouse. Builders use the nearest reachable stock; set a filled
 store's target to zero to stop refill while testing its contribution. Supporting
 storage serves treehouse construction rather than becoming the settlement's goal.
 
-All adults can **Call evening** before building anything: they fly into finite
+A fresh grove automatically cycles through three minutes of day and one minute of evening. Pause and 1×/4× time controls use the same fixed simulation ticks. At evening, they fly into finite
 natural branch perches. A completed treehouse adds two sheltered berths, used
 through a visible ground approach and ladder climb. Contributors remember their
 work and favor that tree. Natural sleep restores readiness up to 80; shelter up
@@ -125,7 +140,7 @@ ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-4` schema saves to IndexedDB about once per second and
+The `settlement-5` schema saves to IndexedDB about once per second and
 after commands. There is no offline catch-up or cloud/cross-tab synchronization;
 use one tab. Export to retain important progress. Import validates shape,
 references, resource conservation, jobs, and sleeping occupancy before replacing

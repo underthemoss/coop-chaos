@@ -1,4 +1,5 @@
 import "fake-indexeddb/auto";
+import { settlementV4Fixture } from "./settlement-fixtures";
 import { describe, expect, it } from "vitest";
 import {
   decodeSettlement,
@@ -33,7 +34,7 @@ function oldEnvelope(state: Settlement, version: 1 | 2) {
     forage: _forage,
     basketTechnique: _technique,
     ...legacy
-  } = structuredClone(state);
+  } = settlementV4Fixture(state);
   const birds = legacy.birds.map(
     ({
       satiety: _satiety,
@@ -85,7 +86,7 @@ function expectLegacyFacts(migrated: Settlement, source: Settlement) {
   expect(migrated.tick).toBe(source.tick);
   expect(migrated.consumed).toBe(source.consumed);
   expect(
-    migrated.birds.map(
+    settlementV4Fixture(migrated).birds.map(
       ({
         satiety: _satiety,
         foragePreference: _preference,
@@ -95,7 +96,7 @@ function expectLegacyFacts(migrated: Settlement, source: Settlement) {
       }) => b,
     ),
   ).toEqual(
-    source.birds.map(
+    settlementV4Fixture(source).birds.map(
       ({
         satiety: _satiety,
         foragePreference: _preference,
@@ -116,7 +117,7 @@ function expectLegacyFacts(migrated: Settlement, source: Settlement) {
   expect("paths" in migrated).toBe(false);
   expect(foodConserved(migrated)).toBe(true);
 }
-describe("strict settlement-four persistence", () => {
+describe("strict settlement-five persistence", () => {
   it("preserves the legacy story separately and orders tick/restart writes", async () => {
     await saveGame({ choice: "rank" });
     const save = saveQueue();
@@ -126,11 +127,11 @@ describe("strict settlement-four persistence", () => {
     expect(await loadSettlement()).toEqual(initialSettlement());
     expect(await legacyArchive()).toContain('"rank"');
   });
-  it("writes schema four and preserves independent food/material facts exactly", () => {
+  it("writes schema five and preserves independent food/material facts exactly", () => {
     const s = advance(initialSettlement(), 10);
     expect(JSON.parse(encodeSettlement(s))).toMatchObject({
-      schemaVersion: 4,
-      simulationVersion: "settlement-4",
+      schemaVersion: 5,
+      simulationVersion: "settlement-5",
     });
     expect(decodeSettlement(encodeSettlement(s))).toEqual(s);
     expect(s.totalReeds).toBe(8);
@@ -180,12 +181,14 @@ describe("strict settlement-four persistence", () => {
     expect(carried.patches).toEqual(migrated.patches);
     expect(carried.harvestedReeds).toBe(migrated.harvestedReeds);
     expectLegacyFacts(carried, migrated);
-    expect(
-      until(
-        carried,
-        (v) => v.harvestedReeds === 12 && v.birds.every((b) => !b.cargo),
-      ).piles[0].stock,
-    ).toBe(20);
+    const completed = until(carried, (v) => v.harvestedReeds >= 12);
+    const stopped = command(completed, {
+      type: "gather",
+      id: "patch-west",
+      designated: false,
+    });
+    const delivered = until(stopped, (v) => v.birds.every((b) => !b.cargo));
+    expect(delivered.piles[0].stock).toBe(8 + delivered.harvestedReeds);
   });
   it("preserves construction progress, perches, rest, attachments and observed history", () => {
     let s = command(fortyBundleFixture(), {
@@ -314,7 +317,10 @@ describe("strict settlement-four persistence", () => {
         s.forage[0].regrown = 1;
       },
       (s) => {
-        s.forage[0].recoveryProgress = forageTuning.recoveryTicks;
+        s.forage[0].recoveryProgress = Math.max(
+          110,
+          forageTuning.recoveryTicks,
+        );
       },
       (s) => {
         s.forage[0].recoveryProgress = 1;
