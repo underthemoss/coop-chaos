@@ -12,6 +12,8 @@ export function settlementV4Fixture(state: Settlement) {
     ),
     birds: s.birds.map(
       ({
+        request: _request,
+        requestResult: _requestResult,
         life: _life,
         protein: _protein,
         foodCargo: _cargo,
@@ -21,4 +23,9 @@ export function settlementV4Fixture(state: Settlement) {
       }) => b,
     ),
   };
+}
+
+/** Immutable v5 shape before direct chicken requests. */
+export function settlementV5Fixture(state: Settlement) {
+  return {...structuredClone(state),birds:state.birds.map(({request:_request,requestResult:_result,...bird})=>structuredClone(bird))};
 }

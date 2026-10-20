@@ -2,21 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { Clearing } from "../game/Clearing";
 import type { Tool } from "../game/Clearing";
-import { foodPatches, trees, tuning, economyTuning } from "../content/settlement";
+import { foodPatches, trees, tuning } from "../content/settlement";
 import { EconomyInspector } from "./EconomyInspector";
+import { BirdInspector } from "./BirdInspector";
+import { ActionArt } from "./ActionArt";
 import { TreeInspector } from "./TreeInspector";
 import type { TreeId, SettlerId } from "../content/settlement";
 import {
   command,
-  conserved,
-  cost,
   initialSettlement,
-  key,
-  siteStatus,
   step,
-  patchStatus,
-  forageStatus,
   growthForecast,
+  reedSupply,
+  requestPlace,
 } from "../simulation/settlement";
 import type { Cell, Command, Settlement } from "../simulation/settlement";
 import {
@@ -44,18 +42,19 @@ export function App() {
   const [selected, setSelected] = useState<SettlerId>("fern");
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedForage, setSelectedForage] = useState<string | null>(null);
-  const [panelTarget, setPanelTarget] = useState<"forage" | "tree" | null>(null);
+  const [panelTarget, setPanelTarget] = useState<"bird" | "food" | "forage" | "gather" | "tree" | null>(null);
   const [focusRequest, setFocusRequest] = useState(0);
   const [selectedTree, setSelectedTree] = useState<TreeId>("lowfork");
   const inspector = useRef<HTMLElement>(null);
-  const treeSection = useRef<HTMLDivElement>(null);
-  const forageSection = useRef<HTMLElement>(null);
-  function showDetails(target: "forage" | "tree") {
+  const [hintDismissed,setHintDismissed] = useState(false);
+  function showDetails(target: "bird" | "food" | "forage" | "gather" | "tree") {
+    clearInteractionNotice();
     setPanelOpen(true);
     setPanelTarget(target);
     setFocusRequest(n => n + 1);
   }
   function showMenu() {
+    clearInteractionNotice();
     setPanelTarget(null);
     setPanelOpen(true);
     setFocusRequest(n => n + 1);
@@ -63,14 +62,17 @@ export function App() {
   useEffect(() => {
     if (!panelOpen) return;
     const frame = requestAnimationFrame(() => {
-      if (!panelTarget) { inspector.current?.scrollTo({top:0}); return; }
-      const target = panelTarget === "tree" ? treeSection.current :
-        (selectedForage ? document.getElementById(`food-${selectedForage}`) : forageSection.current);
-      target?.scrollIntoView({block: panelTarget === "tree" || panelTarget === "forage" && !selectedForage ? "start" : "nearest"});
-      target?.focus({preventScroll: true});
+      inspector.current?.scrollTo({top:0});
     });
     return () => cancelAnimationFrame(frame);
   }, [panelOpen, panelTarget, selectedForage, selectedTree, focusRequest]);
+  useEffect(()=>{
+    const card=inspector.current;
+    if(!panelOpen||!card)return;
+    const reserve=()=>card.parentElement?.style.setProperty("--card-height",`${card.offsetHeight}px`);
+    const observer=new ResizeObserver(reserve);observer.observe(card);reserve();
+    return ()=>observer.disconnect();
+  },[panelOpen]);
   const [tool, setTool] = useState<Tool>("inspect");
   const [cursor, setCursor] = useState<Cell>({ x: -2, z: 2 });
   const [ready, setReady] = useState(false);
@@ -79,6 +81,7 @@ export function App() {
   const restoreFailed = useRef(false);
   const [storage, setStorage] = useState("Opening settlement…");
   const [notice, setNotice] = useState("");
+  function clearInteractionNotice(){setNotice(current=>/^(Building queued\.|Choose (open ground|a named tree|one of the construction))/.test(current)?"":current);}
   const [archive, setArchive] = useState<string>();
   const fileInput = useRef<HTMLInputElement>(null);
   const queue = useRef(saveQueue());
@@ -152,7 +155,7 @@ export function App() {
       const next = command(stateRef.current, action);
       display(next);
       void save(next);
-      setNotice("");
+      setNotice(action.type === "build" ? "Building queued. Chickens will bring reeds and weave." : "");
     } catch (cause) {
       setNotice(
         cause instanceof Error
@@ -174,7 +177,7 @@ export function App() {
       const tree = trees.find(t => t.x === at.x && t.z === at.z);
       if (tree) selectTree(tree.id);
       else if (tool === "build") setNotice("Choose a named tree to see its building places.");
-      else {setPanelTarget(null);setPanelOpen(true);}
+      else setPanelOpen(false);
     }
     if(tool === "gather"){
       const patch=stateRef.current.patches.find(p=>p.at.x===at.x&&p.at.z===at.z);
@@ -195,6 +198,7 @@ export function App() {
     setBusy(true);
     setSelected(current=>next.birds.some(b=>b.id===current)?current:next.birds[0].id);
     display(next);
+    setPanelOpen(false);setTool("inspect");
     await save(next);
     setNotice(message);
     locked.current = false;
@@ -227,233 +231,69 @@ export function App() {
   const forecast = growthForecast(state);
   const localFood=state.economy.nurseries.reduce((n,p)=>({staple:n.staple+p.food.staple,protein:n.protein+p.food.protein}),{staple:0,protein:0});
   const hasHome = state.sites.some(s=>s.kind==="treehouse"&&s.complete);
-  return (
-    <div className="shell">
-      <header className="site-header">
-        <h1>
-          coop chaos<span>.</span>
-        </h1>
-        <span className="edition">GROUND WORK. CANOPY DREAMS.</span>
-        <div className="header-actions"><span className="phase-label">Cycle {state.economy.clock.day} · {state.phase === "day" ? "Day" : "Evening"} · {Math.ceil(((state.phase==="day"?economyTuning.dayTicks:economyTuning.eveningTicks)-state.economy.clock.phaseTick)*tuning.stepSeconds)}s · {state.birds.length} chickens</span>
+  const reeds=reedSupply(state);
+  const requestTarget=panelOpen&&panelTarget==="bird"&&bird.request?requestPlace(state,bird.request):null;
+  const highlighted=requestTarget?.at??cursor;
+  function chooseBird(id:SettlerId){setSelected(id);setTool("inspect");showDetails("bird");}
+  function openFood(){setTool("forage");setSelectedForage(null);showDetails("food");}
+  function chooseGatherer(){setTool("inspect");showDetails("bird");}
+  function chooseFreeChicken(){const free=state.birds.find(b=>b.life.stage==="adult"&&!b.care&&!b.request);if(free)chooseBird(free.id);}
+  const foodPlace=(id:string)=>{
+    const place=state.forage.find(p=>p.id===id)!;
+    return <article className="food-place" key={id}>
+      <h3>{foodName(id)}</h3><p>{place.remaining} food here · {place.open?"chickens may forage":"foraging stopped"}</p>
+      <button disabled={busy||!ready} onClick={()=>act({type:"forage",id,open:!place.open})}>{place.open?"Stop foraging here":"Let chickens forage"}</button>
+    </article>;
+  };
+  return <div className="shell">
+    <header className="site-header">
+      <h1>coop chaos<span>.</span></h1>
+      <div className="header-actions">
+        <span className="phase-label">Day {state.economy.clock.day} · {state.phase==="day"?"Daylight":"Night"}</span>
         <button disabled={!ready||busy} onClick={()=>act({type:"speed",speed:state.economy.clock.speed===1?4:1})} aria-label="Change simulation speed">{state.economy.clock.speed}× time</button>
-        <button disabled={!ready||busy} onClick={()=>act({type:"pause"})}>{state.paused?"Resume work":"Pause work"}</button>
-        <button className="build-command" aria-expanded={panelOpen&&panelTarget==="tree"} aria-controls="settlement-inspector" onClick={()=>selectTree(selectedTree)}>Build</button>
-        <button aria-expanded={panelOpen&&panelTarget!=="tree"} aria-controls="settlement-inspector" onClick={showMenu}>Menu</button></div>
-      </header>
-      <main>
-        <div className="economy-strip" aria-label="Settlement resources and capacity">
-          <span><strong>{conserved(state)-state.consumed}</strong> reeds available</span>
-          <span><strong>{localFood.staple}</strong> staple · <strong>{localFood.protein}</strong> protein stored</span>
-          <span><strong>{forecast.committed}/{forecast.capacity}</strong> future adult berths</span>
-          <span>{forecast.adults} adults · {forecast.carers} caring · {state.economy.priority} work</span>
-          <button onClick={showMenu}>Food & brood</button>
-        </div>
-        <div className="play-layout">
-          <Clearing
-            state={state}
-            selected={bird.id}
-            onSelect={(id)=>{setSelected(id);setPanelOpen(false);}}
-            onPick={pick}
-            onTree={selectTree}
-            onForage={(id) => { setSelectedForage(id); showDetails("forage"); }}
-            cursor={cursor}
-            tool={tool}
-            onCursor={setCursor}
-          />
-          <div className="opening-card" hidden={panelOpen}>
-            <span className="eyebrow">A LIVING GROVE</span>
-            <h2>{hasHome?"Life in the branches":"Beneath Lowfork"}</h2>
-            <p>{tool === "inspect" ? (hasHome ? "A woven home awaits its sleepers. Inspect a tree to grow another branch of the settlement, while food deliveries support its young." : "Four individuals, open ground, and branches to return to. Inspect a bird or make room for a woven home.") : tool === "build" ? "Choose a named tree. Inspect its residents and choose what to build." : tool === "store" ? "Four reeds make a local store. Choose open ground; carriers walk there freely." : tool === "forage" ? "The flock finds its own food. Inspect a place to rest it or reopen it." : "Choose a construction reed patch. Material gathering is separate from feeding."}</p>
-          </div>
-          <nav className="primary-tools" aria-label="World tools">
-            {(["inspect","forage","build","gather"] as Tool[]).map(t=><button key={t} aria-pressed={tool===t} onClick={()=>{setTool(t);if(t==="build")selectTree(selectedTree);if(t==="forage") {setSelectedForage(null);showDetails("forage");}}}>{({inspect:"Inspect",forage:"Forage",gather:"Gather reeds",build:"Build",store:"Store"})[t]}</button>)}
-          </nav>
-          {notice&&<p className="world-notice" role="alert">{notice}</p>}
-          <aside ref={inspector} id="settlement-inspector" className={`inspector${panelOpen?" is-open":""}`} aria-label="Settlement inspector" hidden={!panelOpen}>
-            <button className="close-inspector" onClick={()=>setPanelOpen(false)}>Close details ×</button>
-            {panelTarget === "tree" && <div ref={treeSection} tabIndex={-1}>
-              <TreeInspector state={state} treeId={selectedTree} disabled={busy || !ready} onSelect={selectTree} onCommand={act}>
-                <article className="ground-build"><h3>Ground structures</h3>
-                  <button disabled={busy || !ready} aria-pressed={tool==="store"} onClick={()=>{setTool("store");setNotice("Store nest: choose open ground in the grove, or choose a ground position below.");}}>Place store nest · {cost({kind:"store"})} reeds</button>
-                  <p className="quiet">Ground storage holds {tuning.storeCapacity} local reed bundles. Select Place store nest, then choose open ground in the scene.</p>
-                  {tool === "store" && <div className="cell-controls">
-                    <label>
-                      Cell X
-                      <select
-                        aria-label="Cell X"
-                        value={cursor.x}
-                        onChange={(e) =>
-                          setCursor({ ...cursor, x: Number(e.target.value) })
-                        }
-                      >
-                        {Array.from({ length: 9 }, (_, i) => i - 4).map((n) => (
-                          <option key={n}>{n}</option>
-                        ))}
-                      </select>
-                    </label>
-                    <label>
-                      Z
-                      <select
-                        aria-label="Cell Z"
-                        value={cursor.z}
-                        onChange={(e) =>
-                          setCursor({ ...cursor, z: Number(e.target.value) })
-                        }
-                      >
-                        {Array.from({ length: 7 }, (_, i) => i - 3).map((n) => (
-                          <option key={n}>{n}</option>
-                        ))}
-                      </select>
-                    </label>
-                    <button
-                      disabled={tool !== "store" || busy || !ready}
-                      onClick={() => pick(cursor)}
-                    >
-                      Build store at {key(cursor)}
-                    </button>
-                  </div>}
-                </article>
-              </TreeInspector>
-              <button className="all-controls" onClick={showMenu}>Settlement controls & saves</button>
-            </div>}
-            <div hidden={panelTarget === "tree"}>
-            <EconomyInspector state={state} disabled={busy || !ready} onCommand={act} />
-            <section>
-              <div className="section-heading">
-                <span className="eyebrow">GROVE & COMMONS</span>
-                <span>{state.phase === "day" ? "DAY" : "EVENING"}</span>
-              </div>
-              <h2>The settlement</h2>
-              <p className="intro">
-                Mark a treehouse and let the flock carry local reeds and weave.
-                Chickens walk freely and find food between jobs. Trees already offer
-                natural sleeping branches.
-              </p>
-              <p className="quiet">
-                Evening secures existing loads, then birds fly to natural
-                branches or climb into woven shelter. Carriers deliver their
-                bundles before taking a feeding break.
-              </p>
-            </section>
-            <section>
-              <h3>Shape the settlement</h3>
-              <button onClick={()=>selectTree(selectedTree)}>Open Build tools</button>
-              <div className="tree-choices">
-                {trees.map((tree) => (
-                  <button
-                    key={tree.id}
-                    onClick={() => {
-                      setCursor({ x: tree.x, z: tree.z });
-                      selectTree(tree.id);
-                    }}
-                  >
-                    <strong>{tree.name}</strong>
-                    <span>
-                      ({tree.x}, {tree.z}) · {tree.description}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              <p className="quiet">
-                Chickens walk over the bounded clearing without player-built roads. Reed cache at (−3, −2).
-                Treehouses add 2 sheltered berths; store nests hold 12 local
-                bundles. Grid and recipes are provisional.
-              </p>
-            </section>
-            <section aria-label="Foraging places" ref={forageSection} tabIndex={-1}>
-              <h3>Food in the commons</h3>
-              <p className="quiet">Hungry birds and adults short of protein stop to feed. Rest a place to leave its food for later. Food below capacity renews during daylight, including when birds visit.</p>
-              {state.forage.map(p => <article className="site-card" id={`food-${p.id}`} tabIndex={-1} key={p.id} aria-current={selectedForage === p.id ? "true" : undefined}>
-                <h4>{foodName(p.id)} <span>{p.remaining}/{p.capacity} food</span></h4>
-                <p>{foodPatches.find(f => f.id === p.id)?.description}</p>
-                <p>{forageStatus(state,p)}</p>
-                <button disabled={busy || !ready} onClick={() => {setSelectedForage(p.id); act({type:"forage",id:p.id,open:!p.open});}}>{p.open ? `Rest ${foodName(p.id)}` : `Open ${foodName(p.id)}`}</button>
-              </article>)}
-            </section>
-            <section aria-label="Gather construction reeds">
-              <h3>Reeds from the commons</h3>
-              <p className="quiet">Renewable construction fiber, separate from food. Adults carry gathered bundles to the cache or a completed store. Cut patches recover slowly during daylight; harvesting still takes real work.</p>
-              {state.patches.map(p=><article className="site-card" key={p.id}>
-                <h4>{p.id==="patch-west"?"West reed patch":"Creek reed patch"} <span>({key(p.at)})</span></h4>
-                <p>{patchStatus(state,p)}</p>
-                <button disabled={busy||!ready} onClick={()=>act({type:"gather",id:p.id,designated:!p.designated})}>{p.designated?"Stop gathering":"Gather reeds"}</button>
-              </article>)}
-            </section>
-            <section aria-label="Construction and local stocks">
-              <div className="section-heading">
-                <h3>Work & local supplies</h3>
-                <span>
-                  {state.piles.reduce((n, p) => n + p.stock, 0)} loose ·{" "}
-                  {state.birds.reduce((n, b) => n + b.cargo, 0)} carried
-                </span>
-              </div>
-              {!state.sites.length && (
-                <p className="quiet">
-                  No sites yet. Choose a tree to see its Build choices.
-                </p>
-              )}
-              {state.sites.map((site) => (
-                <article className="site-card" key={site.id}>
-                  <h4>
-                    {site.tree ? `${trees.find((t) => t.id === site.tree)!.name} ${site.kind.replaceAll("-", " ")}` : `Store nest (${key(site.at)})`}
-                    <span>
-                      {site.complete
-                        ? "READY"
-                        : `${site.delivered}/${cost(site)}`}
-                    </span>
-                  </h4>
-                  <p>{siteStatus(state, site)}</p>
-                  {!site.complete ? (
-                    <button
-                      onClick={() => act({ type: "cancel", id: site.id })}
-                    >
-                      Cancel site
-                    </button>
-                  ) : site.kind === "store" ? (
-                    <label>
-                      Refill from loose reeds
-                      <select
-                        aria-label={`Stock target ${site.id}`}
-                        value={site.target}
-                        onChange={(e) =>
-                          act({
-                            type: "stock",
-                            id: site.id,
-                            target: Number(e.target.value),
-                          })
-                        }
-                      >
-                        {[0, 4, 8, 12].map((n) => (
-                          <option key={n}>{n}</option>
-                        ))}
-                      </select>
-                    </label>
-                  ) : (
-                    <p className="quiet">
-                      {state.birds
-                        .filter(
-                          (b) =>
-                            b.perch?.tree === site.tree && b.perch.sheltered,
-                        )
-                        .map((b) => b.life.name)
-                        .join(" & ") || "No sheltered occupants yet"}
-                    </p>
-                  )}
-                </article>
-              ))}
-              {state.piles
-                .filter((p) => p.kind === "salvage" && p.stock > 0)
-                .map((p) => (
-                  <p key={p.id} className="quiet">
-                    Salvage at ({key(p.at)}): {p.stock} reeds, available to
-                    local jobs.
-                  </p>
-                ))}
-              <p className="ledger">
-                {state.consumed} reeds woven into structures ·{" "}
-                {conserved(state)}/{state.totalReeds} accounted for
-              </p>
-            </section>
+        <button disabled={!ready||busy} onClick={()=>act({type:"pause"})}>{state.paused?"Resume":"Pause"}</button>
+        <button className="build-command" aria-expanded={panelOpen&&panelTarget==="tree"} onClick={()=>selectTree(selectedTree)}>Build</button>
+        <button aria-expanded={panelOpen&&panelTarget===null} onClick={showMenu}>Menu</button>
+      </div>
+    </header>
+    <main>
+      <div className="economy-strip" aria-label="Settlement resources and capacity">
+        <span><strong>{reeds.free}</strong> Reeds ready</span>
+        <span><strong>{forecast.adults}/{forecast.capacity}</strong> Sleeping places</span>
+        {!!state.economy.nurseries.length&&<span><strong>{localFood.staple}</strong> Seeds · <strong>{localFood.protein}</strong> Bugs for chicks</span>}
+        <button onClick={openFood}>Food for chicks</button>
+      </div>
+      <div className="play-layout">
+        <Clearing state={state} selected={bird.id} onSelect={chooseBird} onPick={pick} onTree={selectTree}
+          onForage={id=>{setSelectedForage(id);setTool("forage");showDetails("forage");}}
+          cursor={highlighted} highlight={!!requestTarget||panelOpen&&panelTarget==="tree"} tool={tool} onCursor={setCursor}/>
+        {!hintDismissed&&!hasHome&&!panelOpen&&<div className="purpose-hint">
+          <button className="dismiss-hint" aria-label="Dismiss hint" onClick={()=>setHintDismissed(true)}>×</button>
+          <p>Make a home in the trees. Click a chicken to ask for help.</p>
+          <button onClick={()=>selectTree("lowfork")}>Choose a home</button>
+        </div>}
+        <nav className="primary-tools" aria-label="World tools">
+          <button aria-pressed={tool==="inspect"} onClick={()=>{clearInteractionNotice();setTool("inspect");setPanelOpen(false);}}>Chickens</button>
+          <button aria-pressed={tool==="build"||tool==="store"} onClick={()=>selectTree(selectedTree)}>Build</button>
+          <button aria-pressed={tool==="gather"} onClick={()=>{setTool("gather");showDetails("gather");}}>Reeds</button>
+          <button aria-pressed={tool==="forage"} onClick={openFood}>Food</button>
+        </nav>
+        {notice&&<p className="world-notice" role="alert">{notice}<button aria-label="Dismiss message" onClick={()=>setNotice("")}>×</button></p>}
+        <aside ref={inspector} id="settlement-inspector" className={`inspector field-card${panelOpen?" is-open":""} ${panelTarget??"menu"}-panel`} aria-label="Settlement inspector" hidden={!panelOpen}>
+          <button className="close-inspector" onClick={()=>setPanelOpen(false)}>Close ×</button>
+          {panelTarget==="bird"&&<BirdInspector state={state} bird={bird} disabled={!ready||busy} onCommand={act} onChooseFree={chooseFreeChicken} onBuild={()=>selectTree(selectedTree)}/>}
+          {panelTarget==="tree"&&<TreeInspector state={state} treeId={selectedTree} disabled={!ready||busy} onSelect={selectTree} onCommand={act} onGather={chooseGatherer} onFood={openFood}>
+            <article className="ground-build"><button className="action-tile" disabled={busy||!ready} onClick={()=>{setTool("store");setNotice("Choose open ground for the store nest. Arrow keys and Enter also work.");}}><ActionArt kind="store"/><span><strong>Place store nest</strong><small>4 reeds · holds 12 bundles</small></span></button>
+              {tool==="store"&&<div className="cell-controls"><label>Across<select aria-label="Cell X" value={cursor.x} onChange={e=>setCursor({...cursor,x:Number(e.target.value)})}>{Array.from({length:9},(_,i)=>i-4).map(n=><option key={n}>{n}</option>)}</select></label><label>Along<select aria-label="Cell Z" value={cursor.z} onChange={e=>setCursor({...cursor,z:Number(e.target.value)})}>{Array.from({length:7},(_,i)=>i-3).map(n=><option key={n}>{n}</option>)}</select></label><button disabled={busy||!ready} onClick={()=>pick(cursor)}>Build store here</button></div>}
+            </article>
+            {state.sites.filter(s=>s.complete&&s.kind==="store").map(store=><article className="food-place" key={store.id}><h3>Store nest</h3><p>{store.stock} reeds here</p><label>Keep stocked to <select aria-label={`Stock target ${store.id}`} value={store.target} onChange={e=>act({type:"stock",id:store.id,target:Number(e.target.value)})}>{[0,4,8,12].map(n=><option key={n}>{n}</option>)}</select></label></article>)}
+          </TreeInspector>}
+          {panelTarget==="food"&&<EconomyInspector state={state} disabled={busy||!ready} onCommand={act} onBuild={()=>selectTree(selectedTree)} onSelectBird={chooseBird}>
+            <details><summary>Food places</summary>{state.forage.map(p=>foodPlace(p.id))}</details>
+          </EconomyInspector>}
+          {panelTarget==="forage"&&<section><span className="eyebrow">FOOD PLACES</span><h2>Let chickens eat</h2><p>They find Seeds and Bugs here between jobs.</p>{selectedForage?foodPlace(selectedForage):state.forage.map(p=>foodPlace(p.id))}<button onClick={openFood}>Food for chicks</button></section>}
+          {panelTarget==="gather"&&<section><span className="eyebrow">BUILDING SUPPLIES</span><h2>Gather reeds</h2><p>Ask one chicken for a trip, or let the flock gather between jobs.</p><button onClick={chooseGatherer}>Ask {bird.life.name} for one trip</button>{state.patches.map(p=><article className="food-place" key={p.id}><h3>{p.id==="patch-west"?"West reeds":"East reeds"}</h3><p>{p.remaining} ready · {p.designated?"flock gathering":"not gathering"}</p><button disabled={!ready||busy} onClick={()=>act({type:"gather",id:p.id,designated:!p.designated})}>{p.designated?"Stop flock gathering":"Let the flock gather"}</button></article>)}<details><summary>Where the reeds are</summary><p>{reeds.free} free · {reeds.reserved} reserved for trips · {reeds.carried} carried · {reeds.delivered} delivered to buildings · {state.consumed} woven into finished buildings</p></details></section>}
+          {panelTarget===null&&<section className="menu-content"><h2>Menu</h2>
             <section className="save-tools">
               <p role="status">{storage}</p>
               <div>
@@ -511,18 +351,10 @@ export function App() {
                 Saved on this device. No offline time elapses.
               </p>
             </section>
-            </div>
-          </aside>
-        </div>
-        <footer>
-          <span>
-            A chicken-built forest home. The open commons lie between kingdoms.
-          </span>
-          <span>
-            Provisional economy · 1× real play time; 4× accelerates every rule
-          </span>
-        </footer>
-      </main>
-    </div>
-  );
+
+          </section>}
+        </aside>
+      </div>
+    </main>
+  </div>;
 }

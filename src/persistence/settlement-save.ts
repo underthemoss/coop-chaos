@@ -99,12 +99,13 @@ const maximumHarvest = reedPatches.reduce(
 /** Version 1 has an immutable shape and material budget, independent of fresh-game tuning. */
 function validateVersion(
   value: unknown,
-  version: 1 | 2 | 3 | 4 | 5,
+  version: 1 | 2 | 3 | 4 | 5 | 6,
 ): Settlement {
   const legacy = version === 1;
   const current = version >= 3;
   const upgraded = version >= 4;
-  const economy = version === 5;
+  const economy = version >= 5;
+  const requests = version >= 6;
   const s = object(value, [
     ...(upgraded ? ["basketTechnique"] : []),
     ...(economy ? ["economy"] : []),
@@ -286,6 +287,7 @@ function validateVersion(
       "perch",
       "flight",
       ...(upgraded ? ["lift"] : []),
+      ...(requests ? ["request", "requestResult"] : []),
       ...(economy ? ["life", "protein", "foodCargo", "provision", "care"] : []),
       ...(legacy ? [] : ["gatheringProgress"]),
       ...(current
@@ -652,7 +654,7 @@ function validateVersion(
           fail();
         if (
           j.stage === "pickup" &&
-          (!patch.designated || state.phase !== "day")
+          ((!patch.designated && !(requests && b.request?.kind === "gather" && b.request.target === patch.id)) || state.phase !== "day")
         )
           fail();
       }
@@ -691,10 +693,11 @@ function validateVersion(
       fail();
   }
   if (economy) validateEconomy(state);
+  if (requests) validateRequests(state);
   return structuredClone(state);
 }
 export function validateSettlement(value: unknown): Settlement {
-  return validateVersion(value, 5);
+  return validateVersion(value, 6);
 }
 function foodStock(value: unknown) {
   const p = object(value, ["staple", "protein"]);
@@ -1152,6 +1155,7 @@ function migrateVersionFour(value: unknown): Settlement {
       foodCargo: null,
       provision: null,
       care: null,
+      request: null, requestResult: null,
     })),
   });
 }
@@ -1199,8 +1203,8 @@ export function settlementMigrationNotice(state: Settlement): string | null {
 }
 export function encodeSettlement(state: Settlement): string {
   return JSON.stringify({
-    schemaVersion: 5,
-    simulationVersion: "settlement-5",
+    schemaVersion: 6,
+    simulationVersion: "settlement-6",
     state,
   });
 }
@@ -1244,6 +1248,8 @@ export function decodeSettlement(text: string): Settlement {
     envelope.schemaVersion === 5 &&
     envelope.simulationVersion === "settlement-5"
   )
+    return migrateVersionFive(envelope.state);
+  if (envelope.schemaVersion === 6 && envelope.simulationVersion === "settlement-6")
     return validateSettlement(envelope.state);
   return fail();
 }
@@ -1293,4 +1299,31 @@ export function saveQueue() {
     tail = write;
     return write.then(() => undefined);
   };
+}
+
+function migrateVersionFive(value: unknown): Settlement {
+  const state=validateVersion(value,5);
+  return validateSettlement({...state,birds:state.birds.map(b=>({...b,request:null,requestResult:null}))});
+}
+function validateRequests(state: Settlement) {
+  for(const bird of state.birds) {
+    if(bird.request!==null) {
+      const r=object(bird.request,["kind","target","phase","issued"]);
+      if(!["gather","build","food"].includes(r.kind as string)||!text(r.target)||!["pending","waiting","working","canceling"].includes(r.phase as string)||!integer(r.issued,0,state.tick)||bird.life.stage!=="adult")fail();
+      if(r.kind==="gather") {
+        if(!state.patches.some(p=>p.id===r.target))fail();
+      } else {
+        const site=state.sites.find(s=>s.id===r.target);
+        if(!site||(r.kind==="build"&&site.complete)||(r.kind==="food"&&!state.economy.nurseries.some(n=>n.site===site.id)))fail();
+      }
+      if(r.phase==="working") {
+        const j=bird.job;
+        if(r.kind==="gather" ? j?.kind!=="gather"||j.source!==r.target : r.kind==="build" ? !j||!["haul","build"].includes(j.kind)||j.destination!==r.target : bird.provision?.destination!==r.target)fail();
+      }
+    }
+    if(bird.requestResult!==null) {
+      const r=object(bird.requestResult,["kind","outcome","reason","tick"]);
+      if(!["gather","build","food"].includes(r.kind as string)||!["done","cancelled","unavailable"].includes(r.outcome as string)||!text(r.reason)||String(r.reason).length>160||!integer(r.tick,0,state.tick))fail();
+    }
+  }
 }

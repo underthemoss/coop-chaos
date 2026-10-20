@@ -100,7 +100,7 @@ and storage room, extract one bundle and carry it to the cache or a completed st
 These reeds are not food and recover one unit per 240 daytime ticks up to capacity. Undesignating preserves carried goods.
 Choose the persistent **Build** command in the header, then Lowfork, Splitcrown or
 Reedside in the named-tree list or world. The construction inspector shows costs,
-available builds and locked reasons before existing work and occupied berths.
+available builds and locked reasons. A new commission immediately stays at the top with its next need and named workers.
 Four named adults autonomously reserve, collect, carry and deliver six local reeds
 before weaving a platform, rain hood and ladder, with feeding breaks between jobs.
 Different trees retain real travel distances.
@@ -108,9 +108,7 @@ Different trees retain real travel distances.
 For a ground store, choose **Place store nest** in Build, then click open terrain
 or use its X/Z controls and **Build store**. In store mode,
 canvas arrow keys move the cell cursor and Enter uses the tool. The camera has
-no pan or zoom controls. **Menu** opens food/brood, secondary controls, local stocks,
-and save tools. Select birds in the scene; the selected bird alone carries a
-world name tag and selection keeps the grove unobstructed.
+no pan or zoom controls. **Menu** contains save tools; **Food** opens food for chicks and food places. Select a chicken in the scene for a compact action card: **Gather reeds**, **Help build**, or **Bring food**. Each asks for one trip or weaving task at the shown place; requests never promise a whole building. Cargo, meals, sleep, rest and brood care remain real constraints. Cancel releases uncollected work at a safe step; carried goods still reach storage. Afterward the chicken returns to community work. The top **Reeds ready** count excludes reserved, carried and already-delivered building materials; these remain visible in optional details. A building can be queued before all its reeds are ready, with an explicit shortage and gather action. Night commissions start in the morning.
 
 A **store nest** costs four reeds and holds twelve at its actual location.
 Set its local stocking target, watch deliveries fill it, then place another
@@ -122,9 +120,7 @@ A fresh grove automatically cycles through three minutes of day and one minute o
 natural branch perches. A completed treehouse adds two sheltered berths, used
 through a visible ground approach and ladder climb. Contributors remember their
 work and favor that tree. Natural sleep restores readiness up to 80; shelter up
-to 100. Work tires birds; ordinary ground rest can recover readiness. These short,
-generous prototype rules are provisional. **Begin day** returns birds to ground.
-There is no automatic calendar or predator combat. Woven shelter is not universal
+to 100. Work tires birds; ordinary ground rest can recover readiness. These generous play rules are provisional. Morning returns birds to ground automatically. There is no predator combat. Woven shelter is not universal
 invulnerability.
 
 At a completed home, four reeds fund **Experiment with a hauling basket**: three
@@ -137,20 +133,20 @@ it does not create goods or carry chickens. Recipes and short lift times are
 provisional. Lift progress, cargo and the learned technique survive reload.
 
 Canceling unfinished sites leaves delivered reeds as local salvage; uncollected
-reservations release and carriers return their loads physically. Resting a food
+reservations release and carriers return their loads physically. Stopping foraging at a food
 place redirects feeders without discarding material cargo. Pause stops simulation
 ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-5` schema saves to IndexedDB about once per second and
+The `settlement-6` schema saves to IndexedDB about once per second and
 after commands. There is no offline catch-up or cloud/cross-tab synchronization;
 use one tab. Export to retain important progress. Import validates shape,
 references, resource conservation, jobs, and sleeping occupancy before replacing
 anything. Restart confirms replacement. In-flight loads, movement progress, food, feeding, sleep, rest,
 and memories are saved facts.
 
-Validated `settlement-1`, `settlement-2` and `settlement-3` saves migrate with their original material baseline,
+Validated `settlement-1` through `settlement-5` saves migrate with their original material baseline,
 sites, jobs and history intact. New patches relocate around existing sites. A
 fully occupied older map may fit only zero or one patch; the UI reports this and
 clearing space later does not respawn reed patches. Saved road data is retired,
@@ -160,7 +156,7 @@ not refill a food place.
 
 The previous authored dilemma remains a historical fixture in code and story
 docs. Its `first-evening-1` device save is retained under its original key; an
-**Export old first evening** button appears when present. These story files are
+**Export archived story** button appears when present. These story files are
 explicitly rejected as settlement imports, never silently reinterpreted.
 
 ## Repository map

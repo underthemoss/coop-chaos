@@ -13,6 +13,7 @@ export function Clearing({
   onTree,
   onForage,
   cursor,
+  highlight,
   tool,
   onCursor,
 }: {
@@ -23,6 +24,7 @@ export function Clearing({
   onTree: (id: TreeId) => void;
   onForage: (id: string) => void;
   cursor: Cell;
+  highlight: boolean;
   tool: Tool;
   onCursor: (at: Cell) => void;
 }) {
@@ -70,8 +72,8 @@ export function Clearing({
     world.current?.select(selected);
   }, [selected]);
   useEffect(() => {
-    world.current?.cursor(cursor, tool === "store");
-  }, [cursor, tool]);
+    world.current?.cursor(cursor, tool === "store" || highlight, tool === "store");
+  }, [cursor, tool, highlight]);
   return (
     <section className="world" aria-label="The treehouse settlement">
       {assets !== "ready" && <div className="asset-notice" role="status">
@@ -173,7 +175,7 @@ export function Clearing({
         </span>
       </div>
       <p id="camera-hint" className="camera-hint">
-        {tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · inspect or rest it" : tool === "gather" ? "Choose a construction reed patch" : tool === "build" ? "Choose a named tree · build where it belongs" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
+        {tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · let chickens forage" : tool === "gather" ? "Choose a construction reed patch" : tool === "build" ? "Choose a named tree · build where it belongs" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
       </p>
     </section>
   );

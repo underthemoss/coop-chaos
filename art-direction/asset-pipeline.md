@@ -133,3 +133,7 @@ shelter and a second store to a shallow egg nest. Sources remain
 Small pale egg meshes are 0.08m across and 0.104m high, clustered in the nest;
 saved viability and hatch state control their visibility. Care/entry positions
 and simulation footprint are unchanged.
+
+## Action-card illustrations
+
+Original Coop Chaos action illustrations were generated with the built-in OpenAI image generator on 2026-10-20 under the art owner's direction. No third-party imagery is used. Retained RGBA originals live in `assets/ui-actions/`; runtime alpha-preserving 256px PNG exports live in `public/assets/ui/actions/`. Source images are not loaded by the game. Normal downsampling/PNG optimization adds no redraw. The reed bundle, woven home, leaf food parcel and sheltered egg nest are interface illustrations, not world assets, recipe variations or gameplay markers. `ActionArt` presents them on plain cream/ochre cards with bark-green text; no textured background competes with the labels. Source-generation provenance is recorded with the originals. Actual alpha and cream-card rendering are checked in browser acceptance.

@@ -8,7 +8,7 @@ named willing-hen support, actual fertility and laying, supplied incubation,
 chicks, grounded juveniles and adult workers. Care removes an adult from ordinary
 work and establishes a persistent named bond and home attachment. An automatic
 four-minute cycle, pause, 1×/4× and conservative food/housing forecasts make
-constraints visible. Six reachable adult places per tree remain the maximum
+constraints visible. Compact cards now let a player ask a selected adult for one gathering, building or food trip while essential needs and care retain precedence. Queued work shows its next need, named contribution and safe return to autonomous life. This is a bounded work request, not a complete politics or consent model. Six reachable adult places per tree remain the maximum
 implemented layout; larger household targets are future studies. Structural wood,
 cultivation, threats, politics and powered access remain future.
 

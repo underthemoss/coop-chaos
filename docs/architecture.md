@@ -41,8 +41,9 @@ not wall time; pause, refresh and day changes cannot grant food. Bounded ground
 routing is independent of renderer scenery; no general collision engine was added.
 
 Automatic day/evening and cycle progress are saved simulation state. Evening
-stops new collection, lets existing loads and active weaving finish where
-reachable, then allocates distinct perches. Three trees each offer two natural
+stops new collection and weaving, preserves construction progress, and lets secured loads
+finish delivery (including a necessary lift) before allocating distinct perches. Weaving resumes
+in daylight. Three trees each offer two natural
 places from the start; improvements add two sheltered places. Contributors gain
 a persistent attachment that changes their preferred tree. Temperament also
 changes preferred trees or open/sheltered berths. Natural travel uses saved
@@ -61,7 +62,10 @@ feedback remain legible. Ground picking yields grid intentions; rules validate
 placement. Keyboard/select controls provide equivalent placement and named selection.
 
 The world fills desktop play space beside a scrollable inspector; narrow screens
-put the world first. The elevated orthographic camera is fixed, with responsive aspect fitting; no
+reserve the open card's measured height plus tool clearance below the rendered world.
+The existing resize observer refits the fixed view and its projected labels/hit coordinates
+to that visible area, so the card does not cover selected birds or work destinations.
+The elevated orthographic camera is fixed, with responsive aspect fitting; no
 pan, zoom, drag navigation or Find action ships. Store placement gives arrows/Enter
 to its grid cursor. The compact primary tool strip and optional inspector keep
 the world dominant. Listeners, observer, scene and engine dispose
@@ -85,10 +89,7 @@ selected labels use the revised body envelope. No save schema or berth ID change
 
 The persistent header Build command and tree selection open `TreeInspector` at
 its named-tree choices. It reads canonical `treeBuildOptions` for costs and locked
-reasons; ground Store placement lives in the same construction flow. Menu opens
-food/brood and saved-settlement controls. Bird selection keeps a world name tag
-without opening a roster/profile panel; identities, memories and needs remain in
-simulation/save state. Existing commissions follow build choices.
+reasons; ground Store placement lives in More buildings. Menu contains saved-settlement controls; Food is a separate compact panel. Bird selection opens a name/current-work card with at most three one-task requests, without the old roster/profile/stats. Identities, memories and needs remain saved simulation facts. Existing commissions lead the tree card with simulation-owned progress, workers and next need. `reedSupply` separates free usable stock, reservations, cargo and delivered material; the headline reads only free stock. The conservation ledger still includes all physical goods. Night commissions may queue; allocation of new work waits for daylight.
 Treehouse, sleeping deck and hauling basket are unique by tree and kind; the latter
 two require a completed home; the elevated deck also requires its local completed
 basket for supply access. Extra decks add slots 2/3 alongside existing home
@@ -103,11 +104,11 @@ phase changes remain simulation-owned. Migration grants no fabricated invention.
 ## Saves and ordering
 
 IndexedDB database `coop-chaos` version 1, object store `saves`, key `settlement`
-holds `{ schemaVersion: 5, simulationVersion: "settlement-5", state }`.
+holds `{ schemaVersion: 6, simulationVersion: "settlement-6", state }`.
 `src/persistence/settlement-save.ts` validates exact object fields, finite values,
 IDs/references, finite patch capacities and harvest ledgers, route edges, commitments, stock capacity, conservation,
 construction consumption, and exclusive perch occupancy. Imports validate before
-state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-4
+state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-5
 saves migrate without changing their existing sites, workers, supplies or histories.
 Old path data is retired while in-flight edges and work remain intact. New
 food state is introduced by versioned migration. New reed patches use free legal cells; crowded older worlds may receive fewer
@@ -210,3 +211,13 @@ use display-space colors; imported glTF PBR colors retain the loader's linear
 contract. Directional shadows and restrained screen-space occlusion supply local
 depth. Source tests check indexed topology, finite unit normals, materials,
 attachments and named clips; actual art, motion and performance need browser proof.
+
+## One-task chicken requests
+
+`Worker.request` is one bounded slot (`gather`, `build`, `food`) with a canonical target, issued tick and pending/waiting/working/canceling phase. `requestResult` keeps only the latest outcome/reason/tick. Both are simulation facts. `requestOptions`, `requestStatus`, `currentWork` and `projectReadout` provide presentation read models; UI sends ordinary commands and highlights the saved destination.
+
+Requests reuse material jobs, food provisions, routes and reservations. A gather request delivers one bundle from its shown patch without changing the flock's designation. Help build delivers one bundle or completes one weaving task at its shown project. Bring food delivers one typed unit to the shown nursery up to its normal saved target. Existing cargo, essential feeding, sleep/rest, active care and urgent brood supply take precedence. Young and active carers cannot accept new work requests. No stats bonus, teleport, resource creation, permission fiction or social grudge is introduced.
+
+An initial request releases uncollected ordinary work only at a safe cell boundary. Cancellation does the same; carried goods retain their physical job and finish delivery. Completion is recorded only by the actual delivery or weaving success path. Food reservation reconciliation, meals and phase interruption return an unfinished request to waiting. Removed/completed/full/depleted targets end with a reason; targets never silently change. Ordinary autonomous work resumes afterward and can continue while a request lacks inputs. The latest result does not retain deleted site references.
+
+The strict v6 decoder validates request shape, target references, adult eligibility, active job correspondence and bounded result text/ticks. Immutable v5 is validated before adding null request/result fields. Older migration stages preserve their established ledgers, identities and progress, then add these fields; import/reload cannot create another delivery or advance time.

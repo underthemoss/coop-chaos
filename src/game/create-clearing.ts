@@ -299,7 +299,7 @@ export function createClearing(
     head.parent = body;
     const wing = new TransformNode(`${id}-wing`, scene);
     wing.parent = body;
-    const hit=MeshBuilder.CreateSphere(`${id}-hit`,{diameter:habitatPresentation.birdPickDiameter/habitatPresentation.adultScale,segments:8},scene);
+    const hit=MeshBuilder.CreateSphere(`${id}-hit`,{diameter:habitatPresentation.birdPickDiameter*1.25/habitatPresentation.adultScale,segments:8},scene);
     hit.parent=root;hit.position.y=.32/habitatPresentation.adultScale;
     hit.visibility=0;hit.metadata={birdId:id,birdHitProxy:true};
     const value={ root, body, head, wing, target: root.position.clone(),clips:[],pose:"" };
@@ -516,6 +516,8 @@ export function createClearing(
     }
     const scale=worker.life.stage==="chick"?.44:worker.life.stage==="juvenile"?.7:1;
     bird.root.scaling.setAll(habitatPresentation.adultScale*scale);
+    const hit=bird.root.getChildMeshes().find(m=>m.metadata?.birdHitProxy);
+    if(hit)hit.scaling.setAll(1/scale);
     bird.root.getDescendants().forEach(node=>{
       if(node instanceof TransformNode&&node.metadata?.youngScale){
         const base=node.metadata.youngScale as Vector3;
@@ -823,13 +825,13 @@ export function createClearing(
       sky.intensity = dusk ? .5 : .22;
       scene.clearColor = Color4.FromHexString(dusk ? "#647d95ff" : "#a9caccff");
     },
-    cursor(at: Cell, show: boolean) {
+    cursor(at: Cell, show: boolean, placement = false) {
       cursor.position.set(
         at.x * 2,
         elevation(at.x * 2, at.z * 2) + 0.065,
         at.z * 2,
       );
-      gridRoot.setEnabled(show);
+      gridRoot.setEnabled(placement);
       cursor.setEnabled(show);
     },
     dispose() {

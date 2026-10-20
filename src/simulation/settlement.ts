@@ -102,7 +102,10 @@ export type Foraging = {
   intent: "eat" | "browse";
   progress: number;
 };
+export type BirdRequest = { kind: "gather" | "build" | "food"; target: string; phase: "pending" | "waiting" | "working" | "canceling"; issued: number };
+export type RequestResult = { kind: BirdRequest["kind"]; outcome: "done" | "cancelled" | "unavailable"; reason: string; tick: number };
 export type Worker = {
+  request: BirdRequest | null; requestResult: RequestResult | null;
   life: Life; protein: number; foodCargo: Food | null; provision: Provision | null; care: string | null;
   lift: { basket: string; progress: number } | null;
   satiety: number;
@@ -141,6 +144,8 @@ export type Settlement = {
   totalReeds: number;
 };
 export type Command =
+  | { type: "request"; bird: string; kind: BirdRequest["kind"]; target: string }
+  | { type: "cancel-request"; bird: string }
   | { type: "priority"; priority: Priority }
   | { type: "speed"; speed: 1 | 4 }
   | { type: "brood"; site: string; mother: string }
@@ -195,9 +200,7 @@ export function treeBuildOptions(state: Settlement, tree: TreeId) {
         (s) => s.tree === tree && s.kind === kind,
       );
       const reason =
-        state.phase !== "day"
-          ? "Construction begins in daylight; the next day starts automatically."
-          : existing
+        existing
             ? "This construction already exists at this tree."
             : kind !== "treehouse" && !home
               ? "Complete this tree's home first."
@@ -332,7 +335,7 @@ export function initialSettlement(): Settlement {
     harvestedReeds: 0,
     sites: [],
     birds: settlers.map((b) => ({
-      id: b.id,
+      id: b.id, request: null, requestResult: null,
       life: initialLife(b.id), protein: 85, foodCargo: null, provision: null, care: null,
       lift: null,
       ...initialAppetite(b.id),
@@ -402,6 +405,17 @@ export function available(state: Settlement, id: string) {
   const p = location(state, id);
   return p ? p.stock - reserved(state, id) : 0;
 }
+/** New work can use only unreserved physical source/store stock. Delivered
+ * construction, carried goods and uncut habitat yield are different facts. */
+export function reedSupply(state: Settlement) {
+  const sources = [...state.piles, ...state.sites.filter(s => s.complete && s.kind === "store")];
+  return {
+    free: sources.reduce((n, source) => n + available(state, source.id), 0),
+    reserved: sources.reduce((n, source) => n + reserved(state, source.id), 0),
+    carried: state.birds.reduce((n, bird) => n + bird.cargo, 0),
+    delivered: state.sites.reduce((n, site) => n + site.delivered, 0),
+  };
+}
 export function conserved(state: Settlement) {
   return (
     state.piles.reduce((n, p) => n + p.stock, 0) +
@@ -432,6 +446,22 @@ export function command(current: Settlement, action: Command): Settlement {
     if(mother.flight)mother.flight.direction="down";
     remember(mother,`Chose to raise a brood at ${trees.find(t=>t.id===state.sites.find(s=>s.id===action.site)!.tree)!.name}; community work must carry on without her.`);
   }
+  if (action.type === "request") {
+    const bird = state.birds.find(b => b.id === action.bird);
+    if (!bird) throw new Error("Choose a chicken in this clearing.");
+    if (bird.request) throw new Error("Finish or cancel this chicken's request first.");
+    const option = requestOptions(state, bird).find(o => o.kind === action.kind && o.target === action.target);
+    if (!option?.available) throw new Error(option?.reason || "Choose an available task and place.");
+    bird.request = {kind: action.kind, target: action.target, phase: "pending", issued: state.tick};
+    bird.requestResult = null;
+    prepareRequest(state, bird);
+  }
+  if (action.type === "cancel-request") {
+    const bird = state.birds.find(b => b.id === action.bird);
+    if (!bird?.request) throw new Error("This chicken has no request to cancel.");
+    if (bird.cargo || bird.foodCargo) finishRequest(state,bird,"cancelled","Request cancelled; the carried goods will still be delivered.");
+    else { bird.request.phase = "canceling"; prepareRequest(state,bird); }
+  }
   if (action.type === "forage") {
     const patch = state.forage.find((p) => p.id === action.id);
     if (!patch) throw new Error("Choose an existing food place.");
@@ -444,8 +474,6 @@ export function command(current: Settlement, action: Command): Settlement {
   if (action.type === "build") {
     if (!validCell(action.at))
       throw new Error("Choose a cell in the marked glade.");
-    if (state.phase !== "day")
-      throw new Error("Construction begins in daylight; the next day starts automatically.");
     const tree = trees.find((t) => same(t, action.at));
     if (tree && action.kind !== "store") {
       const option = treeBuildOptions(state, tree.id).find(
@@ -525,6 +553,7 @@ export function command(current: Settlement, action: Command): Settlement {
         if (
           bird.job?.kind === "gather" &&
           bird.job.source === patch.id &&
+          bird.request?.kind !== "gather" &&
           !bird.cargo
         ) {
           bird.job = null;
@@ -552,8 +581,7 @@ export function command(current: Settlement, action: Command): Settlement {
       if(action.phase === "evening" && bird.provision?.stage === "pickup")bird.provision=null;
       if (
         action.phase === "evening" &&
-        !bird.cargo &&
-        bird.job?.kind !== "build"
+        !bird.cargo
       ) {
         bird.job = null;
         bird.gatheringProgress = 0;
@@ -572,6 +600,7 @@ export function command(current: Settlement, action: Command): Settlement {
       }
     }
   }
+  reconcileRequests(state);
   return state;
 }
 /** Existing site identities stay at tree origins; work takes place beside the trunk.
@@ -612,8 +641,14 @@ function move(state: Settlement, bird: Worker, to: Cell): boolean {
 function assign(state: Settlement, bird: Worker) {
   if(bird.life.stage!=="adult"||bird.care)return;
   if(assignProvision(state,bird,true))return;
+  if(assignRequest(state,bird))return;
   if(state.economy.priority!=="build"&&assignProvision(state,bird))return;
-  const sites = state.sites.filter((s) => !s.complete);
+  if(assignConstruction(state,bird))return;
+  if(assignGather(state,bird))return;
+  if(state.economy.priority==="build")assignProvision(state,bird);
+}
+function assignConstruction(state: Settlement, bird: Worker, target?: string): boolean {
+  const sites = state.sites.filter((s) => !s.complete && (!target || s.id === target));
   for (const site of sites) {
     if (
       readyForBuild(state, site) &&
@@ -628,14 +663,14 @@ function assign(state: Settlement, bird: Worker) {
         destination: site.id,
         stage: "deliver",
       };
-      return;
+      return true;
     }
   }
   const demands = [
     ...sites.filter((s) => s.delivered + incoming(state, s.id) < cost(s)),
     ...state.sites.filter(
       (s) =>
-        s.complete &&
+        !target && s.complete &&
         s.kind === "store" &&
         s.stock + incoming(state, s.id) < s.target,
     ),
@@ -668,12 +703,16 @@ function assign(state: Settlement, bird: Worker) {
         destination: site.id,
         stage: "pickup",
       };
-      return;
+      return true;
     }
   }
+  return false;
+}
+function assignGather(state: Settlement, bird: Worker, target?: string): boolean {
   for (const patch of state.patches) {
     if (
-      !patch.designated ||
+      (!patch.designated && patch.id !== target) ||
+      (target !== undefined && patch.id !== target) ||
       patch.remaining <= reserved(state, patch.id) ||
       !route(state, bird.at, patch.at)
     )
@@ -701,10 +740,10 @@ function assign(state: Settlement, bird: Worker) {
         stage: "pickup",
       };
       bird.gatheringProgress = 0;
-      return;
+      return true;
     }
   }
-  if(state.economy.priority==="build")assignProvision(state,bird);
+  return false;
 }
 function occupied(state: Settlement, perch: Perch) {
   return state.birds.some((b) =>
@@ -1012,11 +1051,12 @@ function reconcileFoodReservations(state: Settlement) {
     }
   }
 }
-function assignProvision(state: Settlement, bird: Worker, urgentOnly=false): boolean {
+function assignProvision(state: Settlement, bird: Worker, urgentOnly=false, requestedTarget?: string): boolean {
   for(const nursery of state.economy.nurseries) {
+    if(requestedTarget && nursery.site !== requestedTarget)continue;
     const active=state.economy.broods.find(b=>b.id===nursery.brood);
     if(urgentOnly&&(!active||["complete","failed"].includes(active.stage)||Math.min(nursery.food.staple,nursery.food.protein)>=economyTuning.urgentNurseryBuffer)) continue;
-    const target=urgentOnly ? economyTuning.urgentNurseryBuffer : state.economy.priority==="balanced" ? Math.min(nursery.target,economyTuning.balancedNurseryBuffer) : nursery.target;
+    const target=urgentOnly ? economyTuning.urgentNurseryBuffer : !requestedTarget && state.economy.priority==="balanced" ? Math.min(nursery.target,economyTuning.balancedNurseryBuffer) : nursery.target;
     const foods: Food[]=["staple","protein"];
     foods.sort((a,b)=>nursery.food[a]+foodIncoming(state,nursery.site,a)-nursery.food[b]-foodIncoming(state,nursery.site,b));
     const site=state.sites.find(s=>s.id===nursery.site)!;
@@ -1037,6 +1077,8 @@ function provisionStep(state: Settlement, bird: Worker) {
   if(task.stage==="pickup") {
     if(!patch.open||!patch.remaining){bird.provision=null;return;}
     if(!move(state,bird,patch.at))return;
+    prepareRequest(state,bird);
+    if(bird.provision!==task)return;
     if(++task.progress<forageTuning.scratchTicks)return;
     const food=nextFood(patch);
     // Mixed yield can change while travelling; capacity is checked against actual cargo.
@@ -1048,6 +1090,7 @@ function provisionStep(state: Settlement, bird: Worker) {
     const food=bird.foodCargo!;
     if(nursery.food[food]>=economyTuning.foodCapacity)return;
     nursery.food[food]++;bird.foodCargo=null;bird.provision=null;bird.deliveries++;
+    if(bird.request?.kind==="food"&&bird.request.phase==="working"&&bird.request.target===site.id)finishRequest(state,bird,"done","Food delivered. Back to community work.");
     remember(bird,`Delivered ${food} food to the root nursery at ${trees.find(t=>t.id===site.tree)!.name}.`);
   }
 }
@@ -1056,7 +1099,7 @@ function childWorker(state: Settlement, brood: Brood, ordinal: number): Worker {
   const site=state.sites.find(s=>s.id===brood.site)!;
   const born=state.birds.filter(b=>b.life.mother).length;
   const name=offspringNames[born%offspringNames.length]+(born>=offspringNames.length?` ${Math.floor(born/offspringNames.length)+1}`:"");
-  return {id:`chick-${state.nextId++}`, life:{...initialLife(mother.life.appearance),name,sex:ordinal%2?"rooster":"hen",stage:"chick",age:0,development:0,mother:brood.mother,father:brood.father,carer:brood.carer,bornAt:site.tree,bond:0,willing:true},protein:85,foodCargo:null,provision:null,care:null,lift:null,...initialAppetite(mother.life.appearance),at:groundAccess(site.at),edge:null,cargo:0,gatheringProgress:0,job:null,energy:75,resting:false,deliveries:0,attachment:null,memories:[`Hatched in the root nursery at ${trees.find(t=>t.id===site.tree)!.name}; ${mother.life.name} kept the eggs warm.`],perch:null,flight:null};
+  return {id:`chick-${state.nextId++}`,request:null,requestResult:null, life:{...initialLife(mother.life.appearance),name,sex:ordinal%2?"rooster":"hen",stage:"chick",age:0,development:0,mother:brood.mother,father:brood.father,carer:brood.carer,bornAt:site.tree,bond:0,willing:true},protein:85,foodCargo:null,provision:null,care:null,lift:null,...initialAppetite(mother.life.appearance),at:groundAccess(site.at),edge:null,cargo:0,gatheringProgress:0,job:null,energy:75,resting:false,deliveries:0,attachment:null,memories:[`Hatched in the root nursery at ${trees.find(t=>t.id===site.tree)!.name}; ${mother.life.name} kept the eggs warm.`],perch:null,flight:null};
 }
 function careStep(state: Settlement, bird: Worker): boolean {
   const brood=state.economy.broods.find(b=>b.id===bird.care)!;
@@ -1166,6 +1209,7 @@ export function step(current: Settlement): Settlement {
       bird.protein=Math.max(0,bird.protein-economyTuning.proteinDrain);
       bird.satiety = Math.max(0, bird.satiety - forageTuning.satietyDrain);
     }
+    prepareRequest(state,bird);
     if (bird.flight) {
       bird.flight.progress += bird.flight.direction === "up" ? 0.035 : -0.035;
       if (bird.flight.progress >= 1) {
@@ -1260,6 +1304,13 @@ export function step(current: Settlement): Settlement {
     if (!bird.job && state.phase === "day") assign(state, bird);
     if(bird.provision){provisionStep(state,bird);continue;}
     const job = bird.job;
+    // Legacy/imported evening jobs also wait for daylight. Secured cargo keeps
+    // its delivery (and any required lift); weaving never advances at night.
+    if(state.phase==="evening"&&job&&!bird.cargo) {
+      bird.job=null;bird.gatheringProgress=0;
+      settle(state,bird);
+      continue;
+    }
     if (!job) {
       const index = state.birds.findIndex((b) => b.id === bird.id);
       if (
@@ -1275,6 +1326,10 @@ export function step(current: Settlement): Settlement {
     // A saved v4 lift may already be operating at the old trunk cell. Finish that
     // reserved lift in place; subsequent trips use the adjacent work cell.
     if (!to || (!bird.lift && !move(state, bird, to))) continue;
+    if(bird.request?.phase==="pending"||bird.request?.phase==="canceling") {
+      prepareRequest(state,bird);
+      if(bird.job!==job)continue;
+    }
     if (job.kind === "build") {
       const site = state.sites.find((s) => s.id === job.destination)!;
       if (!readyForBuild(state, site)) {
@@ -1286,11 +1341,12 @@ export function step(current: Settlement): Settlement {
       if (site.progress === 30) {
         site.contributors = [...new Set([...site.contributors, bird.id])];
         bird.job = null;
+        if(bird.request?.kind==="build"&&bird.request.phase==="working"&&bird.request.target===site.id)finishRequest(state,bird,"done","Weaving task finished. Back to community work.");
         if (site.delivered === cost(site)) completeSite(state, site, bird);
       }
     } else if (job.kind === "gather" && job.stage === "pickup") {
       const patch = state.patches.find((p) => p.id === job.source)!;
-      if (!patch.designated || patch.remaining === 0 || state.phase !== "day") {
+      if ((!patch.designated && !(bird.request?.kind === "gather" && bird.request.target === patch.id)) || patch.remaining === 0 || state.phase !== "day") {
         bird.job = null;
         bird.gatheringProgress = 0;
         continue;
@@ -1387,6 +1443,7 @@ export function step(current: Settlement): Settlement {
         target.stock += bird.cargo;
       } else continue;
       bird.cargo = 0;
+      if(bird.request?.phase === "working" && ((bird.request.kind === "gather" && job.kind === "gather" && bird.request.target === job.source) || (bird.request.kind === "build" && bird.request.target === job.destination))) finishRequest(state,bird,"done","One reed bundle delivered. Back to community work.");
       bird.deliveries++;
       if (bird.deliveries === 3)
         remember(bird, "Three deliveries taught a surer carrying rhythm.");
@@ -1394,6 +1451,7 @@ export function step(current: Settlement): Settlement {
     }
   }
   reconcileFoodReservations(state);
+  reconcileRequests(state);
   return state;
 }
 export function workerStatus(state: Settlement, bird: Worker): string {
@@ -1563,4 +1621,108 @@ export function patchStatus(state: Settlement, patch: ReedPatch): string {
     return "Waiting for available local storage";
   if (state.phase === "evening") return "Gathering resumes by day";
   return `${patch.remaining} / ${patch.capacity} reeds · ${jobs.length} gathering`;
+}
+
+/** A request borrows existing physical jobs; it never creates resources or a second queue. */
+function finishRequest(state: Settlement, bird: Worker, outcome: RequestResult["outcome"], reason: string) {
+  if(!bird.request)return;
+  bird.requestResult={kind:bird.request.kind,outcome,reason,tick:state.tick};
+  bird.request=null;
+}
+function requestTargetReason(state: Settlement, request: BirdRequest): string {
+  if(request.kind==="gather") {
+    const patch=state.patches.find(p=>p.id===request.target);
+    return !patch ? "That reed patch is no longer here." : patch.remaining===0 ? "That patch has no reeds ready. Choose another patch." : "";
+  }
+  const site=state.sites.find(s=>s.id===request.target);
+  if(!site)return "That building was cancelled.";
+  if(request.kind==="build")return site.complete ? "That building is finished." : "";
+  const nursery=nurseryAt(state,site.id);
+  return !nursery ? "That place is not a food store for chicks." : ["staple","protein"].every(f=>nursery.food[f as Food]>=nursery.target) ? "The nursery has its food. Choose another task." : "";
+}
+function prepareRequest(state: Settlement,bird: Worker) {
+  const request=bird.request;
+  if(!request)return;
+  if((request.phase==="pending"||request.phase==="canceling")&&!bird.edge&&!bird.cargo&&!bird.foodCargo&&!bird.lift) {
+    bird.job=null;bird.provision=null;bird.gatheringProgress=0;
+    if(bird.foraging?.intent==="browse")bird.foraging=null;
+    if(request.phase==="canceling") {finishRequest(state,bird,"cancelled","Request cancelled. Back to community work.");return;}
+    request.phase="waiting";
+  }
+}
+function reconcileRequests(state: Settlement) {
+  for(const bird of state.birds) {
+    const request=bird.request;
+    if(!request)continue;
+    // An in-flight delivery owns its cargo even if its target's plan changes.
+    const reason=request.kind==="gather"&&request.phase==="working"&&bird.cargo ? "" : requestTargetReason(state,request);
+    if(reason) {finishRequest(state,bird,"unavailable",reason);continue;}
+    if(request.phase==="working"&&!bird.job&&!bird.provision)request.phase="waiting";
+  }
+}
+function assignRequest(state: Settlement,bird: Worker): boolean {
+  const request=bird.request;
+  if(!request||request.phase!=="waiting")return false;
+  const assigned=request.kind==="gather" ? assignGather(state,bird,request.target) : request.kind==="build" ? assignConstruction(state,bird,request.target) : assignProvision(state,bird,false,request.target);
+  if(assigned)request.phase="working";
+  return assigned;
+}
+export function requestPlace(state: Settlement, request: Pick<BirdRequest,"kind"|"target">): {name:string;at:Cell}|null {
+  if(request.kind==="gather") {
+    const patch=state.patches.find(p=>p.id===request.target);
+    return patch ? {name:patch.id==="patch-west"?"West reeds":"East reeds",at:patch.at}:null;
+  }
+  const site=state.sites.find(s=>s.id===request.target);
+  if(!site)return null;
+  return {name:site.tree?trees.find(t=>t.id===site.tree)!.name:"Store nest",at:groundAccess(site.at)};
+}
+export function requestStatus(state: Settlement,bird: Worker): string {
+  if(!bird.request)return bird.requestResult?.reason??"Choosing community work.";
+  if(bird.request.phase==="canceling")return "Stopping at the next safe step.";
+  if(state.paused)return "Ready when you resume.";
+  if(bird.request.phase==="pending"&&bird.edge)return "Finishing this step first.";
+  if(bird.cargo||bird.foodCargo)return bird.request.phase==="working"?"Carrying the bundle to its place.":"Finishing a delivery first.";
+  if(bird.provision&&bird.request.phase!=="working")return "Bringing urgent food to the brood first.";
+  if(bird.care)return "Caring for the brood first. Cancel this request to choose someone else.";
+  if(bird.foraging?.intent==="eat"||bird.satiety<=forageTuning.hungry||bird.protein<economyTuning.proteinMinimum)return "Eating first. The request will wait.";
+  if(state.phase==="evening"||bird.perch||bird.flight)return "Starts in the morning, after sleep.";
+  if(bird.resting||bird.energy<28)return "Resting first. The request will wait.";
+  if(bird.request.phase==="working")return bird.request.kind==="gather"?"Gathering one bundle of reeds.":bird.request.kind==="food"?"Fetching one bundle of food for chicks.":"Helping with one building task.";
+  if(bird.request.kind==="build") {
+    const site=state.sites.find(s=>s.id===bird.request!.target);
+    if(site&&reedSupply(state).free===0&&site.delivered+incoming(state,site.id)<cost(site))return "Needs reeds first. Ask someone to Gather reeds.";
+    return "Waiting for a building task to become free.";
+  }
+  if(bird.request.kind==="food")return "Waiting for the right food. Let chickens forage at a food place.";
+  return "Waiting for a free reed bundle or storage place.";
+}
+export function requestOptions(state: Settlement,bird: Worker) {
+  const base=bird.life.stage!=="adult"?"Too young to carry or build.":bird.care?"Caring for the brood. Choose another chicken.":"";
+  const patch=state.patches.filter(p=>p.remaining>0&&route(state,bird.at,p.at)).sort((a,b)=>distance(bird.at,a.at)-distance(bird.at,b.at)||a.id.localeCompare(b.id))[0];
+  const site=state.sites.find(s=>!s.complete);
+  const nursery=state.economy.nurseries.find(n=>n.food.staple<n.target||n.food.protein<n.target);
+  return ([{kind:"gather" as const,label:"Gather reeds",target:patch?.id??"",missing:"No reeds ready to gather."},{kind:"build" as const,label:"Help build",target:site?.id??"",missing:"Choose a building first."},{kind:"food" as const,label:"Bring food",target:nursery?.site??"",missing:state.economy.nurseries.length?"The nurseries already have food.":"Build a nursery for chicks first."}]).map(o=>({...o,available:!base&&!!o.target,reason:base||(!o.target?o.missing:""),place:o.target?requestPlace(state,o):null}));
+}
+
+export function currentWork(state: Settlement, bird: Worker): string {
+  if(bird.life.stage!=="adult")return bird.life.stage==="chick"?"Growing with nursery care":"Growing · too young for carrying and building";
+  if(bird.care)return "Caring for eggs and chicks";
+  if(bird.foodCargo)return "Carrying food to the nursery";
+  if(bird.cargo)return "Carrying a reed bundle";
+  if(bird.foraging?.intent==="eat")return "Eating";
+  if(bird.perch||bird.flight||state.phase==="evening"&&!bird.job)return "Settling for the night";
+  if(bird.resting||bird.energy<28)return "Resting";
+  if(bird.job?.kind==="build")return "Weaving a building";
+  if(bird.job?.kind==="gather")return "Gathering reeds";
+  if(bird.job)return "Fetching a reed bundle";
+  if(bird.provision)return "Fetching food for chicks";
+  return "Choosing community work";
+}
+export function projectReadout(state: Settlement,site: Site) {
+  const workers=state.birds.filter(b=>b.job?.destination===site.id).map(b=>b.life.name);
+  const missing=Math.max(0,cost(site)-site.delivered-incoming(state,site.id));
+  const shortfall=Math.max(0,missing-reedSupply(state).free);
+  const delivering=state.birds.filter(b=>b.cargo&&b.job?.destination===site.id).map(b=>b.life.name);
+  const status=site.complete?"Ready to use":state.phase==="evening"?delivering.length?`${delivering.join(" & ")} ${delivering.length===1?"is":"are"} finishing a delivery. Weaving resumes in the morning.`:"Starts in the morning":shortfall>0?`Needs ${shortfall} more ${shortfall===1?"reed":"reeds"}. Ask a chicken to Gather reeds.`:workers.length?`${workers.join(" & ")} ${workers.length===1?"is":"are"} helping.`:"Queued · chickens will carry reeds and weave here.";
+  return {workers,shortfall,status,progress:site.complete?100:Math.round((site.delivered/cost(site)+site.progress/30)/2*100)};
 }

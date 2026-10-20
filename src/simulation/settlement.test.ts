@@ -12,6 +12,7 @@ import {
   foodConserved,
   initialSettlement,
   route,
+  reedSupply,
   step,
   workerStatus,
 } from "./settlement";
@@ -49,6 +50,22 @@ function hungry(s = initialSettlement()) {
   return s;
 }
 describe("free ground construction, transport and nights", () => {
+  it("distinguishes free reeds from pickup reservations, cargo and delivered construction", () => {
+    let s = build();
+    expect(reedSupply(s).free).toBe(8);
+    s = tick(s, 1);
+    expect(reedSupply(s).free).toBeLessThan(8);
+    expect(reedSupply(s).reserved + reedSupply(s).carried).toBeGreaterThan(0);
+    s = until(s, v => v.sites[0].complete);
+    expect(reedSupply(s).free).toBe(2);
+    s = command(s, {type:"build", kind:"nursery", at:trees[0]});
+    s = until(s, v => v.sites[1].delivered === 2 && v.birds.every(b => !b.cargo));
+    expect(reedSupply(s)).toEqual({free:0,reserved:0,carried:0,delivered:2});
+    expect(conserved(s)).toBe(8);
+    s = command(s,{type:"cancel",id:s.sites[1].id});
+    expect(reedSupply(s).free).toBe(2);
+    expect(reedSupply(s).delivered).toBe(0);
+  });
   it("walks every legal ground cell and builds without authored paths", () => {
     let s = build();
     expect("paths" in s).toBe(false);
