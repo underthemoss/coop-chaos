@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   initialSettlement, command, step, broodReason, broodStatus,
-  growthForecast, foodConserved, conserved,
+  growthForecast, foodConserved, conserved, populationReadout, nurseryReadout, treeActivity, foodRecovery,
 } from "./settlement";
 import type { Settlement } from "./settlement";
 import { economyTuning, trees } from "../content/settlement";
@@ -59,6 +59,9 @@ describe("bounded economic population", () => {
     const mother = s.birds.find(b => b.care)!;
     expect(mother.job).toBeNull();
     expect(growthForecast(s)).toMatchObject({ carers: 1, foodWorkers: 3, committed: 6 });
+    expect(populationReadout(s)).toMatchObject({label:"4 adults · 2 expected",chicks:0,juveniles:0,committed:6});
+    expect(nurseryReadout(s,s.sites[1].id).stage).toBe("Preparing · 0/2 eggs laid");
+    expect(nurseryReadout(s,s.sites[1].id).progress).toBe(0);
     s = until(s, s => s.economy.broods[0].eggs.length === 2);
     const eggIds = s.economy.broods[0].eggs.map(e => e.id);
     expect(new Set(eggIds).size).toBe(2);
@@ -66,6 +69,8 @@ describe("bounded economic population", () => {
     s = until(s, s => s.birds.length === 6, 20000);
     expect(s.tick).toBe(9321);
     const hatch = structuredClone(s);
+    expect(populationReadout(s)).toMatchObject({label:"4 adults · 2 chicks",pending:0,committed:6});
+    expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Chicks growing",progress:0});
     expect(s.birds.slice(4).map(b => b.life.name)).toEqual(["Pip", "Clover"]);
     for (const child of s.birds.slice(4)) {
       expect(child.life).toMatchObject({ stage: "chick", development: 0, mother: mother.id, father: "rook", carer: mother.id, bornAt: "lowfork" });
@@ -77,17 +82,79 @@ describe("bounded economic population", () => {
     expect(s.birds.slice(4).every(b => b.life.stage === "juvenile" && b.life.development === 7200 && !b.flight && !b.perch)).toBe(true);
     expect(s.birds.slice(4).every(b => b.attachment === "lowfork" && b.life.bond === 7200)).toBe(true);
     expect(s.birds.find(b => b.id === mother.id)!.care).toBeNull();
+    expect(populationReadout(s)).toMatchObject({label:"4 adults · 2 juveniles",pending:0,committed:6});
+    expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Juveniles growing",carer:null,progress:50,progressLabel:"Growth toward adulthood"});
     s = decodeSettlement(encodeSettlement(s));
     s = until(s, s => s.birds.every(b => b.life.stage === "adult"), 20000);
     s = advance(s, 1);
     expect(s.tick).toBe(23722);
     expect(s.economy.broods[0].stage).toBe("complete");
+    expect(populationReadout(s)).toMatchObject({label:"6 adults",pending:0,committed:6});
+    expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Young grown",progress:100,carer:null});
     expect(s.economy.broods[0].eggs.map(e => e.child)).toEqual(hatch.economy.broods[0].eggs.map(e => e.child));
     expect(s.birds).toHaveLength(6);
     expect(s.birds.slice(4).every(b => b.memories.some(m => m.includes("Grew into community work")))).toBe(true);
     expect(s.patches[0].harvested).toBeGreaterThan(s.patches[0].capacity);
     expect(foodConserved(s)).toBe(true);
   }, 30000);
+
+  it("projects actual care arrival, pause, shortage and completion before a brood starts again", () => {
+    let s=support();
+    const site=s.sites[1].id;
+    const mother=s.birds.find(b=>b.care)!;
+    expect(treeActivity(s,"lowfork")!.id).toBe(site);
+    expect(nurseryReadout(s,site).title).toBe("Carer arriving");
+    const paused=command(s,{type:"pause"});
+    expect(nurseryReadout(paused,site)).toMatchObject({title:"Care paused",progress:0});
+    expect(nurseryReadout(decodeSettlement(encodeSettlement(paused)),site)).toEqual(nurseryReadout(paused,site));
+    s=until(s,s=>s.economy.broods[0].careTicks>0);
+    expect(nurseryReadout(s,site).title).toBe("Preparing");
+    const hungry=structuredClone(s);
+    hungry.birds.find(b=>b.id===mother.id)!.satiety=5;
+    const eating=step(hungry);
+    expect(eating.birds.find(b=>b.id===mother.id)!.foraging?.intent).toBe("eat");
+    expect(nurseryReadout(eating,site)).toMatchObject({title:"Carer needs a meal",stalled:true});
+    expect(nurseryReadout(eating,site).status).toContain("Foraging for a meal");
+    expect(nurseryReadout(command(eating,{type:"pause"}),site).title).toBe("Care paused");
+    const empty=drainNursery(s);
+    expect(nurseryReadout(empty,site)).toMatchObject({title:"Needs food",stalled:true});
+    expect(nurseryReadout(empty,site).status).toContain("No local Seeds or Bugs");
+    expect(nurseryReadout(empty,site).carer!.id).toBe(mother.id);
+    const proteinStall=structuredClone(s);
+    proteinStall.economy.nurseries[0].food={staple:1,protein:0};
+    proteinStall.forage.forEach(p=>p.open=false);
+    expect(foodRecovery(proteinStall,site).openPatch).toBe("leaf-litter");
+    const improvement=command(s,{type:"build",kind:"hauling-basket",at:trees[0]});
+    expect(treeActivity(improvement,"lowfork")!.kind).toBe("hauling-basket");
+    expect(treeActivity(improvement,"lowfork")!.complete).toBe(false);
+    const unavailable=opening();
+    expect(broodReason(unavailable,site,"rook")).toContain("adult hen");
+  },30000);
+
+  it("routes a named helper request to the chosen local nursery without replacing care or requests", () => {
+    let s=opening();
+    s=command(s,{type:"build",kind:"treehouse",at:trees[1]});
+    s=until(s,s=>s.sites.at(-1)!.complete);
+    s=command(s,{type:"build",kind:"nursery",at:trees[1]});
+    s=until(s,s=>s.sites.at(-1)!.complete);
+    const local=s.sites.at(-1)!.id;
+    const recovery=foodRecovery(s,local);
+    expect(recovery.helper).not.toBeNull();
+    const before=structuredClone(s);
+    expect(foodRecovery(s,local)).toEqual(recovery);
+    expect(s).toEqual(before);
+    s=command(s,{type:"request",bird:recovery.helper!.id,kind:"food",target:local});
+    expect(s.birds.find(b=>b.id===recovery.helper!.id)!.request!.target).toBe(local);
+    expect(()=>command(s,{type:"request",bird:recovery.helper!.id,kind:"food",target:local})).toThrow("Finish or cancel");
+    expect(foodRecovery(s,local).helper?.id).not.toBe(recovery.helper!.id);
+    s=until(s,s=>s.birds.find(b=>b.id===recovery.helper!.id)!.requestResult?.outcome==="done");
+    expect(s.birds.find(b=>b.id===recovery.helper!.id)!.memories.at(-1)).toContain(trees[1].name);
+    expect(foodConserved(s)).toBe(true);
+    const closed=structuredClone(s);
+    closed.forage.forEach(p=>p.open=false);
+    expect(foodRecovery(closed,local)).toMatchObject({helper:null});
+    expect(foodRecovery(closed,local).reason).toContain("closed");
+  },30000);
 
   it("saves and replays ongoing incubation without duplicating eggs or chicks", () => {
     let s = support();
@@ -155,7 +222,7 @@ describe("bounded economic population", () => {
     s = advance(s, 100);
     expect(s.economy.broods[0].progress).toBe(paused);
     expect(s.economy.broods[0].shortageTicks).toBeGreaterThan(shortages);
-    expect(broodStatusIfPresent(s)).toContain("choose Provision");
+    expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Needs food",stalled:true});
     expect(foodConserved(s)).toBe(true);
   });
 
@@ -194,7 +261,7 @@ describe("bounded economic population", () => {
     for (const id of ["leaf-litter", "insect-verge"]) s = command(s, { type: "forage", id, open: false });
     s = advance(s, 2400);
     expect(s.economy.nurseries[0].food).toEqual({ staple: 6, protein: 0 });
-    expect(broodStatusIfPresent(s)).toContain("local protein");
+    expect(broodStatusIfPresent(s)).toContain("local Bugs");
     const stalled = s.economy.broods[0].progress;
     for (const id of ["leaf-litter", "insect-verge"]) s = command(s, { type: "forage", id, open: true });
     s = command(s, { type: "priority", priority: "provision" });

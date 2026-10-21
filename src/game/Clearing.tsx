@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createClearing } from "./create-clearing";
-import { cost, projectReadout, shelteredCapacity, treeBuildOptions } from "../simulation/settlement";
+import { cost, nurseryReadout, treeActivity, projectReadout, shelteredCapacity, treeBuildOptions } from "../simulation/settlement";
 import type { Cell, Settlement } from "../simulation/settlement";
 import { foodPatches, trees } from "../content/settlement";
 import type { TreeId, SettlerId } from "../content/settlement";
@@ -12,6 +12,7 @@ export function Clearing({
   onSelect,
   onPick,
   onTree,
+  onNursery,
   onForage,
   cursor,
   highlight,
@@ -24,6 +25,7 @@ export function Clearing({
   onSelect: (id: SettlerId) => void;
   onPick: (at: Cell) => void;
   onTree: (id: TreeId) => void;
+  onNursery: (site:string)=>void;
   onForage: (id: string) => void;
   cursor: Cell;
   highlight: boolean;
@@ -38,7 +40,7 @@ export function Clearing({
   latest.current = { onSelect, onPick, onTree };
   const [error, setError] = useState("");
   const [assets, setAssets] = useState<"loading" | "ready" | "failed">("loading");
-  const visibleProjects=trees.map(t=>state.sites.find(s=>s.tree===t.id&&!s.complete)??state.sites.filter(s=>s.tree===t.id&&s.complete).at(-1)).filter(s=>s!==undefined);
+  const visibleProjects=trees.map(t=>treeActivity(state,t.id)).filter(s=>s!==undefined);
   useEffect(() => {
     try {
       world.current = createClearing(
@@ -148,8 +150,8 @@ export function Clearing({
             </small>
           </button>
         ))}
-        {visibleProjects.map(site=>{const readout=projectReadout(state,site);const others=state.sites.filter(s=>s.tree===site.tree&&!s.complete&&s.id!==site.id).length;const label=site.kind==="treehouse"?"Home":site.kind==="sleeping-deck"?"Deck":site.kind==="hauling-basket"?"Basket":"Nursery";return <button key={site.id} hidden={homePlacement} className={`project-label${site.complete?" complete":""}`} ref={el=>{labels.current[site.id]=el;}} onClick={()=>onTree(site.tree!)} aria-label={`${label} at ${trees.find(t=>t.id===site.tree)!.name}: ${readout.title}`}>
-          <ActionArt kind={site.kind==="treehouse"?"home":site.kind==="sleeping-deck"?"deck":site.kind==="hauling-basket"?"basket":"nursery"}/><span><strong>{label} · {readout.title.toLowerCase()}</strong>{!site.complete&&<small>{site.delivered}/{cost(site)} reeds · {readout.progress}%{others?` · +${others} more`:""}</small>}</span>
+        {visibleProjects.map(site=>{const care=site.complete&&site.kind==="nursery"?nurseryReadout(state,site.id):null;const readout=care??projectReadout(state,site);const others=state.sites.filter(s=>s.tree===site.tree&&!s.complete&&s.id!==site.id).length;const label=site.kind==="treehouse"?"Home":site.kind==="sleeping-deck"?"Deck":site.kind==="hauling-basket"?"Basket":"Nursery";return <button key={site.id} hidden={homePlacement} className={`project-label${site.complete?" complete":""}`} ref={el=>{labels.current[site.id]=el;}} onClick={()=>care?onNursery(site.id):onTree(site.tree!)} aria-label={`${label} at ${trees.find(t=>t.id===site.tree)!.name}: ${readout.title}`}>
+          <ActionArt kind={site.kind==="treehouse"?"home":site.kind==="sleeping-deck"?"deck":site.kind==="hauling-basket"?"basket":"nursery"}/><span><strong>{care?care.title:`${label} · ${readout.title.toLowerCase()}`}</strong>{care?<small>{care.stage==="No brood supported"?"Nursery · choose a hen":`${care.carer?.life.name??"Young"} · ${care.progress}% ${care.progressLabel==="Growth toward adulthood"?"grown":"this stage"}`}</small>:!site.complete&&<small>{site.delivered}/{cost(site)} reeds · {readout.progress}%{others?` · +${others} more`:""}</small>}</span>
         </button>;})}
         {state.forage.map(p => <button key={p.id} className="tree-label forage-label" hidden={tool !== "forage"} ref={el => {labels.current[p.id] = el;}} onClick={() => onForage(p.id)} aria-label={`Inspect ${p.id} forage place`}>
           {foodPatches.find(f => f.id === p.id)?.name ?? p.id}<small>{p.remaining}/{p.capacity} food · {p.open ? "open" : "resting"}</small>

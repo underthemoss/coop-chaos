@@ -13,7 +13,7 @@ export function TreeInspector({state,treeId,disabled,onSelect,onCommand,onGather
     const shortfall=Math.max(0,option.cost-reedSupply(state).free);
     return <article className="recipe" key={kind}>
       <button className="action-tile" disabled={disabled||!option.available} onClick={()=>onCommand({type:"build",kind,at:tree})}>
-        <ActionArt kind={art[kind]}/><span><strong>{kind==="treehouse"?"Build a home":`Build ${names[kind].toLowerCase()}`}</strong><small>{option.cost} reeds · {kind==="treehouse"||kind==="sleeping-deck"?"2 sleeping places":kind==="nursery"?"2 chicks, with care":"Lifts reeds to the deck"}</small></span>
+        <ActionArt kind={art[kind]}/><span><strong>{kind==="treehouse"?"Build a home":`Build ${names[kind].toLowerCase()}`}</strong><small>{option.cost} reeds · {kind==="treehouse"||kind==="sleeping-deck"?"2 sleeping places":kind==="nursery"?"Ground care for 2 future chicks":"Lifts reeds to the deck"}</small></span>
       </button>
       <p className="action-reason">{option.reason||(state.paused?"Work is paused. You can plan it now, then resume.":state.phase==="evening"?"Starts in the morning.":shortfall?`You can plan it now. Gather ${shortfall} more ${shortfall===1?"reed":"reeds"}.`:"Chickens will carry reeds and weave here.")}</p>
     </article>;
@@ -30,8 +30,9 @@ export function TreeInspector({state,treeId,disabled,onSelect,onCommand,onGather
     </article>})}
     {recipe("treehouse")}
     {sites.some(s=>s.kind==="treehouse"&&s.complete)&&<p className="ready-building">Home ready · {shelteredCapacity(state,treeId)} sheltered sleeping places</p>}
-    {sites.some(s=>s.kind==="nursery"&&s.complete)&&<p className="ready-building">Nursery ready · <button onClick={onFood}>Food for chicks</button></p>}
-    <details className="more-buildings"><summary>More buildings</summary>{recipe("nursery")}{recipe("hauling-basket")}{recipe("sleeping-deck")}{children}</details>
+    {sites.some(s=>s.kind==="nursery"&&s.complete)&&<p className="ready-building">Nursery ready · <button onClick={onFood}>Care for this brood</button></p>}
+    {sites.some(s=>s.kind==="treehouse"&&s.complete)&&<div className="home-choices"><h3>Grow the flock or improve this home</h3>{recipe("nursery")}{sites.some(s=>s.kind==="hauling-basket"&&s.complete)?recipe("sleeping-deck"):recipe("hauling-basket")}</div>}
+    <details className="more-buildings"><summary>Other building controls</summary>{!sites.some(s=>s.kind==="hauling-basket"&&s.complete)&&recipe("sleeping-deck")}{children}</details>
     <details><summary>About {tree.name}</summary><p>{tree.description}</p><p>Two natural sleeping branches are here before you build. New homes and decks each add two sheltered sleeping places.</p></details>
   </section>;
 }

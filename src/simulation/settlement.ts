@@ -451,7 +451,7 @@ export function command(current: Settlement, action: Command): Settlement {
     if (!bird) throw new Error("Choose a chicken in this clearing.");
     if (bird.request) throw new Error("Finish or cancel this chicken's request first.");
     const option = requestOptions(state, bird).find(o => o.kind === action.kind);
-    const validTarget=option?.target===action.target || action.kind==="build"&&state.sites.some(s=>s.id===action.target&&!s.complete);
+    const validTarget=option?.target===action.target || action.kind==="build"&&state.sites.some(s=>s.id===action.target&&!s.complete) || action.kind==="food"&&!requestTargetReason(state,{kind:"food",target:action.target,phase:"pending",issued:state.tick});
     if (!option?.available||!validTarget) throw new Error(option?.reason || "Choose an available task and place.");
     bird.request = {kind: action.kind, target: action.target, phase: "pending", issued: state.tick};
     bird.requestResult = null;
@@ -1031,16 +1031,60 @@ export function broodReason(state: Settlement, siteId: string, motherId: string)
   if(!state.forage.some(p=>p.open&&p.id==="leaf-litter")||!state.forage.some(p=>p.open&&p.id!=="leaf-litter")) return "Open both staple and protein habitats for continuing deliveries.";
   return "";
 }
-export function broodStatus(state: Settlement, brood: Brood): string {
-  const nursery=state.economy.nurseries.find(n=>n.site===brood.site)!;
-  const mother=state.birds.find(b=>b.id===brood.mother)!;
-  if(brood.stage==="failed") return "Unincubated eggs lost viability. The nursery can support a new plan; no chicks were created.";
-  if(brood.stage==="complete") return "Both young are adult workers; their nursery and carer remain part of their history.";
-  if(!nursery.food.staple || !nursery.food.protein) return `Waiting for local ${!nursery.food.staple ? "staple" : "protein"} food · care and growth pause · choose Provision and reopen its food places · ${mother.life.name} is committed to this brood`;
-  if(brood.stage==="laying") return `${mother.life.name} preparing and laying · ${brood.eggs.length}/2 eggs · ${Math.round(brood.progress/economyTuning.layingTicks*100)}%`;
-  if(brood.stage==="incubating") return `${mother.life.name} incubating ${brood.eggs.length} fertile eggs · ${Math.round(brood.progress/economyTuning.incubationTicks*100)}% · needs 3 cycles of supplied care`;
+/** Residents and unhatched commitments share future capacity, never a worker count. */
+export function populationReadout(state: Settlement) {
+  const forecast=growthForecast(state);
+  const chicks=state.birds.filter(b=>b.life.stage==="chick").length;
+  const juveniles=state.birds.filter(b=>b.life.stage==="juvenile").length;
+  const label=[`${forecast.adults} adults`,chicks?`${chicks} chicks`:"",juveniles?`${juveniles} juveniles`:"",forecast.pending?`${forecast.pending} expected`:""].filter(Boolean).join(" · ");
+  return {...forecast,chicks,juveniles,label};
+}
+/** Presentation of physical care; no progress is inferred from a commission. */
+export function nurseryReadout(state: Settlement, siteId: string) {
+  const nursery=state.economy.nurseries.find(n=>n.site===siteId)!;
+  const brood=state.economy.broods.find(b=>b.id===nursery.brood);
+  const progressLabel=brood?.stage==="laying"?"Preparation progress":brood?.stage==="incubating"?"Incubation progress":"Growth toward adulthood";
+  if(!brood)return {progressLabel,title:"Ready for a brood",stage:"No brood supported",progress:0,status:"Choose a willing, eligible hen below. Supporting her commits two future places; eggs are laid through care.",carer:null,stalled:false};
+  const carer=state.birds.find(b=>b.id===brood.carer)!;
   const children=brood.eggs.flatMap(e=>state.birds.find(b=>b.id===e.child)??[]);
-  return children.map(b=>`${b.life.name}: ${b.life.stage}, ${Math.round(b.life.development/economyTuning.adultTicks*100)}% grown`).join(" · ");
+  const caring=carer.care===brood.id;
+  const stage=brood.stage==="laying"?`Preparing · ${brood.eggs.length}/2 eggs laid`:brood.stage==="incubating"?`Incubating · ${brood.eggs.filter(e=>e.viable&&!e.child).length} eggs`:children.map(b=>`${b.life.name}: ${b.life.stage}`).join(" · ");
+  const progress=Math.min(100,Math.floor(brood.stage==="laying"?brood.progress/economyTuning.layingTicks*100:brood.stage==="incubating"?brood.progress/economyTuning.incubationTicks*100:children.length?Math.min(...children.map(b=>b.life.development))/economyTuning.adultTicks*100:0));
+  if(brood.stage==="failed")return {progressLabel,title:"Brood lost",stage:"Eggs lost viability",progress:0,status:"The unincubated eggs lost viability. No chicks were created; a new plan needs an eligible hen.",carer:null,stalled:true};
+  if(brood.stage==="complete"||children.length>0&&children.every(b=>b.life.stage==="adult"))return {progressLabel,title:"Young grown",stage,progress:100,status:`${children.map(b=>b.life.name).join(" and ")} grew into community work. Their nursery and carer remain part of their history.`,carer:null,stalled:false};
+  const title=brood.stage==="laying"?"Preparing":brood.stage==="incubating"?"Incubating":children.some(b=>b.life.stage==="chick")?"Chicks growing":"Juveniles growing";
+  if(state.paused)return {progressLabel,title:"Care paused",stage,progress,status:"Time is paused. Resume to continue care and growth.",carer:caring?carer:null,stalled:true};
+  if(caring&&(carer.cargo||carer.foodCargo))return {progressLabel,title:"Finishing delivery",stage,progress,status:`${carer.life.name} must deliver the carried ${carer.foodCargo?"food":"reeds"} before returning to nursery care.`,carer,stalled:true};
+  if(caring&&(carer.foraging?.intent==="eat"||carer.satiety<forageTuning.hungry||carer.protein<economyTuning.proteinMinimum))return {progressLabel,title:"Carer needs a meal",stage,progress,status:`${carer.life.name} needs personal food before care can progress. ${carer.foraging?.intent==="eat"?"Foraging for a meal before returning to the nursery.":"Keep Seeds and Bugs available in food places and the nursery."}`,carer,stalled:true};
+  if(caring&&(carer.edge||carer.flight||!same(carer.at,groundAccess(state.sites.find(s=>s.id===siteId)!.at))))return {progressLabel,title:"Carer arriving",stage,progress,status:`${carer.life.name} is travelling to the root nursery; care starts on arrival.`,carer,stalled:true};
+  const missing=(["staple","protein"] as const).filter(f=>!nursery.food[f]);
+  if(caring&&missing.length)return {progressLabel,title:"Needs food",stage,progress,status:`No local ${missing.map(f=>f==="staple"?"Seeds":"Bugs").join(" or ")}. ${carer.life.name}'s care and growth wait for a delivery.`,carer,stalled:true};
+  const hungry=children.filter(b=>b.life.stage==="juvenile"&&(b.satiety<forageTuning.hungry||b.protein<economyTuning.proteinMinimum));
+  if(hungry.length)return {progressLabel,title:"Young need food",stage,progress,status:`${hungry.map(b=>b.life.name).join(" and ")} must forage for Seeds and Bugs before growing further. Keep their food places open.`,carer:null,stalled:true};
+  return {progressLabel,title,stage,progress,status:caring?`${carer.life.name} is ${brood.stage==="laying"?"preparing and laying":brood.stage==="incubating"?"keeping the eggs warm":"feeding the chicks"} here. Supplied care advances this stage.`:"The juveniles feed themselves on the ground. Their carer has returned to community work; growth continues with food.",carer:caring?carer:null,stalled:false};
+}
+export function broodStatus(state: Settlement, brood: Brood): string {
+  const readout=nurseryReadout(state,brood.site);
+  return `${readout.stage} · ${readout.progress}% · ${readout.status}`;
+}
+/** One badge per tree; construction takes precedence over local care. */
+export function treeActivity(state: Settlement, treeId: TreeId) {
+  const sites=state.sites.filter(s=>s.tree===treeId);
+  return sites.find(s=>!s.complete)??sites.find(s=>s.kind==="nursery"&&s.complete)??sites.at(-1);
+}
+/** Ask an available adult for a real trip to this nursery, preserving existing requests. */
+export function foodRecovery(state: Settlement, siteId: string) {
+  const nursery=state.economy.nurseries.find(n=>n.site===siteId)!;
+  if(nursery.food.staple>=nursery.target&&nursery.food.protein>=nursery.target)return {helper:null,reason:"The local nursery stock is full.",openPatch:null};
+  const empty=(["staple","protein"] as const).filter(f=>!nursery.food[f]);
+  const needed=empty.length?empty:(["staple","protein"] as const).filter(f=>nursery.food[f]<nursery.target);
+  const habitats=state.forage.filter(p=>p.id==="insect-verge"||needed.includes(p.id==="leaf-litter"?"protein":"staple"));
+  const openPatch=habitats.find(p=>!p.open);
+  if(!habitats.some(p=>p.open&&p.remaining>0&&needed.includes(nextFood(p))))return {helper:null,reason:openPatch?"A needed food place is closed. Reopen it for deliveries and foraging.":"No needed food is ready to gather. Open habitats recover during daylight; let time run.",openPatch:openPatch?.id??null};
+  const free=state.birds.filter(b=>b.life.stage==="adult"&&!b.care&&!b.request);
+  // Reuse the assignment rule on a disposable copy, including reservations and routes.
+  const helper=free.find(b=>{const probe=structuredClone(state);return assignProvision(probe,probe.birds.find(w=>w.id===b.id)!,false,siteId);});
+  return {helper:helper??null,reason:helper?"":free.length?"No food trip is available yet; existing deliveries may already cover the local stock.":"Every adult is caring or has a request. Let their current work finish before asking for a food trip.",openPatch:null};
 }
 function nurseryAt(state: Settlement, id: string) { return state.economy.nurseries.find(n=>n.site===id); }
 function foodIncoming(state: Settlement, id: string, food?: Food) {
@@ -1466,7 +1510,7 @@ export function step(current: Settlement): Settlement {
 export function workerStatus(state: Settlement, bird: Worker): string {
   if(bird.foodCargo)return `Carrying ${bird.foodCargo} food to a local nursery · reed work waits until delivery`;
   if(bird.provision)return bird.provision.progress?`Gathering ${nextFood(state.forage.find(p=>p.id===bird.provision!.patch)!)} food for a nursery`:`Walking to gather nursery food`;
-  if(!bird.foraging&&bird.care) {
+  if(!bird.foraging&&bird.care&&!bird.cargo&&!bird.lift) {
     const brood=state.economy.broods.find(b=>b.id===bird.care)!;
     return `${same(bird.at,groundAccess(state.sites.find(s=>s.id===brood.site)!.at))?"Caring at":"Walking to"} the root nursery · ${broodStatus(state,brood)} · unavailable for building`;
   }

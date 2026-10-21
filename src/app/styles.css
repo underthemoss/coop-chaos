@@ -611,7 +611,7 @@ footer { display:none; }
 .task-subtitle {font-size:11px!important;color:#697357;margin:4px 0;}
 .request-card,.project-card,.nursery-card {border-left:3px solid #b38c43;background:#f0e8d2;padding:9px 10px;margin:10px 0;}
 .last-result {padding:6px 8px;border-left:2px solid #7c976b;background:#e7ebd7;}
-.project-card progress {width:100%;height:8px;accent-color:#627c4c;}
+.project-card progress,.nursery-card progress {width:100%;height:8px;accent-color:#627c4c;}
 .field-card details {margin:10px 0 0;font-size:11px;}
 .field-card summary {cursor:pointer;padding:6px 0;font-weight:600;}
 .tree-tabs {gap:4px;margin:9px 0;}
