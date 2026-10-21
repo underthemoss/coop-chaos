@@ -150,7 +150,7 @@ export type Command =
   | { type: "speed"; speed: 1 | 4 }
   | { type: "brood"; site: string; mother: string }
   | { type: "forage"; id: string; open: boolean }
-  | { type: "build"; kind: BuildKind; at: Cell }
+  | { type: "build"; kind: BuildKind; at: Cell; bird?: SettlerId }
   | { type: "cancel"; id: string }
   | { type: "gather"; id: string; designated: boolean }
   | { type: "stock"; id: string; target: number }
@@ -450,8 +450,9 @@ export function command(current: Settlement, action: Command): Settlement {
     const bird = state.birds.find(b => b.id === action.bird);
     if (!bird) throw new Error("Choose a chicken in this clearing.");
     if (bird.request) throw new Error("Finish or cancel this chicken's request first.");
-    const option = requestOptions(state, bird).find(o => o.kind === action.kind && o.target === action.target);
-    if (!option?.available) throw new Error(option?.reason || "Choose an available task and place.");
+    const option = requestOptions(state, bird).find(o => o.kind === action.kind);
+    const validTarget=option?.target===action.target || action.kind==="build"&&state.sites.some(s=>s.id===action.target&&!s.complete);
+    if (!option?.available||!validTarget) throw new Error(option?.reason || "Choose an available task and place.");
     bird.request = {kind: action.kind, target: action.target, phase: "pending", issued: state.tick};
     bird.requestResult = null;
     prepareRequest(state, bird);
@@ -472,6 +473,13 @@ export function command(current: Settlement, action: Command): Settlement {
     if(!patch.open) for(const bird of state.birds) if(bird.provision?.patch===patch.id&&bird.provision.stage==="pickup")bird.provision=null;
   }
   if (action.type === "build") {
+    if(action.bird) {
+      const bird=state.birds.find(b=>b.id===action.bird);
+      if(!bird)throw new Error("Choose a chicken in this clearing.");
+      if(bird.life.stage!=="adult")throw new Error(`${bird.life.name} is too young to build. Choose an adult.`);
+      if(bird.care)throw new Error(`${bird.life.name} is caring for eggs and chicks. Choose another chicken.`);
+      if(bird.request)throw new Error(`${bird.life.name} already has a request. Finish or cancel it first.`);
+    }
     if (!validCell(action.at))
       throw new Error("Choose a cell in the marked glade.");
     const tree = trees.find((t) => same(t, action.at));
@@ -510,6 +518,7 @@ export function command(current: Settlement, action: Command): Settlement {
       contributors: [],
       experiment: false,
     });
+    if(action.bird)return command(state,{type:"request",bird:action.bird,kind:"build",target:state.sites.at(-1)!.id});
   }
   if (action.type === "cancel") {
     const site = state.sites.find((s) => s.id === action.id);
@@ -1704,6 +1713,20 @@ export function requestOptions(state: Settlement,bird: Worker) {
   return ([{kind:"gather" as const,label:"Gather reeds",target:patch?.id??"",missing:"No reeds ready to gather."},{kind:"build" as const,label:"Help build",target:site?.id??"",missing:"Choose a building first."},{kind:"food" as const,label:"Bring food",target:nursery?.site??"",missing:state.economy.nurseries.length?"The nurseries already have food.":"Build a nursery for chicks first."}]).map(o=>({...o,available:!base&&!!o.target,reason:base||(!o.target?o.missing:""),place:o.target?requestPlace(state,o):null}));
 }
 
+export function gatherRecovery(state: Settlement) {
+  if(!state.patches.some(p=>p.remaining>0))return {helper:null,canChoose:false,reason:"No reeds ready to gather. New construction reeds regrow during daylight. Leave time running until a patch recovers."};
+  const adults=state.birds.filter(b=>b.life.stage==="adult");
+  const free=adults.filter(b=>!b.care&&!b.request);
+  const helper=free.find(b=>requestOptions(state,b).some(o=>o.kind==="gather"&&o.available));
+  if(helper)return {helper,canChoose:false,reason:""};
+  if(!adults.length)return {helper:null,canChoose:false,reason:"The young chickens cannot gather yet. Wait for an adult."};
+  if(!free.length) {
+    const canChoose=adults.some(b=>!!b.request);
+    return {helper:null,canChoose,reason:canChoose?"Every adult is caring or has a request. Let them finish, or choose a chicken to cancel its request.":"Every adult is caring. Let them finish before asking for help."};
+  }
+  return {helper:null,canChoose:false,reason:"No ready reeds can be reached by an available adult. Wait for a nearby patch to recover."};
+}
+
 export function currentWork(state: Settlement, bird: Worker): string {
   if(bird.life.stage!=="adult")return bird.life.stage==="chick"?"Growing with nursery care":"Growing · too young for carrying and building";
   if(bird.care)return "Caring for eggs and chicks";
@@ -1712,17 +1735,28 @@ export function currentWork(state: Settlement, bird: Worker): string {
   if(bird.foraging?.intent==="eat")return "Eating";
   if(bird.perch||bird.flight||state.phase==="evening"&&!bird.job)return "Settling for the night";
   if(bird.resting||bird.energy<28)return "Resting";
-  if(bird.job?.kind==="build")return "Weaving a building";
+  if(bird.job?.kind==="build") {
+    const site=state.sites.find(s=>s.id===bird.job?.destination);
+    return !bird.edge&&site&&same(bird.at,groundAccess(site.at))?"Weaving a building":"Walking to build";
+  }
   if(bird.job?.kind==="gather")return "Gathering reeds";
   if(bird.job)return "Fetching a reed bundle";
   if(bird.provision)return "Fetching food for chicks";
   return "Choosing community work";
 }
 export function projectReadout(state: Settlement,site: Site) {
-  const workers=state.birds.filter(b=>b.job?.destination===site.id).map(b=>b.life.name);
+  const assigned=state.birds.filter(b=>b.job?.destination===site.id);
+  const workers=assigned.map(b=>b.life.name);
   const missing=Math.max(0,cost(site)-site.delivered-incoming(state,site.id));
   const shortfall=Math.max(0,missing-reedSupply(state).free);
   const delivering=state.birds.filter(b=>b.cargo&&b.job?.destination===site.id).map(b=>b.life.name);
-  const status=site.complete?"Ready to use":state.phase==="evening"?delivering.length?`${delivering.join(" & ")} ${delivering.length===1?"is":"are"} finishing a delivery. Weaving resumes in the morning.`:"Starts in the morning":shortfall>0?`Needs ${shortfall} more ${shortfall===1?"reed":"reeds"}. Ask a chicken to Gather reeds.`:workers.length?`${workers.join(" & ")} ${workers.length===1?"is":"are"} helping.`:"Queued · chickens will carry reeds and weave here.";
-  return {workers,shortfall,status,progress:site.complete?100:Math.round((site.delivered/cost(site)+site.progress/30)/2*100)};
+  const weaving=assigned.filter(b=>b.job?.kind==="build"&&!b.edge&&same(b.at,groundAccess(site.at))).map(b=>b.life.name);
+  const approaching=assigned.filter(b=>b.job?.kind==="build"&&!weaving.includes(b.life.name)).map(b=>b.life.name);
+  const fetching=assigned.filter(b=>!b.cargo&&b.job?.kind!=="build").map(b=>b.life.name);
+  const pending=state.birds.filter(b=>b.request?.kind==="build"&&b.request.target===site.id&&b.request.phase!=="working");
+  const title=site.complete?"Ready":state.paused?"Paused":state.phase==="evening"?"Waiting for morning":weaving.length?"Weaving":approaching.length?"Walking to build":delivering.length?"Delivering reeds":fetching.length?"Fetching reeds":"Planned";
+  const active=weaving.length?`${weaving.join(" & ")} weaving here.`:approaching.length?`${approaching.join(" & ")} walking here to weave.`:delivering.length?`${delivering.join(" & ")} carrying reeds here.`:fetching.length?`${fetching.join(" & ")} fetching reeds.`:"";
+  const waiting=pending.map(b=>`${b.life.name}: ${requestStatus(state,b)}`).join(" ");
+  const status=site.complete?"Ready to use":state.paused?"Work is paused. Resume to continue.":state.phase==="evening"?delivering.length?`${delivering.join(" & ")} finishing a delivery. Weaving resumes in the morning.`:"Starts in the morning.":active||waiting||(shortfall>0?`Needs ${shortfall} more ${shortfall===1?"reed":"reeds"}. Gather reeds to continue.`:"Chickens will take the next free building task.");
+  return {workers,shortfall,status,title,waiting,progress:site.complete?100:Math.round((site.delivered/cost(site)+site.progress/30)/2*100)};
 }

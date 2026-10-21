@@ -13,12 +13,13 @@ export function BirdInspector({state,bird,disabled,onCommand,onChooseFree,onBuil
       <h3>{{gather:"Gather reeds",build:"Help build",food:"Bring food"}[request.kind]} requested</h3>
       <p className="task-subtitle">One {request.kind==="build"?"task":"trip"} · {place?.name}</p>
       <p>{requestStatus(state,bird)}</p>
+      {state.paused&&<button className="build-command" disabled={disabled} onClick={()=>onCommand({type:"pause"})}>Resume work</button>}
       <button disabled={disabled} onClick={()=>onCommand({type:"cancel-request",bird:bird.id})}>Cancel request</button>
     </div>:<>
       {bird.requestResult&&<p className="last-result" role="status">{bird.requestResult.reason.replace(/ Back to community work\.$/,"")}</p>}
       {sharedBlock?<div className="shared-action-block"><button disabled={disabled||!freeChicken} onClick={onChooseFree}>Choose a free chicken</button>{!freeChicken&&<p>Every adult is caring or has a request. Let them finish first.</p>}</div>:<div className="bird-actions">{requestOptions(state,bird).map(option=><div className="action-choice" key={option.kind}>
         <button className="action-tile" disabled={disabled||(!option.available&&option.kind!=="build")} onClick={()=>option.kind==="build"&&!option.available?onBuild():onCommand({type:"request",bird:bird.id,kind:option.kind,target:option.target})}>
-          <ActionArt kind={option.kind}/><span><strong>{option.kind==="build"&&!option.available?"Plan a home":option.label}</strong><small>{option.kind==="build"&&!option.available?"Choose a tree, then ask for help":!option.available?option.reason:`One ${option.kind==="build"?"task":"trip"}${option.place?` · ${option.place.name}`:""}`}</small></span>
+          <ActionArt kind={option.kind}/><span><strong>{option.kind==="build"&&!option.available?"Build a home":option.label}</strong><small>{option.kind==="build"&&!option.available?"6 reeds · choose a tree":!option.available?option.reason:`One ${option.kind==="build"?"task":"trip"}${option.place?` · ${option.place.name}`:""}`}</small></span>
         </button>
       </div>)}</div>}
     </>}

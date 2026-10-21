@@ -472,6 +472,8 @@ export function createClearing(
   cursor.setEnabled(false);
   cursor.isPickable = false;
   const cargoMeshes = new Map<BirdId, Mesh>();
+  const plannedMaterial=material("planned-workcourt", "#c59a4b");
+  plannedMaterial.emissiveColor=Color3.FromHexString("#6b4f20").scale(.35);
   for (const [id, bird] of chickens) {
     const bundle = MeshBuilder.CreateCylinder(
       "carried-reed-bundle",
@@ -577,6 +579,12 @@ export function createClearing(
     for (const pile of state.piles)
       bundles(pile.at.x * 2, pile.at.z * 2 + (pile.kind === "source" ? .8 : 0), pile.stock);
     for (const site of state.sites) {
+      if(!site.complete&&!state.sites.slice(0,state.sites.indexOf(site)).some(s=>!s.complete&&s.at.x===site.at.x&&s.at.z===site.at.z)){
+        const court=groundAccess(site.at),cx=court.x*2,cz=court.z*2;
+        const ring=MeshBuilder.CreateTorus(`planned-${site.id}`,{diameter:1.8,thickness:.09,tessellation:32},scene);
+        ring.position.set(cx,elevation(cx,cz)+.08,cz);ring.material=plannedMaterial;ring.isPickable=false;
+        builtMeshes.push(ring);
+      }
       const x = site.at.x * 2,
         z = site.at.z * 2,
         y = elevation(x, z);
@@ -740,6 +748,12 @@ export function createClearing(
       };
     }
     const placed: { x: number; y: number }[] = [];
+    for(const site of renderState?.sites??[]){
+      const court=groundAccess(site.at),xw=court.x*2,zw=court.z*2;
+      const point=Vector3.Project(new Vector3(xw,elevation(xw,zw)+1.25,zw),Matrix.IdentityReadOnly,scene.getTransformMatrix(),viewport);
+      const x=point.x*canvas.clientWidth/engine.getRenderWidth(),y=point.y*canvas.clientHeight/engine.getRenderHeight();
+      labelPositions[site.id]={x:Math.max(75,Math.min(canvas.clientWidth-75,x)),y,visible:y>60&&y<canvas.clientHeight-50};
+    }
     for (const id of chickens.keys()) {
       const point = labelPositions[id];
       for (

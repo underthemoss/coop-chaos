@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { trees, type TreeId } from "../content/settlement";
-import { cost, projectReadout, reedSupply, shelteredCapacity, treeBuildOptions, type Command, type Settlement } from "../simulation/settlement";
+import { cost, gatherRecovery, projectReadout, reedSupply, requestOptions, shelteredCapacity, treeBuildOptions, type Command, type Settlement } from "../simulation/settlement";
 import { ActionArt } from "./ActionArt";
 const names={treehouse:"Tree home",nursery:"Nursery for chicks","hauling-basket":"Hauling basket","sleeping-deck":"Sleeping deck",store:"Store nest"};
 const art={treehouse:"home",nursery:"nursery","hauling-basket":"basket","sleeping-deck":"deck",store:"store"} as const;
@@ -15,16 +15,17 @@ export function TreeInspector({state,treeId,disabled,onSelect,onCommand,onGather
       <button className="action-tile" disabled={disabled||!option.available} onClick={()=>onCommand({type:"build",kind,at:tree})}>
         <ActionArt kind={art[kind]}/><span><strong>{kind==="treehouse"?"Build a home":`Build ${names[kind].toLowerCase()}`}</strong><small>{option.cost} reeds · {kind==="treehouse"||kind==="sleeping-deck"?"2 sleeping places":kind==="nursery"?"2 chicks, with care":"Lifts reeds to the deck"}</small></span>
       </button>
-      <p className="action-reason">{option.reason||(shortfall?`You can queue it now. Gather ${shortfall} more ${shortfall===1?"reed":"reeds"}.`:state.phase==="evening"?"Starts in the morning.":"Chickens will carry reeds and weave here.")}</p>
+      <p className="action-reason">{option.reason||(state.paused?"Work is paused. You can plan it now, then resume.":state.phase==="evening"?"Starts in the morning.":shortfall?`You can plan it now. Gather ${shortfall} more ${shortfall===1?"reed":"reeds"}.`:"Chickens will carry reeds and weave here.")}</p>
     </article>;
   };
   return <section className="tree-inspector" aria-label={`${tree.name} building places`}>
     <span className="eyebrow">TREE BUILDINGS</span><h2>{tree.name}</h2>
     <nav className="tree-tabs" aria-label="Named trees">{trees.map(t=><button key={t.id} aria-pressed={t.id===treeId} onClick={()=>onSelect(t.id)}>{t.name}</button>)}</nav>
-    {sites.filter(s=>!s.complete).map(site=>{const readout=projectReadout(state,site);return <article className="project-card" key={site.id} aria-label={`${names[site.kind]} project`}>
-      <h3>{names[site.kind]} queued</h3><p className="task-subtitle">At {tree.name} · {site.delivered}/{cost(site)} reeds delivered</p>
+    {sites.filter(s=>!s.complete).map(site=>{const readout=projectReadout(state,site);const {helper,reason,canChoose}=gatherRecovery(state);return <article className="project-card" key={site.id} aria-label={`${names[site.kind]} project`}>
+      <h3>{names[site.kind]} · {readout.title.toLowerCase()}</h3><p className="task-subtitle">At {tree.name} · {site.delivered}/{cost(site)} reeds delivered</p>
       <progress max={100} value={readout.progress} aria-label={`${names[site.kind]} progress`}/><p role="status">{readout.status}</p>
-      {readout.shortfall>0&&<button onClick={onGather}>Choose a chicken to gather reeds</button>}
+      {!!readout.waiting&&!readout.status.includes(readout.waiting)&&<p>{readout.waiting}</p>}
+      {state.paused?<button className="build-command" disabled={disabled} onClick={()=>onCommand({type:"pause"})}>Resume work</button>:readout.shortfall>0&&<><p>Needs {readout.shortfall} more {readout.shortfall===1?"reed":"reeds"}.</p>{helper?<button disabled={disabled} onClick={()=>{const option=requestOptions(state,helper).find(o=>o.kind==="gather")!;onCommand({type:"request",bird:helper.id,kind:"gather",target:option.target});}}>Ask {helper.life.name} to gather reeds</button>:<><p>{reason}</p>{canChoose&&<button onClick={onGather}>Choose a chicken</button>}</>}</>}
       <details><summary>Project details</summary><p>{readout.progress}% done · {site.contributors.length?`Helped by ${site.contributors.map(id=>state.birds.find(b=>b.id===id)!.life.name).join(", ")}`:"Work has been requested."}</p><button disabled={disabled} onClick={()=>onCommand({type:"cancel",id:site.id})}>Cancel building</button></details>
     </article>})}
     {recipe("treehouse")}

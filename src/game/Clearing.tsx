@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { createClearing } from "./create-clearing";
-import { shelteredCapacity } from "../simulation/settlement";
+import { cost, projectReadout, shelteredCapacity, treeBuildOptions } from "../simulation/settlement";
 import type { Cell, Settlement } from "../simulation/settlement";
 import { foodPatches, trees } from "../content/settlement";
 import type { TreeId, SettlerId } from "../content/settlement";
+import { ActionArt } from "../app/ActionArt";
 export type Tool = "inspect" | "gather" | "forage" | "build" | "store";
 export function Clearing({
   state,
@@ -16,6 +17,7 @@ export function Clearing({
   highlight,
   tool,
   onCursor,
+  homePlacement,
 }: {
   state: Settlement;
   selected: SettlerId;
@@ -27,6 +29,7 @@ export function Clearing({
   highlight: boolean;
   tool: Tool;
   onCursor: (at: Cell) => void;
+  homePlacement: boolean;
 }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const world = useRef<ReturnType<typeof createClearing> | null>(null);
@@ -35,6 +38,7 @@ export function Clearing({
   latest.current = { onSelect, onPick, onTree };
   const [error, setError] = useState("");
   const [assets, setAssets] = useState<"loading" | "ready" | "failed">("loading");
+  const visibleProjects=trees.map(t=>state.sites.find(s=>s.tree===t.id&&!s.complete)??state.sites.filter(s=>s.tree===t.id&&s.complete).at(-1)).filter(s=>s!==undefined);
   useEffect(() => {
     try {
       world.current = createClearing(
@@ -128,21 +132,25 @@ export function Clearing({
             }}
             className="tree-label"
             hidden={tool!=="build"}
+            disabled={homePlacement&&!treeBuildOptions(state,t.id).find(o=>o.kind==="treehouse")!.available}
             onClick={() => {
               onCursor({ x: t.x, z: t.z });
               onTree(t.id);
             }}
-            aria-label={`Choose ${t.name} tree`}
+            aria-label={homePlacement?`Build a home at ${t.name}`:`Choose ${t.name} tree`}
           >
             {t.name}
             <small>
-              2 natural
+              {homePlacement?"Build home":<>2 natural
               {shelteredCapacity(state,t.id)>0
                 ? ` + ${shelteredCapacity(state,t.id)} sheltered`
-                : " branches"}
+                : " branches"}</>}
             </small>
           </button>
         ))}
+        {visibleProjects.map(site=>{const readout=projectReadout(state,site);const others=state.sites.filter(s=>s.tree===site.tree&&!s.complete&&s.id!==site.id).length;const label=site.kind==="treehouse"?"Home":site.kind==="sleeping-deck"?"Deck":site.kind==="hauling-basket"?"Basket":"Nursery";return <button key={site.id} hidden={homePlacement} className={`project-label${site.complete?" complete":""}`} ref={el=>{labels.current[site.id]=el;}} onClick={()=>onTree(site.tree!)} aria-label={`${label} at ${trees.find(t=>t.id===site.tree)!.name}: ${readout.title}`}>
+          <ActionArt kind={site.kind==="treehouse"?"home":site.kind==="sleeping-deck"?"deck":site.kind==="hauling-basket"?"basket":"nursery"}/><span><strong>{label} · {readout.title.toLowerCase()}</strong>{!site.complete&&<small>{site.delivered}/{cost(site)} reeds · {readout.progress}%{others?` · +${others} more`:""}</small>}</span>
+        </button>;})}
         {state.forage.map(p => <button key={p.id} className="tree-label forage-label" hidden={tool !== "forage"} ref={el => {labels.current[p.id] = el;}} onClick={() => onForage(p.id)} aria-label={`Inspect ${p.id} forage place`}>
           {foodPatches.find(f => f.id === p.id)?.name ?? p.id}<small>{p.remaining}/{p.capacity} food · {p.open ? "open" : "resting"}</small>
         </button>)}
@@ -175,7 +183,7 @@ export function Clearing({
         </span>
       </div>
       <p id="camera-hint" className="camera-hint">
-        {tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · let chickens forage" : tool === "gather" ? "Choose a construction reed patch" : tool === "build" ? "Choose a named tree · build where it belongs" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
+        {homePlacement?"Choose a tree to start this home · Cancel placement to stop":tool === "inspect" ? "Choose a bird · fixed grove view" : tool === "forage" ? "Choose a food place · let chickens forage" : tool === "gather" ? "Choose a construction reed patch" : tool === "build" ? "Choose a named tree · build where it belongs" : `${tool.toUpperCase()} · choose a cell · arrows move cursor · Enter uses tool`}
       </p>
     </section>
   );

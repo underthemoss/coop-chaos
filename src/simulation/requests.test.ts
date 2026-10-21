@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { economyTuning, trees } from "../content/settlement";
 import { settlementV5Fixture } from "../persistence/settlement-fixtures";
 import { decodeSettlement, encodeSettlement, validateSettlement } from "../persistence/settlement-save";
-import { command, conserved, foodConserved, initialSettlement, requestOptions, requestStatus, step, type Settlement } from "./settlement";
+import { command, conserved, currentWork, foodConserved, gatherRecovery, initialSettlement, projectReadout, requestOptions, requestStatus, step, type Settlement } from "./settlement";
 function advance(s: Settlement, done: (s: Settlement)=>boolean, limit=4000) {
   for(let i=0;i<limit&&!done(s);i++) {
     s=step(s); validateSettlement(s);
@@ -22,6 +22,74 @@ function home() {
   return advance(s,s=>s.sites[0].complete);
 }
 describe("one-task chicken requests",()=>{
+  it("distinguishes depleted reeds from adults occupied by care or requests",()=>{
+    const s=initialSettlement();
+    expect(gatherRecovery(s).helper?.id).toBe("fern");
+    s.birds.forEach(b=>{b.care="brood";});
+    expect(gatherRecovery(s).reason).toMatch(/Every adult is caring/);
+    s.patches.forEach(p=>{p.remaining=0;});
+    expect(gatherRecovery(s)).toEqual({helper:null,canChoose:false,reason:"No reeds ready to gather. New construction reeds regrow during daylight. Leave time running until a patch recovers."});
+    s.birds.forEach(b=>{b.care=null;});
+    expect(gatherRecovery(s).reason).toMatch(/regrow during daylight/);
+  });
+  it("commissions a home and its named helper atomically, including a second project",()=>{
+    let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0]});
+    s=command(s,{type:"build",kind:"treehouse",at:trees[1],bird:"fern"});
+    expect(bird(s).request?.target).toBe(s.sites[1].id);
+    expect(s.sites[1].delivered).toBe(0);
+    s=decodeSettlement(encodeSettlement(s));
+    s=advance(s,s=>bird(s).requestResult?.outcome==="done");
+    expect(s.sites[1].contributors).toContain("fern");
+    expect(bird(s).deliveries).toBe(1);
+  });
+  it("rejects stale, duplicate, young and caring initiators without a partial site",()=>{
+    let s=request(initialSettlement(),"gather");
+    const before=encodeSettlement(s);
+    expect(()=>command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"fern"})).toThrow(/already has a request/);
+    expect(encodeSettlement(s)).toBe(before);expect(s.sites).toHaveLength(0);
+    s=initialSettlement();bird(s).care="brood";
+    expect(()=>command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"fern"})).toThrow(/caring/);
+    expect(s.sites).toHaveLength(0);bird(s).care=null;bird(s).life.stage="juvenile";
+    expect(()=>command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"fern"})).toThrow(/young/);
+    s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0],bird:"fern"});
+    expect(()=>command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"rook"})).toThrow(/already exists/);
+    expect(s.sites).toHaveLength(1);expect(s.birds[1].request).toBe(null);
+  });
+  it("keeps secured cargo and essential feeding ahead of a newly commissioned home",()=>{
+    let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0]});
+    s=advance(s,s=>bird(s).cargo===1);
+    const job=structuredClone(bird(s).job);
+    s=command(s,{type:"build",kind:"treehouse",at:trees[1],bird:"fern"});
+    expect(bird(s).cargo).toBe(1);expect(bird(s).job).toEqual(job);
+    expect(bird(s).request?.phase).toBe("pending");expect(requestStatus(s,bird(s))).toMatch(/delivery first/);
+    s=advance(s,s=>bird(s).cargo===0);
+    expect(s.sites[0].delivered).toBeGreaterThan(0);
+    bird(s).satiety=5;bird(s).protein=5;
+    expect(requestStatus(s,bird(s))).toMatch(/Eating first/);
+    s=advance(s,s=>bird(s).foraging?.intent==="eat");
+    expect(bird(s).request?.target).toBe(s.sites[1].id);
+  });
+  it("shows pause before night, shortage or allocated jobs and preserves it through reload",()=>{
+    let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0],bird:"fern"});
+    s=step(s);expect(projectReadout(s,s.sites[0]).title).toBe("Delivering reeds");
+    s=command(s,{type:"pause"});s=decodeSettlement(encodeSettlement(s));
+    expect(projectReadout(s,s.sites[0]).status).toMatch(/paused/);
+    expect(projectReadout(s,s.sites[0]).title).toBe("Paused");expect(step(s)).toBe(s);
+    s=command(s,{type:"pause"});s=command(s,{type:"phase",phase:"evening"});
+    expect(projectReadout(s,s.sites[0]).title).toBe("Waiting for morning");
+    s=command(s,{type:"phase",phase:"day"});
+    s=advance(s,s=>s.sites[0].complete);expect(projectReadout(s,s.sites[0]).title).toBe("Ready");
+  });
+  it("distinguishes a builder still walking from actual weaving at the workcourt",()=>{
+    let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[2],bird:"fern"});
+    s=advance(s,s=>s.birds.some(b=>b.job?.kind==="build"&&!!b.edge));
+    expect(s.sites[0].progress).toBe(0);
+    expect(projectReadout(s,s.sites[0]).title).toBe("Walking to build");
+    expect(projectReadout(s,s.sites[0]).status).toMatch(/walking here/);
+    expect(currentWork(s,s.birds.find(b=>b.job?.kind==="build"&&!!b.edge)!)).toBe("Walking to build");
+    s=advance(s,s=>s.sites[0].progress>0);
+    expect(projectReadout(s,s.sites[0]).title).toBe("Weaving");
+  });
   it("pauses a weaving task at automatic dusk, reloads unchanged, and finishes after morning",()=>{
     let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0]});
     s=request(s,"build");
