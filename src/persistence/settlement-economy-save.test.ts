@@ -71,7 +71,7 @@ function nurseryFixture(): Settlement {
       father: "rook",
       carer: "fern",
       stage: "incubating",
-      progress: 7200 - 1,
+      progress: economyTuning.incubationTicks - 1,
       eggs: [0, 1].map((i) => ({
         id: `egg-brood-3-${i}`,
         laidAt: 150 * (i + 1),

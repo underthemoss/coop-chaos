@@ -77,16 +77,16 @@ hen's willingness/condition/history, completed nursery, at least two local units
 of each food, two future adult berths, other adult delivery capacity and food
 forecast. The hen lays two durable eggs over 300 supplied care ticks, consuming
 one unit of each food per egg. Unincubated eggs expire after 2,400 ticks. First
-fertile, well-cared eggs hatch deterministically after 7,200 supplied incubation
+fertile, well-cared eggs hatch deterministically after 2,400 supplied incubation
 ticks; broader stochastic loss is deferred. One egg can create only one child.
 
 Care requires the assigned adult to be physically at the nursery, with continuing
 local staple and protein food. A care meal costs one of each per 180 care ticks,
 including evening. Shortages pause care, incubation and dependent growth with an
 explicit reason; they do not create free progress. Self-care breaks are real.
-Chicks remain grounded, consume continuing care and become juveniles after 7,200
+Chicks remain grounded, consume continuing care and become juveniles after 2,400
 qualified post-hatch ticks. Juveniles remain grounded, feed themselves and become
-adult workers at 14,400 qualified post-hatch ticks. They never use adult flight
+adult workers at 4,800 qualified post-hatch ticks. They never use adult flight
 early. Newborns inherit their mother's existing visual appearance with smaller
 bodies and restrained comb/tail; their own names, parents, age, stage, birthplace,
 carer bond and memories persist. Repeated care establishes an attachment to the
@@ -96,9 +96,28 @@ The automatic clock uses 1,800 daytime and 600 evening ticks (four minutes at
 1×), with pause and 1×/4× controls. Every need, recovery and development uses the
 same 0.1-second simulation ticks. There is no offline catch-up. The support-only
 phase command changes neither age nor resources; normal UI has no phase button.
-A supplied incubation is three cycles; juvenile and adult thresholds are three
-and six cycles after hatching. Full adulthood is therefore roughly forty minutes
-from a fresh opening, not a claimed thirty-minute complete growth loop.
+A supplied incubation is one cycle; juvenile and adult thresholds are one
+and two cycles after hatching. This is deliberately compressed fictional growth:
+perfect continuous support takes 7,500 ticks (12 minutes 30 seconds at 1×,
+3 minutes 7.5 seconds at 4×), including laying. Travel, meals, shortages and the
+opening wait for actual fertility add time; these are not arrival promises.
+
+This bounded pacing change brings new workers into an early-nursery opening
+while construction remains. It does not change fertility, clock speed, costs,
+capacity, food recovery or the meal rate. Full supplied laying, incubation and
+chick care now consume 30 of each food instead of 83 under the former three-cycle
+phases, and release the carer sooner. That lower lifetime food/labor burden is an
+intentional consequence, not a throughput bonus or a claim about long-play balance.
+Building continuously before supporting a brood can still finish the grove first.
+
+Version-eight saves define development as qualified progress units. Older
+version-five through version-seven saves are strictly validated using their
+original 7,200/7,200/14,400 growth bounds, then retain proportional progress within
+the same stage (rounded down). Incubation, chick and juvenile progress are mapped;
+adults, laying and failed broods are unchanged. Chronological age, hatch records,
+actual care ticks and bond, identities, memories, supplies, work, cargo and focus
+stay intact. Import itself never births or matures a bird. This avoids leaving
+existing growing broods permanently on the slower pacing.
 
 Growth planning counts existing residents and pending eggs once. The displayed
 food forecast counts each open habitat's recovery once, retains a 15% habitat

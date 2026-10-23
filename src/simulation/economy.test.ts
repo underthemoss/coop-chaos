@@ -67,7 +67,7 @@ describe("bounded economic population", () => {
     expect(new Set(eggIds).size).toBe(2);
     s = decodeSettlement(encodeSettlement(s));
     s = until(s, s => s.birds.length === 6, 20000);
-    expect(s.tick).toBe(9321);
+    expect(s.tick).toBe(4521);
     const hatch = structuredClone(s);
     expect(populationReadout(s)).toMatchObject({label:"4 adults · 2 chicks",pending:0,committed:6});
     expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Chicks growing",progress:0});
@@ -79,15 +79,15 @@ describe("bounded economic population", () => {
     }
     s = decodeSettlement(encodeSettlement(s));
     s = advance(s, economyTuning.juvenileTicks);
-    expect(s.birds.slice(4).every(b => b.life.stage === "juvenile" && b.life.development === 7200 && !b.flight && !b.perch)).toBe(true);
-    expect(s.birds.slice(4).every(b => b.attachment === "lowfork" && b.life.bond === 7200)).toBe(true);
+    expect(s.birds.slice(4).every(b => b.life.stage === "juvenile" && b.life.development === economyTuning.juvenileTicks && !b.flight && !b.perch)).toBe(true);
+    expect(s.birds.slice(4).every(b => b.attachment === "lowfork" && b.life.bond === economyTuning.juvenileTicks)).toBe(true);
     expect(s.birds.find(b => b.id === mother.id)!.care).toBeNull();
     expect(populationReadout(s)).toMatchObject({label:"4 adults · 2 juveniles",pending:0,committed:6});
     expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Juveniles growing",carer:null,progress:50,progressLabel:"Growth toward adulthood"});
     s = decodeSettlement(encodeSettlement(s));
     s = until(s, s => s.birds.every(b => b.life.stage === "adult"), 20000);
     s = advance(s, 1);
-    expect(s.tick).toBe(23722);
+    expect(s.tick).toBe(9322);
     expect(s.economy.broods[0].stage).toBe("complete");
     expect(populationReadout(s)).toMatchObject({label:"6 adults",pending:0,committed:6});
     expect(nurseryReadout(s,s.sites[1].id)).toMatchObject({title:"Young grown",progress:100,carer:null});
@@ -97,6 +97,24 @@ describe("bounded economic population", () => {
     expect(s.patches[0].harvested).toBeGreaterThan(s.patches[0].capacity);
     expect(foodConserved(s)).toBe(true);
   }, 30000);
+
+  it("releases real new workers while an early-nursery opening still has construction to do", () => {
+    let s=support(), index=0, target:string|null=null;
+    const plans=trees.flatMap(tree=>(["treehouse","hauling-basket","sleeping-deck","nursery"] as const).filter(kind=>!s.sites.some(site=>site.tree===tree.id&&site.kind===kind)).map(kind=>({tree,kind})));
+    let adultTick:number|null=null, contribution=false;
+    for(let i=0;i<15000&&!contribution;i++) {
+      if(index<plans.length&&(!target||s.sites.find(site=>site.id===target)!.complete)) {
+        const plan=plans[index++];s=command(s,{type:"build",kind:plan.kind,at:plan.tree});target=s.sites.at(-1)!.id;
+      }
+      const previous=s;s=step(s);
+      const adults=s.birds.filter(b=>b.life.mother&&b.life.stage==="adult");
+      if(adults.length&&adultTick===null){adultTick=s.tick;expect(s.sites.filter(site=>site.complete)).toHaveLength(8);expect(s.economy.foodConsumed).toEqual({staple:30,protein:30});}
+      contribution=adults.some(b=>s.sites.some(site=>site.contributors.includes(b.id)&&!previous.sites.find(old=>old.id===site.id)?.contributors.includes(b.id)));
+      if(i%500===0){validateSettlement(s);expect(foodConserved(s)).toBe(true);expect(conserved(s)).toBe(s.totalReeds);}
+    }
+    expect(adultTick).toBe(9321);expect(contribution).toBe(true);expect(s.sites.some(site=>!site.complete)).toBe(true);
+    expect(decodeSettlement(encodeSettlement(s))).toEqual(s);
+  },30000);
 
   it("projects actual care arrival, pause, shortage and completion before a brood starts again", () => {
     let s=support();
@@ -160,8 +178,8 @@ describe("bounded economic population", () => {
     let s = support();
     s = until(s, s => s.economy.broods[0].stage === "incubating");
     const restored = decodeSettlement(encodeSettlement(s));
-    const a = advance(s, 7600);
-    const b = advance(restored, 7600);
+    const a = advance(s, economyTuning.incubationTicks + 400);
+    const b = advance(restored, economyTuning.incubationTicks + 400);
     expect(b).toEqual(a);
     expect(a.birds).toHaveLength(6);
     expect(new Set(a.economy.broods[0].eggs.map(e => e.child)).size).toBe(2);
@@ -262,11 +280,13 @@ describe("bounded economic population", () => {
     s = advance(s, 2400);
     expect(s.economy.nurseries[0].food).toEqual({ staple: 6, protein: 0 });
     expect(broodStatusIfPresent(s)).toContain("local Bugs");
-    const stalled = s.economy.broods[0].progress;
+    const supplied = s.economy.broods[0].careTicks;
     for (const id of ["leaf-litter", "insect-verge"]) s = command(s, { type: "forage", id, open: true });
     s = command(s, { type: "priority", priority: "provision" });
     s = advance(s, 2400);
-    expect(s.economy.broods[0].progress - stalled).toBe(1428);
+    expect(s.economy.broods[0].careTicks - supplied).toBe(1428);
+    expect(s.economy.broods[0].stage).toBe("chicks");
+    expect(s.birds.slice(4).every(b=>b.life.development>0)).toBe(true);
     expect(s.economy.nurseries[0].food).toEqual({ staple: 6, protein: 6 });
   });
 

@@ -1,0 +1,3331 @@
+{
+  "oneEgg": {
+    "schemaVersion": 7,
+    "simulationVersion": "settlement-7",
+    "state": {
+      "constructionFocus": null,
+      "economy": {
+        "clock": {
+          "day": 1,
+          "phaseTick": 108,
+          "automatic": true,
+          "speed": 1
+        },
+        "priority": "provision",
+        "nurseries": [
+          {
+            "site": "site-2",
+            "food": {
+              "staple": 5,
+              "protein": 5
+            },
+            "target": 6,
+            "brood": "brood-3"
+          }
+        ],
+        "broods": [
+          {
+            "id": "brood-3",
+            "site": "site-2",
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "stage": "laying",
+            "progress": 150,
+            "eggs": [
+              {
+                "id": "egg-brood-3-0",
+                "laidAt": 1908,
+                "fertile": true,
+                "viable": true,
+                "child": null,
+                "hatchTick": null
+              }
+            ],
+            "careTicks": 150,
+            "mealProgress": 150,
+            "shortageTicks": 0,
+            "started": 1699
+          }
+        ],
+        "foodConsumed": {
+          "staple": 1,
+          "protein": 1
+        }
+      },
+      "basketTechnique": null,
+      "tick": 1908,
+      "phase": "evening",
+      "paused": false,
+      "nextId": 4,
+      "forage": [
+        {
+          "id": "seed-common",
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 10,
+          "harvested": {
+            "staple": 5,
+            "protein": 0
+          },
+          "proteinEaten": 0,
+          "regrown": 15,
+          "recoveryProgress": 0,
+          "open": true
+        },
+        {
+          "id": "leaf-litter",
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 0,
+          "harvested": {
+            "staple": 0,
+            "protein": 6
+          },
+          "proteinEaten": 0,
+          "regrown": 6,
+          "recoveryProgress": 0,
+          "open": true
+        },
+        {
+          "id": "insect-verge",
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 10,
+          "harvested": {
+            "staple": 1,
+            "protein": 0
+          },
+          "proteinEaten": 5,
+          "regrown": 11,
+          "recoveryProgress": 0,
+          "open": true
+        }
+      ],
+      "piles": [
+        {
+          "id": "reeds",
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "stock": 16,
+          "kind": "source"
+        }
+      ],
+      "patches": [
+        {
+          "id": "patch-west",
+          "at": {
+            "x": -4,
+            "z": 0
+          },
+          "capacity": 12,
+          "remaining": 0,
+          "harvested": 18,
+          "designated": true,
+          "regrown": 6,
+          "recoveryProgress": 223
+        },
+        {
+          "id": "patch-east",
+          "at": {
+            "x": 3,
+            "z": -2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "harvested": 0,
+          "designated": false,
+          "regrown": 0,
+          "recoveryProgress": 0
+        }
+      ],
+      "initialReeds": 8,
+      "harvestedReeds": 18,
+      "sites": [
+        {
+          "id": "site-1",
+          "kind": "treehouse",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-2",
+          "kind": "nursery",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern"
+          ],
+          "experiment": false
+        }
+      ],
+      "birds": [
+        {
+          "id": "fern",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Fern",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 1908,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": {
+              "father": "rook",
+              "tick": 1064
+            },
+            "matingProgress": 0
+          },
+          "protein": 87.71199999999953,
+          "foodCargo": null,
+          "provision": null,
+          "care": "brood-3",
+          "lift": null,
+          "satiety": 70.05999999999591,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 40,
+          "resting": false,
+          "deliveries": 9,
+          "attachment": "lowfork",
+          "memories": [
+            "Found food at Insect Verge; remembers the productive ground.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Spent willing time with Rook; a recent fertile pairing is remembered.",
+            "Gathered construction reeds at the western patch.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Chose to raise a brood at Lowfork; community work must carry on without her."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "rook",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Rook",
+            "appearance": "rook",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 1908,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 63.41199999999918,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 70.05999999999591,
+          "foragePreference": "open",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 59.875000000004,
+          "resting": true,
+          "deliveries": 14,
+          "attachment": "lowfork",
+          "memories": [
+            "Gathered construction reeds at the western patch.",
+            "Three deliveries taught a surer carrying rhythm.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork."
+          ],
+          "perch": {
+            "tree": "lowfork",
+            "slot": 0,
+            "sheltered": true
+          },
+          "flight": null
+        },
+        {
+          "id": "dapple",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Dapple",
+            "appearance": "dapple",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 1908,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 97.13199999999989,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 86.05999999999591,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 98.89500000000169,
+          "resting": false,
+          "deliveries": 9,
+          "attachment": "lowfork",
+          "memories": [
+            "Three deliveries taught a surer carrying rhythm.",
+            "Gathered construction reeds at the western patch.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Found food at Insect Verge; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork."
+          ],
+          "perch": {
+            "tree": "lowfork",
+            "slot": 1,
+            "sheltered": true
+          },
+          "flight": null
+        },
+        {
+          "id": "wren",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Wren",
+            "appearance": "wren",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 1908,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 63.41199999999918,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 70.05999999999591,
+          "foragePreference": "cover",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 80,
+          "resting": false,
+          "deliveries": 8,
+          "attachment": "lowfork",
+          "memories": [
+            "Helped build Lowfork; wants to sleep there.",
+            "Three deliveries taught a surer carrying rhythm.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Slept on a natural branch at Lowfork."
+          ],
+          "perch": {
+            "tree": "lowfork",
+            "slot": 0,
+            "sheltered": false
+          },
+          "flight": null
+        }
+      ],
+      "consumed": 10,
+      "totalReeds": 26
+    }
+  },
+  "incubating": {
+    "schemaVersion": 7,
+    "simulationVersion": "settlement-7",
+    "state": {
+      "constructionFocus": null,
+      "economy": {
+        "clock": {
+          "day": 3,
+          "phaseTick": 1321,
+          "automatic": true,
+          "speed": 1
+        },
+        "priority": "provision",
+        "nurseries": [
+          {
+            "site": "site-2",
+            "food": {
+              "staple": 6,
+              "protein": 6
+            },
+            "target": 6,
+            "brood": "brood-3"
+          }
+        ],
+        "broods": [
+          {
+            "id": "brood-3",
+            "site": "site-2",
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "stage": "incubating",
+            "progress": 4000,
+            "eggs": [
+              {
+                "id": "egg-brood-3-0",
+                "laidAt": 1908,
+                "fertile": true,
+                "viable": true,
+                "child": null,
+                "hatchTick": null
+              },
+              {
+                "id": "egg-brood-3-1",
+                "laidAt": 2058,
+                "fertile": true,
+                "viable": true,
+                "child": null,
+                "hatchTick": null
+              }
+            ],
+            "careTicks": 4300,
+            "mealProgress": 160,
+            "shortageTicks": 63,
+            "started": 1699
+          }
+        ],
+        "foodConsumed": {
+          "staple": 25,
+          "protein": 25
+        }
+      },
+      "basketTechnique": null,
+      "tick": 6121,
+      "phase": "day",
+      "paused": false,
+      "nextId": 4,
+      "forage": [
+        {
+          "id": "seed-common",
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "capacity": 12,
+          "remaining": 6,
+          "eaten": 49,
+          "harvested": {
+            "staple": 30,
+            "protein": 0
+          },
+          "proteinEaten": 0,
+          "regrown": 73,
+          "recoveryProgress": 18,
+          "open": true
+        },
+        {
+          "id": "leaf-litter",
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 7,
+          "harvested": {
+            "staple": 0,
+            "protein": 30
+          },
+          "proteinEaten": 7,
+          "regrown": 37,
+          "recoveryProgress": 0,
+          "open": true
+        },
+        {
+          "id": "insect-verge",
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 14,
+          "harvested": {
+            "staple": 1,
+            "protein": 1
+          },
+          "proteinEaten": 7,
+          "regrown": 16,
+          "recoveryProgress": 0,
+          "open": true
+        }
+      ],
+      "piles": [
+        {
+          "id": "reeds",
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "stock": 29,
+          "kind": "source"
+        }
+      ],
+      "patches": [
+        {
+          "id": "patch-west",
+          "at": {
+            "x": -4,
+            "z": 0
+          },
+          "capacity": 12,
+          "remaining": 0,
+          "harvested": 31,
+          "designated": true,
+          "regrown": 19,
+          "recoveryProgress": 225
+        },
+        {
+          "id": "patch-east",
+          "at": {
+            "x": 3,
+            "z": -2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "harvested": 0,
+          "designated": false,
+          "regrown": 0,
+          "recoveryProgress": 0
+        }
+      ],
+      "initialReeds": 8,
+      "harvestedReeds": 31,
+      "sites": [
+        {
+          "id": "site-1",
+          "kind": "treehouse",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-2",
+          "kind": "nursery",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern"
+          ],
+          "experiment": false
+        }
+      ],
+      "birds": [
+        {
+          "id": "fern",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Fern",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 6121,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": {
+              "father": "rook",
+              "tick": 1064
+            },
+            "matingProgress": 0
+          },
+          "protein": 98.07999999999993,
+          "foodCargo": null,
+          "provision": null,
+          "care": "brood-3",
+          "lift": null,
+          "satiety": 90.39999999999964,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 40,
+          "resting": false,
+          "deliveries": 9,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Spent willing time with Rook; a recent fertile pairing is remembered.",
+            "Gathered construction reeds at the western patch.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Chose to raise a brood at Lowfork; community work must carry on without her.",
+            "Laid two fertile eggs at Lowfork; stays to incubate them."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "rook",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Rook",
+            "appearance": "rook",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 6121,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 55.94799999999776,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 80.99999999999898,
+          "foragePreference": "open",
+          "rememberedForage": "leaf-litter",
+          "foraging": {
+            "patch": "leaf-litter",
+            "spot": {
+              "x": 0,
+              "z": 2
+            },
+            "intent": "browse",
+            "progress": 0
+          },
+          "at": {
+            "x": 0,
+            "z": 1
+          },
+          "edge": {
+            "to": {
+              "x": 0,
+              "z": 2
+            },
+            "progress": 0.17561600000000005
+          },
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 70.0100000000034,
+          "resting": false,
+          "deliveries": 34,
+          "attachment": "lowfork",
+          "memories": [
+            "Three deliveries taught a surer carrying rhythm.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "dapple",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Dapple",
+            "appearance": "dapple",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 6121,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 82.19199999999933,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 58.73999999998881,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": {
+            "patch": "insect-verge",
+            "spot": {
+              "x": 3,
+              "z": 1
+            },
+            "intent": "browse",
+            "progress": 0
+          },
+          "at": {
+            "x": 1,
+            "z": 1
+          },
+          "edge": {
+            "to": {
+              "x": 2,
+              "z": 1
+            },
+            "progress": 0.9408000000000002
+          },
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 62.17500000000376,
+          "resting": false,
+          "deliveries": 32,
+          "attachment": "lowfork",
+          "memories": [
+            "Gathered construction reeds at the western patch.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Found food at Insect Verge; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "wren",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Wren",
+            "appearance": "wren",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 6121,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 78.8079999999992,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 74.73999999998881,
+          "foragePreference": "cover",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 49.88000000000345,
+          "resting": false,
+          "deliveries": 28,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Slept on a natural branch at Lowfork.",
+            "Gathered construction reeds at the western patch.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        }
+      ],
+      "consumed": 10,
+      "totalReeds": 39
+    }
+  },
+  "chick": {
+    "schemaVersion": 7,
+    "simulationVersion": "settlement-7",
+    "state": {
+      "constructionFocus": null,
+      "economy": {
+        "clock": {
+          "day": 6,
+          "phaseTick": 1321,
+          "automatic": true,
+          "speed": 1
+        },
+        "priority": "provision",
+        "nurseries": [
+          {
+            "site": "site-2",
+            "food": {
+              "staple": 6,
+              "protein": 6
+            },
+            "target": 6,
+            "brood": "brood-3"
+          }
+        ],
+        "broods": [
+          {
+            "id": "brood-3",
+            "site": "site-2",
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "stage": "chicks",
+            "progress": 0,
+            "eggs": [
+              {
+                "id": "egg-brood-3-0",
+                "laidAt": 1908,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-4",
+                "hatchTick": 9321
+              },
+              {
+                "id": "egg-brood-3-1",
+                "laidAt": 2058,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-5",
+                "hatchTick": 9321
+              }
+            ],
+            "careTicks": 11500,
+            "mealProgress": 160,
+            "shortageTicks": 63,
+            "started": 1699
+          }
+        ],
+        "foodConsumed": {
+          "staple": 65,
+          "protein": 65
+        }
+      },
+      "basketTechnique": null,
+      "tick": 13321,
+      "phase": "day",
+      "paused": false,
+      "nextId": 6,
+      "forage": [
+        {
+          "id": "seed-common",
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "capacity": 12,
+          "remaining": 11,
+          "eaten": 89,
+          "harvested": {
+            "staple": 69,
+            "protein": 0
+          },
+          "proteinEaten": 0,
+          "regrown": 157,
+          "recoveryProgress": 12,
+          "open": true
+        },
+        {
+          "id": "leaf-litter",
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 25,
+          "harvested": {
+            "staple": 0,
+            "protein": 69
+          },
+          "proteinEaten": 25,
+          "regrown": 94,
+          "recoveryProgress": 0,
+          "open": true
+        },
+        {
+          "id": "insect-verge",
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 21,
+          "harvested": {
+            "staple": 2,
+            "protein": 2
+          },
+          "proteinEaten": 10,
+          "regrown": 25,
+          "recoveryProgress": 0,
+          "open": true
+        }
+      ],
+      "piles": [
+        {
+          "id": "reeds",
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "stock": 51,
+          "kind": "source"
+        }
+      ],
+      "patches": [
+        {
+          "id": "patch-west",
+          "at": {
+            "x": -4,
+            "z": 0
+          },
+          "capacity": 12,
+          "remaining": 0,
+          "harvested": 54,
+          "designated": true,
+          "regrown": 42,
+          "recoveryProgress": 105
+        },
+        {
+          "id": "patch-east",
+          "at": {
+            "x": 3,
+            "z": -2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "harvested": 0,
+          "designated": false,
+          "regrown": 0,
+          "recoveryProgress": 0
+        }
+      ],
+      "initialReeds": 8,
+      "harvestedReeds": 54,
+      "sites": [
+        {
+          "id": "site-1",
+          "kind": "treehouse",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-2",
+          "kind": "nursery",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern"
+          ],
+          "experiment": false
+        }
+      ],
+      "birds": [
+        {
+          "id": "fern",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Fern",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 13321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": {
+              "father": "rook",
+              "tick": 1064
+            },
+            "matingProgress": 0
+          },
+          "protein": 98.07999999999993,
+          "foodCargo": null,
+          "provision": null,
+          "care": "brood-3",
+          "lift": null,
+          "satiety": 90.39999999999964,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 40,
+          "resting": false,
+          "deliveries": 9,
+          "attachment": "lowfork",
+          "memories": [
+            "Gathered construction reeds at the western patch.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Chose to raise a brood at Lowfork; community work must carry on without her.",
+            "Laid two fertile eggs at Lowfork; stays to incubate them.",
+            "Kept Pip warm from egg to chick at Lowfork.",
+            "Kept Clover warm from egg to chick at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "rook",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Rook",
+            "appearance": "rook",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 13321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 54.27999999999827,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 68.9999999999867,
+          "foragePreference": "open",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -3,
+            "z": 0
+          },
+          "edge": {
+            "to": {
+              "x": -3,
+              "z": -1
+            },
+            "progress": 0.08780800000000002
+          },
+          "cargo": 1,
+          "gatheringProgress": 0,
+          "job": {
+            "kind": "gather",
+            "source": "patch-west",
+            "destination": "reeds",
+            "stage": "deliver"
+          },
+          "energy": 64.5650000000036,
+          "resting": false,
+          "deliveries": 71,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Gathered construction reeds at the western patch."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "dapple",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Dapple",
+            "appearance": "dapple",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 13321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 95.45199999999983,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 70.85999999999677,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 49.040000000003154,
+          "resting": false,
+          "deliveries": 66,
+          "attachment": "lowfork",
+          "memories": [
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept on a natural branch at Lowfork.",
+            "Gathered construction reeds at the western patch.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "wren",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Wren",
+            "appearance": "wren",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 13321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 72.36399999999895,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 86.73999999997653,
+          "foragePreference": "cover",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 70.36000000000412,
+          "resting": false,
+          "deliveries": 59,
+          "attachment": "lowfork",
+          "memories": [
+            "Gathered construction reeds at the western patch.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered protein food to the root nursery at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-4",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Pip",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "chick",
+            "age": 4000,
+            "development": 4000,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 4000,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 85,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 82,
+          "foragePreference": "mixed",
+          "rememberedForage": null,
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 75,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": null,
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-5",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Clover",
+            "appearance": "fern",
+            "sex": "rooster",
+            "stage": "chick",
+            "age": 4000,
+            "development": 4000,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 4000,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 85,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 82,
+          "foragePreference": "mixed",
+          "rememberedForage": null,
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 75,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": null,
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm."
+          ],
+          "perch": null,
+          "flight": null
+        }
+      ],
+      "consumed": 10,
+      "totalReeds": 62
+    }
+  },
+  "juvenile": {
+    "schemaVersion": 7,
+    "simulationVersion": "settlement-7",
+    "state": {
+      "constructionFocus": null,
+      "economy": {
+        "clock": {
+          "day": 9,
+          "phaseTick": 121,
+          "automatic": true,
+          "speed": 1
+        },
+        "priority": "provision",
+        "nurseries": [
+          {
+            "site": "site-2",
+            "food": {
+              "staple": 6,
+              "protein": 6
+            },
+            "target": 6,
+            "brood": "brood-3"
+          }
+        ],
+        "broods": [
+          {
+            "id": "brood-3",
+            "site": "site-2",
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "stage": "chicks",
+            "progress": 0,
+            "eggs": [
+              {
+                "id": "egg-brood-3-0",
+                "laidAt": 1908,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-4",
+                "hatchTick": 9321
+              },
+              {
+                "id": "egg-brood-3-1",
+                "laidAt": 2058,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-5",
+                "hatchTick": 9321
+              }
+            ],
+            "careTicks": 14700,
+            "mealProgress": 120,
+            "shortageTicks": 63,
+            "started": 1699
+          }
+        ],
+        "foodConsumed": {
+          "staple": 83,
+          "protein": 83
+        }
+      },
+      "basketTechnique": null,
+      "tick": 19321,
+      "phase": "day",
+      "paused": false,
+      "nextId": 6,
+      "forage": [
+        {
+          "id": "seed-common",
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "capacity": 12,
+          "remaining": 8,
+          "eaten": 137,
+          "harvested": {
+            "staple": 87,
+            "protein": 0
+          },
+          "proteinEaten": 0,
+          "regrown": 220,
+          "recoveryProgress": 31,
+          "open": true
+        },
+        {
+          "id": "leaf-litter",
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 38,
+          "harvested": {
+            "staple": 0,
+            "protein": 87
+          },
+          "proteinEaten": 38,
+          "regrown": 125,
+          "recoveryProgress": 0,
+          "open": true
+        },
+        {
+          "id": "insect-verge",
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 37,
+          "harvested": {
+            "staple": 2,
+            "protein": 2
+          },
+          "proteinEaten": 18,
+          "regrown": 41,
+          "recoveryProgress": 0,
+          "open": true
+        }
+      ],
+      "piles": [
+        {
+          "id": "reeds",
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "stock": 68,
+          "kind": "source"
+        }
+      ],
+      "patches": [
+        {
+          "id": "patch-west",
+          "at": {
+            "x": -4,
+            "z": 0
+          },
+          "capacity": 12,
+          "remaining": 0,
+          "harvested": 71,
+          "designated": true,
+          "regrown": 59,
+          "recoveryProgress": 225
+        },
+        {
+          "id": "patch-east",
+          "at": {
+            "x": 3,
+            "z": -2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "harvested": 0,
+          "designated": false,
+          "regrown": 0,
+          "recoveryProgress": 0
+        }
+      ],
+      "initialReeds": 8,
+      "harvestedReeds": 71,
+      "sites": [
+        {
+          "id": "site-1",
+          "kind": "treehouse",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-2",
+          "kind": "nursery",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern"
+          ],
+          "experiment": false
+        }
+      ],
+      "birds": [
+        {
+          "id": "fern",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Fern",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 19321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": {
+              "father": "rook",
+              "tick": 1064
+            },
+            "matingProgress": 13
+          },
+          "protein": 76.93599999999913,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 80.67999999999563,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": {
+            "patch": "seed-common",
+            "spot": {
+              "x": -1,
+              "z": -1
+            },
+            "intent": "browse",
+            "progress": 1
+          },
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 98.42500000000015,
+          "resting": false,
+          "deliveries": 16,
+          "attachment": "lowfork",
+          "memories": [
+            "The young at Lowfork can now feed themselves; returned to community work.",
+            "Slept on a natural branch at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Gathered construction reeds at the western patch.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "rook",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Rook",
+            "appearance": "rook",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 19321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 89.87199999999962,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 83.93999999999545,
+          "foragePreference": "open",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -1,
+            "z": -2
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 78.72000000000023,
+          "resting": false,
+          "deliveries": 85,
+          "attachment": "lowfork",
+          "memories": [
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Gathered construction reeds at the western patch.",
+            "Slept on a natural branch at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "dapple",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Dapple",
+            "appearance": "dapple",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 19321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 45.05199999999792,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 58.859999999987224,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -3,
+            "z": -1
+          },
+          "edge": {
+            "to": {
+              "x": -3,
+              "z": -2
+            },
+            "progress": 0.39200000000000007
+          },
+          "cargo": 1,
+          "gatheringProgress": 0,
+          "job": {
+            "kind": "gather",
+            "source": "patch-west",
+            "destination": "reeds",
+            "stage": "deliver"
+          },
+          "energy": 95.63000000000028,
+          "resting": false,
+          "deliveries": 83,
+          "attachment": "lowfork",
+          "memories": [
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept on a natural branch at Lowfork.",
+            "Gathered construction reeds at the western patch.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "wren",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Wren",
+            "appearance": "wren",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 19321,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 78.9519999999992,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 74.73999999996698,
+          "foragePreference": "cover",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 91.60000000000082,
+          "resting": false,
+          "deliveries": 74,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Slept on a natural branch at Lowfork.",
+            "Gathered construction reeds at the western patch.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-4",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Pip",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "juvenile",
+            "age": 10000,
+            "development": 10000,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 7200,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 93.96399999999977,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 77.79999999999916,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": {
+            "patch": "insect-verge",
+            "spot": {
+              "x": 3,
+              "z": 1
+            },
+            "intent": "eat",
+            "progress": 0
+          },
+          "at": {
+            "x": 0,
+            "z": 1
+          },
+          "edge": {
+            "to": {
+              "x": 1,
+              "z": 1
+            },
+            "progress": 0.31500000000000006
+          },
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 78.70500000000013,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": "lowfork",
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm.",
+            "Fern's continuing care made Lowfork feel like home.",
+            "Found food at Insect Verge; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-5",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Clover",
+            "appearance": "fern",
+            "sex": "rooster",
+            "stage": "juvenile",
+            "age": 10000,
+            "development": 10000,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 7200,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 96.56799999999987,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 90.81999999999965,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 80,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": "lowfork",
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm.",
+            "Fern's continuing care made Lowfork feel like home.",
+            "Found food at Insect Verge; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        }
+      ],
+      "consumed": 10,
+      "totalReeds": 79
+    }
+  },
+  "adult": {
+    "schemaVersion": 7,
+    "simulationVersion": "settlement-7",
+    "state": {
+      "constructionFocus": null,
+      "economy": {
+        "clock": {
+          "day": 11,
+          "phaseTick": 124,
+          "automatic": true,
+          "speed": 1
+        },
+        "priority": "provision",
+        "nurseries": [
+          {
+            "site": "site-2",
+            "food": {
+              "staple": 6,
+              "protein": 6
+            },
+            "target": 6,
+            "brood": "brood-3"
+          },
+          {
+            "site": "site-9",
+            "food": {
+              "staple": 6,
+              "protein": 6
+            },
+            "target": 6,
+            "brood": null
+          },
+          {
+            "site": "site-15",
+            "food": {
+              "staple": 6,
+              "protein": 6
+            },
+            "target": 6,
+            "brood": null
+          }
+        ],
+        "broods": [
+          {
+            "id": "brood-3",
+            "site": "site-2",
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "stage": "complete",
+            "progress": 0,
+            "eggs": [
+              {
+                "id": "egg-brood-3-0",
+                "laidAt": 1908,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-10",
+                "hatchTick": 9321
+              },
+              {
+                "id": "egg-brood-3-1",
+                "laidAt": 2058,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-11",
+                "hatchTick": 9321
+              }
+            ],
+            "careTicks": 14700,
+            "mealProgress": 120,
+            "shortageTicks": 63,
+            "started": 1699
+          }
+        ],
+        "foodConsumed": {
+          "staple": 83,
+          "protein": 83
+        }
+      },
+      "basketTechnique": {
+        "inventor": "rook",
+        "tree": "lowfork",
+        "tick": 3342
+      },
+      "tick": 24124,
+      "phase": "day",
+      "paused": false,
+      "nextId": 17,
+      "forage": [
+        {
+          "id": "seed-common",
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "capacity": 12,
+          "remaining": 3,
+          "eaten": 185,
+          "harvested": {
+            "staple": 96,
+            "protein": 0
+          },
+          "proteinEaten": 0,
+          "regrown": 272,
+          "recoveryProgress": 44,
+          "open": true
+        },
+        {
+          "id": "leaf-litter",
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 48,
+          "harvested": {
+            "staple": 0,
+            "protein": 96
+          },
+          "proteinEaten": 48,
+          "regrown": 144,
+          "recoveryProgress": 0,
+          "open": true
+        },
+        {
+          "id": "insect-verge",
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "capacity": 12,
+          "remaining": 11,
+          "eaten": 74,
+          "harvested": {
+            "staple": 5,
+            "protein": 5
+          },
+          "proteinEaten": 37,
+          "regrown": 83,
+          "recoveryProgress": 4,
+          "open": true
+        }
+      ],
+      "piles": [
+        {
+          "id": "reeds",
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "stock": 23,
+          "kind": "source"
+        }
+      ],
+      "patches": [
+        {
+          "id": "patch-west",
+          "at": {
+            "x": -4,
+            "z": 0
+          },
+          "capacity": 12,
+          "remaining": 0,
+          "harvested": 73,
+          "designated": true,
+          "regrown": 61,
+          "recoveryProgress": 92
+        },
+        {
+          "id": "patch-east",
+          "at": {
+            "x": 3,
+            "z": -2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "harvested": 0,
+          "designated": false,
+          "regrown": 0,
+          "recoveryProgress": 0
+        }
+      ],
+      "initialReeds": 8,
+      "harvestedReeds": 73,
+      "sites": [
+        {
+          "id": "site-1",
+          "kind": "treehouse",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-2",
+          "kind": "nursery",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-4",
+          "kind": "hauling-basket",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "dapple",
+            "wren",
+            "rook"
+          ],
+          "experiment": true
+        },
+        {
+          "id": "site-5",
+          "kind": "sleeping-deck",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "dapple",
+            "rook",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-6",
+          "kind": "treehouse",
+          "at": {
+            "x": 1,
+            "z": 3
+          },
+          "tree": "splitcrown",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "dapple",
+            "rook",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-7",
+          "kind": "hauling-basket",
+          "at": {
+            "x": 1,
+            "z": 3
+          },
+          "tree": "splitcrown",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "wren",
+            "dapple"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-8",
+          "kind": "sleeping-deck",
+          "at": {
+            "x": 1,
+            "z": 3
+          },
+          "tree": "splitcrown",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-9",
+          "kind": "nursery",
+          "at": {
+            "x": 1,
+            "z": 3
+          },
+          "tree": "splitcrown",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "wren",
+            "rook",
+            "dapple"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-12",
+          "kind": "treehouse",
+          "at": {
+            "x": 3,
+            "z": 0
+          },
+          "tree": "reedside",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "wren",
+            "dapple",
+            "rook"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-13",
+          "kind": "hauling-basket",
+          "at": {
+            "x": 3,
+            "z": 0
+          },
+          "tree": "reedside",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "dapple",
+            "rook"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-14",
+          "kind": "sleeping-deck",
+          "at": {
+            "x": 3,
+            "z": 0
+          },
+          "tree": "reedside",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "wren",
+            "dapple",
+            "fern",
+            "rook"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-15",
+          "kind": "nursery",
+          "at": {
+            "x": 3,
+            "z": 0
+          },
+          "tree": "reedside",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "wren",
+            "fern",
+            "dapple"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-16",
+          "kind": "store",
+          "at": {
+            "x": -4,
+            "z": -3
+          },
+          "tree": null,
+          "delivered": 3,
+          "progress": 0,
+          "complete": false,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "wren",
+            "chick-10"
+          ],
+          "experiment": false
+        }
+      ],
+      "birds": [
+        {
+          "id": "fern",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Fern",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 24124,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": {
+              "father": "rook",
+              "tick": 1064
+            },
+            "matingProgress": 0
+          },
+          "protein": 63.69999999999749,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 42.53999999999752,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": {
+            "patch": "insect-verge",
+            "spot": {
+              "x": 3,
+              "z": 1
+            },
+            "intent": "eat",
+            "progress": 4
+          },
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 97.37500000000026,
+          "resting": false,
+          "deliveries": 25,
+          "attachment": "lowfork",
+          "memories": [
+            "Helped build the extra sleeping deck at Reedside.",
+            "Helped build Reedside; wants to sleep there.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered protein food to the root nursery at Reedside.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Insect Verge; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "rook",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Rook",
+            "appearance": "rook",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 24124,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 81.85599999999931,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 42.039999999994166,
+          "foragePreference": "open",
+          "rememberedForage": "insect-verge",
+          "foraging": {
+            "patch": "seed-common",
+            "spot": {
+              "x": -1,
+              "z": -2
+            },
+            "intent": "eat",
+            "progress": 0
+          },
+          "at": {
+            "x": -2,
+            "z": -3
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 96.64000000000033,
+          "resting": false,
+          "deliveries": 115,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered protein food to the root nursery at Reedside.",
+            "Delivered staple food to the root nursery at Reedside.",
+            "Gathered construction reeds at the western patch.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Found food at Insect Verge; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "dapple",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Dapple",
+            "appearance": "dapple",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 24124,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 41.547999999997785,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 65.23999999998443,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": {
+            "patch": "seed-common",
+            "spot": {
+              "x": -1,
+              "z": -1
+            },
+            "intent": "eat",
+            "progress": 14
+          },
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 97.72500000000022,
+          "resting": false,
+          "deliveries": 99,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered staple food to the root nursery at Reedside.",
+            "Delivered protein food to the root nursery at Reedside.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Gathered construction reeds at the western patch.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Insect Verge; remembers the productive ground."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "wren",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Wren",
+            "appearance": "wren",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 24124,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 37.64799999999764,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 87.75999999999954,
+          "foragePreference": "cover",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -4,
+            "z": -3
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 96.64000000000033,
+          "resting": false,
+          "deliveries": 91,
+          "attachment": "lowfork",
+          "memories": [
+            "Helped build Reedside; wants to sleep there.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered staple food to the root nursery at Reedside.",
+            "Delivered protein food to the root nursery at Reedside.",
+            "Slept under woven shelter at Lowfork.",
+            "Gathered construction reeds at the western patch."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-10",
+          "request": null,
+          "requestResult": {
+            "kind": "build",
+            "outcome": "done",
+            "reason": "One reed bundle delivered. Back to community work.",
+            "tick": 24124
+          },
+          "life": {
+            "name": "Pip",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 14803,
+            "development": 14400,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 7200,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 96.54399999999987,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 89.79999999999961,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": null,
+          "at": {
+            "x": -4,
+            "z": -3
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 76.64000000000033,
+          "resting": false,
+          "deliveries": 1,
+          "attachment": "lowfork",
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm.",
+            "Fern's continuing care made Lowfork feel like home.",
+            "Found food at Insect Verge; remembers the productive ground.",
+            "Grew into community work; remembers Fern and the nursery at Lowfork.",
+            "Slept on a natural branch at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-11",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Clover",
+            "appearance": "fern",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 14803,
+            "development": 14400,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 7200,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 97.73199999999991,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 75.61999999999756,
+          "foragePreference": "mixed",
+          "rememberedForage": "leaf-litter",
+          "foraging": null,
+          "at": {
+            "x": -3,
+            "z": 0
+          },
+          "edge": {
+            "to": {
+              "x": -3,
+              "z": -1
+            },
+            "progress": 0.37800000000000006
+          },
+          "cargo": 1,
+          "gatheringProgress": 0,
+          "job": {
+            "kind": "gather",
+            "source": "patch-west",
+            "destination": "reeds",
+            "stage": "deliver"
+          },
+          "energy": 75.63000000000028,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": "lowfork",
+          "memories": [
+            "Fern's continuing care made Lowfork feel like home.",
+            "Found food at Insect Verge; remembers the productive ground.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Grew into community work; remembers Fern and the nursery at Lowfork.",
+            "Slept on a natural branch at Lowfork.",
+            "Gathered construction reeds at the western patch."
+          ],
+          "perch": null,
+          "flight": null
+        }
+      ],
+      "consumed": 54,
+      "totalReeds": 81
+    }
+  },
+  "pausedShortageCargo": {
+    "schemaVersion": 7,
+    "simulationVersion": "settlement-7",
+    "state": {
+      "constructionFocus": "site-6",
+      "economy": {
+        "clock": {
+          "day": 9,
+          "phaseTick": 193,
+          "automatic": true,
+          "speed": 1
+        },
+        "priority": "provision",
+        "nurseries": [
+          {
+            "site": "site-2",
+            "food": {
+              "staple": 0,
+              "protein": 0
+            },
+            "target": 6,
+            "brood": "brood-3"
+          }
+        ],
+        "broods": [
+          {
+            "id": "brood-3",
+            "site": "site-2",
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "stage": "chicks",
+            "progress": 0,
+            "eggs": [
+              {
+                "id": "egg-brood-3-0",
+                "laidAt": 1908,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-4",
+                "hatchTick": 9321
+              },
+              {
+                "id": "egg-brood-3-1",
+                "laidAt": 2058,
+                "fertile": true,
+                "viable": true,
+                "child": "chick-5",
+                "hatchTick": 9321
+              }
+            ],
+            "careTicks": 12420,
+            "mealProgress": 0,
+            "shortageTicks": 5215,
+            "started": 1699
+          }
+        ],
+        "foodConsumed": {
+          "staple": 71,
+          "protein": 71
+        }
+      },
+      "basketTechnique": null,
+      "tick": 19393,
+      "phase": "day",
+      "paused": true,
+      "nextId": 7,
+      "forage": [
+        {
+          "id": "seed-common",
+          "at": {
+            "x": -1,
+            "z": -1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 89,
+          "harvested": {
+            "staple": 69,
+            "protein": 0
+          },
+          "proteinEaten": 0,
+          "regrown": 158,
+          "recoveryProgress": 0,
+          "open": false
+        },
+        {
+          "id": "leaf-litter",
+          "at": {
+            "x": 0,
+            "z": 2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 25,
+          "harvested": {
+            "staple": 0,
+            "protein": 69
+          },
+          "proteinEaten": 25,
+          "regrown": 94,
+          "recoveryProgress": 0,
+          "open": false
+        },
+        {
+          "id": "insect-verge",
+          "at": {
+            "x": 3,
+            "z": 1
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "eaten": 21,
+          "harvested": {
+            "staple": 2,
+            "protein": 2
+          },
+          "proteinEaten": 10,
+          "regrown": 25,
+          "recoveryProgress": 0,
+          "open": false
+        }
+      ],
+      "piles": [
+        {
+          "id": "reeds",
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "stock": 68,
+          "kind": "source"
+        }
+      ],
+      "patches": [
+        {
+          "id": "patch-west",
+          "at": {
+            "x": -4,
+            "z": 0
+          },
+          "capacity": 12,
+          "remaining": 1,
+          "harvested": 71,
+          "designated": true,
+          "regrown": 60,
+          "recoveryProgress": 57
+        },
+        {
+          "id": "patch-east",
+          "at": {
+            "x": 3,
+            "z": -2
+          },
+          "capacity": 12,
+          "remaining": 12,
+          "harvested": 0,
+          "designated": false,
+          "regrown": 0,
+          "recoveryProgress": 0
+        }
+      ],
+      "initialReeds": 8,
+      "harvestedReeds": 71,
+      "sites": [
+        {
+          "id": "site-1",
+          "kind": "treehouse",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern",
+            "wren"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-2",
+          "kind": "nursery",
+          "at": {
+            "x": -2,
+            "z": 2
+          },
+          "tree": "lowfork",
+          "delivered": 0,
+          "progress": 30,
+          "complete": true,
+          "stock": 0,
+          "target": 0,
+          "contributors": [
+            "rook",
+            "dapple",
+            "fern"
+          ],
+          "experiment": false
+        },
+        {
+          "id": "site-6",
+          "kind": "treehouse",
+          "at": {
+            "x": 1,
+            "z": 3
+          },
+          "tree": "splitcrown",
+          "delivered": 0,
+          "progress": 0,
+          "complete": false,
+          "stock": 0,
+          "target": 0,
+          "contributors": [],
+          "experiment": false
+        }
+      ],
+      "birds": [
+        {
+          "id": "fern",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Fern",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 19393,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": {
+              "father": "rook",
+              "tick": 1064
+            },
+            "matingProgress": 0
+          },
+          "protein": 54.471999999998275,
+          "foodCargo": null,
+          "provision": null,
+          "care": "brood-3",
+          "lift": null,
+          "satiety": 0,
+          "foragePreference": "mixed",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 40,
+          "resting": false,
+          "deliveries": 9,
+          "attachment": "lowfork",
+          "memories": [
+            "Gathered construction reeds at the western patch.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Chose to raise a brood at Lowfork; community work must carry on without her.",
+            "Laid two fertile eggs at Lowfork; stays to incubate them.",
+            "Kept Pip warm from egg to chick at Lowfork.",
+            "Kept Clover warm from egg to chick at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "rook",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Rook",
+            "appearance": "rook",
+            "sex": "rooster",
+            "stage": "adult",
+            "age": 19393,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 3.0159999999966574,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 0,
+          "foragePreference": "open",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -3,
+            "z": -2
+          },
+          "edge": null,
+          "cargo": 1,
+          "gatheringProgress": 0,
+          "job": {
+            "kind": "haul",
+            "source": "reeds",
+            "destination": "site-6",
+            "stage": "deliver"
+          },
+          "energy": 77.48000000000025,
+          "resting": false,
+          "deliveries": 89,
+          "attachment": "lowfork",
+          "memories": [
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Gathered construction reeds at the western patch.",
+            "Slept on a natural branch at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "dapple",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Dapple",
+            "appearance": "dapple",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 19393,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 44.187999999997885,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 0,
+          "foragePreference": "mixed",
+          "rememberedForage": "insect-verge",
+          "foraging": null,
+          "at": {
+            "x": -3,
+            "z": -1
+          },
+          "edge": {
+            "to": {
+              "x": -3,
+              "z": -2
+            },
+            "progress": 0.6115200000000002
+          },
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": {
+            "kind": "haul",
+            "source": "reeds",
+            "destination": "site-6",
+            "stage": "pickup"
+          },
+          "energy": 97.48000000000025,
+          "resting": false,
+          "deliveries": 66,
+          "attachment": "lowfork",
+          "memories": [
+            "Slept under woven shelter at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Slept on a natural branch at Lowfork.",
+            "Gathered construction reeds at the western patch.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Delivered protein food to the root nursery at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "wren",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Wren",
+            "appearance": "wren",
+            "sex": "hen",
+            "stage": "adult",
+            "age": 19393,
+            "development": 0,
+            "mother": null,
+            "father": null,
+            "carer": null,
+            "bornAt": null,
+            "bond": 0,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 21.09999999999701,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 0,
+          "foragePreference": "cover",
+          "rememberedForage": "seed-common",
+          "foraging": null,
+          "at": {
+            "x": -3,
+            "z": -1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": {
+            "kind": "haul",
+            "source": "reeds",
+            "destination": "site-6",
+            "stage": "pickup"
+          },
+          "energy": 97.48000000000025,
+          "resting": false,
+          "deliveries": 59,
+          "attachment": "lowfork",
+          "memories": [
+            "Found food at Leaf-litter Hollow; remembers the productive ground.",
+            "Slept under woven shelter at Lowfork.",
+            "Delivered staple food to the root nursery at Lowfork.",
+            "Found food at Seedhead Common; remembers the productive ground.",
+            "Delivered protein food to the root nursery at Lowfork.",
+            "Slept on a natural branch at Lowfork."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-4",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Pip",
+            "appearance": "fern",
+            "sex": "hen",
+            "stage": "chick",
+            "age": 10072,
+            "development": 4920,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 4920,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 85,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 82,
+          "foragePreference": "mixed",
+          "rememberedForage": null,
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 75,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": null,
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm."
+          ],
+          "perch": null,
+          "flight": null
+        },
+        {
+          "id": "chick-5",
+          "request": null,
+          "requestResult": null,
+          "life": {
+            "name": "Clover",
+            "appearance": "fern",
+            "sex": "rooster",
+            "stage": "chick",
+            "age": 10072,
+            "development": 4920,
+            "mother": "fern",
+            "father": "rook",
+            "carer": "fern",
+            "bornAt": "lowfork",
+            "bond": 4920,
+            "willing": true,
+            "fertility": null,
+            "matingProgress": 0
+          },
+          "protein": 85,
+          "foodCargo": null,
+          "provision": null,
+          "care": null,
+          "lift": null,
+          "satiety": 82,
+          "foragePreference": "mixed",
+          "rememberedForage": null,
+          "foraging": null,
+          "at": {
+            "x": -2,
+            "z": 1
+          },
+          "edge": null,
+          "cargo": 0,
+          "gatheringProgress": 0,
+          "job": null,
+          "energy": 75,
+          "resting": false,
+          "deliveries": 0,
+          "attachment": null,
+          "memories": [
+            "Hatched in the root nursery at Lowfork; Fern kept the eggs warm."
+          ],
+          "perch": null,
+          "flight": null
+        }
+      ],
+      "consumed": 10,
+      "totalReeds": 79
+    }
+  }
+}

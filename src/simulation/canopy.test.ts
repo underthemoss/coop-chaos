@@ -327,7 +327,7 @@ describe("supplied canopy construction and demonstrated shared technique", () =>
     s = until(s, (s) => s.birds.some((b) => b.cargo && b.edge));
     const restored = decodeSettlement(oldThree(s));
     expect(restored.birds.map(b=>({id:b.id,at:b.at,job:b.job,cargo:b.cargo,memories:b.memories}))).toEqual(s.birds.map(b=>({id:b.id,at:b.at,job:b.job,cargo:b.cargo,memories:b.memories})));
-    expect(JSON.parse(encodeSettlement(restored)).schemaVersion).toBe(7);
+    expect(JSON.parse(encodeSettlement(restored)).schemaVersion).toBe(8);
     const completed = home();
     const homeSite = completed.sites[0];
     homeSite.complete = false;

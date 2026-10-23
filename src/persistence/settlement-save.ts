@@ -99,7 +99,7 @@ const maximumHarvest = reedPatches.reduce(
 /** Version 1 has an immutable shape and material budget, independent of fresh-game tuning. */
 function validateVersion(
   value: unknown,
-  version: 1 | 2 | 3 | 4 | 5 | 6 | 7,
+  version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
 ): Settlement {
   const legacy = version === 1;
   const current = version >= 3;
@@ -693,14 +693,14 @@ function validateVersion(
     )
       fail();
   }
-  if (economy) validateEconomy(state);
+  if (economy) validateEconomy(state, version);
   if (requests) validateRequests(state);
   if (version >= 7 && state.constructionFocus !== null &&
       (typeof state.constructionFocus !== "string" || !state.sites.some(site=>site.id===state.constructionFocus&&!site.complete))) fail();
   return structuredClone(state);
 }
 export function validateSettlement(value: unknown): Settlement {
-  return validateVersion(value, 7);
+  return validateVersion(value, 8);
 }
 function foodStock(value: unknown) {
   const p = object(value, ["staple", "protein"]);
@@ -708,7 +708,10 @@ function foodStock(value: unknown) {
   return p as { staple: number; protein: number };
 }
 /** Relationships are checked after the immutable shapes, before any import write. */
-function validateEconomy(state: Settlement) {
+/** Immutable source bounds: changing live pacing must never loosen an older format. */
+const legacyGrowth = { incubationTicks: 7200, juvenileTicks: 7200, adultTicks: 14400 };
+function validateEconomy(state: Settlement, version: number) {
+  const growth = version < 8 ? legacyGrowth : economyTuning;
   const e = object(state.economy, [
     "clock",
     "priority",
@@ -798,7 +801,7 @@ function validateEconomy(state: Settlement) {
         b.stage === "laying" || b.stage === "failed"
           ? economyTuning.layingTicks - 1
           : b.stage === "incubating"
-            ? economyTuning.incubationTicks - 1
+            ? growth.incubationTicks - 1
             : 0,
       ) ||
       !integer(b.careTicks, 0, state.tick - (b.started as number)) ||
@@ -934,7 +937,7 @@ function validateEconomy(state: Settlement) {
       !["chick", "juvenile", "adult"].includes(l.stage as string) ||
       !integer(l.age) ||
       !integer(l.development, 0, l.age as number) ||
-      !integer(l.bond, 0, l.development as number) ||
+      !integer(l.bond, 0, (version < 8 ? l.development : l.age) as number) ||
       typeof l.willing !== "boolean" ||
       !integer(l.matingProgress, 0, economyTuning.matingTicks - 1) ||
       !number(b.protein, 0, 100)
@@ -951,7 +954,8 @@ function validateEconomy(state: Settlement) {
         l.father !== null ||
         l.carer !== null ||
         l.bornAt !== null ||
-        l.development !== 0
+        l.development !== 0 ||
+        l.bond !== 0
       )
         fail();
     } else {
@@ -964,11 +968,11 @@ function validateEconomy(state: Settlement) {
         !trees.some((t) => t.id === l.bornAt) ||
         Number(b.id.split("-")[1]) >= state.nextId ||
         (l.stage === "chick"
-          ? (l.development as number) >= economyTuning.juvenileTicks
+          ? (l.development as number) >= growth.juvenileTicks
           : l.stage === "juvenile"
-            ? (l.development as number) < economyTuning.juvenileTicks ||
-              (l.development as number) >= economyTuning.adultTicks
-            : (l.development as number) < economyTuning.adultTicks)
+            ? (l.development as number) < growth.juvenileTicks ||
+              (l.development as number) >= growth.adultTicks
+            : (l.development as number) < growth.adultTicks)
       )
         fail();
     }
@@ -1083,13 +1087,14 @@ function validateEconomy(state: Settlement) {
     const ordinal = brood.eggs.findIndex((e) => e.child === b.id);
     const egg = brood.eggs[ordinal];
     if (
+      (version >= 8 && b.life.bond > brood.careTicks) ||
       b.life.name !== name ||
       b.life.appearance !== bird(b.life.mother)!.life.appearance ||
       b.life.sex !== (ordinal % 2 ? "rooster" : "hen") ||
       b.life.age !== state.tick - egg.hatchTick! ||
       egg.hatchTick! <
         Math.max(...brood.eggs.map((e) => e.laidAt)) +
-          economyTuning.incubationTicks
+          growth.incubationTicks
     )
       fail();
   });
@@ -1207,8 +1212,8 @@ export function settlementMigrationNotice(state: Settlement): string | null {
 }
 export function encodeSettlement(state: Settlement): string {
   return JSON.stringify({
-    schemaVersion: 7,
-    simulationVersion: "settlement-7",
+    schemaVersion: 8,
+    simulationVersion: "settlement-8",
     state,
   });
 }
@@ -1254,8 +1259,10 @@ export function decodeSettlement(text: string): Settlement {
   )
     return migrateVersionFive(envelope.state);
   if (envelope.schemaVersion === 6 && envelope.simulationVersion === "settlement-6")
-    return validateSettlement({...validateVersion(envelope.state,6), constructionFocus:null});
+    return migrateGrowth({...validateVersion(envelope.state,6), constructionFocus:null});
   if (envelope.schemaVersion === 7 && envelope.simulationVersion === "settlement-7")
+    return migrateGrowth(validateVersion(envelope.state,7));
+  if (envelope.schemaVersion === 8 && envelope.simulationVersion === "settlement-8")
     return validateSettlement(envelope.state);
   return fail();
 }
@@ -1309,7 +1316,7 @@ export function saveQueue() {
 
 function migrateVersionFive(value: unknown): Settlement {
   const state=validateVersion(value,5);
-  return validateSettlement({...state,constructionFocus:null,birds:state.birds.map(b=>({...b,request:null,requestResult:null}))});
+  return migrateGrowth({...state,constructionFocus:null,birds:state.birds.map(b=>({...b,request:null,requestResult:null}))});
 }
 function validateRequests(state: Settlement) {
   for(const bird of state.birds) {
@@ -1332,4 +1339,23 @@ function validateRequests(state: Settlement) {
       if(!["gather","build","food"].includes(r.kind as string)||!["done","cancelled","unavailable"].includes(r.outcome as string)||!text(r.reason)||String(r.reason).length>160||!integer(r.tick,0,state.tick))fail();
     }
   }
+}
+
+/** Source validation has already succeeded. Only same-stage progress units change;
+ * chronological age, care/bond history and every other saved fact stay intact. */
+function migrateGrowth(state: Settlement): Settlement {
+  for (const brood of state.economy.broods) {
+    if (brood.stage === "incubating")
+      brood.progress = Math.floor(brood.progress * economyTuning.incubationTicks / legacyGrowth.incubationTicks);
+  }
+  for (const bird of state.birds) {
+    if (bird.life.stage === "chick")
+      bird.life.development = Math.floor(bird.life.development * economyTuning.juvenileTicks / legacyGrowth.juvenileTicks);
+    else if (bird.life.stage === "juvenile")
+      bird.life.development = economyTuning.juvenileTicks + Math.floor(
+        (bird.life.development - legacyGrowth.juvenileTicks) *
+        (economyTuning.adultTicks - economyTuning.juvenileTicks) /
+        (legacyGrowth.adultTicks - legacyGrowth.juvenileTicks));
+  }
+  return validateSettlement(state);
 }

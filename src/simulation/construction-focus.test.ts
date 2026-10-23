@@ -126,7 +126,7 @@ describe("persistent next construction focus",()=>{
     const migrated=decodeSettlement(JSON.stringify({schemaVersion:6,simulationVersion:"settlement-6",state:old}));
     expect(migrated.constructionFocus).toBeNull();expect(settlementV6Fixture(migrated)).toEqual(old);
     const focused=command(migrated,{type:"focus-build",site:migrated.sites[2].id});
-    expect(JSON.parse(encodeSettlement(focused)).schemaVersion).toBe(7);
+    expect(JSON.parse(encodeSettlement(focused)).schemaVersion).toBe(8);
     expect(decodeSettlement(encodeSettlement(focused))).toEqual(focused);
     for(const invalid of [undefined,42,"missing",{}])expect(()=>validateSettlement({...focused,constructionFocus:invalid})).toThrow();
     const completed=completeTimes(original).s;

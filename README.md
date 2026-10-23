@@ -40,9 +40,9 @@ and protein food to local targets of six each (capacity eight each). Support is
 offered for named willing hens with actual recent fertility, good condition,
 local supplies, future adult housing and a sustainable food/work forecast.
 
-Laying two eggs takes supplied work. Incubation needs three four-minute cycles;
-chicks need another three cycles of care to become juveniles and three further
-cycles to become adult workers. Shortages pause progress and explain why.
+Laying two eggs takes supplied work. Incubation needs one four-minute cycle;
+chicks need another supplied cycle of care to become juveniles and one further
+healthy cycle to become adult workers. Shortages pause progress and explain why.
 Chicks and juveniles stay grounded; their care history affects later attachment.
 No offline progress, free growth button or commercial egg inventory exists.
 Water/mineral access is dependable within this grove; structural wood is future.
@@ -139,14 +139,18 @@ ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-7` schema saves to IndexedDB about once per second and
+The `settlement-8` schema saves to IndexedDB about once per second and
 after commands. There is no offline catch-up or cloud/cross-tab synchronization;
 use one tab. Export to retain important progress. Import validates shape,
 references, resource conservation, jobs, and sleeping occupancy before replacing
 anything. Restart confirms replacement. In-flight loads, movement progress, food, feeding, sleep, rest,
 and memories are saved facts.
 
-Validated `settlement-1` through `settlement-6` saves migrate with their original material baseline,
+Older growth saves keep their current stage and proportional progress under the
+one-cycle pacing. Age, actual care/bond history, eggs, identities and deliveries
+remain unchanged; importing never hatches or matures a bird.
+
+Validated `settlement-1` through `settlement-7` saves migrate with their original material baseline,
 sites, jobs and history intact. New patches relocate around existing sites. A
 fully occupied older map may fit only zero or one patch; the UI reports this and
 clearing space later does not respawn reed patches. Saved road data is retired,

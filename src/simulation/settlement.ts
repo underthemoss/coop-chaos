@@ -65,6 +65,7 @@ export type FoodStock = Record<Food, number>;
 export type Priority = "balanced" | "build" | "provision";
 export type Life = {
   name: string; appearance: Appearance; sex: "hen" | "rooster";
+  // Age and bond count actual ticks; development is qualified progress (rescaled on old-save import).
   stage: "chick" | "juvenile" | "adult"; age: number; development: number;
   mother: string | null; father: string | null; carer: string | null;
   bornAt: TreeId | null; bond: number; willing: boolean;

@@ -104,14 +104,22 @@ phase changes remain simulation-owned. Migration grants no fabricated invention.
 ## Saves and ordering
 
 IndexedDB database `coop-chaos` version 1, object store `saves`, key `settlement`
-holds `{ schemaVersion: 7, simulationVersion: "settlement-7", state }`.
+holds `{ schemaVersion: 8, simulationVersion: "settlement-8", state }`.
 `src/persistence/settlement-save.ts` validates exact object fields, finite values,
 IDs/references, finite patch capacities and harvest ledgers, route edges, commitments, stock capacity, conservation,
 construction consumption, and exclusive perch occupancy. Imports validate before
-state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-6
+state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-7
 saves migrate without changing their existing sites, workers, supplies or histories.
 Old path data is retired while in-flight edges and work remain intact. New
-food state is introduced by versioned migration. New reed patches use free legal cells; crowded older worlds may receive fewer
+food state is introduced by versioned migration. Version-eight growth migration first
+validates populated v5–v7 states against immutable 7,200/7,200/14,400 timing bounds,
+including stage ranges and earliest hatch history. It then floor-maps incubation,
+chick and juvenile progress within the same stage to 2,400/2,400/4,800. Adults and
+laying/failed broods are unchanged. Age, hatch ticks, actual care ticks/bond and all
+other saved facts remain exact; no simulation tick or stage transition occurs on
+import. V8 validates bond against actual age and its authoritative brood's care
+history rather than compressed development units. Immutable old-timing fixtures
+cover stage edges, completed adults, paused shortages and secured cargo. New reed patches use free legal cells; crowded older worlds may receive fewer
 than two patches, with a visible notice and no later automatic respawn.
 
 One ordered write queue captures snapshots when requested. Earlier writes cannot
