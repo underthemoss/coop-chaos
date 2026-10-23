@@ -139,14 +139,14 @@ ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-6` schema saves to IndexedDB about once per second and
+The `settlement-7` schema saves to IndexedDB about once per second and
 after commands. There is no offline catch-up or cloud/cross-tab synchronization;
 use one tab. Export to retain important progress. Import validates shape,
 references, resource conservation, jobs, and sleeping occupancy before replacing
 anything. Restart confirms replacement. In-flight loads, movement progress, food, feeding, sleep, rest,
 and memories are saved facts.
 
-Validated `settlement-1` through `settlement-5` saves migrate with their original material baseline,
+Validated `settlement-1` through `settlement-6` saves migrate with their original material baseline,
 sites, jobs and history intact. New patches relocate around existing sites. A
 fully occupied older map may fit only zero or one patch; the UI reports this and
 clearing space later does not respawn reed patches. Saved road data is retired,
@@ -181,3 +181,5 @@ mandatory dialogue. [Biology research](docs/research/chicken-biology.md)
 distinguishes sourced constraints from fictional civilization. The
 [earlier gameplay proposal](story/proposals/gameplay-rules-analysis.md) is
 historical background, not competing construction or progression canon.
+
+An unfinished project can be marked **Build this first**. The next free community construction work tries that project before normal order; current deliveries, named requests, care, meals and the chosen food policy continue. **Use normal order** clears the choice, and completion or cancellation clears it automatically. A tree’s single world badge shows its focused project. The compact **Build first** indicator finds any chosen project, including ground stores under Other building controls; stores retain their ground construction marker. Material shortages still need real gathered reeds; focus is not a guaranteed worker or speed bonus. Older saves migrate with no project focused.

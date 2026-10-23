@@ -127,6 +127,7 @@ export type Worker = {
   flight: Flight | null;
 };
 export type Settlement = {
+  constructionFocus: string | null;
   economy: Economy;
   basketTechnique: { inventor: SettlerId; tree: TreeId; tick: number } | null;
   tick: number;
@@ -144,6 +145,7 @@ export type Settlement = {
   totalReeds: number;
 };
 export type Command =
+  | { type: "focus-build"; site: string | null }
   | { type: "request"; bird: string; kind: BirdRequest["kind"]; target: string }
   | { type: "cancel-request"; bird: string }
   | { type: "priority"; priority: Priority }
@@ -253,6 +255,7 @@ function completeSite(state: Settlement, site: Site, operator: Worker) {
   state.consumed += site.delivered;
   site.delivered = 0;
   site.complete = true;
+  if (state.constructionFocus === site.id) state.constructionFocus = null;
   site.contributors = [...new Set([...site.contributors, operator.id])];
   if (site.kind === "nursery") state.economy.nurseries.push({ site: site.id, food: {staple:0,protein:0}, target: economyTuning.nurseryTarget, brood:null });
   if (!site.tree) return;
@@ -315,6 +318,7 @@ export function birdProfile(bird: Worker) {
 
 export function initialSettlement(): Settlement {
   return {
+    constructionFocus: null,
     economy: initialEconomy(),
     basketTechnique: null,
     tick: 0,
@@ -426,6 +430,11 @@ export function conserved(state: Settlement) {
 }
 export function command(current: Settlement, action: Command): Settlement {
   const state = structuredClone(current);
+  if (action.type === "focus-build") {
+    if (action.site !== null && !state.sites.some(s => s.id === action.site && !s.complete))
+      throw new Error("Choose an unfinished project to build first. This project may already be complete or canceled.");
+    state.constructionFocus = action.site;
+  }
   if (action.type === "pause") state.paused = !state.paused;
   if (action.type === "priority") {
     if(!["balanced","build","provision"].includes(action.priority)) throw new Error("Choose a work priority.");
@@ -524,6 +533,7 @@ export function command(current: Settlement, action: Command): Settlement {
     const site = state.sites.find((s) => s.id === action.id);
     if (!site || site.complete)
       throw new Error("Only unfinished sites can be canceled.");
+    if (state.constructionFocus === site.id) state.constructionFocus = null;
     if (site.delivered) {
       // Reuse the physical pile, including its ID: outstanding pickups may refer to it.
       // One location must not accumulate an unbounded history of empty salvage records.
@@ -657,6 +667,9 @@ function assign(state: Settlement, bird: Worker) {
   if(state.economy.priority==="build")assignProvision(state,bird);
 }
 function assignConstruction(state: Settlement, bird: Worker, target?: string): boolean {
+  // Explicit requests keep their target. Focus changes only a free community
+  // assignment, and tries the whole job (weaving or pickup) before other sites.
+  if (!target && state.constructionFocus && assignConstruction(state, bird, state.constructionFocus)) return true;
   const sites = state.sites.filter((s) => !s.complete && (!target || s.id === target));
   for (const site of sites) {
     if (
@@ -1070,7 +1083,15 @@ export function broodStatus(state: Settlement, brood: Brood): string {
 /** One badge per tree; construction takes precedence over local care. */
 export function treeActivity(state: Settlement, treeId: TreeId) {
   const sites=state.sites.filter(s=>s.tree===treeId);
-  return sites.find(s=>!s.complete)??sites.find(s=>s.kind==="nursery"&&s.complete)??sites.at(-1);
+  return sites.find(s=>s.id===state.constructionFocus&&!s.complete)??sites.find(s=>!s.complete)??sites.find(s=>s.kind==="nursery"&&s.complete)??sites.at(-1);
+}
+
+export const constructionName = (site: Pick<Site,"kind">) => ({treehouse:"Home",nursery:"Nursery","hauling-basket":"Basket","sleeping-deck":"Deck",store:"Store nest"})[site.kind];
+export function constructionFocusReadout(state: Settlement) {
+  const site=state.sites.find(s=>s.id===state.constructionFocus&&!s.complete);
+  if (!site) return null;
+  const place=site.tree?trees.find(t=>t.id===site.tree)!.name:`ground (${site.at.x}, ${site.at.z})`;
+  return {site,label:`${constructionName(site)} at ${place}`, ...projectReadout(state,site)};
 }
 /** Ask an available adult for a real trip to this nursery, preserving existing requests. */
 export function foodRecovery(state: Settlement, siteId: string) {

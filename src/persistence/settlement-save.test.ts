@@ -117,7 +117,7 @@ function expectLegacyFacts(migrated: Settlement, source: Settlement) {
   expect("paths" in migrated).toBe(false);
   expect(foodConserved(migrated)).toBe(true);
 }
-describe("strict settlement-six persistence", () => {
+describe("strict settlement-seven persistence", () => {
   it("preserves the legacy story separately and orders tick/restart writes", async () => {
     await saveGame({ choice: "rank" });
     const save = saveQueue();
@@ -127,11 +127,11 @@ describe("strict settlement-six persistence", () => {
     expect(await loadSettlement()).toEqual(initialSettlement());
     expect(await legacyArchive()).toContain('"rank"');
   });
-  it("writes schema six and preserves independent food/material facts exactly", () => {
+  it("writes schema seven and preserves independent food/material facts exactly", () => {
     const s = advance(initialSettlement(), 10);
     expect(JSON.parse(encodeSettlement(s))).toMatchObject({
-      schemaVersion: 6,
-      simulationVersion: "settlement-6",
+      schemaVersion: 7,
+      simulationVersion: "settlement-7",
     });
     expect(decodeSettlement(encodeSettlement(s))).toEqual(s);
     expect(s.totalReeds).toBe(8);

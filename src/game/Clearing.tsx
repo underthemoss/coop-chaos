@@ -13,6 +13,7 @@ export function Clearing({
   onPick,
   onTree,
   onNursery,
+  onProject,
   onForage,
   cursor,
   highlight,
@@ -26,6 +27,7 @@ export function Clearing({
   onPick: (at: Cell) => void;
   onTree: (id: TreeId) => void;
   onNursery: (site:string)=>void;
+  onProject: (site:string)=>void;
   onForage: (id: string) => void;
   cursor: Cell;
   highlight: boolean;
@@ -150,8 +152,8 @@ export function Clearing({
             </small>
           </button>
         ))}
-        {visibleProjects.map(site=>{const care=site.complete&&site.kind==="nursery"?nurseryReadout(state,site.id):null;const readout=care??projectReadout(state,site);const others=state.sites.filter(s=>s.tree===site.tree&&!s.complete&&s.id!==site.id).length;const label=site.kind==="treehouse"?"Home":site.kind==="sleeping-deck"?"Deck":site.kind==="hauling-basket"?"Basket":"Nursery";return <button key={site.id} hidden={homePlacement} className={`project-label${site.complete?" complete":""}`} ref={el=>{labels.current[site.id]=el;}} onClick={()=>care?onNursery(site.id):onTree(site.tree!)} aria-label={`${label} at ${trees.find(t=>t.id===site.tree)!.name}: ${readout.title}`}>
-          <ActionArt kind={site.kind==="treehouse"?"home":site.kind==="sleeping-deck"?"deck":site.kind==="hauling-basket"?"basket":"nursery"}/><span><strong>{care?care.title:`${label} · ${readout.title.toLowerCase()}`}</strong>{care?<small>{care.stage==="No brood supported"?"Nursery · choose a hen":`${care.carer?.life.name??"Young"} · ${care.progress}% ${care.progressLabel==="Growth toward adulthood"?"grown":"this stage"}`}</small>:!site.complete&&<small>{site.delivered}/{cost(site)} reeds · {readout.progress}%{others?` · +${others} more`:""}</small>}</span>
+        {visibleProjects.map(site=>{const focused=site.id===state.constructionFocus;const care=site.complete&&site.kind==="nursery"?nurseryReadout(state,site.id):null;const readout=care??projectReadout(state,site);const others=state.sites.filter(s=>s.tree===site.tree&&!s.complete&&s.id!==site.id).length;const label=site.kind==="treehouse"?"Home":site.kind==="sleeping-deck"?"Deck":site.kind==="hauling-basket"?"Basket":"Nursery";return <button key={site.id} hidden={homePlacement} className={`project-label${site.complete?" complete":""}${focused?" is-focused":""}`} ref={el=>{labels.current[site.id]=el;}} onClick={()=>care?onNursery(site.id):site.complete?onTree(site.tree!):onProject(site.id)} aria-label={`${label} at ${trees.find(t=>t.id===site.tree)!.name}: ${readout.title}${focused?", building first":""}`}>
+          <ActionArt kind={site.kind==="treehouse"?"home":site.kind==="sleeping-deck"?"deck":site.kind==="hauling-basket"?"basket":"nursery"}/><span><strong>{care?care.title:`${label} · ${readout.title.toLowerCase()}`}</strong>{care?<small>{care.stage==="No brood supported"?"Nursery · choose a hen":`${care.carer?.life.name??"Young"} · ${care.progress}% ${care.progressLabel==="Growth toward adulthood"?"grown":"this stage"}`}</small>:!site.complete&&<small>{focused?"First · ":""}{site.delivered}/{cost(site)} reeds · {readout.progress}%{others?` · +${others} more`:""}</small>}</span>
         </button>;})}
         {state.forage.map(p => <button key={p.id} className="tree-label forage-label" hidden={tool !== "forage"} ref={el => {labels.current[p.id] = el;}} onClick={() => onForage(p.id)} aria-label={`Inspect ${p.id} forage place`}>
           {foodPatches.find(f => f.id === p.id)?.name ?? p.id}<small>{p.remaining}/{p.capacity} food · {p.open ? "open" : "resting"}</small>

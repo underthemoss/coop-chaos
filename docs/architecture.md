@@ -104,11 +104,11 @@ phase changes remain simulation-owned. Migration grants no fabricated invention.
 ## Saves and ordering
 
 IndexedDB database `coop-chaos` version 1, object store `saves`, key `settlement`
-holds `{ schemaVersion: 6, simulationVersion: "settlement-6", state }`.
+holds `{ schemaVersion: 7, simulationVersion: "settlement-7", state }`.
 `src/persistence/settlement-save.ts` validates exact object fields, finite values,
 IDs/references, finite patch capacities and harvest ledgers, route edges, commitments, stock capacity, conservation,
 construction consumption, and exclusive perch occupancy. Imports validate before
-state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-5
+state replacement; malformed files leave current state unchanged. Valid settlement-1 through settlement-6
 saves migrate without changing their existing sites, workers, supplies or histories.
 Old path data is retired while in-flight edges and work remain intact. New
 food state is introduced by versioned migration. New reed patches use free legal cells; crowded older worlds may receive fewer
@@ -227,3 +227,11 @@ The strict v6 decoder validates request shape, target references, adult eligibil
 ### Local care read models
 
 `populationReadout`, `nurseryReadout` and `treeActivity` in simulation project saved residents, unhatched commitments, physical care stages and single-tree badge precedence. App, local EconomyInspector and world badges consume those projections; they do not advance care or invent eggs. `foodRecovery` reuses the existing provisioning assignment on a disposable state to identify a free adult with a real available trip to the chosen nursery. The existing food request accepts that local nursery target, preserving cargo, care and pending request behavior. These are read projections and existing commands; save v6 and economic tuning are unchanged.
+
+## Persistent construction focus
+
+`Settlement.constructionFocus` is a nullable unfinished site ID. `focus-build` validates the target atomically; null clearing is idempotent. Strict v7 validation rejects missing, completed and malformed references. Source-version validation precedes v6 migration, which adds null without changing plans, jobs, cargo, requests or economy. All earlier migrations also begin in normal order. Completion and cancellation clear a matching focus.
+
+Only free autonomous construction allocation changes: `assignConstruction` first tries all eligible focused work (ready weaving or unreserved material pickup), then falls back to the existing insertion-order assignment if none is actionable. An explicit named request supplies its own target and bypasses focus. Existing jobs, reservations, secured cargo and lifts are never redirected by switching focus. Care, self-feeding, sleep/rest, urgent provision and the existing global policy retain precedence. No sites are reordered and no numerical costs or timings change.
+
+`constructionFocusReadout` and `treeActivity` project the saved choice; a focused unfinished project leads the existing single tree badge, retaining actual work/wait state. Shared `ProjectCard` serves both tree structures and unfinished ground stores. The compact global finder opens and reveals the existing project card; ground stores remain under Other building controls with coordinates and their existing ground construction marker, without another tree-style world badge. Actual contributions and shortages come from `projectReadout`, separate from the chosen priority.

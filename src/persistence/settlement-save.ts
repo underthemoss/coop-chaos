@@ -99,7 +99,7 @@ const maximumHarvest = reedPatches.reduce(
 /** Version 1 has an immutable shape and material budget, independent of fresh-game tuning. */
 function validateVersion(
   value: unknown,
-  version: 1 | 2 | 3 | 4 | 5 | 6,
+  version: 1 | 2 | 3 | 4 | 5 | 6 | 7,
 ): Settlement {
   const legacy = version === 1;
   const current = version >= 3;
@@ -107,6 +107,7 @@ function validateVersion(
   const economy = version >= 5;
   const requests = version >= 6;
   const s = object(value, [
+    ...(version >= 7 ? ["constructionFocus"] : []),
     ...(upgraded ? ["basketTechnique"] : []),
     ...(economy ? ["economy"] : []),
     "tick",
@@ -694,10 +695,12 @@ function validateVersion(
   }
   if (economy) validateEconomy(state);
   if (requests) validateRequests(state);
+  if (version >= 7 && state.constructionFocus !== null &&
+      (typeof state.constructionFocus !== "string" || !state.sites.some(site=>site.id===state.constructionFocus&&!site.complete))) fail();
   return structuredClone(state);
 }
 export function validateSettlement(value: unknown): Settlement {
-  return validateVersion(value, 6);
+  return validateVersion(value, 7);
 }
 function foodStock(value: unknown) {
   const p = object(value, ["staple", "protein"]);
@@ -1137,6 +1140,7 @@ function migrateVersionFour(value: unknown): Settlement {
   const state = validateVersion(value, 4);
   return validateSettlement({
     ...state,
+    constructionFocus: null,
     economy: initialEconomy(),
     patches: state.patches.map((p) => ({
       ...p,
@@ -1203,8 +1207,8 @@ export function settlementMigrationNotice(state: Settlement): string | null {
 }
 export function encodeSettlement(state: Settlement): string {
   return JSON.stringify({
-    schemaVersion: 6,
-    simulationVersion: "settlement-6",
+    schemaVersion: 7,
+    simulationVersion: "settlement-7",
     state,
   });
 }
@@ -1250,6 +1254,8 @@ export function decodeSettlement(text: string): Settlement {
   )
     return migrateVersionFive(envelope.state);
   if (envelope.schemaVersion === 6 && envelope.simulationVersion === "settlement-6")
+    return validateSettlement({...validateVersion(envelope.state,6), constructionFocus:null});
+  if (envelope.schemaVersion === 7 && envelope.simulationVersion === "settlement-7")
     return validateSettlement(envelope.state);
   return fail();
 }
@@ -1303,7 +1309,7 @@ export function saveQueue() {
 
 function migrateVersionFive(value: unknown): Settlement {
   const state=validateVersion(value,5);
-  return validateSettlement({...state,birds:state.birds.map(b=>({...b,request:null,requestResult:null}))});
+  return validateSettlement({...state,constructionFocus:null,birds:state.birds.map(b=>({...b,request:null,requestResult:null}))});
 }
 function validateRequests(state: Settlement) {
   for(const bird of state.birds) {

@@ -7,6 +7,7 @@ import { EconomyInspector } from "./EconomyInspector";
 import { BirdInspector } from "./BirdInspector";
 import { ActionArt } from "./ActionArt";
 import { TreeInspector } from "./TreeInspector";
+import { ProjectCard } from "./ProjectCard";
 import type { TreeId, SettlerId } from "../content/settlement";
 import {
   command,
@@ -17,6 +18,7 @@ import {
   requestPlace,
   treeBuildOptions,
   cost,
+  constructionFocusReadout,
 } from "../simulation/settlement";
 import type { Cell, Command, Settlement } from "../simulation/settlement";
 import {
@@ -43,6 +45,7 @@ export function App() {
   const stateRef = useRef(state);
   const [selected, setSelected] = useState<SettlerId>("fern");
   const [panelOpen, setPanelOpen] = useState(false);
+  const [revealedProject, setRevealedProject] = useState<string | null>(null);
   const [selectedNursery,setSelectedNursery]=useState<string|null>(null);
   const [selectedForage, setSelectedForage] = useState<string | null>(null);
   const [panelTarget, setPanelTarget] = useState<"bird" | "food" | "forage" | "gather" | "tree" | "placement" | null>(null);
@@ -68,10 +71,12 @@ export function App() {
   useEffect(() => {
     if (!panelOpen) return;
     const frame = requestAnimationFrame(() => {
-      inspector.current?.scrollTo({top:0});
+      const card=inspector.current;
+      const project=revealedProject?document.getElementById(`project-${revealedProject}`):null;
+      if(card)card.scrollTo({top:project?project.getBoundingClientRect().top-card.getBoundingClientRect().top+card.scrollTop-(parseFloat(getComputedStyle(card).scrollPaddingTop)||12):0});
     });
     return () => cancelAnimationFrame(frame);
-  }, [panelOpen, panelTarget, selectedForage, selectedTree, focusRequest]);
+  }, [panelOpen, panelTarget, selectedForage, selectedTree, focusRequest, revealedProject]);
   useEffect(()=>{
     const card=inspector.current;
     if(!panelOpen||!card)return;
@@ -163,7 +168,7 @@ export function App() {
       const next = command(stateRef.current, action);
       display(next);
       void save(next);
-      setNotice("");
+      setNotice(action.type==="focus-build" ? action.site===null ? "Normal construction order. Current work continues." : `Construction priority set to ${constructionFocusReadout(next)!.label}. Current deliveries and care continue.` : "");
       setActionFailed(false);
       return true;
     } catch (cause) {
@@ -177,12 +182,19 @@ export function App() {
     }
   }
   function selectTree(id: TreeId,place=true) {
+    setRevealedProject(null);
     const tree = trees.find(t => t.id === id)!;
     if(place&&homeBuilder&&!act({type:"build",kind:"treehouse",at:tree,bird:homeBuilder}))return;
     setSelectedTree(id);
     setCursor({ x: tree.x, z: tree.z });
     setTool("build");
     showDetails("tree");
+  }
+  function findProject(id: string) {
+    const site=stateRef.current.sites.find(s=>s.id===id&&!s.complete);
+    if(!site)return;
+    selectTree(site.tree??selectedTree,false);
+    setCursor(site.at);setRevealedProject(site.id);
   }
   function planHome() {
     setHomeBuilder(selected);setTool("build");setNotice("");setActionFailed(false);setPanelOpen(true);setPanelTarget("placement");setFocusRequest(n=>n+1);
@@ -249,6 +261,7 @@ export function App() {
   const localFood=state.economy.nurseries.reduce((n,p)=>({staple:n.staple+p.food.staple,protein:n.protein+p.food.protein}),{staple:0,protein:0});
   const hasHome = state.sites.some(s=>s.kind==="treehouse");
   const reeds=reedSupply(state);
+  const focus=constructionFocusReadout(state);
   const requestTarget=panelOpen&&panelTarget==="bird"&&bird.request?requestPlace(state,bird.request):null;
   const highlighted=requestTarget?.at??cursor;
   function chooseBird(id:SettlerId){setSelected(id);setTool("inspect");showDetails("bird");}
@@ -279,9 +292,10 @@ export function App() {
         <span>{forecast.label}</span><span><strong>{forecast.committed}/{forecast.capacity}</strong> future places</span>
         {!!state.economy.nurseries.length&&<span><strong>{localFood.staple}</strong> Seeds · <strong>{localFood.protein}</strong> Bugs for chicks</span>}
         <button onClick={()=>openFood()}>Food for chicks</button>
+        {focus&&<button className="focus-finder" onClick={()=>findProject(focus.site.id)} aria-label={`Find building first: ${focus.label}`}>Build first · {focus.label}</button>}
       </div>
       <div className="play-layout">
-        <Clearing state={state} selected={bird.id} onSelect={chooseBird} onPick={pick} onTree={selectTree} onNursery={openFood}
+        <Clearing state={state} selected={bird.id} onSelect={chooseBird} onPick={pick} onTree={selectTree} onNursery={openFood} onProject={findProject}
           homePlacement={!!homeBuilder}
           onForage={id=>{setSelectedForage(id);setTool("forage");showDetails("forage");}}
           cursor={highlighted} highlight={!!requestTarget||panelOpen&&panelTarget==="tree"} tool={tool} onCursor={setCursor}/>
@@ -302,7 +316,8 @@ export function App() {
           {notice&&actionFailed&&<p className="action-error" role="alert">{notice}</p>}
           {panelTarget==="placement"&&homeBuilder&&<section className="home-placement"><span className="eyebrow">CHOOSE A TREE</span><h2>Build a home</h2><p>{cost({kind:"treehouse"})} reeds · 2 sleeping places</p><p>{state.birds.find(b=>b.id===homeBuilder)?.life.name} will help with one task. The flock carries on building.</p>{trees.map(tree=>{const option=treeBuildOptions(state,tree.id).find(o=>o.kind==="treehouse")!;return <article className="placement-choice" key={tree.id}><button className="action-tile" disabled={!ready||busy||!option.available} onClick={()=>selectTree(tree.id)}><ActionArt kind="home"/><span><strong>Build at {tree.name}</strong><small>{option.available?state.paused?"Planned until you resume":state.phase==="evening"?"Starts in the morning":"Start here":option.reason}</small></span></button></article>;})}</section>}
           {panelTarget==="bird"&&<BirdInspector state={state} bird={bird} disabled={!ready||busy} onCommand={act} onChooseFree={chooseFreeChicken} onBuild={planHome}/>}
-          {panelTarget==="tree"&&<TreeInspector state={state} treeId={selectedTree} disabled={!ready||busy} onSelect={selectTree} onCommand={act} onGather={chooseGatherer} onFood={()=>openFood(state.economy.nurseries.find(n=>state.sites.find(s=>s.id===n.site)?.tree===selectedTree)?.site)}>
+          {panelTarget==="tree"&&<TreeInspector state={state} treeId={selectedTree} disabled={!ready||busy} onSelect={selectTree} onCommand={act} onGather={chooseGatherer} revealOther={!!revealedProject&&state.sites.some(s=>s.id===revealedProject&&s.kind==="store")} onFood={()=>openFood(state.economy.nurseries.find(n=>state.sites.find(s=>s.id===n.site)?.tree===selectedTree)?.site)}>
+            {state.sites.filter(s=>!s.complete&&s.kind==="store").map(site=><ProjectCard key={site.id} state={state} site={site} place={`ground (${site.at.x}, ${site.at.z})`} disabled={!ready||busy} onCommand={act} onGather={chooseGatherer}/>)}
             <article className="ground-build"><button className="action-tile" disabled={busy||!ready} onClick={()=>{setTool("store");setActionFailed(false);setNotice("Choose open ground for the store nest. Arrow keys and Enter also work.");}}><ActionArt kind="store"/><span><strong>Place store nest</strong><small>4 reeds · holds 12 bundles</small></span></button>
               {tool==="store"&&<div className="cell-controls"><label>Across<select aria-label="Cell X" value={cursor.x} onChange={e=>setCursor({...cursor,x:Number(e.target.value)})}>{Array.from({length:9},(_,i)=>i-4).map(n=><option key={n}>{n}</option>)}</select></label><label>Along<select aria-label="Cell Z" value={cursor.z} onChange={e=>setCursor({...cursor,z:Number(e.target.value)})}>{Array.from({length:7},(_,i)=>i-3).map(n=><option key={n}>{n}</option>)}</select></label><button disabled={busy||!ready} onClick={()=>pick(cursor)}>Build store here</button></div>}
             </article>

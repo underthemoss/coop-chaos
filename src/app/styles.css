@@ -676,3 +676,6 @@ footer { display:none; }
 .action-error {padding:8px 12px;border-left:3px solid #a84f37;background:#f9e4d8;color:#733823;}
 @media(max-width:760px){.project-label {padding:3px 5px;max-width:165px;}.project-label .action-art{width:27px;height:24px;flex-basis:27px;}.project-label strong{font-size:10px;}.home-placement .action-tile{min-height:45px;}.home-placement .action-art{height:38px;width:46px;flex-basis:46px;}.home-placement>p{margin:5px 0;}}
 .project-label[hidden] {display:none;}
+.project-card.is-focused,.project-label.is-focused {border-color:#8d681f;border-left-width:4px;background:#f4e5bb;}
+.focus-status {font-weight:700;color:#4c603e;margin:6px 0;}
+.economy-strip .focus-finder {margin-left:0;border-color:#ae8844;background:#f5e8c7;text-align:left;white-space:normal;}
