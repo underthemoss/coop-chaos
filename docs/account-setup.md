@@ -10,7 +10,7 @@ to store it locally. There is no automatic cloud synchronization.
 Copy `.env.example` to a local ignored `.env.local` and supply the dedicated
 project's HTTPS URL and **publishable** `sb_publishable_…` key. Never put a secret,
 `service_role`, management token, password or SMTP credential into a Vite variable.
-Set `VITE_ACCOUNT_EMAIL_READY=true` only after the real sender and six-digit
+Set `VITE_ACCOUNT_EMAIL_READY=true` only after the real sender and eight-digit
 code templates are configured and tested. It is a public deployment readiness
 flag, not an authorization control. URL/key alone do not enable accounts.
 Missing/invalid configuration or a readiness flag other than exact `true` renders
@@ -24,23 +24,40 @@ underthemoss's Org, URL `https://ptrbffkygdshhainmjml.supabase.co`. No unrelated
 project is used. Pin `@supabase/supabase-js` to 2.108.0: newer 2.118.0 requires
 Node 22 while this repository also supports Node 20. Commit the lockfile.
 
-## Email OTP setup — hosted acceptance still required
+## Email OTP setup — provider qualified, public enablement pending
 
-Use Supabase Email authentication and six-digit email OTP, with the Magic Link
+Use Supabase Email authentication and eight-digit email OTP, with the Magic Link
 email template containing `{{ .Token }}` instead of a link. Check both signup
 confirmation and returning-login emails. Set an appropriate short OTP expiry and
-provider rate limits, and configure the actual deployed Site URL. Client attempts
+provider rate limits, and configure the actual deployed Site URL. The dedicated
+project currently uses a 3,600-second expiry. Client attempts
 have a 60-second resend cooldown; provider rate limits remain authoritative.
 Login uses `shouldCreateUser:false`; Create account uses `true`. Verification
 uses `verifyOtp({email,token,type:'email'})` in the original tab. Request success
 does not prove inbox delivery or sign-in; only an actual returned session does.
 
-The user owns `chickenciv.com` at GoDaddy. The proposed sending subdomain is
-`auth.chickenciv.com`, with From address `Coop Chaos <login@auth.chickenciv.com>`.
-Resend setup and GoDaddy DNS authorization are in progress; neither DNS nor the
-sender has been verified. SMTP, OTP delivery, and a designated email test mailbox
-remain pending. Keep `VITE_ACCOUNT_EMAIL_READY=false`. Do not send
-test emails until one is confirmed. Supabase's default SMTP is not public-email
+The user owns `chickenciv.com` at GoDaddy. Resend verified
+`auth.chickenciv.com` through GoDaddy Auto Configure on 2026-10-24. The dedicated
+project now uses custom SMTP at `smtp.resend.com:465`, username `resend`, with
+From address `Coop Chaos <login@auth.chickenciv.com>`. The domain-restricted
+sending key was entered privately by the user; never put it in this repository
+or a Vite variable. Both signup and returning-login templates are saved with
+subject `Your Coop Chaos sign-in code`, the `{{ .Token }}` code, and the agreed
+plain sign-in copy. Site URL is `https://coop-chaos.vercel.app`, with no wildcard
+redirects. Email OTP length remains the provider's eight digits; expiry remains
+3,600 seconds. The client uses the same eight-digit requirement.
+
+The user's supplied Yahoo mailbox is authorized for qualification. The first
+signup email was delivered by Resend and found in Yahoo Spam; later signup
+requests reached Inbox, while the returning-login email reached Spam. Actual
+eight-digit signup and returning login, session reload, sign-out, explicit copy
+save/readback and load-as-new-local/reopen passed against this provider from an
+isolated local app on 2026-10-24. The selected signup email exposed Yahoo
+`dkim=pass` for `auth.chickenciv.com`; SPF/DMARC were not independently confirmed.
+Delivery is not a promise of inbox placement. Keep public
+`VITE_ACCOUNT_EMAIL_READY=false` until the readiness decision is accepted; a
+local qualification server may enable it only
+for the isolated test origin. Supabase's default SMTP is not public-email
 acceptance. New Free projects using default SMTP cannot customize auth templates
 after 2026-06-03; custom SMTP (or an appropriate plan) is needed for this code
 template. Do not work around missing auth configuration with direct auth-table
@@ -48,8 +65,10 @@ writes or privileged browser credentials.
 
 Current CLI availability: no installed `supabase` executable was found. The
 connected project tools expose tables/SQL/advisors and public keys, but no Auth
-configuration method. Auth setup remains pending through supported project
-configuration; no management credential was searched for or displayed.
+configuration method. Auth settings above were configured in the dedicated
+project dashboard; actual mailbox/session/copy qualification and the public
+readiness decision remain separate. No management credential was searched for
+or displayed.
 
 References checked on 2026-10-24:
 
@@ -165,8 +184,16 @@ again. The only remaining performance advisory is informational: the project's
 Auth connection allocation is a fixed maximum of 10 rather than a percentage;
 review that setting before scaling the database instance.
 
-Still required for live acceptance: designated mailbox, configured production
-sender/template, actual signup/login/resend/expired-code journey, session reload
-and sign-out, two real authenticated accounts through the Data API, account-switch
-stale-response handling in UI, and explicit save/load/reopen in the actual game.
-Never put session/access tokens into logs or evidence captures.
+The real mailbox journey retained one immutable `Yahoo account proof` account
+copy (4,788 bytes, schema 8) and two separate same-named device slots at the
+isolated qualification origin. Reload and returning login retained that copy.
+One stale code was rejected after a newer request, and provider resend limiting
+was surfaced; natural 3,600-second expiry was not waited out.
+
+Still required before claiming the full public account journey: acceptance and
+release of the eight-digit client fix, explicitly enabling public readiness,
+and the same journey from the deployed game. Two real authenticated owners
+through the Data API and a real UI account-switch race remain unqualified: only
+the supplied owner was authorized. Existing synthetic RLS and adapter race tests
+cover those boundaries but are not two issued-user-JWT proof. Never put session
+or access tokens into logs or evidence captures.

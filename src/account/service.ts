@@ -4,6 +4,7 @@ import { accountClient, accountUnavailable } from "./client";
 
 export type AccountMode = "login" | "signup";
 export type CloudCopy = { id: string; name: string; createdAt: string };
+export const emailCodeLength = 8;
 export const maxCloudSaveBytes = 262144;
 export const copyPageSize = 50;
 const table = "account_save_copies";
@@ -65,7 +66,7 @@ export function createAccountService(client: SupabaseClient | null) {
       check(error);
     },
     async verifyCode(email: string, token: string): Promise<Session> {
-      if (!/^\d{6}$/.test(token.trim())) throw new Error("Enter the six-digit code from your email.");
+      if (!new RegExp(`^\\d{${emailCodeLength}}$`).test(token.trim())) throw new Error(`Enter the ${emailCodeLength}-digit code from your email.`);
       const {data,error} = await ready().auth.verifyOtp({email:emailAddress(email),token:token.trim(),type:"email"}); check(error);
       if (!data.session) throw new Error("No session was returned. Request a new code and try again.");
       return data.session;

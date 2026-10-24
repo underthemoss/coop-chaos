@@ -48,16 +48,17 @@ describe("real account adapter boundaries",()=>{
     await expect(service.requestCode("player@example.test","login")).rejects.toThrow("Too many requests");
     await expect(service.requestCode("invalid","signup")).rejects.toThrow("valid email");
   });
-  it("verifies six digits in the same flow and surfaces rejected, missing-session and expired-session errors",async()=>{
+  it("verifies eight digits in the same flow and surfaces rejected, missing-session and expired-session errors",async()=>{
     const {service,auth}=fixture();
-    await expect(service.verifyCode("player@example.test","abc")).rejects.toThrow("six-digit");
+    for (const token of ["abc", "123456", "1234567", "123456789", "1234567x"])
+      await expect(service.verifyCode("player@example.test",token)).rejects.toThrow("8-digit");
     expect(auth.verifyOtp).not.toHaveBeenCalled();
-    expect(await service.verifyCode("player@example.test","123456")).toEqual(session);
-    expect(auth.verifyOtp).toHaveBeenCalledWith({email:"player@example.test",token:"123456",type:"email"});
+    expect(await service.verifyCode("player@example.test"," 12345678 ")).toEqual(session);
+    expect(auth.verifyOtp).toHaveBeenCalledWith({email:"player@example.test",token:"12345678",type:"email"});
     auth.verifyOtp.mockResolvedValueOnce({data:{session:null},error:{message:"Code has expired"}});
-    await expect(service.verifyCode("player@example.test","123456")).rejects.toThrow("expired");
+    await expect(service.verifyCode("player@example.test","12345678")).rejects.toThrow("expired");
     auth.verifyOtp.mockResolvedValueOnce({data:{session:null},error:null});
-    await expect(service.verifyCode("player@example.test","123456")).rejects.toThrow("No session");
+    await expect(service.verifyCode("player@example.test","12345678")).rejects.toThrow("No session");
     auth.getSession.mockResolvedValueOnce({data:{session:null},error:{message:"Session expired"}});
     await expect(service.getSession()).rejects.toThrow("Session expired");
     auth.signOut.mockResolvedValueOnce({error:{message:"Connection unavailable"}});
