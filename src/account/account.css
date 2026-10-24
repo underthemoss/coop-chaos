@@ -1,0 +1,7 @@
+.account-panel { max-width: 30rem; width: 100%; margin: 0 auto; padding: clamp(1rem, 4vw, 2rem); overflow-wrap: anywhere; }
+.account-panel h1 { margin: 1.2rem 0; }
+.account-panel form { display: grid; gap: .7rem; margin: 1.3rem 0; }
+.account-panel input { width: 100%; min-width: 0; border: 1px solid #849781; border-radius: .7rem; padding: .8rem; font: inherit; background: #fffdf6; color: #243123; }
+.account-panel input:focus-visible { outline: 3px solid #637e50; outline-offset: 2px; }
+.account-panel button { min-height: 44px; }
+.account-actions { display: flex; flex-wrap: wrap; gap: .6rem; }

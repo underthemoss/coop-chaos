@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import type { ChangeEvent } from "react";
 import { Clearing } from "../game/Clearing";
 import type { Tool } from "../game/Clearing";
 import { foodPatches, trees, tuning } from "../content/settlement";
@@ -7,11 +6,11 @@ import { EconomyInspector } from "./EconomyInspector";
 import { BirdInspector } from "./BirdInspector";
 import { ActionArt } from "./ActionArt";
 import { TreeInspector } from "./TreeInspector";
+import { latestSave } from "./save-status";
 import { ProjectCard } from "./ProjectCard";
 import type { TreeId, SettlerId } from "../content/settlement";
 import {
   command,
-  initialSettlement,
   step,
   populationReadout,
   reedSupply,
@@ -22,12 +21,7 @@ import {
 } from "../simulation/settlement";
 import type { Cell, Command, Settlement } from "../simulation/settlement";
 import {
-  decodeSettlement,
   encodeSettlement,
-  legacyArchive,
-  loadSettlement,
-  saveQueue,
-  settlementMigrationNotice,
 } from "../persistence/settlement-save";
 const foodName = (id: string) => foodPatches.find(p => p.id === id)?.name ?? id;
 function download(text: string, name: string) {
@@ -40,8 +34,8 @@ function download(text: string, name: string) {
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-export function App() {
-  const [state, setState] = useState(initialSettlement);
+export function App({initial, name, onSave, onExit}: {initial:Settlement;name:string;onSave:(state:Settlement)=>Promise<void>;onExit:()=>void}) {
+  const [state, setState] = useState(initial);
   const stateRef = useRef(state);
   const [selected, setSelected] = useState<SettlerId>("fern");
   const [panelOpen, setPanelOpen] = useState(false);
@@ -86,88 +80,52 @@ export function App() {
   },[panelOpen]);
   const [tool, setTool] = useState<Tool>("inspect");
   const [cursor, setCursor] = useState<Cell>({ x: -2, z: 2 });
-  const [ready, setReady] = useState(false);
+  const ready = true;
   const [busy, setBusy] = useState(false);
-  const locked = useRef(true);
-  const restoreFailed = useRef(false);
-  const [storage, setStorage] = useState("Opening settlement…");
+  const locked = useRef(false);
+  const saveFailed = useRef(false);
+  const [unsaved,setUnsaved] = useState(false);
+  const [storage, setStorage] = useState("Saved on this device");
   const [notice, setNotice] = useState("");
   const [actionFailed,setActionFailed]=useState(false);
   function clearInteractionNotice(){setNotice(current=>/^(Building queued\.|Choose (open ground|a named tree|one of the construction))/.test(current)?"":current);}
-  const [archive, setArchive] = useState<string>();
-  const fileInput = useRef<HTMLInputElement>(null);
-  const queue = useRef(saveQueue());
   function display(next: Settlement) {
     stateRef.current = next;
     setState(next);
   }
-  async function save(next: Settlement) {
-    try {
-      await queue.current(next);
-      setStorage("Saved on this device");
-    } catch {
-      setStorage("Device save failed. Export to keep your settlement.");
-    }
+  const saveReporter=useRef<ReturnType<typeof latestSave>|null>(null);
+  if(!saveReporter.current)saveReporter.current=latestSave(onSave,feedback=>{
+    if("saving" in feedback){setStorage("Saving…");return;}
+    saveFailed.current=!feedback.saved;setUnsaved(!feedback.saved);
+    setStorage(feedback.saved?"Saved on this device":feedback.reason);
+  });
+  const save=saveReporter.current;
+  async function returnToTitle(){
+    if(locked.current)return;
+    locked.current=true;setBusy(true);
+    if(await save(stateRef.current))onExit();
+    else {locked.current=false;setBusy(false);}
   }
-  useEffect(() => {
-    let active = true;
-    void Promise.all([loadSettlement(), legacyArchive()])
-      .then(([saved, legacy]) => {
-        if (active) {
-          stateRef.current = saved;
-          setState(saved);
-          setArchive(legacy);
-          setNotice(settlementMigrationNotice(saved)??"");
-          setStorage("Settlement restored · no offline time elapsed");
-        }
-      })
-      .catch((cause) => {
-        if (active) {
-          restoreFailed.current = true;
-          setNotice(
-            `Could not restore: ${cause instanceof Error ? cause.message : "storage unavailable"}`,
-          );
-          setStorage(
-            "Original device data retained. Export this session before restarting.",
-          );
-        }
-      })
-      .finally(() => {
-        if (active) {
-          setReady(true);
-          locked.current = false;
-        }
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
+  useEffect(()=>{const warn=(event:BeforeUnloadEvent)=>{if(saveFailed.current){event.preventDefault();}};window.addEventListener("beforeunload",warn);return()=>window.removeEventListener("beforeunload",warn);},[]);
   useEffect(() => {
     if (!ready) return;
     const id = setInterval(() => {
-      if (locked.current || restoreFailed.current || document.hidden) return;
+      if (locked.current || document.hidden) return;
       const previousTick=stateRef.current.tick;
       let next = stateRef.current;
       for(let i=0;i<stateRef.current.economy.clock.speed;i++)next=step(next);
       if (next === stateRef.current) return;
       display(next);
-      if (Math.floor(next.tick/10)>Math.floor(previousTick/10)) void save(next);
+      if (!saveFailed.current && Math.floor(next.tick/10)>Math.floor(previousTick/10)) void save(next);
     }, tuning.stepSeconds * 1000);
     return () => clearInterval(id);
   }, [ready]);
   function act(action: Command) {
     if (!ready || locked.current) return false;
-    if (restoreFailed.current) {
-      setActionFailed(true);
-      setNotice(
-        "The device save could not be read. Import a valid settlement or explicitly restart before working; the original is retained.",
-      );
-      return false;
-    }
     try {
       const next = command(stateRef.current, action);
       display(next);
-      void save(next);
+      if(!saveFailed.current)void save(next);
       setNotice(action.type==="focus-build" ? action.site===null ? "Normal construction order. Current work continues." : `Construction priority set to ${constructionFocusReadout(next)!.label}. Current deliveries and care continue.` : "");
       setActionFailed(false);
       return true;
@@ -220,42 +178,6 @@ export function App() {
     if (tool === "store")
       act({ type: "build", kind: tool, at });
   }
-  async function replace(next: Settlement, message: string) {
-    locked.current = true;
-    restoreFailed.current = false;
-    setBusy(true);
-    setSelected(current=>next.birds.some(b=>b.id===current)?current:next.birds[0].id);
-    display(next);
-    setPanelOpen(false);setTool("inspect");
-    await save(next);
-    setNotice(message);
-    setActionFailed(false);
-    locked.current = false;
-    setBusy(false);
-  }
-  async function importSave(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
-    locked.current = true;
-    setBusy(true);
-    try {
-      if (file.size > 262144)
-        throw new Error("Save exceeds the 256 KB prototype limit.");
-      const next = decodeSettlement(await file.text());
-      await replace(
-        next,
-        "Imported settlement. In-flight work resumes from its saved position. "+(settlementMigrationNotice(next)??""),
-      );
-    } catch (cause) {
-      setNotice(
-        `${cause instanceof Error ? cause.message : "Import failed."} Your settlement is unchanged.`,
-      );
-    } finally {
-      locked.current = false;
-      setBusy(false);
-    }
-  }
   const bird = state.birds.find((b) => b.id === selected)??state.birds[0];
   const forecast = populationReadout(state);
   const localFood=state.economy.nurseries.reduce((n,p)=>({staple:n.staple+p.food.staple,protein:n.protein+p.food.protein}),{staple:0,protein:0});
@@ -277,7 +199,7 @@ export function App() {
   };
   return <div className="shell">
     <header className="site-header">
-      <h1>coop chaos<span>.</span></h1>
+      <h1 title={name}>coop chaos<span>.</span></h1>
       <div className="header-actions">
         <span className="phase-label">Day {state.economy.clock.day} · {state.phase==="day"?"Daylight":"Night"}</span>
         <button disabled={!ready||busy} onClick={()=>act({type:"speed",speed:state.economy.clock.speed===1?4:1})} aria-label="Change simulation speed">{state.economy.clock.speed}× time</button>
@@ -287,6 +209,7 @@ export function App() {
       </div>
     </header>
     <main>
+      {unsaved&&<div className="save-warning" role="alert"><strong>Unsaved session</strong><span>{storage}</span><button disabled={busy} onClick={()=>void save(stateRef.current)}>Retry save</button><button onClick={()=>download(encodeSettlement(stateRef.current),"coop-chaos-unsaved-session.json")}>Export session</button></div>}
       <div className="economy-strip" aria-label="Settlement resources and capacity">
         <span><strong>{reeds.free}</strong> Reeds ready</span>
         <span>{forecast.label}</span><span><strong>{forecast.committed}/{forecast.capacity}</strong> future places</span>
@@ -328,65 +251,17 @@ export function App() {
           </EconomyInspector>}
           {panelTarget==="forage"&&<section><span className="eyebrow">FOOD PLACES</span><h2>Let chickens eat</h2><p>They find Seeds and Bugs here between jobs.</p>{selectedForage?foodPlace(selectedForage):state.forage.map(p=>foodPlace(p.id))}<button onClick={()=>openFood()}>Food for chicks</button></section>}
           {panelTarget==="gather"&&<section><span className="eyebrow">BUILDING SUPPLIES</span><h2>Gather reeds</h2><p>Ask one chicken for a trip, or let the flock gather between jobs.</p><button onClick={chooseGatherer}>Ask {bird.life.name} for one trip</button>{state.patches.map(p=><article className="food-place" key={p.id}><h3>{p.id==="patch-west"?"West reeds":"East reeds"}</h3><p>{p.remaining} ready · {p.designated?"flock gathering":"not gathering"}</p><button disabled={!ready||busy} onClick={()=>act({type:"gather",id:p.id,designated:!p.designated})}>{p.designated?"Stop flock gathering":"Let the flock gather"}</button></article>)}<details><summary>Where the reeds are</summary><p>{reeds.free} free · {reeds.reserved} reserved for trips · {reeds.carried} carried · {reeds.delivered} delivered to buildings · {state.consumed} woven into finished buildings</p></details></section>}
-          {panelTarget===null&&<section className="menu-content"><h2>Menu</h2>
+          {panelTarget===null&&<section className="menu-content"><h2>{name}</h2>
             <section className="save-tools">
               <p role="status">{storage}</p>
               <div>
-                <button
-                  disabled={!ready || busy}
-                  onClick={() =>
-                    download(
-                      encodeSettlement(stateRef.current),
-                      "coop-chaos-settlement.json",
-                    )
-                  }
-                >
-                  Export settlement
-                </button>
-                <button
-                  disabled={!ready || busy}
-                  onClick={() => fileInput.current?.click()}
-                >
-                  Import settlement
-                </button>
-                <button
-                  disabled={!ready || busy}
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Restart this settlement? Export first to keep it.",
-                      )
-                    )
-                      void replace(
-                        initialSettlement(),
-                        "Started a fresh settlement.",
-                      );
-                  }}
-                >
-                  Restart
-                </button>
-                {archive && (
-                  <button
-                    onClick={() =>
-                      download(archive, "coop-chaos-first-evening.json")
-                    }
-                  >
-                    Export archived story
-                  </button>
-                )}
+                <button disabled={busy} onClick={()=>void returnToTitle()}>Save and return to title</button>
+                <button disabled={busy} onClick={()=>void save(stateRef.current)}>Save now</button>
+                <button onClick={()=>download(encodeSettlement(stateRef.current),"coop-chaos-settlement.json")}>Export settlement</button>
               </div>
-              <input
-                hidden
-                ref={fileInput}
-                type="file"
-                accept=".json,application/json"
-                onChange={(e) => void importSave(e)}
-              />
-              <p className="quiet">
-                Saved on this device. No offline time elapses.
-              </p>
+              <p className="quiet">On this device · no offline time elapses. New and Load game are on the title screen.</p>
+              {unsaved&&<button onClick={()=>{if(window.confirm("Leave this unsaved session? Your previous saved game stays on this device. Export first to keep your latest work."))onExit();}}>Return without saving</button>}
             </section>
-
           </section>}
         </aside>
       </div>

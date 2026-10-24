@@ -679,3 +679,58 @@ footer { display:none; }
 .project-card.is-focused,.project-label.is-focused {border-color:#8d681f;border-left-width:4px;background:#f4e5bb;}
 .focus-status {font-weight:700;color:#4c603e;margin:6px 0;}
 .economy-strip .focus-finder {margin-left:0;border-color:#ae8844;background:#f5e8c7;text-align:left;white-space:normal;}
+
+/* The title illustration is separate from the actual 3D play view. */
+.front-door { min-height: 100dvh; position: relative; isolation: isolate; background: #27392c; color: #f9f2d9; overflow-x: hidden; }
+.title-art { position: fixed; inset: 0; z-index: -2; background: var(--grove-art) center 47% / cover no-repeat; }
+.front-door::before { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(90deg,rgba(20,33,24,.85),rgba(20,33,24,.35) 52%,rgba(20,33,24,.02)); }
+.title-content { width: min(500px,100%); padding: clamp(28px,7vh,80px) 44px 24px; }
+.title-brand { margin-bottom: 30px; }
+.title-brand h1 { font-family: "Fraunces",Georgia,serif; font-size: clamp(42px,5vw,64px); font-weight: 500; letter-spacing: -3px; line-height: 1.1; }
+.title-brand h1 span { color: #d5a04e; }
+.title-brand p { font-family: "Fraunces",Georgia,serif; font-size: 20px; margin-top: 12px; }
+.title-card { background: #f3f0df; color: #2c4132; padding: 24px; border-radius: 10px; box-shadow: 0 10px 45px #15251e40; }
+.title-card h2 { margin-bottom: 12px; }
+.title-primary,.title-secondary { display: block; width: 100%; min-height: 50px; margin: 10px 0; text-align: left; font-size: 18px; padding: 12px 16px; }
+.title-primary { background: #39563e; color: #fff8df; border-color: #39563e; }
+.title-primary:hover { background: #2c4732; color: #fff8df; }
+.continue-game strong { display: block; font-size: 20px; }
+.continue-game span { display: block; font-size: 12px; margin-top: 6px; font-weight: 400; }
+.title-secondary { background: #e6e6d3; }
+.title-label { display: grid; gap: 7px; margin: 18px 0; font-weight: 600; }
+.title-label input,.title-label select { font: inherit; padding: 12px; border: 1px solid #9ba58b; border-radius: 4px; background: #fffdf3; color: #283c30; width: 100%; min-width: 0; }
+.title-label input:focus-visible { outline: 3px solid #b8883a; outline-offset: 2px; }
+.text-button { border: 0; padding: 4px 0; background: transparent; text-decoration: underline; text-underline-offset: 3px; }
+.account-links { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid #cdd0b9; padding-top: 14px; margin-top: 18px; overflow-wrap: anywhere; }
+.device-caption { font-size: 12px; line-height: 1.55; color: #60715c; margin-top: 15px; }
+.title-footer { font-size: 11px; margin-top: 20px; opacity: .85; }
+.back-title { margin-bottom: 20px; }
+.slot-list { display: grid; gap: 12px; max-height: 46vh; overflow: auto; margin: 15px -4px; padding: 4px; }
+.slot-card { border: 1px solid #c6cbb4; padding: 14px; border-radius: 5px; overflow-wrap: anywhere; }
+.slot-card h3 { font-size: 17px; }
+.slot-card p { margin: 4px 0; }
+.slot-card time { font-size: 11px; color: #66735d; display: block; }
+.slot-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.recovery-link { margin-top: 14px; text-align: left; color: #795621; border-color: #c8a266; }
+.recovery-card { padding-top: 12px; margin-top: 12px; border-top: 1px solid #c8a266; font-size: 13px; }
+.recovery-card button { margin: 4px 5px 4px 0; }
+.title-error { background: #f3dfcb; border-left: 3px solid #a45f36; padding: 12px; margin-top: 16px; }
+.cloud-copies { border-top: 1px solid #cdd0b9; padding-top: 18px; margin-top: 20px; }
+.cloud-copies .slot-card { margin-top: 12px; }
+.game-opening { display: grid; place-items: center; min-height: 100dvh; font-family: "Fraunces",Georgia,serif; font-size: 24px; }
+.save-warning { padding: 10px 18px; background: #f3dfbd; color: #69451f; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; border-bottom: 1px solid #bd965d; }
+.save-warning span { flex: 1 1 250px; font-size: 12px; }
+@media(min-width:1000px) { .title-content:has(.slot-list) { width: 560px; } }
+@media(max-width:600px) {
+ .front-door::before { background: linear-gradient(180deg,transparent 0,rgba(21,36,25,.15) 120px,#253c2c 350px); }
+ .title-art { background-position: 60% top; background-size: auto 410px; }
+ .title-content { padding: 210px 20px 24px; width: 100%; }
+ .title-brand { margin-bottom: 22px; text-shadow: 0 2px 15px #142319; }
+ .title-brand h1 { font-size: 46px; letter-spacing: -2px; }
+ .title-brand p { font-size: 17px; margin-top: 8px; }
+ .title-card { padding: 20px; }
+ .title-primary,.title-secondary { min-height: 50px; }
+ .slot-list { max-height: none; }
+ .save-warning { max-height: 24vh; overflow: auto; }
+}
+@media(prefers-reduced-motion:reduce) { .front-door * { scroll-behavior: auto; } }

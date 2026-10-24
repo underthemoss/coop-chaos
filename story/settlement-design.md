@@ -528,3 +528,16 @@ The headline separates adults, chicks, juveniles and expected unhatched commitme
 The player can choose **Build this first** on any unfinished tree structure or ground store. This is a community construction priority, not ownership of a chicken or a promise of immediate work. The next available construction assignment tries the chosen project’s weaving or reed pickup before other projects; if it cannot act there, useful ordinary work continues. **Use normal order** clears the choice. Completion or cancellation also clears it. All other plans remain, in their original order.
 
 Current deliveries, reservations and basket lifts finish normally; existing named requests retain their target. Care, personal needs and the player’s food policy keep their existing precedence. Focus neither moves reeds already committed elsewhere nor silently designates habitat, replaces a request or changes Food/Build policy. Actual project progress and named contributions remain distinct from its priority. A tree’s single world badge shows its focused project; ground stores retain their planned construction marker. The compact finder opens the exact chosen project after closing its panel or reloading. Older settlements reopen in normal order. This interface does not change construction costs, reed renewal, hauling throughput, or growth timing.
+
+
+## Entering and keeping a grove
+
+The illustrated title is separate from the living 3D world. Continue opens a
+validated local game; New game starts another named grove without replacing
+existing chickens or their history. Load lists games and imports another local
+game. Leaving through Save and return to title requires a successful save.
+Unreadable records remain in recovery outside play, with their original bytes
+available for download; a new grove never erases them. Optional email accounts
+keep deliberately saved copies, not an automatic shared or online simulation.
+Names, library metadata and authentication do not change the settlement rules,
+clock, individual choices, resources, growth or saved physical work.

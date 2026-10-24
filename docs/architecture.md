@@ -1,7 +1,8 @@
 # Architecture
 
 One strict TypeScript npm project, Vite static app, React/CSS controls, and full
-Babylon.js WebGL 2 rendering. No backend, account, multiplayer, or remote authority.
+Babylon.js WebGL 2 rendering. Simulation remains local and single player. Optional
+Supabase email accounts store explicit save copies; they never own simulation rules.
 The elevated low-poly world follows the spatial qualities of the user's
 [Kingdoms and Castles reference](https://store.steampowered.com/app/569480/Kingdoms_and_Castles/),
 using original chicken-built structures and Blender-authored GLB bird/tree proofs.
@@ -122,14 +123,39 @@ history rather than compressed development units. Immutable old-timing fixtures
 cover stage edges, completed adults, paused shortages and secured cargo. New reed patches use free legal cells; crowded older worlds may receive fewer
 than two patches, with a visible notice and no later automatic respawn.
 
-One ordered write queue captures snapshots when requested. Earlier writes cannot
-finish after a later import/restart and overwrite it. Replacement pauses stepping
-while reading/validating/saving; commands are locked during that operation. Tick
-saves occur about once per second, commands save immediately, and transaction
-completion defines success. Export uses current state. Storage failure retains
-playability with an export notice. A failed initial decode does not autosave over
-the unread original; an explicit restart or valid import is needed first.
-No cloud, cross-tab conflict resolution, offline simulation, or general migration framework.
+`FrontDoor` opens a static illustrated title before lazily mounting the game and
+Babylon scene. `src/persistence/library.ts` owns device slots in the separate
+`coop-chaos-library` IndexedDB database. Metadata contains name, creation/update
+time, revision, exact save text and at most one previous valid checkpoint; it is
+not a new simulation schema. Initialization atomically records a one-time import
+of the old `coop-chaos/saves/settlement` key without modifying the source bytes.
+Absence, valid data, damaged/newer data and storage errors have distinct outcomes.
+The historical story archive is read independently and cannot reject a valid game.
+
+New/import actions persist a separate validated slot before mounting it. Recovery
+never mounts a fresh playable substitute for rejected data. Exact original bytes
+can be downloaded. Checkpoint restoration validates the checkpoint, claims the
+writer lock and archives the rejected record before atomic replacement. There is
+no destructive restart in the main journey.
+
+`openSlot` holds a Web Lock for the session; another tab cannot take it over. A
+transaction checks the expected revision before any update, so stale writes also
+fail safely. Unsupported locking fails closed for editing. Each session captures
+and strictly roundtrips candidates when requested, then serializes atomic writes.
+Closing prevents queued stale writes and releases the lock after pending work.
+`latestSave` generation-tags UI feedback: an older successful commit cannot hide
+a newer rejected candidate. Only transaction completion reports durability. Save
+failure leaves the latest good slot and current unsaved session intact with retry
+and export; Save and return to title stays in play if persistence fails. Reload
+returns to title, with no offline time advancement.
+
+`src/account/` independently owns optional email authentication and owner-scoped
+remote copies. Device games are not uploaded on login. Explicit copies bind a
+stable action ID and initiating owner; retries reconcile that same copy, and
+account changes discard cached lists and stale responses. Remote loads become new
+local slots. See [account setup](account-setup.md) for configuration and the
+unverified email/hosted boundary. No multiplayer, automatic synchronization,
+cross-tab merge, or remote simulation authority is introduced.
 
 Fresh settlements start with 8 loose construction reeds and two renewable capacity-limited patches.
 Extraction atomically transfers one patch reed into worker cargo. Initial loose

@@ -59,8 +59,8 @@ npm ci
 npm run dev
 ```
 
-Open Vite's local URL in a **WebGL 2** browser. No keys, accounts, external fonts,
-backend, or art downloads are needed. React owns controls; full Babylon.js owns
+Open Vite's local URL in a **WebGL 2** browser. Guest play needs no keys, accounts, external fonts,
+backend, or art downloads. Optional email accounts and explicit remote save copies use the setup in [account setup](docs/account-setup.md). React owns controls; full Babylon.js owns
 the true 3D world with an elevated 2.5D presentation.
 
 ```sh
@@ -139,12 +139,37 @@ ticks, appetite changes and food recovery exactly.
 
 ## Saves and compatibility
 
-The `settlement-8` schema saves to IndexedDB about once per second and
-after commands. There is no offline catch-up or cloud/cross-tab synchronization;
-use one tab. Export to retain important progress. Import validates shape,
-references, resource conservation, jobs, and sleeping occupancy before replacing
-anything. Restart confirms replacement. In-flight loads, movement progress, food, feeding, sleep, rest,
-and memories are saved facts.
+The illustrated title screen opens before the 3D game. **Continue** opens the most
+recent valid game on this device. **New game** creates a separate named grove;
+**Load game** lists local games and imports JSON as another game. Existing games
+are never replaced by creating or importing. In play, **Menu → Save and return to
+title** saves before leaving; export remains available. Reload returns to title.
+
+The `settlement-8` simulation envelope is unchanged. Separate device-library
+metadata owns game names, timestamps, revisions and one previous valid checkpoint.
+The old single `settlement` key is imported once into the library and its exact
+original bytes are never changed. Unreadable or newer records stay outside the
+3D game with retry, exact-original download and a new-game path. A valid previous
+checkpoint can be restored while retaining the rejected bytes as another record.
+Legacy story archive access cannot block settlement games.
+
+Saves capture and strictly validate the candidate before an atomic IndexedDB
+commit, about once per second and after commands. Only a completed transaction
+reports success. A failed write keeps the previous good game, labels the current
+session unsaved and offers retry/export; returning to title does not discard it
+silently. A browser Web Lock permits one active writer per game, and transactional
+revision checks reject stale writes. Browsers without Web Locks can export games
+but cannot open an unsafe editing session. There is no offline catch-up or
+cross-tab merging. In-flight loads, movement, food, care and memories stay saved
+simulation facts.
+
+**Log in** and **Create account** are optional email-code routes. They never gate
+guest play or automatically upload device games. An explicit **Save copy to
+account** creates a separate remote copy; **Load as new local game** imports one
+without replacing a device game. Account copies remain distinct from local games,
+and account changes clear cached remote data. Missing provider configuration is
+shown honestly; real email delivery and hosted acceptance require the configured
+provider described in [account setup](docs/account-setup.md).
 
 Older growth saves keep their current stage and proportional progress under the
 one-cycle pacing. Age, actual care/bond history, eggs, identities and deliveries
@@ -174,7 +199,7 @@ explicitly rejected as settlement imports, never silently reinterpreted.
 | [src/content/](src/content/settlement.ts) | Provisional playable roster, landmarks and tuning |
 | [src/game/](src/game/create-clearing.ts) | Babylon landscape, structures, cargo, movement and picking |
 | [src/app/](src/app/App.tsx) | Accessible controls, fixed-step driver, inspector and save coordination |
-| [src/persistence/](src/persistence/settlement-save.ts) | Strict settlement envelope, IndexedDB and ordered writes |
+| [src/persistence/](src/persistence/settlement-save.ts) | Strict settlement envelope, local game library, validated atomic writes and compatibility |
 | [assets/](assets/README.md) | Source/reference guidance |
 | [public/assets/](public/assets/README.md) | Approved runtime exports and provenance |
 | [docs/](docs/architecture.md) | Architecture, research, decisions, roadmap and workflow |
