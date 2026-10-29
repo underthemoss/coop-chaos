@@ -1,0 +1,12 @@
+{
+  "blender": "4.5.3 LTS",
+  "method": "Two complete new Blender-process authoring runs, all5GLBs compared byte-for-byte; final deck consolidation repeated in two further fresh processes",
+  "equal": true,
+  "hashes": {
+    "boughhome-longbough-modules.glb": "131b6d465c0b00380880320c164f1dc7c2ce8fd5cdb492d40256244b8beab5e7",
+    "boughhome.glb": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+    "reed-store.glb": "efc46a10a8028f22782961bf91696476ebee10320dd8fe3b73f6aef94d364fd3",
+    "root-nursery.glb": "7ee268c95af676d570b753d4077263e06c22e1e8f688a0c9495a5ad34ca71dcf",
+    "sleeping-deck-compatible.glb": "ec296cdcb8433d42fac20fd74d58bc10ea993e9bf6a98f9e52742fa2207d0b61"
+  }
+}

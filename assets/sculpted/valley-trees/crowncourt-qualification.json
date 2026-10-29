@@ -1,0 +1,37 @@
+{
+  "revision": "tree-study-v5",
+  "file": "public/assets/environment/studies/crowncourt-study.glb",
+  "sha256": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+  "bytes": 3350844,
+  "bounds": {
+    "min": [
+      -4.52325439453125,
+      -0.3411957919597626,
+      -3.4332799911499023
+    ],
+    "max": [
+      4.333706855773926,
+      8.4652681350708,
+      2.981049060821533
+    ]
+  },
+  "low_wood_y_le_1m_bounds": {
+    "min": [
+      -1.9321770668029785,
+      -0.3411957919597626,
+      -2.0735511779785156
+    ],
+    "max": [
+      2.068385601043701,
+      0.9710157513618469,
+      1.2704048156738281
+    ]
+  },
+  "triangles": {
+    "living-wood": 6464,
+    "crown-foliage": 26604
+  },
+  "leaf_count": 3684,
+  "leaf_fullspan_min": 0.16000356674146454,
+  "leaf_fullspan_max": 0.2449851639848788
+}

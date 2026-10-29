@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-27",
+  "mode": "Built-in image_gen.imagegen",
+  "source": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-7d256c84-6129-4f84-bacb-31dd02ace0e9.png",
+  "copy": "reed-weave-v1-source.png",
+  "prompt": "Use case: stylized-concept.\nAsset type: original tileable base-color texture for authored 3D Chicken Civ buildings, not an illustration.\nPrimary request: a seamless square 1536 by 1536 swatch of natural flattened reed basket weave. Perfectly top-down orthographic view, entire image filled by the same repeating material, no border and no objects. Hand-painted premium fantasy game material with subtle tactile fibrous detail, honey straw and muted grey-taupe midtones, small organic color variation, gently irregular strip widths. Broad subtly flattened LONGITUDINAL REED STRIPS interlaced over and under. One clearly vertical warp direction; a quieter horizontal weft. Reed fibers have long fine streaks; sparse darker natural fibers, only restrained frayed edges. Moderate scale: about 18 to 24 primary vertical strips across the square, not a tiny microscopic weave. Low to medium contrast. Neutral diffuse albedo illumination: no directional lighting, no shine, no baked cast shadows, no ambient-occlusion creases, no vignetting or dark edges. No rope knot grid, diagonal wicker, timber plank joints, nails, human cloth, carved ornament, text, logos, props or background. Opposite edges should tile continuously. The geometry will provide folds, ribs, lashings, edge fibers and all lighting; this image supplies painted color and reed fiber only. Warm natural sophisticated material, not bright yellow plastic.",
+  "transparent_background": false,
+  "postProcessing": "None; generated PNG copied byte-for-byte.",
+  "status": "Primary visually inspected material candidate; UV repeat and runtime shading qualification owned by asset/integration executors. Do not claim exact seamlessness or pure unlit albedo without inspection."
+}

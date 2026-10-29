@@ -1,0 +1,42 @@
+{
+  "revision": "clearing-crown-shape-v3",
+  "assets": {
+    "longbough-living": {
+      "components": 12671,
+      "protectedOriginalComponents": 209,
+      "vertices": 231520,
+      "maxDisplacementM": 1.7874101958857627,
+      "sha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+      "bytes": 11635204,
+      "baselineSha256": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a"
+    },
+    "valley-grove-oak": {
+      "components": 3305,
+      "protectedOriginalComponents": 0,
+      "vertices": 40936,
+      "maxDisplacementM": 1.3806476055468497,
+      "sha256": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+      "bytes": 1978036,
+      "baselineSha256": "09b27d5615b4e4702a85953cbabc91867f6a906b7ea1018e50cb024dc98400e8"
+    },
+    "valley-grove-spread": {
+      "components": 3305,
+      "protectedOriginalComponents": 0,
+      "vertices": 40993,
+      "maxDisplacementM": 1.538650384904443,
+      "sha256": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+      "bytes": 1979896,
+      "baselineSha256": "49fb739d5bae6e9ef7784235e9debb929ba451672d53b9c0faf36746f3dd225a"
+    },
+    "valley-grove-shrub": {
+      "components": 948,
+      "protectedOriginalComponents": 0,
+      "vertices": 12394,
+      "maxDisplacementM": 0.7062336246801655,
+      "sha256": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+      "bytes": 938572,
+      "baselineSha256": "c2441f76f610809f68eb47bf033dd9f79a54a5c05789088f198314587732f1f4"
+    }
+  },
+  "scope": "Only crown POSITION/NORMAL values and position accessor bounds changed. Exact v4 COLOR_0, topology, living wood, kit, profile and embedded images retained."
+}

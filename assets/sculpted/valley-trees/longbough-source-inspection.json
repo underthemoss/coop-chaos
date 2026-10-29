@@ -1,0 +1,20 @@
+{
+  "revision": "tree-study-v5",
+  "source": "longbough-study.blend",
+  "probe_contract": "Render-only vertical rays from Y=.01; X[-1.25,1.25] step.25, Z[1.5,3] step.25. Samples are art-clearance evidence, not a traversal/capacity contract.",
+  "anatomical_ground_y": 0,
+  "meshes": {
+    "living-wood": {
+      "rays": 77,
+      "unobstructed_rays": 77,
+      "minimum_overhead_hit_y": null,
+      "maximum_overhead_hit_y": null
+    },
+    "crown-foliage": {
+      "rays": 77,
+      "unobstructed_rays": 72,
+      "minimum_overhead_hit_y": 4.3336896896362305,
+      "maximum_overhead_hit_y": 7.205898284912109
+    }
+  }
+}

@@ -1,5 +1,11 @@
 # Life above the ground
 
+The [Long Crow progression proposal](proposals/chicken-civ-progression.md)
+connects this technology direction to Chicken Civ's warfare goal: a branching
+tech ladder, supplied experiments, individual expertise and leadership succession.
+Its names, recipes, levels and military systems remain proposed. The present
+document retains the accepted access/invention direction and bounded current proof.
+
 ## Current bounded economy status
 
 The implemented scope now includes renewable reeds, typed staple/protein food,

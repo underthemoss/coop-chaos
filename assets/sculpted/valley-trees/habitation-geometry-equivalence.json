@@ -1,0 +1,95 @@
+{
+  "state": "PASS",
+  "reference": "longbough-habitation-v3-studio.blend",
+  "current": "longbough-habitation-study.blend",
+  "scope": "All seven native source mesh vertex positions and tessellated triangle indices; material fields intentionally excluded. Local mesh coordinates correspond under unchanged Blender/glTF axis conversion.",
+  "geometry_identical": true,
+  "v3": {
+    "living-wood": {
+      "position_sha256": "4ede3127126105dfb25cce17c928067a84abfb68e1b1d5d0a61fade5e68b6bb3",
+      "triangle_index_sha256": "ac1abd9d1072f2ada963a168d77a36ef023b1f7154ed33bd01add41830830f35",
+      "vertices": 9553,
+      "triangles": 18961
+    },
+    "crown-foliage": {
+      "position_sha256": "9526d285735e672992bd5cbe2d7ef41bec4991e82780a6d7543d06dc0a17a4f2",
+      "triangle_index_sha256": "b034828a1256f5c8749ef4c126ff15ba771075d40afd365aa98e1783b71320e7",
+      "vertices": 58849,
+      "triangles": 54474
+    },
+    "study-structure-decks": {
+      "position_sha256": "30bf2176039da1bf725cd067c72c7d1791178de0c9eb7baaa10f3bd89dee6cac",
+      "triangle_index_sha256": "dd5f8282db1becc9fa186dd1a5e166b352406aced142fda435a51ef752c6b217",
+      "vertices": 512,
+      "triangles": 768
+    },
+    "study-structure-supports": {
+      "position_sha256": "3e067ad1a4cd8ef2412ac737b19382b22a56e06dfc6869c76eb5f7b62a5ec11a",
+      "triangle_index_sha256": "e70c6161b2284491335c351ed4b21ed3a627ede11cbf7744ec3737be2aba850b",
+      "vertices": 240,
+      "triangles": 400
+    },
+    "study-structure-rails-ladders": {
+      "position_sha256": "cd0f864f607f93ebcc75acd115342e52677cca8886e77fd42e84f95f52e03c80",
+      "triangle_index_sha256": "4bccdfcee98ffeeb90e5258ed8932d1f3832c1f7aebd7de3dbdb82b608ec7c88",
+      "vertices": 5472,
+      "triangles": 9728
+    },
+    "study-structure-woven-hood-basket": {
+      "position_sha256": "18702c6d5cbd9b976ee6f46800bcf1668e5e7e9d34a7a05fb2b129411fb054f7",
+      "triangle_index_sha256": "813d7016ae6618174994292d9dd3ecd07bc852a82a8e3027f13fc6e7431664e2",
+      "vertices": 7614,
+      "triangles": 13536
+    },
+    "study-structure-lashings-hoist": {
+      "position_sha256": "a9ea91976beee1143bf4a0c3198d412694759d0a83588e41be0b749a0907c663",
+      "triangle_index_sha256": "266df105445ca75c9c7fa7d6cc1cfdcc85e577e03e6d4859d9a54ba516586ace",
+      "vertices": 5670,
+      "triangles": 10080
+    }
+  },
+  "v4": {
+    "living-wood": {
+      "position_sha256": "4ede3127126105dfb25cce17c928067a84abfb68e1b1d5d0a61fade5e68b6bb3",
+      "triangle_index_sha256": "ac1abd9d1072f2ada963a168d77a36ef023b1f7154ed33bd01add41830830f35",
+      "vertices": 9553,
+      "triangles": 18961
+    },
+    "crown-foliage": {
+      "position_sha256": "9526d285735e672992bd5cbe2d7ef41bec4991e82780a6d7543d06dc0a17a4f2",
+      "triangle_index_sha256": "b034828a1256f5c8749ef4c126ff15ba771075d40afd365aa98e1783b71320e7",
+      "vertices": 58849,
+      "triangles": 54474
+    },
+    "study-structure-decks": {
+      "position_sha256": "30bf2176039da1bf725cd067c72c7d1791178de0c9eb7baaa10f3bd89dee6cac",
+      "triangle_index_sha256": "dd5f8282db1becc9fa186dd1a5e166b352406aced142fda435a51ef752c6b217",
+      "vertices": 512,
+      "triangles": 768
+    },
+    "study-structure-supports": {
+      "position_sha256": "3e067ad1a4cd8ef2412ac737b19382b22a56e06dfc6869c76eb5f7b62a5ec11a",
+      "triangle_index_sha256": "e70c6161b2284491335c351ed4b21ed3a627ede11cbf7744ec3737be2aba850b",
+      "vertices": 240,
+      "triangles": 400
+    },
+    "study-structure-rails-ladders": {
+      "position_sha256": "cd0f864f607f93ebcc75acd115342e52677cca8886e77fd42e84f95f52e03c80",
+      "triangle_index_sha256": "4bccdfcee98ffeeb90e5258ed8932d1f3832c1f7aebd7de3dbdb82b608ec7c88",
+      "vertices": 5472,
+      "triangles": 9728
+    },
+    "study-structure-woven-hood-basket": {
+      "position_sha256": "18702c6d5cbd9b976ee6f46800bcf1668e5e7e9d34a7a05fb2b129411fb054f7",
+      "triangle_index_sha256": "813d7016ae6618174994292d9dd3ecd07bc852a82a8e3027f13fc6e7431664e2",
+      "vertices": 7614,
+      "triangles": 13536
+    },
+    "study-structure-lashings-hoist": {
+      "position_sha256": "a9ea91976beee1143bf4a0c3198d412694759d0a83588e41be0b749a0907c663",
+      "triangle_index_sha256": "266df105445ca75c9c7fa7d6cc1cfdcc85e577e03e6d4859d9a54ba516586ace",
+      "vertices": 5670,
+      "triangles": 10080
+    }
+  }
+}

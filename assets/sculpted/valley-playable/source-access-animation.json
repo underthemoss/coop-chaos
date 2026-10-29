@@ -1,0 +1,44 @@
+{
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "livingSha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+  "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+  "limits": "Actual evaluated walk4frames, abovefoot+.12 excludes expected foot/grip contacts. Sheltered access is an open climb, not continuously grounded interpolation. Cargo is not claimed on ladders; lift payload is separately qualified.",
+  "birds": {
+    "fern": {
+      "poseCount": 2520,
+      "hits": []
+    },
+    "rook": {
+      "poseCount": 2520,
+      "hits": []
+    },
+    "dapple": {
+      "poseCount": 2520,
+      "hits": []
+    },
+    "wren": {
+      "poseCount": 2520,
+      "hits": []
+    }
+  },
+  "groundFirstLeg": {
+    "mapSha256": "e7e93a64b64a1efb27d377d1d321b077592f33adc4f0f18d1f2ca2efbad0eeab",
+    "placementSha256": "df0235129cbc9d83d51314b082f3bb2d3c47fef486b4696dcd14c386edebfe96",
+    "treeWorldOrigin": [
+      -8.75,
+      2.1500000953674316,
+      -4.25
+    ],
+    "actualMapWorkLocal": [
+      3.0,
+      0.0,
+      3.5
+    ],
+    "courtCenter": [
+      4,
+      0,
+      4.4
+    ]
+  }
+}

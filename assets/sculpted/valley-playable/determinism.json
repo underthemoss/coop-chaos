@@ -1,0 +1,38 @@
+{
+  "revision": "clearing-crown-shape-v3",
+  "state": "PASS",
+  "method": "Two fresh Blender4.5.3 crown-shape processes from preserved accepted-v4 GLBs and two fresh original bank-family authoring processes. All eight shipped GLBs byte-identical to initial candidate, including unchanged kit; profile unchanged. Editable Blend files regenerated but not asserted byte-deterministic. Earlier appearance/scenic generation proofs retained in historical baseline folders.",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "initial": {
+    "public/assets/environment/valley/longbough-living.glb": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+    "public/assets/environment/valley/longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+    "public/assets/environment/valley/valley-grove-oak.glb": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+    "public/assets/environment/valley/valley-grove-spread.glb": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+    "public/assets/environment/valley/valley-grove-shrub.glb": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+    "public/assets/environment/valley/valley-bank-shoulder.glb": "4467000e8315b2eb4a873ebc1add42809999bef47076301fc1d15fce835eb9e7",
+    "public/assets/environment/valley/valley-bank-shelf.glb": "f6e83077b4e960b8ba875d351514d5e6dee99943ee70c1c6936f353103c41d37",
+    "public/assets/environment/valley/valley-shore-outcrop.glb": "da5c6488350971f250c6fd250dd5e4fb668af282fa21e1975648ac235f620c25"
+  },
+  "runs": [
+    {
+      "public/assets/environment/valley/longbough-living.glb": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+      "public/assets/environment/valley/longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "public/assets/environment/valley/valley-grove-oak.glb": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+      "public/assets/environment/valley/valley-grove-spread.glb": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+      "public/assets/environment/valley/valley-grove-shrub.glb": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+      "public/assets/environment/valley/valley-bank-shoulder.glb": "4467000e8315b2eb4a873ebc1add42809999bef47076301fc1d15fce835eb9e7",
+      "public/assets/environment/valley/valley-bank-shelf.glb": "f6e83077b4e960b8ba875d351514d5e6dee99943ee70c1c6936f353103c41d37",
+      "public/assets/environment/valley/valley-shore-outcrop.glb": "da5c6488350971f250c6fd250dd5e4fb668af282fa21e1975648ac235f620c25"
+    },
+    {
+      "public/assets/environment/valley/longbough-living.glb": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+      "public/assets/environment/valley/longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "public/assets/environment/valley/valley-grove-oak.glb": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+      "public/assets/environment/valley/valley-grove-spread.glb": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+      "public/assets/environment/valley/valley-grove-shrub.glb": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+      "public/assets/environment/valley/valley-bank-shoulder.glb": "4467000e8315b2eb4a873ebc1add42809999bef47076301fc1d15fce835eb9e7",
+      "public/assets/environment/valley/valley-bank-shelf.glb": "f6e83077b4e960b8ba875d351514d5e6dee99943ee70c1c6936f353103c41d37",
+      "public/assets/environment/valley/valley-shore-outcrop.glb": "da5c6488350971f250c6fd250dd5e4fb668af282fa21e1975648ac235f620c25"
+    }
+  ]
+}

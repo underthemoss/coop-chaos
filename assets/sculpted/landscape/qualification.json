@@ -1,0 +1,68 @@
+{
+  "cliff-ledge": {
+    "revision": "landscape-v3",
+    "file": "public/assets/environment/valley-cliff-ledge.glb",
+    "source": "assets/sculpted/landscape/valley-cliff-ledge.blend",
+    "sha256": "0003eedbc5bab789552aa6b81eee6cb89ea9dddb3da546cf0302f0558d43009b",
+    "bytes": 131280,
+    "dimensions": [
+      3,
+      2,
+      1.2
+    ],
+    "triangles": 1184,
+    "vertices": 713,
+    "materials": [
+      "valley-mineral-rough",
+      "valley-moss-rough"
+    ],
+    "nodes": [
+      "asset",
+      "weathered-stone-and-moss"
+    ]
+  },
+  "boulder": {
+    "revision": "landscape-v3",
+    "file": "public/assets/environment/valley-boulder.glb",
+    "source": "assets/sculpted/landscape/valley-boulder.blend",
+    "sha256": "2ee0fe4aeb6c18bbc4fe2ba8631bac58325349fe7210701dccdd6ab742dc363d",
+    "bytes": 49884,
+    "dimensions": [
+      1.2,
+      0.9,
+      1
+    ],
+    "triangles": 438,
+    "vertices": 246,
+    "materials": [
+      "valley-mineral-rough",
+      "valley-moss-rough"
+    ],
+    "nodes": [
+      "asset",
+      "weathered-stone-and-moss"
+    ]
+  },
+  "scree": {
+    "revision": "landscape-v3",
+    "file": "public/assets/environment/valley-scree.glb",
+    "source": "assets/sculpted/landscape/valley-scree.blend",
+    "sha256": "197e3e2e06546091f4d0c8b3837f7f4e7919db9f475f6c132dbdf961ffd621c5",
+    "bytes": 166332,
+    "dimensions": [
+      1.8,
+      0.3,
+      1
+    ],
+    "triangles": 1526,
+    "vertices": 832,
+    "materials": [
+      "valley-mineral-rough",
+      "valley-moss-rough"
+    ],
+    "nodes": [
+      "asset",
+      "weathered-stone-and-moss"
+    ]
+  }
+}

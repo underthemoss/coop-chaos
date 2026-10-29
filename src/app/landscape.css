@@ -1,0 +1,238 @@
+.landscape-app {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #ece9dc;
+  color: #303b32;
+  font-family: Inter, system-ui, sans-serif;
+  overflow: hidden;
+}
+.valley-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  gap: 16px;
+  background: #f7f4e9;
+}
+.valley-kicker {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  margin: 0 0 4px;
+  color: #6c765d;
+}
+.valley-header h1 {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  margin: 0;
+  font-weight: 500;
+}
+.valley-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 12px;
+  color: #66715c;
+}
+.landscape-app button,
+.landscape-app select {
+  font: inherit;
+  color: inherit;
+  background: #f8f5e9;
+  border: 1px solid #b6bba5;
+  border-radius: 7px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.landscape-app button:hover {
+  background: #e4e4d1;
+}
+.landscape-app button[aria-pressed="true"] {
+  background: #445641;
+  color: #fff;
+  border-color: #445641;
+}
+.valley-stage {
+  position: relative;
+  min-height: 220px;
+  flex: 1;
+  overflow: hidden;
+  background: #a9b49b;
+}
+.valley-stage canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  outline: none;
+}
+.valley-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.valley-labels button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+  font-size: 11px;
+  padding: 3px 7px;
+  background: #f7f4e9e8;
+  box-shadow: 0 2px 8px #26372b22;
+  white-space: nowrap;
+}
+.valley-labels button:not(.selected) {
+  visibility: hidden;
+}
+.valley-labels button.selected {
+  z-index: 2;
+  background: #364b36;
+  color: white;
+  border-color: #d8c89b;
+}
+.valley-view {
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+}
+.valley-loading {
+  position: absolute;
+  top: 35%;
+  width: 100%;
+  text-align: center;
+}
+.valley-controls {
+  padding: 12px 24px 10px;
+  background: #f4f1e5;
+}
+.valley-birds {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.valley-birds button {
+  font-size: 12px;
+  min-width: 64px;
+}
+.valley-orders {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 13px;
+}
+.valley-orders > div {
+  min-width: 190px;
+}
+.valley-orders p {
+  margin: 3px 0 0;
+  color: #6a735d;
+  font-size: 12px;
+}
+.valley-orders label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.valley-footer {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  color: #6a735d;
+  font-size: 11px;
+}
+.valley-footer p {
+  margin: 10px 0 0;
+}
+.valley-notice {
+  font-size: 12px;
+  margin: 7px 0 0;
+  min-height: 18px;
+  color: #5d674f;
+}
+@media (max-width: 600px) {
+  .valley-header {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .valley-header h1 {
+    font-size: 20px;
+  }
+  .valley-header-actions {
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 10px;
+  }
+  .valley-header-actions button {
+    font-size: 11px;
+    padding: 7px 9px;
+  }
+  .valley-kicker {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+  }
+  .valley-controls {
+    padding: 10px 12px;
+  }
+  .valley-orders {
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  .valley-orders > div {
+    min-width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .valley-orders p {
+    margin: 0;
+  }
+  .valley-orders select {
+    max-width: 170px;
+    padding: 7px;
+  }
+  .valley-birds {
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .valley-birds button {
+    flex: 1;
+    min-width: 0;
+    padding: 7px;
+  }
+  .valley-footer {
+    display: block;
+  }
+  .valley-footer p {
+    margin: 7px 0 0;
+  }
+  .valley-view {
+    top: 10px;
+    right: 10px;
+    gap: 5px;
+  }
+  .valley-view button {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+  .valley-notice {
+    font-size: 11px;
+  }
+  .valley-labels button {
+    font-size: 10px;
+    padding: 3px 5px;
+  }
+}
+
+.valley-view-tactical { flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 36px); }
+.valley-zoom { display: flex; align-items: center; gap: 3px; padding: 0 3px; border-radius: 8px; background: #f5f1e5ed; color: #324439; }
+.valley-zoom span { min-width: 58px; text-align: center; font-size: 11px; }
+.valley-zoom button { padding-inline: 10px; }
+.valley-zoom button:disabled { opacity: .4; cursor: default; }
+@media (max-width: 600px) { .valley-view-tactical { max-width: calc(100% - 20px); } .valley-zoom span { min-width: 54px; } }

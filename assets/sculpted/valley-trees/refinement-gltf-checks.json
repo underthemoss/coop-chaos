@@ -1,0 +1,320 @@
+{
+  "state": "PASS",
+  "revision": "longbough-refinement-v8",
+  "file": "public/assets/environment/studies/longbough-refinement-study.glb",
+  "sha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+  "bytes": 18854276,
+  "bounds": {
+    "min": [
+      -8.472786903381348,
+      -1.214828372001648,
+      -5.375309944152832
+    ],
+    "max": [
+      8.39311695098877,
+      13.575182914733887,
+      3.5174832344055176
+    ]
+  },
+  "triangles": 135942,
+  "draw_primitives": 9,
+  "groups": {
+    "crown-foliage": {
+      "triangles": 77178,
+      "exported_vertices": 231520,
+      "bounds": {
+        "min": [
+          -8.472786903381348,
+          7.2205810546875,
+          -5.375309944152832
+        ],
+        "max": [
+          8.39311695098877,
+          13.575182914733887,
+          2.9788451194763184
+        ]
+      },
+      "minimum_triangle_area": 0.0013492981004300931,
+      "signed_volume": 622.8531210119017,
+      "linear_color_min": [
+        0.04832174628973007,
+        0.08139024674892426,
+        0.032156940549612045
+      ],
+      "linear_color_max": [
+        0.4162113070487976,
+        0.4427030086517334,
+        0.1084078922867775
+      ]
+    },
+    "living-wood": {
+      "triangles": 28976,
+      "exported_vertices": 15364,
+      "bounds": {
+        "min": [
+          -7.1202778816223145,
+          -1.214828372001648,
+          -4.053023815155029
+        ],
+        "max": [
+          7.051680088043213,
+          12.833622932434082,
+          2.208765745162964
+        ]
+      },
+      "minimum_triangle_area": 7.073039378994905e-09,
+      "signed_volume": 75.54688565799178,
+      "linear_color_min": [
+        0.6160524910353247,
+        0.6278629739833677,
+        0.5564507515068284
+      ],
+      "linear_color_max": [
+        0.9400015259021897,
+        0.9300068665598535,
+        0.8899977111467154
+      ],
+      "low_y_le_1m_bounds": {
+        "min": [
+          -3.2186355590820312,
+          -1.214828372001648,
+          -3.82549786567688
+        ],
+        "max": [
+          3.8907337188720703,
+          0.9997884035110474,
+          2.208765745162964
+        ]
+      },
+      "uv_min": [
+        -0.7283766269683838,
+        -1.1418163776397705
+      ],
+      "uv_max": [
+        0.9985702037811279,
+        1.2981704473495483
+      ]
+    },
+    "study-structure-decks": {
+      "triangles": 1080,
+      "exported_vertices": 2160,
+      "bounds": {
+        "min": [
+          -2.9692046642303467,
+          3.009999990463257,
+          -0.6880530118942261
+        ],
+        "max": [
+          3.419187545776367,
+          8.149999618530273,
+          3.41337251663208
+        ]
+      },
+      "minimum_triangle_area": 2.444260045655463e-05,
+      "signed_volume": 5.412559919149909,
+      "linear_color_min": [
+        0.9400015259021897,
+        0.9400015259021897,
+        0.9199969481956206
+      ],
+      "linear_color_max": [
+        0.9400015259021897,
+        0.9400015259021897,
+        0.9199969481956206
+      ]
+    },
+    "study-structure-lashings-hoist": {
+      "triangles": 4048,
+      "exported_vertices": 8088,
+      "bounds": {
+        "min": [
+          -2.986368417739868,
+          1.8455010652542114,
+          -0.7110950350761414
+        ],
+        "max": [
+          4.336766242980957,
+          8.335000038146973,
+          3.3417062759399414
+        ]
+      },
+      "minimum_triangle_area": 8.464067207114567e-05,
+      "signed_volume": 0.0054884838739070905,
+      "linear_color_min": [
+        0.43706777691841125,
+        0.32499000430107117,
+        0.13142620027065277
+      ],
+      "linear_color_max": [
+        0.5299572944641113,
+        0.38466158509254456,
+        0.1814548820257187
+      ]
+    },
+    "study-structure-plants": {
+      "triangles": 1512,
+      "exported_vertices": 3024,
+      "bounds": {
+        "min": [
+          -2.479408025741577,
+          3.4982709884643555,
+          0.17244549095630646
+        ],
+        "max": [
+          -0.29897743463516235,
+          9.267502784729004,
+          2.3973405361175537
+        ]
+      },
+      "minimum_triangle_area": 0.00016589065687471182,
+      "signed_volume": 0.012906790569101418,
+      "linear_color_min": [
+        0.151108980178833,
+        0.1975293755531311,
+        0.05289652571082115
+      ],
+      "linear_color_max": [
+        0.17690177261829376,
+        0.23124566674232483,
+        0.061925437301397324
+      ]
+    },
+    "study-structure-rails-ladders": {
+      "triangles": 5508,
+      "exported_vertices": 10828,
+      "bounds": {
+        "min": [
+          -3.0038444995880127,
+          0.028345447033643723,
+          -0.7667821645736694
+        ],
+        "max": [
+          3.5732293128967285,
+          8.821285247802734,
+          3.366530418395996
+        ]
+      },
+      "minimum_triangle_area": 0.00030554364628617234,
+      "signed_volume": 0.25688141831748135,
+      "linear_color_min": [
+        0.1927632838487625,
+        0.12531402707099915,
+        0.05185810476541519
+      ],
+      "linear_color_max": [
+        0.44495686888694763,
+        0.3100256025791168,
+        0.12628573179244995
+      ]
+    },
+    "study-structure-root-dressing": {
+      "triangles": 576,
+      "exported_vertices": 1728,
+      "bounds": {
+        "min": [
+          -2.544306516647339,
+          -0.27000001072883606,
+          -2.257908821105957
+        ],
+        "max": [
+          2.640833854675293,
+          1.1460100412368774,
+          2.1353542804718018
+        ]
+      },
+      "minimum_triangle_area": 0.005052535217005666,
+      "signed_volume": 0.1904094407208364,
+      "linear_color_min": [
+        0.07589326798915863,
+        0.10898531973361969,
+        0.04032355546951294
+      ],
+      "linear_color_max": [
+        0.31991004943847656,
+        0.2956729531288147,
+        0.21353599429130554
+      ]
+    },
+    "study-structure-supports": {
+      "triangles": 5108,
+      "exported_vertices": 9780,
+      "bounds": {
+        "min": [
+          -3.0001869201660156,
+          2.019124746322632,
+          -0.9181469082832336
+        ],
+        "max": [
+          4.067587375640869,
+          7.993611812591553,
+          3.5174832344055176
+        ]
+      },
+      "minimum_triangle_area": 0.0015484693288233657,
+      "signed_volume": 1.918972847349585,
+      "linear_color_min": [
+        0.13763602077960968,
+        0.08818043023347855,
+        0.039885781705379486
+      ],
+      "linear_color_max": [
+        0.2370014786720276,
+        0.1494513899087906,
+        0.055191829800605774
+      ]
+    },
+    "study-structure-woven-hood-basket": {
+      "triangles": 11956,
+      "exported_vertices": 23912,
+      "bounds": {
+        "min": [
+          -2.3979742527008057,
+          1.402999997138977,
+          0.27852413058280945
+        ],
+        "max": [
+          4.3579864501953125,
+          8.54699993133545,
+          2.3214759826660156
+        ]
+      },
+      "minimum_triangle_area": 0.00014303819967646122,
+      "signed_volume": 0.041360949190739675,
+      "linear_color_min": [
+        0.1965698003768921,
+        0.1365584135055542,
+        0.05111248418688774
+      ],
+      "linear_color_max": [
+        0.4166700839996338,
+        0.33856040239334106,
+        0.09326969087123871
+      ]
+    }
+  },
+  "embedded_original_pngs": [
+    {
+      "name": "bark-painted-v1-source",
+      "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91",
+      "bytes": 3496765,
+      "source_bytes_identical": true
+    },
+    {
+      "name": "timber-painted-v1-source",
+      "sha256": "27d0238613c45bf4ded0f847790e58860a1a5c31092feea537fdf3e1ab86d05f",
+      "bytes": 2967583,
+      "source_bytes_identical": true
+    }
+  ],
+  "checks": [
+    "glTF2 embedded binary",
+    "Exact root/group/material names and unit transforms",
+    "Opaque rough nonmetal PBR",
+    "Wood has original embedded painted bark albedo and TEXCOORD_0",
+    "Narrow wood RGB/alpha and longitudinal UV range survive export",
+    "Embedded PNG bytes exactly match preserved sources",
+    "Finite indexed geometry and unit normals",
+    "No degenerate triangles; positive wood signed volume",
+    "No external resources, animation, skin, camera or lights"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "cliff-ledge": {
+    "file": "public/assets/environment/valley-cliff-ledge.glb",
+    "sha256": "0003eedbc5bab789552aa6b81eee6cb89ea9dddb3da546cf0302f0558d43009b",
+    "bytes": 131280,
+    "bounds_min": [
+      -1.5,
+      0.0,
+      -0.6000000238418579
+    ],
+    "bounds_max": [
+      1.5,
+      2.0,
+      0.6000000238418579
+    ],
+    "triangles": 1184,
+    "exported_vertices": 3388,
+    "draw_primitives": 2,
+    "distinct_corner_colors": 845,
+    "signed_volume": 4.319811801122867,
+    "smallest_triangle_area": 0.0005281817361329356,
+    "checks": "PASS: valid embedded GLB2, finite indexed triangles, unit normals, no degenerate triangles, positive winding volume, exact grounded bounds, opaque rough PBR, COLOR_0, no animations/cameras/skins/textures/external resources"
+  },
+  "boulder": {
+    "file": "public/assets/environment/valley-boulder.glb",
+    "sha256": "2ee0fe4aeb6c18bbc4fe2ba8631bac58325349fe7210701dccdd6ab742dc363d",
+    "bytes": 49884,
+    "bounds_min": [
+      -0.6000000238418579,
+      0.0,
+      -0.5
+    ],
+    "bounds_max": [
+      0.6000000238418579,
+      0.8999999761581421,
+      0.5
+    ],
+    "triangles": 438,
+    "exported_vertices": 1251,
+    "draw_primitives": 2,
+    "distinct_corner_colors": 362,
+    "signed_volume": 0.6211237241869736,
+    "smallest_triangle_area": 0.0004975097152440627,
+    "checks": "PASS: valid embedded GLB2, finite indexed triangles, unit normals, no degenerate triangles, positive winding volume, exact grounded bounds, opaque rough PBR, COLOR_0, no animations/cameras/skins/textures/external resources"
+  },
+  "scree": {
+    "file": "public/assets/environment/valley-scree.glb",
+    "sha256": "197e3e2e06546091f4d0c8b3837f7f4e7919db9f475f6c132dbdf961ffd621c5",
+    "bytes": 166332,
+    "bounds_min": [
+      -0.8999999761581421,
+      0.0,
+      -0.5
+    ],
+    "bounds_max": [
+      0.8999999761581421,
+      0.30000001192092896,
+      0.5
+    ],
+    "triangles": 1526,
+    "exported_vertices": 4304,
+    "draw_primitives": 2,
+    "distinct_corner_colors": 941,
+    "signed_volume": 0.1877721599614731,
+    "smallest_triangle_area": 0.00021961427951269164,
+    "checks": "PASS: valid embedded GLB2, finite indexed triangles, unit normals, no degenerate triangles, positive winding volume, exact grounded bounds, opaque rough PBR, COLOR_0, no animations/cameras/skins/textures/external resources"
+  }
+}

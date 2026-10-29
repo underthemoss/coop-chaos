@@ -1,8 +1,9 @@
 import { habitatAnchor, habitatPosition, treeHabitat, treeWorkCell, type HabitatAnchor } from "../content/tree-habitats";
+import { reedPatchName, buildingPlace, settlementWorld, worldTrees, worldFoodPatches, worldReedPatches, type WorldIdentity, type WorldContext } from "../content/settlement-world";
+import { mapTile, mapPosition, mapEdgeLengths } from "../content/maps";
+import { findRoute } from "./navigation";
 import {
-  foodPatches,
   forageTuning,
-  reedPatches,
   settlers,
   trees,
   tuning,
@@ -105,7 +106,10 @@ export type Foraging = {
 };
 export type BirdRequest = { kind: "gather" | "build" | "food"; target: string; phase: "pending" | "waiting" | "working" | "canceling"; issued: number };
 export type RequestResult = { kind: BirdRequest["kind"]; outcome: "done" | "cancelled" | "unavailable"; reason: string; tick: number };
+export type DirectOrder = { kind: "move"; at: Cell } | { kind: "gather" | "build" | "food"; target: string };
+export type DirectControl = { order: DirectOrder | null; queue: DirectOrder[]; pending: boolean; community: boolean; foodPatch: FoodPatchId | null };
 export type Worker = {
+  direct?: DirectControl;
   request: BirdRequest | null; requestResult: RequestResult | null;
   life: Life; protein: number; foodCargo: Food | null; provision: Provision | null; care: string | null;
   lift: { basket: string; progress: number } | null;
@@ -128,6 +132,7 @@ export type Worker = {
   flight: Flight | null;
 };
 export type Settlement = {
+  world?: WorldIdentity;
   constructionFocus: string | null;
   economy: Economy;
   basketTechnique: { inventor: SettlerId; tree: TreeId; tick: number } | null;
@@ -146,6 +151,8 @@ export type Settlement = {
   totalReeds: number;
 };
 export type Command =
+  | { type: "direct"; bird: string; order: DirectOrder; queue?: boolean }
+  | { type: "stop" | "community"; bird: string }
   | { type: "focus-build"; site: string | null }
   | { type: "request"; bird: string; kind: BirdRequest["kind"]; target: string }
   | { type: "cancel-request"; bird: string }
@@ -161,7 +168,9 @@ export type Command =
   | { type: "pause" };
 export const key = (p: Cell) => `${p.x},${p.z}`;
 export const same = (a: Cell, b: Cell) => a.x === b.x && a.z === b.z;
-export const validCell = (p: Cell) =>
+export const validCell = (p: Cell, context?: WorldContext) => settlementWorld(context).map
+  ? Number.isInteger(p.x) && Number.isInteger(p.z) && !!mapTile(settlementWorld(context).map!, p)
+  :
   Number.isInteger(p.x) &&
   Number.isInteger(p.z) &&
   p.x >= -4 &&
@@ -228,19 +237,21 @@ export function treeBuildOptions(state: Settlement, tree: TreeId) {
   );
 }
 /** Cell-space X/Z, unscaled vertical metres; renderer converts X/Z to art metres. */
-export function basketLiftPosition(tree: TreeId, progress: number) {
-  const at = trees.find((t) => t.id === tree)!;
+export function basketLiftPosition(tree: TreeId, progress: number, state?: WorldContext) {
+  const at = worldTrees(state).find((t) => t.id === tree)!;
   const profile = treeHabitat(tree);
   const base = habitatAnchor(tree, "basket-ground");
   const socket = habitatAnchor(tree, "cargo-socket");
+  if (settlementWorld(state).map)
+    return habitatPosition(tree, { x: base.x + socket.x, z: base.z + socket.z, y: base.y + socket.y + profile.hauling.travelY * progress }, state);
   return { x: at.x + (base.x + socket.x) / 2, z: at.z + (base.z + socket.z) / 2, y: base.y + socket.y + profile.hauling.travelY * progress };
 }
 export function cargoPosition(state: Settlement, bird: Worker) {
   const basket =
     bird.lift && state.sites.find((s) => s.id === bird.lift!.basket);
   return basket?.tree
-    ? basketLiftPosition(basket.tree, bird.lift!.progress)
-    : { ...birdPosition(bird), y: birdPosition(bird).y + 0.34 };
+    ? basketLiftPosition(basket.tree, bird.lift!.progress, state)
+    : { ...birdPosition(bird, 1, state), y: birdPosition(bird, 1, state).y + 0.34 };
 }
 export function readyForBuild(state: Settlement, site: Site) {
   return (
@@ -260,7 +271,7 @@ function completeSite(state: Settlement, site: Site, operator: Worker) {
   site.contributors = [...new Set([...site.contributors, operator.id])];
   if (site.kind === "nursery") state.economy.nurseries.push({ site: site.id, food: {staple:0,protein:0}, target: economyTuning.nurseryTarget, brood:null });
   if (!site.tree) return;
-  const name = trees.find((t) => t.id === site.tree)!.name;
+  const name = worldTrees(state).find((t) => t.id === site.tree)!.name;
   for (const id of site.contributors) {
     const contributor = state.birds.find((b) => b.id === id)!;
     if (site.kind === "treehouse" || site.kind === "nursery") {
@@ -273,9 +284,9 @@ function completeSite(state: Settlement, site: Site, operator: Worker) {
       );
   }
 }
-export function initialPatches(): ReedPatch[] {
-  return reedPatches.map((p) => ({
-    ...structuredClone(p),
+export function initialPatches(context?: WorldContext): ReedPatch[] {
+  return worldReedPatches(context).map((p) => ({
+    id:p.id, at:{...p.at}, capacity:p.capacity,
     remaining: p.capacity,
     harvested: 0,
     designated: false,
@@ -283,8 +294,8 @@ export function initialPatches(): ReedPatch[] {
     recoveryProgress: 0,
   }));
 }
-export function initialForage(): FoodPatch[] {
-  return foodPatches.map((p) => ({
+export function initialForage(context?: WorldContext): FoodPatch[] {
+  return worldFoodPatches(context).map((p) => ({
     id: p.id,
     at: { ...p.at },
     capacity: p.capacity,
@@ -312,13 +323,16 @@ export function initialEconomy(): Economy {
 export function initialLife(id: Appearance): Life {
   return {name:settlers.find(b=>b.id===id)!.name, appearance:id, sex:id==="rook"?"rooster":"hen", stage:"adult", age:0, development:0, mother:null,father:null,carer:null,bornAt:null,bond:0,willing:true,fertility:null,matingProgress:0};
 }
-export function birdProfile(bird: Worker) {
+export function birdProfile(bird: Worker, state?: WorldContext) {
   const original = settlers.find(b=>b.id===bird.life.appearance)!;
-  return {...original,id:bird.id,name:bird.life.name,role:bird.life.stage==="adult"?original.role:bird.life.stage==="chick"?"Dependent chick":"Growing juvenile",want:bird.life.mother?`Raised at ${trees.find(t=>t.id===bird.life.bornAt)?.name ?? "the nursery"}; remembers familiar care.`:original.want};
+  return {...original,id:bird.id,name:bird.life.name,role:bird.life.stage==="adult"?original.role:bird.life.stage==="chick"?"Dependent chick":"Growing juvenile",want:bird.life.mother?`Raised at ${worldTrees(state).find(t=>t.id===bird.life.bornAt)?.name ?? "the nursery"}; remembers familiar care.`:original.want};
 }
 
-export function initialSettlement(): Settlement {
+export function initialSettlement(world?: WorldIdentity): Settlement {
+  const context = world ? { world } : undefined;
+  const definition = settlementWorld(context);
   return {
+    ...(world ? { world: { ...world } } : {}),
     constructionFocus: null,
     economy: initialEconomy(),
     basketTechnique: null,
@@ -326,25 +340,25 @@ export function initialSettlement(): Settlement {
     phase: "day",
     paused: false,
     nextId: 1,
-    forage: initialForage(),
+    forage: initialForage(context),
     piles: [
       {
         id: "reeds",
-        at: { x: -3, z: -2 },
-        stock: tuning.initialReeds,
+        at: { ...definition.source.at },
+        stock: definition.source.stock,
         kind: "source",
       },
     ],
-    patches: initialPatches(),
-    initialReeds: tuning.initialReeds,
+    patches: initialPatches(context),
+    initialReeds: definition.source.stock,
     harvestedReeds: 0,
     sites: [],
-    birds: settlers.map((b) => ({
+    birds: settlers.map((b, index) => ({
       id: b.id, request: null, requestResult: null,
       life: initialLife(b.id), protein: 85, foodCargo: null, provision: null, care: null,
       lift: null,
       ...initialAppetite(b.id),
-      at: { x: -3, z: -2 },
+      at: { ...definition.spawns[index] },
       edge: null,
       cargo: 0,
       gatheringProgress: 0,
@@ -358,11 +372,35 @@ export function initialSettlement(): Settlement {
       flight: null,
     })),
     consumed: 0,
-    totalReeds: tuning.initialReeds,
+    totalReeds: definition.source.stock,
   };
 }
-export function route(_state: Settlement, from: Cell, to: Cell): Cell[] | null {
+// Scenario topology is immutable, including reserved courts. Memoize only that content
+// graph; return fresh points so callers cannot mutate the cached geometry.
+const worldRouteCache=new WeakMap<object,Map<string,Cell[]|null>>();
+export function route(state: WorldContext, from: Cell, to: Cell): Cell[] | null {
+  const map = settlementWorld(state).map;
+  if (map) {
+    let cache=worldRouteCache.get(map);if(!cache){cache=new Map();worldRouteCache.set(map,cache);}
+    const cacheKey=`${from.x},${from.z}>${to.x},${to.z}`;
+    if(!cache.has(cacheKey)){
+      const path=findRoute(map,from,to);if(cache.size>=8192)cache.clear();
+      cache.set(cacheKey,path?[{...from},...path]:null);
+    }
+    return cache.get(cacheKey)?.map(p=>({...p}))??null;
+  }
   return groundRoute(from, to);
+}
+/** Physical route length; refining a map cannot alter walking speed. */
+export function routeMetres(state: WorldContext, from: Cell, to: Cell): number {
+  const map = settlementWorld(state).map;
+  const path = route(state, from, to);
+  if (!path) return Infinity;
+  return path.slice(1).reduce((sum, point, i) => {
+    if (!map) return sum + 2;
+    const [a, b] = mapEdgeLengths(map, path[i], point);
+    return sum + a + b;
+  }, 0);
 }
 function groundRoute(from: Cell, to: Cell): Cell[] | null {
   if (!validCell(from) || !validCell(to)) return null;
@@ -421,6 +459,14 @@ export function reedSupply(state: Settlement) {
     delivered: state.sites.reduce((n, site) => n + site.delivered, 0),
   };
 }
+/** Outstanding plans compared with all existing physical bundles, once each.
+ * Reserved source bundles are included in stock; standing yield is potential only. */
+export function constructionBudget(state: Settlement) {
+  const supply=reedSupply(state);
+  const outstanding=state.sites.filter(s=>!s.complete).reduce((n,s)=>n+Math.max(0,cost(s)-s.delivered),0);
+  const physical=supply.free+supply.reserved+supply.carried;
+  return {...supply,outstanding,physical,shortfall:Math.max(0,outstanding-physical),potential:state.patches.reduce((n,p)=>n+p.remaining,0)};
+}
 export function conserved(state: Settlement) {
   return (
     state.piles.reduce((n, p) => n + p.stock, 0) +
@@ -431,6 +477,22 @@ export function conserved(state: Settlement) {
 }
 export function command(current: Settlement, action: Command): Settlement {
   const state = structuredClone(current);
+  if (action.type === "direct" || action.type === "stop" || action.type === "community") {
+    const bird = state.birds.find(b => b.id === action.bird);
+    if (!bird) throw new Error("Choose a chicken in this clearing.");
+    if (bird.life.stage !== "adult") throw new Error(`${bird.life.name} is too young for direct orders.`);
+    if (bird.care) throw new Error(`${bird.life.name} is providing essential brood care. Choose another adult.`);
+    if (action.type === "direct") validateDirectOrder(state, bird, action.order);
+    if (action.type === "direct" && action.queue && bird.direct && !bird.direct.community) {
+      if (bird.direct.queue.length >= 16) throw new Error(`${bird.life.name} already has 16 queued orders.`);
+      if(!bird.direct.order)bird.direct.order=structuredClone(action.order);
+      else bird.direct.queue.push(structuredClone(action.order));
+    } else {
+      bird.direct = { order: action.type === "direct" ? structuredClone(action.order) : null, queue: [], pending: true, community: action.type === "community", foodPatch: bird.provision?.patch ?? bird.direct?.foodPatch ?? null };
+      bird.request = null; bird.requestResult = null;
+      prepareDirect(bird);
+    }
+  }
   if (action.type === "focus-build") {
     if (action.site !== null && !state.sites.some(s => s.id === action.site && !s.complete))
       throw new Error("Choose an unfinished project to build first. This project may already be complete or canceled.");
@@ -450,17 +512,18 @@ export function command(current: Settlement, action: Command): Settlement {
     if(reason)throw new Error(reason);
     const mother=state.birds.find(b=>b.id===action.mother)!;
     const brood: Brood={id:`brood-${state.nextId++}`,site:action.site,mother:mother.id,father:mother.life.fertility!.father,carer:mother.id,stage:"laying",progress:0,eggs:[],careTicks:0,mealProgress:0,shortageTicks:0,started:state.tick};
-    state.economy.broods.push(brood);nurseryAt(state,action.site)!.brood=brood.id;mother.care=brood.id;
+    state.economy.broods.push(brood);nurseryAt(state,action.site)!.brood=brood.id;mother.care=brood.id;delete mother.direct;
     if(!mother.cargo&&!mother.foodCargo){mother.job=null;mother.provision=null;mother.gatheringProgress=0;mother.foraging=null;}
-    if(mother.perch){mother.flight={...mother.perch,progress:1,direction:"down",from:treeWorkCell(mother.perch.tree)};mother.perch=null;}
+    if(mother.perch){mother.flight={...mother.perch,progress:1,direction:"down",from:treeWorkCell(mother.perch.tree, state)};mother.perch=null;}
     if(mother.flight)mother.flight.direction="down";
-    remember(mother,`Chose to raise a brood at ${trees.find(t=>t.id===state.sites.find(s=>s.id===action.site)!.tree)!.name}; community work must carry on without her.`);
+    remember(mother,`Chose to raise a brood at ${worldTrees(state).find(t=>t.id===state.sites.find(s=>s.id===action.site)!.tree)!.name}; community work must carry on without her.`);
   }
   if (action.type === "request") {
     const bird = state.birds.find(b => b.id === action.bird);
     if (!bird) throw new Error("Choose a chicken in this clearing.");
+    if (bird.direct) throw new Error(`Return ${bird.life.name} to community work first.`);
     if (bird.request) throw new Error("Finish or cancel this chicken's request first.");
-    const option = requestOptions(state, bird).find(o => o.kind === action.kind);
+    const option = requestOptions(state, bird, action.kind === "gather" ? action.target : undefined).find(o => o.kind === action.kind);
     const validTarget=option?.target===action.target || action.kind==="build"&&state.sites.some(s=>s.id===action.target&&!s.complete) || action.kind==="food"&&!requestTargetReason(state,{kind:"food",target:action.target,phase:"pending",issued:state.tick});
     if (!option?.available||!validTarget) throw new Error(option?.reason || "Choose an available task and place.");
     bird.request = {kind: action.kind, target: action.target, phase: "pending", issued: state.tick};
@@ -488,11 +551,19 @@ export function command(current: Settlement, action: Command): Settlement {
       if(!bird)throw new Error("Choose a chicken in this clearing.");
       if(bird.life.stage!=="adult")throw new Error(`${bird.life.name} is too young to build. Choose an adult.`);
       if(bird.care)throw new Error(`${bird.life.name} is caring for eggs and chicks. Choose another chicken.`);
-      if(bird.request)throw new Error(`${bird.life.name} already has a request. Finish or cancel it first.`);
+
     }
-    if (!validCell(action.at))
+    if (!validCell(action.at, state))
       throw new Error("Choose a cell in the marked glade.");
-    const tree = trees.find((t) => same(t, action.at));
+    const world = settlementWorld(state);
+    const requestedPad = world.pads.find(p => p.kind === action.kind && same(p.at, action.at));
+    const tree = worldTrees(state).find((t) => same(t, action.at) || t.id === requestedPad?.tree);
+    const pad = world.map && (action.kind === "store" || action.kind === "nursery")
+      ? requestedPad ?? world.pads.find(p => p.kind === action.kind && p.tree === tree?.id)
+      : undefined;
+    if (world.map && (action.kind === "store" || action.kind === "nursery") && !pad)
+      throw new Error("Choose a marked, level building court with a clear approach.");
+    const at = pad?.at ?? action.at;
     if (tree && action.kind !== "store") {
       const option = treeBuildOptions(state, tree.id).find(
         (o) => o.kind === action.kind,
@@ -502,23 +573,23 @@ export function command(current: Settlement, action: Command): Settlement {
     if (
       state.sites.some(
         (s) =>
-          same(s.at, action.at) &&
+          same(s.at, at) &&
           (!tree || s.kind === action.kind || action.kind === "store"),
       ) ||
-      state.piles.some((p) => p.kind === "source" && same(p.at, action.at)) ||
-      state.patches.some((p) => same(p.at, action.at)) ||
-      state.forage.some((p) => same(p.at, action.at)) ||
-      state.birds.some((b) => b.foraging && same(b.foraging.spot, action.at))
+      state.piles.some((p) => p.kind === "source" && same(p.at, at)) ||
+      state.patches.some((p) => same(p.at, at)) ||
+      state.forage.some((p) => same(p.at, at)) ||
+      state.birds.some((b) => b.foraging && same(b.foraging.spot, at))
     )
       throw new Error("This place is already occupied.");
     if (action.kind !== "store" && !tree)
-      throw new Error("Treehouses need one of the three marked trees.");
+      throw new Error("Choose an inhabited tree for this construction.");
     if (action.kind === "store" && tree)
       throw new Error("Leave the trunk clear; choose another ground cell.");
     state.sites.push({
       id: `site-${state.nextId++}`,
       kind: action.kind,
-      at: { x: action.at.x, z: action.at.z },
+      at: { x: at.x, z: at.z },
       tree: action.kind !== "store" ? tree!.id : null,
       delivered: 0,
       progress: 0,
@@ -528,7 +599,7 @@ export function command(current: Settlement, action: Command): Settlement {
       contributors: [],
       experiment: false,
     });
-    if(action.bird)return command(state,{type:"request",bird:action.bird,kind:"build",target:state.sites.at(-1)!.id});
+    if(action.bird)return command(state,{type:"direct",bird:action.bird,order:{kind:"build",target:state.sites.at(-1)!.id}});
   }
   if (action.type === "cancel") {
     const site = state.sites.find((s) => s.id === action.id);
@@ -553,7 +624,10 @@ export function command(current: Settlement, action: Command): Settlement {
     for (const bird of state.birds)
       if (bird.job?.destination === site.id) {
         bird.lift = null;
-        if (bird.cargo)
+        if (bird.direct) {
+          bird.job=null;bird.gatheringProgress=0;
+          if(bird.direct.order?.kind==="build"&&bird.direct.order.target===site.id)finishDirectOrder(bird);
+        } else if (bird.cargo)
           bird.job = {
             kind: "return",
             source: bird.job.source,
@@ -612,7 +686,7 @@ export function command(current: Settlement, action: Command): Settlement {
             ...bird.perch,
             direction: "down",
             progress: 1,
-            from: treeWorkCell(bird.perch.tree),
+            from: treeWorkCell(bird.perch.tree, state),
           };
           bird.perch = null;
         } else if (bird.flight?.direction === "up")
@@ -621,13 +695,16 @@ export function command(current: Settlement, action: Command): Settlement {
     }
   }
   reconcileRequests(state);
+  for(const bird of state.birds) reconcileDirect(state,bird);
   return state;
 }
 /** Existing site identities stay at tree origins; work takes place beside the trunk.
  * This also makes legacy salvage at a tree accessible without walking into wood. */
-export function groundAccess(at: Cell): Cell {
-  const tree = trees.find(t => same(t, at));
-  return tree ? treeWorkCell(tree.id) : at;
+export function groundAccess(at: Cell, state?: WorldContext): Cell {
+  const pad = settlementWorld(state).pads.find(p => same(p.at, at));
+  if (pad) return { ...pad.approach };
+  const tree = worldTrees(state).find(t => same(t, at));
+  return tree ? treeWorkCell(tree.id, state) : at;
 }
 function destination(state: Settlement, bird: Worker): Cell | undefined {
   if (!bird.job) return undefined;
@@ -636,7 +713,7 @@ function destination(state: Settlement, bird: Worker): Cell | undefined {
       ? state.patches.find(p => p.id === bird.job!.source)?.at
       : location(state, bird.job.source)?.at
     : location(state, bird.job.destination)?.at ?? state.sites.find(s => s.id === bird.job!.destination)?.at;
-  return at && groundAccess(at);
+  return at && groundAccess(at, state);
 }
 function move(state: Settlement, bird: Worker, to: Cell): boolean {
   if (same(bird.at, to) && !bird.edge) return true;
@@ -645,21 +722,35 @@ function move(state: Settlement, bird: Worker, to: Cell): boolean {
     if (!path || path.length < 2) return false;
     bird.edge = { to: path[1], progress: 0 };
   }
-  const fixture = birdProfile(bird);
-  bird.edge.progress +=
-    0.07 *
-    fixture.pace *
-    (bird.deliveries >= 3 ? 1.12 : 1) *
-    (bird.energy < 35 || bird.protein < economyTuning.proteinMinimum || bird.satiety < 20 ? 0.65 : 1);
-  bird.energy = Math.max(0, bird.energy - 0.035);
-  if (bird.edge.progress >= 1) {
-    bird.at = bird.edge.to;
-    bird.edge = null;
+  const fixture = birdProfile(bird, state);
+  const pace = fixture.pace * (bird.deliveries >= 3 ? 1.12 : 1) *
+    (bird.energy < 35 || bird.protein < economyTuning.proteinMinimum || bird.satiety < 20 ? .65 : 1);
+  bird.energy = Math.max(0, bird.energy - .035);
+  const map = settlementWorld(state).map;
+  if (map) {
+    // Consume a physical distance budget, retaining sub-edge remainder on fine grids.
+    let metres = 1.4 * tuning.stepSeconds * pace;
+    while (bird.edge && metres > 0) {
+      const length = mapEdgeLengths(map, bird.at, bird.edge.to).reduce((n, x) => n + x, 0);
+      const remaining = length * (1 - bird.edge.progress);
+      if (metres < remaining) { bird.edge.progress += metres / length; break; }
+      metres -= remaining;
+      bird.at = bird.edge.to;
+      bird.edge = null;
+      if (!same(bird.at, to)) {
+        const next = route(state, bird.at, to);
+        if (next && next.length > 1) bird.edge = { to: next[1], progress: 0 };
+      }
+    }
+  } else {
+    bird.edge.progress += .07 * pace;
+    if (bird.edge.progress >= 1) { bird.at = bird.edge.to; bird.edge = null; }
   }
   return same(bird.at, to) && !bird.edge;
 }
 function assign(state: Settlement, bird: Worker) {
   if(bird.life.stage!=="adult"||bird.care)return;
+  if(bird.direct){assignDirect(state,bird);return;}
   if(assignProvision(state,bird,true))return;
   if(assignRequest(state,bird))return;
   if(state.economy.priority!=="build"&&assignProvision(state,bird))return;
@@ -678,7 +769,7 @@ function assignConstruction(state: Settlement, bird: Worker, target?: string): b
       !state.birds.some(
         (b) => b.job?.kind === "build" && b.job.destination === site.id,
       ) &&
-      route(state, bird.at, groundAccess(site.at))
+      route(state, bird.at, groundAccess(site.at, state))
     ) {
       bird.job = {
         kind: "build",
@@ -707,13 +798,13 @@ function assignConstruction(state: Settlement, bird: Worker, target?: string): b
         (p) =>
           p.id !== site.id &&
           available(state, p.id) > 0 &&
-          route(state, bird.at, groundAccess(p.at)) &&
-          route(state, groundAccess(p.at), groundAccess(site.at)),
+          route(state, bird.at, groundAccess(p.at, state)) &&
+          route(state, groundAccess(p.at, state), groundAccess(site.at, state)),
       )
       .sort(
         (a, b) =>
-          route(state, groundAccess(a.at), groundAccess(site.at))!.length -
-            route(state, groundAccess(b.at), groundAccess(site.at))!.length || a.id.localeCompare(b.id),
+          routeMetres(state, groundAccess(a.at, state), groundAccess(site.at, state)) -
+            routeMetres(state, groundAccess(b.at, state), groundAccess(site.at, state)) || a.id.localeCompare(b.id),
       );
     // Storage refill originates at loose material; stores never endlessly refill one another.
     const source = sources.find(
@@ -749,11 +840,11 @@ function assignGather(state: Settlement, bird: Worker, target?: string): boolean
           s.stock + incoming(state, s.id) < tuning.storeCapacity,
       ),
     ]
-      .filter((p) => route(state, patch.at, p.at))
+      .filter((p) => route(state, patch.at, groundAccess(p.at, state)))
       .sort(
         (a, b) =>
-          route(state, patch.at, a.at)!.length -
-            route(state, patch.at, b.at)!.length || a.id.localeCompare(b.id),
+          routeMetres(state, patch.at, groundAccess(a.at, state)) -
+            routeMetres(state, patch.at, groundAccess(b.at, state)) || a.id.localeCompare(b.id),
       );
     if (targets[0]) {
       bird.job = {
@@ -780,8 +871,8 @@ function occupied(state: Settlement, perch: Perch) {
   );
 }
 function settle(state: Settlement, bird: Worker) {
-  const fixture = birdProfile(bird);
-  const order = [...trees].sort(
+  const fixture = birdProfile(bird, state);
+  const order = [...worldTrees(state)].sort(
     (a, b) =>
       (a.id === bird.attachment ? -10 : a.id === fixture.preference ? -5 : 0) -
       (b.id === bird.attachment ? -10 : b.id === fixture.preference ? -5 : 0),
@@ -796,6 +887,9 @@ function settle(state: Settlement, bird: Worker) {
           slots.push({ tree: tree.id, slot, sheltered });
     const perch = slots.find((p) => !occupied(state, p));
     if (perch) {
+      // Reach the legal root-side approach with ordinary ground navigation first.
+      // A distant forager must not traverse its whole return route in a flight prefix.
+      if(settlementWorld(state).map&&!move(state,bird,treeWorkCell(tree.id,state)))return;
       const point = groundPosition(bird);
       bird.flight = { ...perch, direction: "up", progress: 0, from: point };
       bird.edge = null;
@@ -811,36 +905,77 @@ export function groundPosition(bird: Worker): Cell {
       }
     : bird.at;
 }
-export function perchPosition(perch: Perch, anchorScale = 1) {
+export function perchPosition(perch: Perch, anchorScale = 1, state?: WorldContext) {
   const profile = treeHabitat(perch.tree);
   const name = (perch.sheltered ? profile.shelteredPerches : profile.naturalPerches)[perch.slot] as HabitatAnchor;
   const at = habitatAnchor(perch.tree, name);
-  return habitatPosition(perch.tree, { x: at.x * anchorScale, y: at.y * anchorScale, z: at.z * anchorScale });
+  return habitatPosition(perch.tree, { x: at.x * anchorScale, y: at.y * anchorScale, z: at.z * anchorScale }, state);
 }
 function interpolatePoint(a: {x:number;y:number;z:number}, b: {x:number;y:number;z:number}, t: number) {
   return { x: a.x + (b.x-a.x)*t, y: a.y + (b.y-a.y)*t, z: a.z + (b.z-a.z)*t };
 }
+type AccessWaypoint = { progress:number; at:{x:number;y:number;z:number} };
+/** One measured route serves saved-position reads and physical access timing. */
+function mappedAccessWaypoints(bird:Worker,state:Settlement):AccessWaypoint[]{
+  const flight=bird.flight!,profile=treeHabitat(flight.tree),map=settlementWorld(state).map!;
+  const anchor=(name:string)=>habitatPosition(flight.tree,habitatAnchor(flight.tree,name),state);
+  const access=profile.placeAccess![
+    (flight.sheltered?profile.shelteredPerches:profile.naturalPerches)[flight.slot]
+  ];
+  const routePoints=(route(state,flight.from,treeWorkCell(flight.tree,state))??[flight.from]).map(p=>mapPosition(map,p));
+  if(flight.sheltered){
+    for(const name of profile.groundApproach??["ladder-base"])routePoints.push(anchor(name));
+    const points=routePoints.map((at,i)=>({progress:access[0].progress*i/(routePoints.length-1),at}));
+    return [...points,...access.slice(1).map(w=>({progress:w.progress,at:anchor(w.anchor)}))];
+  }
+  for(const name of profile.naturalGroundApproach??[access[0].anchor])routePoints.push(anchor(name));
+  return [...routePoints.map((at,i)=>({progress:.1*i/(routePoints.length-1),at})),
+    ...access.slice(1).map(w=>({progress:.1+.9*w.progress,at:anchor(w.anchor)}))];
+}
+function positionOnAccess(points:AccessWaypoint[],progress:number){
+  for(let i=1;i<points.length;i++)if(progress<=points[i].progress)
+    return interpolatePoint(points[i-1].at,points[i].at,(progress-points[i-1].progress)/(points[i].progress-points[i-1].progress));
+  return points.at(-1)!.at;
+}
+function advanceMappedAccess(bird:Worker,state:Settlement){
+  const flight=bird.flight!,up=flight.direction==="up";
+  const points=mappedAccessWaypoints(bird,state);
+  const ordered=up?points:[...points].reverse().map(w=>({...w,progress:1-w.progress}));
+  let progress=up?flight.progress:1-flight.progress,metres=1.4*tuning.stepSeconds;
+  for(let i=1;i<ordered.length;i++){
+    const a=ordered[i-1],b=ordered[i];
+    if(progress>=b.progress)continue;
+    const length=Math.hypot(b.at.x-a.at.x,b.at.y-a.at.y,b.at.z-a.at.z);
+    const remaining=length*(b.progress-progress)/(b.progress-a.progress);
+    if(metres<remaining){progress+=metres/length*(b.progress-a.progress);break;}
+    metres-=remaining;progress=b.progress;
+  }
+  flight.progress=up?progress:1-progress;
+}
 /** Pure spatial read: anchorScale lets the renderer use the same authored route,
  * without changing saved cells, progress, or outcomes. Downward travel reverses it. */
-export function birdPosition(bird: Worker, anchorScale = 1) {
+export function birdPosition(bird: Worker, anchorScale = 1, state?: Settlement) {
   const perch = bird.perch ?? bird.flight;
-  if (!perch) return { ...groundPosition(bird), y: 0 };
-  const end = perchPosition(perch, anchorScale);
+  const map = settlementWorld(state).map;
+  const ground = (p: Cell) => map ? mapPosition(map, p) : { ...p, y: 0 };
+  if (!perch) return ground(groundPosition(bird));
+  const end = perchPosition(perch, anchorScale, state);
   if (!bird.flight) return end;
   const f = bird.flight;
   const t = f.progress;
+  if(map&&state)return positionOnAccess(mappedAccessWaypoints(bird,state),t);
   if (f.sheltered) {
     const profile = treeHabitat(f.tree);
-    const access = f.slot >= 2 ? profile.deckAccess : profile.homeAccess;
+    const access = profile.placeAccess?.[profile.shelteredPerches[f.slot]] ?? (f.slot >= 2 ? profile.deckAccess : profile.homeAccess);
     const anchor = (name: string) => {
       const p = habitatAnchor(f.tree, name as HabitatAnchor);
-      return habitatPosition(f.tree, {x:p.x*anchorScale,y:p.y*anchorScale,z:p.z*anchorScale});
+      return habitatPosition(f.tree, {x:p.x*anchorScale,y:p.y*anchorScale,z:p.z*anchorScale}, state);
     };
     // Walk the existing ground grid around trunk bases before the short ladder approach.
     // Legacy starts inside a trunk are allowed to leave, never newly traversed.
-    const approach = groundRoute(f.from, treeWorkCell(f.tree)) ?? [f.from];
-    const points = approach.map(p => ({...p,y:0}));
-    points.push(anchor("ladder-base"));
+    const approach = state ? route(state, f.from, treeWorkCell(f.tree, state)) ?? [f.from] : groundRoute(f.from, treeWorkCell(f.tree)) ?? [f.from];
+    const points = approach.map(ground);
+    for(const name of profile.groundApproach ?? ["ladder-base"]) points.push(anchor(name));
     if (t <= access[0].progress) {
       const u = t / access[0].progress * (points.length-1);
       const i = Math.min(points.length-2, Math.floor(u));
@@ -854,10 +989,22 @@ export function birdPosition(bird: Worker, anchorScale = 1) {
     }
     return end;
   }
+  const naturalAccess = treeHabitat(f.tree).placeAccess?.[treeHabitat(f.tree).naturalPerches[f.slot]];
+  if (naturalAccess) {
+    const points = naturalAccess.map(w => ({progress:w.progress, at:habitatPosition(f.tree,habitatAnchor(f.tree,w.anchor),state)}));
+    const launchProgress=.1;
+    const approach = state ? route(state,f.from,treeWorkCell(f.tree,state)) ?? [f.from] : [f.from];
+    const groundPoints=approach.map(ground);groundPoints.push(points[0].at);
+    if(t<launchProgress){const u=t/launchProgress*(groundPoints.length-1),i=Math.min(groundPoints.length-2,Math.floor(u));return interpolatePoint(groundPoints[i],groundPoints[i+1],u-i);}
+    const u=(t-launchProgress)/(1-launchProgress);
+    for(let i=1;i<points.length;i++)if(u<=points[i].progress)return interpolatePoint(points[i-1].at,points[i].at,(u-points[i-1].progress)/(points[i].progress-points[i-1].progress));
+    return end;
+  }
+  const from = ground(f.from);
   return {
-    x: f.from.x + (end.x - f.from.x) * t,
-    z: f.from.z + (end.z - f.from.z) * t,
-    y: end.y * t + Math.sin(Math.PI * t) * 1.2,
+    x: from.x + (end.x - from.x) * t,
+    z: from.z + (end.z - from.z) * t,
+    y: from.y + (end.y - from.y) * t + Math.sin(Math.PI * t) * 1.2,
   };
 }
 /** Edible-food ledger is independent of construction material. */
@@ -874,16 +1021,20 @@ const distance = (a: Cell, b: Cell) =>
  * No structure is moved or deleted to make room for a new habitat. */
 export function feedingSpots(state: Settlement, patch: FoodPatch): Cell[] {
   const blocked = new Set([
-    ...trees.map(key),
+    ...worldTrees(state).map(key),
     ...state.sites.map((s) => key(s.at)),
     ...state.piles.map((p) => key(p.at)),
     ...state.patches.map((p) => key(p.at)),
   ]);
   const spots: Cell[] = [];
-  for (let z = -3; z <= 3; z++)
-    for (let x = -4; x <= 4; x++) {
+  const map = settlementWorld(state).map;
+  const radius = map ? Math.ceil(1.5 / map.cellSize) : 2;
+  const minX = map ? patch.at.x - radius : -4, maxX = map ? patch.at.x + radius : 4;
+  const minZ = map ? patch.at.z - radius : -3, maxZ = map ? patch.at.z + radius : 3;
+  for (let z = minZ; z <= maxZ; z++)
+    for (let x = minX; x <= maxX; x++) {
       const at = { x, z };
-      if (distance(at, patch.at) <= 2 && !blocked.has(key(at))) spots.push(at);
+      if (distance(at, patch.at) <= radius && !blocked.has(key(at)) && (!map || mapTile(map, at)?.traversable)) spots.push(at);
     }
   return spots.sort(
     (a, b) =>
@@ -913,7 +1064,7 @@ function chooseForage(
           ),
       );
       if (!spot) return [];
-      const habitat = foodPatches.find((p) => p.id === patch.id)!.habitat;
+      const habitat = worldFoodPatches(state).find((p) => p.id === patch.id)!.habitat;
       const preference = habitat === bird.foragePreference ? 5 : 0;
       const remembered = bird.rememberedForage === patch.id ? 7 : 0;
       const score =
@@ -922,7 +1073,7 @@ function chooseForage(
         (bird.satiety<forageTuning.hungry&&nextFood(patch)==="staple"?25:0) +
         remembered +
         patch.remaining * 0.4 -
-        distance(bird.at, spot) -
+        (settlementWorld(state).map ? routeMetres(state,bird.at,spot) : distance(bird.at,spot)) -
         occupants.length * 2;
       return [{ patch, spot, score }];
     })
@@ -962,7 +1113,7 @@ function forageStep(state: Settlement, bird: Worker) {
   if(food==="protein") {patch.proteinEaten++;bird.protein=Math.min(100,bird.protein+economyTuning.proteinBite);bird.satiety=Math.min(100,bird.satiety+8);}
   else bird.satiety = Math.min(100, bird.satiety + forageTuning.biteSatiety);
   bird.rememberedForage = patch.id;
-  const name = foodPatches.find((p) => p.id === patch.id)!.name;
+  const name = worldFoodPatches(state).find((p) => p.id === patch.id)!.name;
   remember(bird, `Found food at ${name}; remembers the productive ground.`);
   activity.progress = 0;
   if (bird.satiety >= forageTuning.satisfied && bird.protein>=50) bird.foraging = null;
@@ -989,30 +1140,34 @@ export function nextFood(patch: FoodPatch): Food {
   return (patch.eaten + patch.harvested.staple + patch.harvested.protein) % 2 ? "protein" : "staple";
 }
 /** Planning estimate: shared habitat recovery counted once, with a 15% reserve.
- * A blended meal/delivery costs a scratch bout plus 18 ticks per average route cell.
+ * A blended meal/delivery costs a scratch bout plus physical travel time in mapped
+ * worlds; legacy woodland retains its 18 ticks per average route cell.
  * Carers cannot contribute. This is a conservative forecast, not credited inventory. */
 export function growthForecast(state: Settlement, extraCarers=0) {
   const adults=state.birds.filter(b=>b.life.stage==="adult").length;
   const young=state.birds.length-adults;
   const pending=state.economy.broods.filter(b=>b.stage==="laying"||b.stage==="incubating").reduce((n,b)=>n+2-b.eggs.filter(e=>e.child).length,0);
-  const capacity=trees.reduce((n,t)=>n+2+shelteredCapacity(state,t.id),0);
+  const capacity=worldTrees(state).reduce((n,t)=>n+2+shelteredCapacity(state,t.id),0);
   const open=state.forage.filter(p=>p.open&&feedingSpots(state,p).length>0);
   const habitatSupply=Math.floor(open.length*economyTuning.dayTicks/forageTuning.recoveryTicks*.85);
   const yieldPerPatch=economyTuning.dayTicks/forageTuning.recoveryTicks*.85;
   const stapleSupply=Math.floor(open.reduce((n,p)=>n+(p.id==="seed-common"?1:p.id==="insect-verge"?.5:0),0)*yieldPerPatch);
   const proteinSupply=Math.floor(open.reduce((n,p)=>n+(p.id==="leaf-litter"?1:p.id==="insect-verge"?.5:0),0)*yieldPerPatch);
-  const courts=state.economy.nurseries.map(n=>groundAccess(state.sites.find(s=>s.id===n.site)!.at));
+  const courts=state.economy.nurseries.map(n=>groundAccess(state.sites.find(s=>s.id===n.site)!.at, state));
   const averageDistance=open.length?open.reduce((sum,p)=>sum+Math.min(...(courts.length?courts:[state.piles[0].at]).map(at=>(route(state,at,p.at)?.length??40)-1)),0)/open.length:40;
   const carers=state.birds.filter(b=>b.care).length;
   const foodWorkers=Math.max(0,adults-carers-extraCarers);
-  const workerSupply=Math.floor(foodWorkers*economyTuning.dayTicks/(forageTuning.scratchTicks+18*averageDistance));
+  const averageTravelTicks=settlementWorld(state).map
+    ? (open.length ? open.reduce((sum,p)=>sum+Math.min(...(courts.length?courts:[state.piles[0].at]).map(at=>routeMetres(state,at,p.at))),0)/open.length : 40) / 1.4 / .1
+    : 18*averageDistance;
+  const workerSupply=Math.floor(foodWorkers*economyTuning.dayTicks/(forageTuning.scratchTicks+averageTravelTicks));
   const supply=Math.min(habitatSupply,workerSupply);
   const demand=Math.ceil((adults+young+pending)*economyTuning.dayTicks*(forageTuning.satietyDrain/forageTuning.biteSatiety+economyTuning.proteinDrain/economyTuning.proteinBite));
   const activeCare=state.economy.broods.filter(b=>state.birds.some(w=>w.care===b.id)).length;
   const stapleDemand=Math.ceil((adults+young+pending)*economyTuning.dayTicks*forageTuning.satietyDrain/forageTuning.biteSatiety);
   const proteinDemand=Math.ceil((adults+young+pending)*economyTuning.dayTicks*economyTuning.proteinDrain/economyTuning.proteinBite);
   const careDemand=activeCare*Math.ceil((economyTuning.dayTicks+economyTuning.eveningTicks)*2/economyTuning.mealTicks);
-  return {adults,young,pending,capacity,committed:state.birds.length+pending,supply,stapleSupply,proteinSupply,stapleDemand,proteinDemand,habitatSupply,workerSupply,averageDistance,foodWorkers,demand,careDemand,spare:capacity-state.birds.length-pending,carers};
+  return {adults,young,pending,capacity,committed:state.birds.length+pending,supply,stapleSupply,proteinSupply,stapleDemand,proteinDemand,habitatSupply,workerSupply,averageDistance,averageTravelTicks,foodWorkers,demand,careDemand,spare:capacity-state.birds.length-pending,carers};
 }
 export function broodReason(state: Settlement, siteId: string, motherId: string): string {
   const site=state.sites.find(s=>s.id===siteId&&s.kind==="nursery"&&s.complete);
@@ -1022,6 +1177,7 @@ export function broodReason(state: Settlement, siteId: string, motherId: string)
   if(nursery.brood && !["complete","failed"].includes(state.economy.broods.find(b=>b.id===nursery.brood)!.stage)) return "This nursery is supporting its current brood.";
   if(!mother||mother.life.stage!=="adult"||mother.life.sex!=="hen"||!mother.life.willing) return "Choose an adult hen who wants to raise a brood.";
   if(mother.care) return `${mother.life.name} is already caring for a brood.`;
+  if(mother.direct&&((mother.cargo&&!mother.job)||(mother.foodCargo&&!mother.provision)))return `Return ${mother.life.name} to community work and deliver held goods before starting a brood.`;
   if(!mother.life.fertility || state.tick-mother.life.fertility.tick>economyTuning.fertilityTicks) return `${mother.life.name} has no recent fertility history; a willing, well-fed adult pair must spend time together.`;
   if(mother.satiety<60||mother.protein<50||mother.energy<40) return `${mother.life.name} needs food, protein and rest before laying.`;
   if(nursery.food.staple<2||nursery.food.protein<2) return "Deliver at least 2 staple food and 2 protein food to this nursery.";
@@ -1070,7 +1226,7 @@ export function nurseryReadout(state: Settlement, siteId: string) {
   if(state.paused)return {progressLabel,title:"Care paused",stage,progress,status:"Time is paused. Resume to continue care and growth.",carer:caring?carer:null,stalled:true};
   if(caring&&(carer.cargo||carer.foodCargo))return {progressLabel,title:"Finishing delivery",stage,progress,status:`${carer.life.name} must deliver the carried ${carer.foodCargo?"food":"reeds"} before returning to nursery care.`,carer,stalled:true};
   if(caring&&(carer.foraging?.intent==="eat"||carer.satiety<forageTuning.hungry||carer.protein<economyTuning.proteinMinimum))return {progressLabel,title:"Carer needs a meal",stage,progress,status:`${carer.life.name} needs personal food before care can progress. ${carer.foraging?.intent==="eat"?"Foraging for a meal before returning to the nursery.":"Keep Seeds and Bugs available in food places and the nursery."}`,carer,stalled:true};
-  if(caring&&(carer.edge||carer.flight||!same(carer.at,groundAccess(state.sites.find(s=>s.id===siteId)!.at))))return {progressLabel,title:"Carer arriving",stage,progress,status:`${carer.life.name} is travelling to the root nursery; care starts on arrival.`,carer,stalled:true};
+  if(caring&&(carer.edge||carer.flight||!same(carer.at,groundAccess(state.sites.find(s=>s.id===siteId)!.at, state))))return {progressLabel,title:"Carer arriving",stage,progress,status:`${carer.life.name} is travelling to the root nursery; care starts on arrival.`,carer,stalled:true};
   const missing=(["staple","protein"] as const).filter(f=>!nursery.food[f]);
   if(caring&&missing.length)return {progressLabel,title:"Needs food",stage,progress,status:`No local ${missing.map(f=>f==="staple"?"Seeds":"Bugs").join(" or ")}. ${carer.life.name}'s care and growth wait for a delivery.`,carer,stalled:true};
   const hungry=children.filter(b=>b.life.stage==="juvenile"&&(b.satiety<forageTuning.hungry||b.protein<economyTuning.proteinMinimum));
@@ -1091,7 +1247,7 @@ export const constructionName = (site: Pick<Site,"kind">) => ({treehouse:"Home",
 export function constructionFocusReadout(state: Settlement) {
   const site=state.sites.find(s=>s.id===state.constructionFocus&&!s.complete);
   if (!site) return null;
-  const place=site.tree?trees.find(t=>t.id===site.tree)!.name:`ground (${site.at.x}, ${site.at.z})`;
+  const place=state.world?buildingPlace(state,site):site.tree?worldTrees(state).find(t=>t.id===site.tree)!.name:`ground (${site.at.x}, ${site.at.z})`;
   return {site,label:`${constructionName(site)} at ${place}`, ...projectReadout(state,site)};
 }
 /** Ask an available adult for a real trip to this nursery, preserving existing requests. */
@@ -1103,10 +1259,10 @@ export function foodRecovery(state: Settlement, siteId: string) {
   const habitats=state.forage.filter(p=>p.id==="insect-verge"||needed.includes(p.id==="leaf-litter"?"protein":"staple"));
   const openPatch=habitats.find(p=>!p.open);
   if(!habitats.some(p=>p.open&&p.remaining>0&&needed.includes(nextFood(p))))return {helper:null,reason:openPatch?"A needed food place is closed. Reopen it for deliveries and foraging.":"No needed food is ready to gather. Open habitats recover during daylight; let time run.",openPatch:openPatch?.id??null};
-  const free=state.birds.filter(b=>b.life.stage==="adult"&&!b.care&&!b.request);
+  const free=state.birds.filter(b=>b.life.stage==="adult"&&!b.care&&!b.request&&!b.direct);
   // Reuse the assignment rule on a disposable copy, including reservations and routes.
   const helper=free.find(b=>{const probe=structuredClone(state);return assignProvision(probe,probe.birds.find(w=>w.id===b.id)!,false,siteId);});
-  return {helper:helper??null,reason:helper?"":free.length?"No food trip is available yet; existing deliveries may already cover the local stock.":"Every adult is caring or has a request. Let their current work finish before asking for a food trip.",openPatch:null};
+  return {helper:helper??null,reason:helper?"":free.length?"No food trip is available yet; existing deliveries may already cover the local stock.":"Every adult is caring or has orders. Return an adult to community work before asking for a food trip.",openPatch:null};
 }
 function nurseryAt(state: Settlement, id: string) { return state.economy.nurseries.find(n=>n.site===id); }
 function foodIncoming(state: Settlement, id: string, food?: Food) {
@@ -1137,8 +1293,13 @@ function assignProvision(state: Settlement, bird: Worker, urgentOnly=false, requ
     const site=state.sites.find(s=>s.id===nursery.site)!;
     for(const food of foods) {
       if(nursery.food[food]+foodIncoming(state,nursery.site,food)>=target)continue;
-      const patches=state.forage.filter(p=>p.open&&nextFood(p)===food&&p.remaining>state.birds.filter(b=>b.provision?.patch===p.id&&b.provision.stage==="pickup").length&&feedingSpots(state,p).length>0&&route(state,bird.at,p.at)&&route(state,p.at,groundAccess(site.at)))
-        .sort((a,b)=>distance(bird.at,a.at)+distance(a.at,groundAccess(site.at))-distance(bird.at,b.at)-distance(b.at,groundAccess(site.at))||a.id.localeCompare(b.id));
+      const patches=state.forage.filter(p=>p.open&&nextFood(p)===food&&p.remaining>state.birds.filter(b=>b.provision?.patch===p.id&&b.provision.stage==="pickup").length&&feedingSpots(state,p).length>0&&route(state,bird.at,p.at)&&route(state,p.at,groundAccess(site.at, state)))
+        .sort((a,b)=>{
+          const travel=(at:Cell)=>settlementWorld(state).map
+            ? routeMetres(state,bird.at,at)+routeMetres(state,at,groundAccess(site.at,state))
+            : distance(bird.at,at)+distance(at,groundAccess(site.at,state));
+          return travel(a.at)-travel(b.at)||a.id.localeCompare(b.id);
+        });
       if(patches[0]){bird.provision={patch:patches[0].id,destination:nursery.site,stage:"pickup",progress:0};return true;}
     }
   }
@@ -1159,14 +1320,16 @@ function provisionStep(state: Settlement, bird: Worker) {
     // Mixed yield can change while travelling; capacity is checked against actual cargo.
     if(nursery.food[food]+foodIncoming(state,nursery.site,food)>economyTuning.foodCapacity){bird.provision=null;return;}
     patch.remaining--;patch.harvested[food]++;bird.foodCargo=food;
+    if(bird.direct)bird.direct.foodPatch=patch.id;
     task.stage="deliver";task.progress=0;
   } else {
-    if(!move(state,bird,groundAccess(site.at)))return;
+    if(!move(state,bird,groundAccess(site.at, state)))return;
     const food=bird.foodCargo!;
     if(nursery.food[food]>=economyTuning.foodCapacity)return;
     nursery.food[food]++;bird.foodCargo=null;bird.provision=null;bird.deliveries++;
+    if(bird.direct?.order?.kind==="food"&&bird.direct.order.target===site.id)finishDirectOrder(bird);
     if(bird.request?.kind==="food"&&bird.request.phase==="working"&&bird.request.target===site.id)finishRequest(state,bird,"done","Food delivered. Back to community work.");
-    remember(bird,`Delivered ${food} food to the root nursery at ${trees.find(t=>t.id===site.tree)!.name}.`);
+    remember(bird,`Delivered ${food} food to the root nursery at ${worldTrees(state).find(t=>t.id===site.tree)!.name}.`);
   }
 }
 function childWorker(state: Settlement, brood: Brood, ordinal: number): Worker {
@@ -1174,13 +1337,13 @@ function childWorker(state: Settlement, brood: Brood, ordinal: number): Worker {
   const site=state.sites.find(s=>s.id===brood.site)!;
   const born=state.birds.filter(b=>b.life.mother).length;
   const name=offspringNames[born%offspringNames.length]+(born>=offspringNames.length?` ${Math.floor(born/offspringNames.length)+1}`:"");
-  return {id:`chick-${state.nextId++}`,request:null,requestResult:null, life:{...initialLife(mother.life.appearance),name,sex:ordinal%2?"rooster":"hen",stage:"chick",age:0,development:0,mother:brood.mother,father:brood.father,carer:brood.carer,bornAt:site.tree,bond:0,willing:true},protein:85,foodCargo:null,provision:null,care:null,lift:null,...initialAppetite(mother.life.appearance),at:groundAccess(site.at),edge:null,cargo:0,gatheringProgress:0,job:null,energy:75,resting:false,deliveries:0,attachment:null,memories:[`Hatched in the root nursery at ${trees.find(t=>t.id===site.tree)!.name}; ${mother.life.name} kept the eggs warm.`],perch:null,flight:null};
+  return {id:`chick-${state.nextId++}`,request:null,requestResult:null, life:{...initialLife(mother.life.appearance),name,sex:ordinal%2?"rooster":"hen",stage:"chick",age:0,development:0,mother:brood.mother,father:brood.father,carer:brood.carer,bornAt:site.tree,bond:0,willing:true},protein:85,foodCargo:null,provision:null,care:null,lift:null,...initialAppetite(mother.life.appearance),at:groundAccess(site.at, state),edge:null,cargo:0,gatheringProgress:0,job:null,energy:75,resting:false,deliveries:0,attachment:null,memories:[`Hatched in the root nursery at ${worldTrees(state).find(t=>t.id===site.tree)!.name}; ${mother.life.name} kept the eggs warm.`],perch:null,flight:null};
 }
 function careStep(state: Settlement, bird: Worker): boolean {
   const brood=state.economy.broods.find(b=>b.id===bird.care)!;
   const nursery=nurseryAt(state,brood.site)!;
   const site=state.sites.find(s=>s.id===brood.site)!;
-  if(!move(state,bird,groundAccess(site.at)))return true;
+  if(!move(state,bird,groundAccess(site.at, state)))return true;
   bird.resting=false;
   if(!nursery.food.staple||!nursery.food.protein){brood.shortageTicks++;return true;}
   if(++brood.mealProgress>=economyTuning.mealTicks) {
@@ -1197,14 +1360,14 @@ function careStep(state: Settlement, bird: Worker): boolean {
       brood.eggs.push({id:`egg-${brood.id}-${brood.eggs.length}`,laidAt:state.tick,fertile:true,viable:true,child:null,hatchTick:null});
     }
     brood.progress=next;
-    if(brood.progress===economyTuning.layingTicks){brood.stage="incubating";brood.progress=0;remember(bird,`Laid two fertile eggs at ${trees.find(t=>t.id===site.tree)!.name}; stays to incubate them.`);}
+    if(brood.progress===economyTuning.layingTicks){brood.stage="incubating";brood.progress=0;remember(bird,`Laid two fertile eggs at ${worldTrees(state).find(t=>t.id===site.tree)!.name}; stays to incubate them.`);}
   } else if(brood.stage==="incubating") {
     if(++brood.progress===economyTuning.incubationTicks) {
       for(let i=0;i<brood.eggs.length;i++) {
         const egg=brood.eggs[i];
         if(!egg.viable||egg.child)continue;
         const child=childWorker(state,brood,i);state.birds.push(child);egg.child=child.id;egg.hatchTick=state.tick;
-        remember(bird,`Kept ${child.life.name} warm from egg to chick at ${trees.find(t=>t.id===site.tree)!.name}.`);
+        remember(bird,`Kept ${child.life.name} warm from egg to chick at ${worldTrees(state).find(t=>t.id===site.tree)!.name}.`);
       }
       brood.stage="chicks";brood.progress=0;
     }
@@ -1215,11 +1378,11 @@ function careStep(state: Settlement, bird: Worker): boolean {
       child.life.development++;child.life.bond++;child.satiety=Math.max(80,child.satiety);child.protein=Math.max(80,child.protein);
       if(child.life.development>=economyTuning.juvenileTicks) {
         child.life.stage="juvenile";child.attachment=site.tree;
-        remember(child,`${bird.life.name}'s continuing care made ${trees.find(t=>t.id===site.tree)!.name} feel like home.`);
+        remember(child,`${bird.life.name}'s continuing care made ${worldTrees(state).find(t=>t.id===site.tree)!.name} feel like home.`);
       }
     }
     if(brood.eggs.every(e=>state.birds.find(b=>b.id===e.child)?.life.stage!=="chick")) {
-      bird.care=null;remember(bird,`The young at ${trees.find(t=>t.id===site.tree)!.name} can now feed themselves; returned to community work.`);
+      bird.care=null;remember(bird,`The young at ${worldTrees(state).find(t=>t.id===site.tree)!.name} can now feed themselves; returned to community work.`);
     }
   }
   return true;
@@ -1277,23 +1440,25 @@ export function step(current: Settlement): Settlement {
       if(juvenilesAtStart.has(bird.id)&&bird.satiety>=forageTuning.hungry&&bird.protein>=economyTuning.proteinMinimum)bird.life.development++;
       if(bird.life.development>=economyTuning.adultTicks) {
         bird.life.stage="adult";
-        remember(bird,`Grew into community work; remembers ${state.birds.find(b=>b.id===bird.life.carer)?.life.name??"a carer"} and the nursery at ${trees.find(t=>t.id===bird.life.bornAt)?.name}.`);
+        remember(bird,`Grew into community work; remembers ${state.birds.find(b=>b.id===bird.life.carer)?.life.name??"a carer"} and the nursery at ${worldTrees(state).find(t=>t.id===bird.life.bornAt)?.name}.`);
       }
     }
     if (state.phase === "day") {
       bird.protein=Math.max(0,bird.protein-economyTuning.proteinDrain);
       bird.satiety = Math.max(0, bird.satiety - forageTuning.satietyDrain);
     }
+    prepareDirect(bird);
     prepareRequest(state,bird);
     if (bird.flight) {
-      bird.flight.progress += bird.flight.direction === "up" ? 0.035 : -0.035;
+      if(settlementWorld(state).map)advanceMappedAccess(bird,state);
+      else bird.flight.progress += bird.flight.direction === "up" ? 0.035 : -0.035;
       if (bird.flight.progress >= 1) {
         bird.perch = {
           tree: bird.flight.tree,
           slot: bird.flight.slot,
           sheltered: bird.flight.sheltered,
         };
-        const tree = trees.find((t) => t.id === bird.flight!.tree)!;
+        const tree = worldTrees(state).find((t) => t.id === bird.flight!.tree)!;
         bird.at = { x: tree.x, z: tree.z };
         bird.flight = null;
         remember(
@@ -1320,27 +1485,34 @@ export function step(current: Settlement): Settlement {
     }
     // Legacy saves may stand on, or finish an already committed edge through, a
     // trunk. Egress before taking new work; an active old lift must finish first.
-    const trunk = !bird.lift && trees.find(t => same(t, bird.at));
+    const trunk = !bird.lift && worldTrees(state).find(t => same(t, bird.at));
     if (trunk) {
-      move(state, bird, bird.edge?.to ?? treeWorkCell(trunk.id));
+      move(state, bird, bird.edge?.to ?? treeWorkCell(trunk.id, state));
       continue;
     }
     if (bird.edge && !bird.job && !bird.foraging && !bird.provision && !bird.care) {
       move(state, bird, bird.edge.to);
       continue;
     }
+    if (bird.direct?.pending) {
+      if(bird.lift){bird.lift.progress=Math.max(0,bird.lift.progress-1/tuning.liftTicks);if(bird.lift.progress===0){bird.lift=null;prepareDirect(bird);}continue;}
+      if (bird.edge) move(state,bird,bird.edge.to);
+      prepareDirect(bird);
+      if (bird.direct?.pending && !bird.lift) continue;
+    }
     if (state.phase === "day") {
       // Carried goods always reach their destination. Interrupt uncollected work only
       // at a ground-cell boundary, preserving every committed material bundle.
       if (
         (bird.satiety <= forageTuning.hungry || bird.protein < economyTuning.proteinMinimum) &&
-        !bird.cargo && !bird.foodCargo &&
-        !bird.edge &&
+        (!bird.cargo && !bird.foodCargo || !!bird.direct) &&
+        !bird.edge && !bird.lift &&
         (!bird.foraging || bird.foraging.intent === "browse")
       ) {
         if (chooseForage(state, bird, "eat")) {
           bird.job = null;
           bird.gatheringProgress = 0;
+          if(bird.direct)bird.direct.foodPatch=bird.provision?.patch??bird.direct.foodPatch;
           bird.provision=null;
         }
       }
@@ -1360,13 +1532,24 @@ export function step(current: Settlement): Settlement {
     if(bird.life.stage==="juvenile") {
       if(state.phase==="evening"){
         const brood=state.economy.broods.find(b=>b.eggs.some(e=>e.child===bird.id))!;
-        move(state,bird,groundAccess(state.sites.find(s=>s.id===brood.site)!.at));
+        move(state,bird,groundAccess(state.sites.find(s=>s.id===brood.site)!.at, state));
         bird.energy=Math.min(80,bird.energy+.16);
       } else if(!bird.foraging&&(bird.satiety<forageTuning.satisfied||bird.protein<60)) {
         if(chooseForage(state,bird,"eat"))forageStep(state,bird);
       }
       continue;
     }
+    if (bird.direct && !bird.direct.pending && !bird.job && !bird.provision && state.phase === "day" && !bird.foraging) {
+      if (bird.resting || bird.energy < 28) {bird.resting=bird.energy<75;bird.energy=Math.min(75,bird.energy+.2);continue;}
+      if (bird.direct.order?.kind === "move") {
+        if(move(state,bird,bird.direct.order.at)) finishDirectOrder(bird);
+        continue;
+      }
+      assignDirect(state,bird);
+      if(bird.provision){provisionStep(state,bird);continue;}
+      if(!bird.job){bird.energy=Math.min(80,bird.energy+.04);continue;}
+    }
+    if (bird.direct && (bird.cargo || bird.foodCargo) && !bird.job && !bird.provision && state.phase === "evening") {bird.energy=Math.min(80,bird.energy+.16);continue;}
     if (!bird.job && state.phase === "evening") {
       settle(state, bird);
       continue;
@@ -1389,7 +1572,7 @@ export function step(current: Settlement): Settlement {
     if (!job) {
       const index = state.birds.findIndex((b) => b.id === bird.id);
       if (
-        state.phase === "day" &&
+        !bird.direct && state.phase === "day" &&
         (state.tick + index * 25) % forageTuning.browseInterval === 1 &&
         chooseForage(state, bird, "browse")
       )
@@ -1421,13 +1604,13 @@ export function step(current: Settlement): Settlement {
       }
     } else if (job.kind === "gather" && job.stage === "pickup") {
       const patch = state.patches.find((p) => p.id === job.source)!;
-      if ((!patch.designated && !(bird.request?.kind === "gather" && bird.request.target === patch.id)) || patch.remaining === 0 || state.phase !== "day") {
+      if ((!patch.designated && !(bird.request?.kind === "gather" && bird.request.target === patch.id) && !(bird.direct?.order?.kind === "gather" && bird.direct.order.target === patch.id)) || patch.remaining === 0 || state.phase !== "day") {
         bird.job = null;
         bird.gatheringProgress = 0;
         continue;
       }
       const target = location(state, job.destination);
-      if (!target || !route(state, patch.at, target.at)) continue;
+      if (!target || !route(state, patch.at, groundAccess(target.at, state))) continue;
       bird.gatheringProgress++;
       bird.energy = Math.max(0, bird.energy - 0.08);
       if (bird.gatheringProgress === tuning.gatherTicks) {
@@ -1438,6 +1621,7 @@ export function step(current: Settlement): Settlement {
         bird.cargo = 1;
         bird.gatheringProgress = 0;
         job.stage = "deliver";
+        if(patch.remaining===0&&bird.direct?.order?.kind==="gather"&&bird.direct.order.target===patch.id)finishDirectOrder(bird);
         remember(
           bird,
           `Gathered construction reeds at the ${patch.id === "patch-west" ? "western" : "eastern"} patch.`,
@@ -1483,7 +1667,7 @@ export function step(current: Settlement): Settlement {
           bird.lift = null;
           remember(
             bird,
-            `Raised a construction bundle with the basket at ${trees.find((t) => t.id === site.tree)!.name}.`,
+            `Raised a construction bundle with the basket at ${worldTrees(state).find((t) => t.id === site.tree)!.name}.`,
           );
           if (prototype) {
             state.basketTechnique = {
@@ -1504,7 +1688,7 @@ export function step(current: Settlement): Settlement {
             }
             remember(
               bird,
-              `Demonstrated the first hauling basket at ${trees.find((t) => t.id === site.tree)!.name}; the coop learned the technique.`,
+              `Demonstrated the first hauling basket at ${worldTrees(state).find((t) => t.id === site.tree)!.name}; the coop learned the technique.`,
             );
           }
         }
@@ -1527,14 +1711,16 @@ export function step(current: Settlement): Settlement {
   }
   reconcileFoodReservations(state);
   reconcileRequests(state);
+  for(const bird of state.birds) reconcileDirect(state,bird);
   return state;
 }
 export function workerStatus(state: Settlement, bird: Worker): string {
+  if(bird.direct && !bird.job && !bird.provision && !bird.foraging && !bird.flight && !bird.perch) return directStatus(state,bird);
   if(bird.foodCargo)return `Carrying ${bird.foodCargo} food to a local nursery · reed work waits until delivery`;
   if(bird.provision)return bird.provision.progress?`Gathering ${nextFood(state.forage.find(p=>p.id===bird.provision!.patch)!)} food for a nursery`:`Walking to gather nursery food`;
   if(!bird.foraging&&bird.care&&!bird.cargo&&!bird.lift) {
     const brood=state.economy.broods.find(b=>b.id===bird.care)!;
-    return `${same(bird.at,groundAccess(state.sites.find(s=>s.id===brood.site)!.at))?"Caring at":"Walking to"} the root nursery · ${broodStatus(state,brood)} · unavailable for building`;
+    return `${same(bird.at,groundAccess(state.sites.find(s=>s.id===brood.site)!.at, state))?"Caring at":"Walking to"} the root nursery · ${broodStatus(state,brood)} · unavailable for building`;
   }
   if(bird.life.stage==="chick")return `Dependent chick · grounded root nursery · ${Math.round(bird.life.development/economyTuning.juvenileTicks*100)}% to juvenile · care from ${state.birds.find(b=>b.id===bird.life.carer)?.life.name}`;
   if(bird.life.stage==="juvenile"&&!bird.foraging)return `Growing juvenile · grounded; self-feeding, no adult work or flight yet · ${Math.round(bird.life.development/economyTuning.adultTicks*100)}% to adult`;
@@ -1548,18 +1734,18 @@ export function workerStatus(state: Settlement, bird: Worker): string {
       !state.basketTechnique &&
       site.delivered === 3 &&
       site.progress < 30 &&
-      same(bird.at, groundAccess(site.at)) &&
+      same(bird.at, groundAccess(site.at, state)) &&
       !bird.edge
     )
       return "Keeping the final bundle secure while the basket is woven";
   }
   if (bird.flight)
-    return `${bird.flight.direction === "up" ? (bird.flight.sheltered ? "Approaching / climbing the ladder" : "Flying up to a natural branch") : "Returning to the ground"} at ${trees.find((t) => t.id === bird.flight!.tree)!.name}`;
+    return `${bird.flight.direction === "up" ? (bird.flight.sheltered ? "Approaching / climbing the ladder" : "Flying up to a natural branch") : "Returning to the ground"} at ${worldTrees(state).find((t) => t.id === bird.flight!.tree)!.name}`;
   if (bird.perch)
-    return `${bird.perch.sheltered ? "Sheltered" : "Natural branch"} rest at ${trees.find((t) => t.id === bird.perch!.tree)!.name} · perch ${bird.perch.slot + 1}`;
+    return `${bird.perch.sheltered ? "Sheltered" : "Natural branch"} rest at ${worldTrees(state).find((t) => t.id === bird.perch!.tree)!.name} · perch ${bird.perch.slot + 1}`;
   if (bird.foraging) {
     const activity = bird.foraging;
-    const patch = foodPatches.find((p) => p.id === activity.patch)!;
+    const patch = worldFoodPatches(state).find((p) => p.id === activity.patch)!;
     const reason =
       activity.intent === "eat"
         ? "Appetite prompted a food break"
@@ -1593,7 +1779,7 @@ export function workerStatus(state: Settlement, bird: Worker): string {
     const blocked =
       (bird.job.kind === "gather" &&
         bird.job.stage === "pickup" &&
-        (!gatherTarget || !to || !route(state, to, gatherTarget.at))) ||
+        (!gatherTarget || !to || !route(state, to, groundAccess(gatherTarget.at, state)))) ||
       !to ||
       !route(state, bird.at, to);
     if (blocked)
@@ -1638,7 +1824,7 @@ export function siteStatus(state: Settlement, site: Site) {
     ![
       ...state.piles,
       ...state.sites.filter((p) => p.complete && p.kind === "store"),
-    ].some((p) => available(state, p.id) > 0 && route(state, groundAccess(p.at), groundAccess(site.at))) &&
+    ].some((p) => available(state, p.id) > 0 && route(state, groundAccess(p.at, state), groundAccess(site.at, state))) &&
     site.delivered + incoming(state, site.id) < cost(site)
   )
     return "Needs available local construction reeds";
@@ -1691,7 +1877,7 @@ export function patchStatus(state: Settlement, patch: ReedPatch): string {
   ];
   if (
     !state.birds.some((b) => route(state, b.at, patch.at)) ||
-    !targets.some((p) => route(state, patch.at, p.at))
+    !targets.some((p) => route(state, patch.at, groundAccess(p.at, state)))
   )
     return "Waiting for available local storage";
   if (state.phase === "evening") return "Gathering resumes by day";
@@ -1745,11 +1931,11 @@ function assignRequest(state: Settlement,bird: Worker): boolean {
 export function requestPlace(state: Settlement, request: Pick<BirdRequest,"kind"|"target">): {name:string;at:Cell}|null {
   if(request.kind==="gather") {
     const patch=state.patches.find(p=>p.id===request.target);
-    return patch ? {name:patch.id==="patch-west"?"West reeds":"East reeds",at:patch.at}:null;
+    return patch ? {name:reedPatchName(state,patch.id),at:patch.at}:null;
   }
   const site=state.sites.find(s=>s.id===request.target);
   if(!site)return null;
-  return {name:site.tree?trees.find(t=>t.id===site.tree)!.name:"Store nest",at:groundAccess(site.at)};
+  return {name:buildingPlace(state,site),at:groundAccess(site.at, state)};
 }
 export function requestStatus(state: Settlement,bird: Worker): string {
   if(!bird.request)return bird.requestResult?.reason??"Choosing community work.";
@@ -1771,9 +1957,10 @@ export function requestStatus(state: Settlement,bird: Worker): string {
   if(bird.request.kind==="food")return "Waiting for the right food. Let chickens forage at a food place.";
   return "Waiting for a free reed bundle or storage place.";
 }
-export function requestOptions(state: Settlement,bird: Worker) {
-  const base=bird.life.stage!=="adult"?"Too young to carry or build.":bird.care?"Caring for the brood. Choose another chicken.":"";
-  const patch=state.patches.filter(p=>p.remaining>0&&route(state,bird.at,p.at)).sort((a,b)=>distance(bird.at,a.at)-distance(bird.at,b.at)||a.id.localeCompare(b.id))[0];
+export function requestOptions(state: Settlement,bird: Worker,gatherTarget?: string) {
+  const base=bird.life.stage!=="adult"?"Too young to carry or build.":bird.care?"Caring for the brood. Choose another chicken.":bird.direct?`Return ${bird.life.name} to community work first.`:bird.request?"Finish or cancel this chicken’s request first.":"";
+  const departure=bird.perch||bird.flight?treeWorkCell((bird.perch??bird.flight)!.tree,state):bird.at;
+  const patch=state.patches.filter(p=>(gatherTarget===undefined||p.id===gatherTarget)&&p.remaining>0&&route(state,departure,p.at)).sort((a,b)=>distance(bird.at,a.at)-distance(bird.at,b.at)||a.id.localeCompare(b.id))[0];
   const site=state.sites.find(s=>!s.complete);
   const nursery=state.economy.nurseries.find(n=>n.food.staple<n.target||n.food.protein<n.target);
   return ([{kind:"gather" as const,label:"Gather reeds",target:patch?.id??"",missing:"No reeds ready to gather."},{kind:"build" as const,label:"Help build",target:site?.id??"",missing:"Choose a building first."},{kind:"food" as const,label:"Bring food",target:nursery?.site??"",missing:state.economy.nurseries.length?"The nurseries already have food.":"Build a nursery for chicks first."}]).map(o=>({...o,available:!base&&!!o.target,reason:base||(!o.target?o.missing:""),place:o.target?requestPlace(state,o):null}));
@@ -1782,18 +1969,19 @@ export function requestOptions(state: Settlement,bird: Worker) {
 export function gatherRecovery(state: Settlement) {
   if(!state.patches.some(p=>p.remaining>0))return {helper:null,canChoose:false,reason:"No reeds ready to gather. New construction reeds regrow during daylight. Leave time running until a patch recovers."};
   const adults=state.birds.filter(b=>b.life.stage==="adult");
-  const free=adults.filter(b=>!b.care&&!b.request);
+  const free=adults.filter(b=>!b.care&&!b.request&&!b.direct);
   const helper=free.find(b=>requestOptions(state,b).some(o=>o.kind==="gather"&&o.available));
   if(helper)return {helper,canChoose:false,reason:""};
   if(!adults.length)return {helper:null,canChoose:false,reason:"The young chickens cannot gather yet. Wait for an adult."};
   if(!free.length) {
-    const canChoose=adults.some(b=>!!b.request);
-    return {helper:null,canChoose,reason:canChoose?"Every adult is caring or has a request. Let them finish, or choose a chicken to cancel its request.":"Every adult is caring. Let them finish before asking for help."};
+    const canChoose=adults.some(b=>!!b.request||!!b.direct);
+    return {helper:null,canChoose,reason:canChoose?"Every adult is caring or has orders. Choose a chicken to return to community work.":"Every adult is caring. Let them finish before asking for help."};
   }
   return {helper:null,canChoose:false,reason:"No ready reeds can be reached by an available adult. Wait for a nearby patch to recover."};
 }
 
 export function currentWork(state: Settlement, bird: Worker): string {
+  if(bird.direct)return directStatus(state,bird);
   if(bird.life.stage!=="adult")return bird.life.stage==="chick"?"Growing with nursery care":"Growing · too young for carrying and building";
   if(bird.care)return "Caring for eggs and chicks";
   if(bird.foodCargo)return "Carrying food to the nursery";
@@ -1803,7 +1991,7 @@ export function currentWork(state: Settlement, bird: Worker): string {
   if(bird.resting||bird.energy<28)return "Resting";
   if(bird.job?.kind==="build") {
     const site=state.sites.find(s=>s.id===bird.job?.destination);
-    return !bird.edge&&site&&same(bird.at,groundAccess(site.at))?"Weaving a building":"Walking to build";
+    return !bird.edge&&site&&same(bird.at,groundAccess(site.at, state))?"Weaving a building":"Walking to build";
   }
   if(bird.job?.kind==="gather")return "Gathering reeds";
   if(bird.job)return "Fetching a reed bundle";
@@ -1816,7 +2004,7 @@ export function projectReadout(state: Settlement,site: Site) {
   const missing=Math.max(0,cost(site)-site.delivered-incoming(state,site.id));
   const shortfall=Math.max(0,missing-reedSupply(state).free);
   const delivering=state.birds.filter(b=>b.cargo&&b.job?.destination===site.id).map(b=>b.life.name);
-  const weaving=assigned.filter(b=>b.job?.kind==="build"&&!b.edge&&same(b.at,groundAccess(site.at))).map(b=>b.life.name);
+  const weaving=assigned.filter(b=>b.job?.kind==="build"&&!b.edge&&same(b.at,groundAccess(site.at, state))).map(b=>b.life.name);
   const approaching=assigned.filter(b=>b.job?.kind==="build"&&!weaving.includes(b.life.name)).map(b=>b.life.name);
   const fetching=assigned.filter(b=>!b.cargo&&b.job?.kind!=="build").map(b=>b.life.name);
   const pending=state.birds.filter(b=>b.request?.kind==="build"&&b.request.target===site.id&&b.request.phase!=="working");
@@ -1825,4 +2013,94 @@ export function projectReadout(state: Settlement,site: Site) {
   const waiting=pending.map(b=>`${b.life.name}: ${requestStatus(state,b)}`).join(" ");
   const status=site.complete?"Ready to use":state.paused?"Work is paused. Resume to continue.":state.phase==="evening"?delivering.length?`${delivering.join(" & ")} finishing a delivery. Weaving resumes in the morning.`:"Starts in the morning.":active||waiting||(shortfall>0?`Needs ${shortfall} more ${shortfall===1?"reed":"reeds"}. Gather reeds to continue.`:"Chickens will take the next free building task.");
   return {workers,shortfall,status,title,waiting,progress:site.complete?100:Math.round((site.delivered/cost(site)+site.progress/30)/2*100)};
+}
+
+/** Saved player intent uses the existing physical job and cargo owners. */
+export function validateDirectOrder(state: Settlement, bird: Worker, order: DirectOrder) {
+  const departure = bird.perch || bird.flight ? treeWorkCell((bird.perch ?? bird.flight)!.tree,state) : bird.edge?.to ?? bird.at;
+  if(order.kind === "move") {
+    if(!validCell(order.at,state) || worldTrees(state).some(t=>same(t,order.at)) || !route(state,departure,order.at)) throw new Error(`${bird.life.name} cannot reach that ground cell.`);
+  } else {
+    const place=requestPlace(state,order);
+    const reason=requestTargetReason(state,{...order,phase:"pending",issued:state.tick});
+    if(reason || !place || !route(state,departure,place.at)) throw new Error(`${bird.life.name}: ${reason || "That target is unreachable."}`);
+  }
+}
+function prepareDirect(bird: Worker) {
+  const direct=bird.direct;
+  if(!direct?.pending || bird.lift || bird.flight || bird.perch || bird.edge)return;
+  direct.foodPatch = bird.provision?.patch ?? direct.foodPatch;
+  bird.job=null;bird.provision=null;bird.gatheringProgress=0;
+  if(bird.foraging?.intent!=="eat")bird.foraging=null;
+  direct.pending=false;
+  if(direct.community && !bird.cargo && !bird.foodCargo)delete bird.direct;
+}
+function finishDirectOrder(bird: Worker) {
+  if(!bird.direct)return;
+  bird.direct.order=bird.direct.queue.shift() ?? null;
+}
+function reconcileDirect(state: Settlement,bird: Worker) {
+  const direct=bird.direct;
+  if(!direct || direct.pending || bird.cargo || bird.foodCargo || bird.job || bird.provision)return;
+  if(direct.community){delete bird.direct;return;}
+  const order=direct.order;
+  if(order && order.kind!=="move" && requestTargetReason(state,{...order,phase:"pending",issued:state.tick})) finishDirectOrder(bird);
+}
+function assignDirect(state: Settlement,bird: Worker) {
+  const direct=bird.direct;
+  if(!direct || direct.pending)return;
+  // Stop and Move retain goods. New work and explicit community return route them.
+  if(!direct.community && (!direct.order || direct.order.kind==="move"))return;
+  if(bird.cargo) {
+    const site=direct.order?.kind==="build" ? state.sites.find(s=>s.id===(direct.order as {target:string}).target&&!s.complete&&s.delivered+incoming(state,s.id)<cost(s)) : null;
+    const target=site ?? state.piles.find(p=>p.kind==="source");
+    if(target && route(state,bird.at,groundAccess(target.at,state))) bird.job={kind:site?"haul":"return",source:"reeds",destination:target.id,stage:"deliver"};
+    return;
+  }
+  if(bird.foodCargo) {
+    const nursery=state.economy.nurseries.find(n=>n.food[bird.foodCargo!]+foodIncoming(state,n.site,bird.foodCargo!)<economyTuning.foodCapacity&&route(state,bird.at,groundAccess(state.sites.find(s=>s.id===n.site)!.at,state)));
+    if(nursery && direct.foodPatch)bird.provision={patch:direct.foodPatch,destination:nursery.site,stage:"deliver",progress:0};
+    return;
+  }
+  reconcileDirect(state,bird);
+  if(!bird.direct)return;
+  const order=bird.direct.order;
+  if(!order || order.kind==="move")return;
+  if(order.kind==="gather")assignGather(state,bird,order.target);
+  if(order.kind==="build")assignConstruction(state,bird,order.target);
+  if(order.kind==="food")assignProvision(state,bird,false,order.target);
+}
+export function directOrderLabel(state: Settlement,order: DirectOrder): string {
+  return order.kind==="move" ? `Move to ${order.at.x}, ${order.at.z}` : `${order.kind==="gather"?"Gather":order.kind==="build"?"Build":"Bring food to"} ${requestPlace(state,order)?.name ?? order.target}`;
+}
+export function directStatus(state: Settlement,bird: Worker): string {
+  const d=bird.direct;
+  if(!d)return currentWork(state,bird);
+  const intent=d.order?directOrderLabel(state,d.order):d.community?"Return to community work":"Awaiting orders";
+  const waiting=d.pending?state.phase==="evening"&&(bird.perch||bird.flight?.direction==="up")?"sleeping until morning; order resumes after descent":bird.flight||bird.perch?"waiting for safe ground descent":bird.lift?"lowering the current lift safely":"stopping at the next cell":state.paused?"paused":bird.foraging?.intent==="eat"?"eating first; order resumes":bird.resting||bird.energy<28?"resting first; order resumes":state.phase==="evening"||bird.flight||bird.perch?"sleeping first; order resumes":bird.cargo&&!bird.job?"holding a reed bundle":bird.foodCargo&&!bird.provision?`holding ${bird.foodCargo} food${d.community||d.order&&d.order.kind!=="move"?"; waiting for nursery capacity":""}`:bird.job||bird.provision?"working":d.order?.kind==="move"?"walking":d.order?"waiting for materials or a free task":"idle";
+  return `${intent} · ${waiting}${d.queue.length?` · ${d.queue.length} queued`:""}`;
+}
+
+/** Shared target, stable arrival cells. Eligibility remains checked per actor. */
+export function groupMoveOrders(state: Settlement, ids: readonly string[], target: Cell): Map<string,DirectOrder> {
+  const result=new Map<string,DirectOrder>(),used=new Set<string>();
+  const offsets=[{x:0,z:0}];
+  for(let r=1;r<=4;r++)for(let z=-r;z<=r;z++)for(let x=-r;x<=r;x++)if(Math.max(Math.abs(x),Math.abs(z))===r)offsets.push({x,z});
+  for(const id of [...ids].sort()) {
+    const bird=state.birds.find(b=>b.id===id);if(!bird || bird.life.stage!=="adult" || bird.care)continue;
+    try{validateDirectOrder(state,bird,{kind:"move",at:target});}catch{continue;}
+    for(const offset of offsets) {
+      const at={x:target.x+offset.x,z:target.z+offset.z};if(used.has(key(at)))continue;
+      try {validateDirectOrder(state,bird,{kind:"move",at});result.set(id,{kind:"move",at});used.add(key(at));break;}catch{ /* Next reachable cell. */ }
+    }
+  }
+  return result;
+}
+
+export function commandDestination(state: Settlement,bird: Worker): Cell | null {
+  if(bird.direct?.pending)return bird.edge?.to??null;
+  const jobTarget=destination(state,bird);
+  if(jobTarget)return jobTarget;
+  const order=bird.direct?.order;
+  return order?.kind==="move"?order.at:order?requestPlace(state,order)?.at??null:null;
 }

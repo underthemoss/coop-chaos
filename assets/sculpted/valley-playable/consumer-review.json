@@ -1,0 +1,41 @@
+{
+  "scope": "Read-only review of the new playable Longbough asset/profile consumers. No game, simulation or browser edits/tests performed by the asset owner.",
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "findings": [
+    {
+      "id": "VHA-01",
+      "disposition": "resolved",
+      "subject": "Stage ownership survives instance prefixes",
+      "evidence": "create-clearing.ts retains imported node names in metadata.authoredPart; building-presentation.ts habitatPartVisible matches exact semantics and Babylon primitive children. Shared profile now names all 13 actual rendered mesh groups, never basket/rope control empties."
+    },
+    {
+      "id": "VHA-02",
+      "disposition": "resolved",
+      "subject": "Measured ground approaches and source frame",
+      "evidence": "tree-habitats.ts transforms physical local metres by the map tree origin. settlement.ts mappedAccessWaypoints consumes the actual work-cell route, grounded approach lists, and placeAccess. Source checks include actual map work local[3,0,3.5], rather than substituting authored court center[4,0,4.4]. Import reflection compensation is applied once to living tree and kit."
+    },
+    {
+      "id": "VHA-03",
+      "disposition": "resolved",
+      "subject": "Lift controls and source-derived cargo placement",
+      "evidence": "create-clearing.ts resolves basket/lift-rope via authored semantics, translates basket by travelY, scales the one-metre rope about its fixed top, and applies cargoYawRadians once to the detached payload. Returning carried cargo resets its rotation."
+    },
+    {
+      "id": "VHA-04",
+      "disposition": "resolved",
+      "subject": "Legacy clamber posture does not leak into new geometry",
+      "evidence": "create-clearing.ts explicitly resets the clamber pivot to 0 for Longbough. Source access checks use actual upright walk frames; legacy .35rad descent remains scoped to the old profile. Natural settled yaws and saved-progress yaw blend consume the shared profile."
+    },
+    {
+      "id": "VHA-05",
+      "disposition": "resolved",
+      "subject": "Natural ground prefix must use grounded pose",
+      "evidence": "Integration added accessAction in tree-presentation.ts: Longbough natural saved progress<=.1 walks, .1 through .70 flies, and >.70 roosts in both directions. create-clearing.ts consumes this helper. The source owner read the changed helper; runtime owner reports a unit regression covering both directions and unchanged legacy behavior. No tests rerun by asset owner.",
+      "implication": "Ground prefix now uses the posture qualified in the source walk sweep. Final transformed runtime journey remains independently owned."
+    }
+  ],
+  "additionalOwnershipRead": "Attempt-local staged templates and deferred bird/appearance publication remain after all imports succeed; final saved-state replay resets layout signature and updates retained renderState. New kit is part of that attempt. Existing asynchronous lifecycle qualification remains the integration owner's evidence.",
+  "limits": "Read-only source findings, not runtime animation blending, console, replay, browser, timing or performance acceptance. No broad cleanup/style review.",
+  "state": "READY \u2014 focused source consumer review; all five findings resolved"
+}

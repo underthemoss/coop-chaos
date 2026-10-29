@@ -1,0 +1,152 @@
+{
+  "revision": "clearing-crown-shape-v3",
+  "state": "PASS",
+  "assets": {
+    "oak": {
+      "sha256": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+      "bytes": 1978036,
+      "triangles": 23053,
+      "groups": [
+        {
+          "name": "branch",
+          "triangles": 1893,
+          "primitives": 1
+        },
+        {
+          "name": "crown-foliage",
+          "triangles": 21160,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -4.124218463897705,
+        -0.2429426610469818,
+        -2.45387864112854
+      ],
+      "max": [
+        4.271695137023926,
+        7.523548126220703,
+        2.7823233604431152
+      ],
+      "maxNormalError": 1.3504178242307319e-07,
+      "minTriangleArea": 2.1956367021892574e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 488336,
+          "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+        }
+      ],
+      "animations": 0,
+      "nodeNames": [
+        "grove-living-wood",
+        "grove-crown-foliage"
+      ],
+      "materials": [
+        "grove-warm-cool-bark",
+        "grove-grouped-broadleaf"
+      ]
+    },
+    "spread": {
+      "sha256": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+      "bytes": 1979896,
+      "triangles": 23052,
+      "groups": [
+        {
+          "name": "branch",
+          "triangles": 1892,
+          "primitives": 1
+        },
+        {
+          "name": "crown-foliage",
+          "triangles": 21160,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -4.256193161010742,
+        -0.28196924924850464,
+        -2.7967114448547363
+      ],
+      "max": [
+        4.547497749328613,
+        6.923295021057129,
+        2.7195467948913574
+      ],
+      "maxNormalError": 1.458210938665161e-07,
+      "minTriangleArea": 1.208570798138023e-07,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 488336,
+          "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+        }
+      ],
+      "animations": 0,
+      "nodeNames": [
+        "grove-living-wood",
+        "grove-crown-foliage"
+      ],
+      "materials": [
+        "grove-warm-cool-bark",
+        "grove-grouped-broadleaf"
+      ]
+    },
+    "shrub": {
+      "sha256": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+      "bytes": 938572,
+      "triangles": 6934,
+      "groups": [
+        {
+          "name": "branch",
+          "triangles": 448,
+          "primitives": 1
+        },
+        {
+          "name": "crown-foliage",
+          "triangles": 6486,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -1.8579139709472656,
+        -0.10951218754053116,
+        -0.890659511089325
+      ],
+      "max": [
+        1.7255560159683228,
+        1.944177269935608,
+        0.971470296382904
+      ],
+      "maxNormalError": 1.2134113780426503e-07,
+      "minTriangleArea": 5.231584374488735e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 488336,
+          "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+        }
+      ],
+      "animations": 0,
+      "nodeNames": [
+        "grove-living-wood",
+        "grove-crown-foliage"
+      ],
+      "materials": [
+        "grove-warm-cool-bark",
+        "grove-grouped-broadleaf"
+      ]
+    }
+  },
+  "checks": [
+    "Finite indexed geometry and vertex colors",
+    "Unit exported normals",
+    "No zero-area triangles",
+    "Two opaque rough PBR primitives per asset",
+    "Original bark diffuse embedded; no external resources, rigs or animations"
+  ],
+  "limits": "Background visual assets only; no gameplay obstruction, perches, stages, structural strength or navigation contract. AnatomicalY0; small negative-Y root tips are buried."
+}

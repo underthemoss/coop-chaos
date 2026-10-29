@@ -1,0 +1,1553 @@
+{
+  "revision": "bound-reed-family-v1-candidate",
+  "assets": {
+    "boughhome-longbough-modules": {
+      "sha256": "131b6d465c0b00380880320c164f1dc7c2ce8fd5cdb492d40256244b8beab5e7",
+      "bytes": 4437792,
+      "triangles": 30532,
+      "groups": [
+        {
+          "name": "study-structure-boughhome-wing-left",
+          "triangles": 15266,
+          "primitives": 3
+        },
+        {
+          "name": "study-structure-boughhome-wing-right",
+          "triangles": 15266,
+          "primitives": 3
+        }
+      ],
+      "min": [
+        -1.1269117593765259,
+        3.178892135620117,
+        1.1134569644927979
+      ],
+      "max": [
+        3.071382761001587,
+        5.013978004455566,
+        3.237727403640747
+      ],
+      "maxNormalError": 1.4767282485728117e-07,
+      "minTriangleArea": 8.999112759741453e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0
+    },
+    "boughhome": {
+      "sha256": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+      "bytes": 4681676,
+      "triangles": 32986,
+      "groups": [
+        {
+          "name": "deck",
+          "triangles": 4042,
+          "primitives": 3
+        },
+        {
+          "name": "ladder",
+          "triangles": 5900,
+          "primitives": 2
+        },
+        {
+          "name": "rainhood-left",
+          "triangles": 11522,
+          "primitives": 3
+        },
+        {
+          "name": "rainhood-right",
+          "triangles": 11522,
+          "primitives": 3
+        }
+      ],
+      "min": [
+        -1.1567872762680054,
+        0.04490356519818306,
+        -1.2521510124206543
+      ],
+      "max": [
+        1.1663124561309814,
+        4.245597839355469,
+        0.18213072419166565
+      ],
+      "maxNormalError": 1.378357314951728e-07,
+      "minTriangleArea": 8.999672763854149e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0
+    },
+    "reed-store": {
+      "sha256": "efc46a10a8028f22782961bf91696476ebee10320dd8fe3b73f6aef94d364fd3",
+      "bytes": 3245220,
+      "triangles": 12178,
+      "groups": [
+        {
+          "name": "store-base-bindings",
+          "triangles": 772,
+          "primitives": 2
+        },
+        {
+          "name": "store-container-finish",
+          "triangles": 8842,
+          "primitives": 2
+        },
+        {
+          "name": "store-frame",
+          "triangles": 2564,
+          "primitives": 2
+        }
+      ],
+      "min": [
+        -0.8723863959312439,
+        0.004999999888241291,
+        -0.7338030934333801
+      ],
+      "max": [
+        0.8875638246536255,
+        0.6354044079780579,
+        0.7265851497650146
+      ],
+      "maxNormalError": 1.45380898430858e-07,
+      "minTriangleArea": 4.5053715010294947e-05,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0
+    },
+    "root-nursery": {
+      "sha256": "7ee268c95af676d570b753d4077263e06c22e1e8f688a0c9495a5ad34ca71dcf",
+      "bytes": 4705172,
+      "triangles": 33090,
+      "groups": [
+        {
+          "name": "nursery-base-floor-bindings",
+          "triangles": 2602,
+          "primitives": 3
+        },
+        {
+          "name": "nursery-frame",
+          "triangles": 616,
+          "primitives": 2
+        },
+        {
+          "name": "nursery-hood-finish",
+          "triangles": 28728,
+          "primitives": 3
+        },
+        {
+          "name": "nursery-nest-finish",
+          "triangles": 1144,
+          "primitives": 2
+        }
+      ],
+      "min": [
+        -0.7669492959976196,
+        -0.011855946853756905,
+        -0.7597082257270813
+      ],
+      "max": [
+        0.7671217918395996,
+        1.2892298698425293,
+        0.6617724895477295
+      ],
+      "maxNormalError": 1.416556087985299e-07,
+      "minTriangleArea": 8.999791342962065e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0
+    },
+    "sleeping-deck-compatible": {
+      "sha256": "ec296cdcb8433d42fac20fd74d58bc10ea993e9bf6a98f9e52742fa2207d0b61",
+      "bytes": 1033820,
+      "triangles": 19392,
+      "groups": [
+        {
+          "name": "sleeping-deck-weave",
+          "triangles": 9432,
+          "primitives": 4
+        },
+        {
+          "name": "sleeping-rainhood-weave",
+          "triangles": 9960,
+          "primitives": 4
+        }
+      ],
+      "min": [
+        -0.007248964160680771,
+        1.405779242515564,
+        -1.2017735242843628
+      ],
+      "max": [
+        3.249135732650757,
+        4.480676174163818,
+        0.40977388620376587
+      ],
+      "maxNormalError": 1.341104418628447e-07,
+      "minTriangleArea": 2.6963740284967152e-05,
+      "degenerateTriangles": 0,
+      "images": [],
+      "animations": 0
+    }
+  },
+  "newHomeBoundedClearances": {
+    "natural-perch-0": {
+      "count": 0,
+      "samples": []
+    },
+    "natural-perch-1": {
+      "count": 0,
+      "samples": []
+    },
+    "sheltered-perch-0": {
+      "count": 0,
+      "samples": []
+    },
+    "sheltered-perch-1": {
+      "count": 0,
+      "samples": []
+    },
+    "sheltered-perch-2": {
+      "count": 0,
+      "samples": []
+    },
+    "sheltered-perch-3": {
+      "count": 0,
+      "samples": []
+    },
+    "basket-sweep": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-0": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-0": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-1": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-1": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-2": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-2": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-3": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-3": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-4": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-4": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-5": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-5": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-6": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-6": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-7": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-7": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-8": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-8": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-9": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-9": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-10": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-10": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-0": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-0": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-1": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-1": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-2": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-2": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-3": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-3": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-4": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-4": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-5": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-5": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-6": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-6": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-7": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-7": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-8": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-8": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-9": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-9": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-10": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-1-10": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-0": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-0": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-1": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-1": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-2": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-2": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-3": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-3": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-4": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-4": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-5": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-5": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-6": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-6": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-7": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-7": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-8": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-8": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-9": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-9": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-10": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-10": {
+      "count": 0,
+      "samples": []
+    }
+  },
+  "compatibleDeckBoundedClearances": {
+    "natural-perch-0": {
+      "count": 0,
+      "samples": []
+    },
+    "natural-perch-1": {
+      "count": 128,
+      "samples": [
+        {
+          "group": "sleeping-rainhood-weave",
+          "point": [
+            0.9280288219451904,
+            3.452333927154541,
+            -0.034685347229242325
+          ]
+        },
+        {
+          "group": "sleeping-rainhood-weave",
+          "point": [
+            0.9107262492179871,
+            3.525712013244629,
+            -0.0812641829252243
+          ]
+        },
+        {
+          "group": "sleeping-rainhood-weave",
+          "point": [
+            0.8659107089042664,
+            3.440338134765625,
+            -0.012623360380530357
+          ]
+        }
+      ]
+    },
+    "sheltered-perch-0": {
+      "count": 0,
+      "samples": []
+    },
+    "sheltered-perch-1": {
+      "count": 323,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            0.8642284274101257,
+            2.2614495754241943,
+            -0.936103343963623
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            0.9524267911911011,
+            2.341318130493164,
+            -0.932257354259491
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            0.8721362948417664,
+            2.2518696784973145,
+            -0.9580057859420776
+          ]
+        }
+      ]
+    },
+    "sheltered-perch-2": {
+      "count": 0,
+      "samples": []
+    },
+    "sheltered-perch-3": {
+      "count": 0,
+      "samples": []
+    },
+    "basket-sweep": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-0": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-0": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-1": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-1": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-2": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-2": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-3": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-3": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-4": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-4": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-5": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-5": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-6": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-6": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-7": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-7": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-8": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-8": {
+      "count": 0,
+      "samples": []
+    },
+    "route-0-9": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-0-9": {
+      "count": 3,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2784712314605713,
+            2.661031723022461,
+            -0.7096673846244812
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2440948486328125,
+            2.6898202896118164,
+            -0.92975914478302
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.282928466796875,
+            2.709463119506836,
+            -0.7105924487113953
+          ]
+        }
+      ]
+    },
+    "route-0-10": {
+      "count": 3,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2784712314605713,
+            2.661031723022461,
+            -0.7096673846244812
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2440948486328125,
+            2.6898202896118164,
+            -0.92975914478302
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.282928466796875,
+            2.709463119506836,
+            -0.7105924487113953
+          ]
+        }
+      ]
+    },
+    "cargo-0-10": {
+      "count": 24,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3777135610580444,
+            2.7416915893554688,
+            -0.6929233074188232
+          ]
+        }
+      ]
+    },
+    "route-1-0": {
+      "count": 3,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2784712314605713,
+            2.661031723022461,
+            -0.7096673846244812
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2440948486328125,
+            2.6898202896118164,
+            -0.92975914478302
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.282928466796875,
+            2.709463119506836,
+            -0.7105924487113953
+          ]
+        }
+      ]
+    },
+    "cargo-1-0": {
+      "count": 24,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3777135610580444,
+            2.7416915893554688,
+            -0.6929233074188232
+          ]
+        }
+      ]
+    },
+    "route-1-1": {
+      "count": 10,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2519278526306152,
+            2.642169713973999,
+            -0.9304608702659607
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2784712314605713,
+            2.661031723022461,
+            -0.7096673846244812
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3058112859725952,
+            2.621596336364746,
+            -0.7135745286941528
+          ]
+        }
+      ]
+    },
+    "cargo-1-1": {
+      "count": 44,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "route-1-2": {
+      "count": 17,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2519278526306152,
+            2.642169713973999,
+            -0.9304608702659607
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2784712314605713,
+            2.661031723022461,
+            -0.7096673846244812
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.2867445945739746,
+            2.6097493171691895,
+            -0.9353702068328857
+          ]
+        }
+      ]
+    },
+    "cargo-1-2": {
+      "count": 62,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "route-1-3": {
+      "count": 28,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3777135610580444,
+            2.7416915893554688,
+            -0.6929233074188232
+          ]
+        }
+      ]
+    },
+    "cargo-1-3": {
+      "count": 70,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "route-1-4": {
+      "count": 49,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-4": {
+      "count": 72,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "route-1-5": {
+      "count": 73,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-5": {
+      "count": 54,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4154832363128662,
+            2.741678237915039,
+            -0.8869814872741699
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4109910726547241,
+            2.7432608604431152,
+            -0.6931695938110352
+          ]
+        }
+      ]
+    },
+    "route-1-6": {
+      "count": 88,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-6": {
+      "count": 38,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4261932373046875,
+            2.7746787071228027,
+            -0.8881890177726746
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4313194751739502,
+            2.7703123092651367,
+            -0.6938118934631348
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4059933423995972,
+            2.802888870239258,
+            -0.8887619376182556
+          ]
+        }
+      ]
+    },
+    "route-1-7": {
+      "count": 96,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-7": {
+      "count": 30,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4059933423995972,
+            2.802888870239258,
+            -0.8887619376182556
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4218201637268066,
+            2.8032898902893066,
+            -0.6943771839141846
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.371920108795166,
+            2.8042330741882324,
+            -0.888259768486023
+          ]
+        }
+      ]
+    },
+    "route-1-8": {
+      "count": 106,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-8": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-9": {
+      "count": 114,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-9": {
+      "count": 0,
+      "samples": []
+    },
+    "route-1-10": {
+      "count": 119,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-1-10": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-0": {
+      "count": 119,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-2-0": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-1": {
+      "count": 117,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-2-1": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-2": {
+      "count": 117,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-2-2": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-3": {
+      "count": 117,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3540290594100952,
+            2.746612071990967,
+            -0.8861421346664429
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.383424997329712,
+            2.729994535446167,
+            -0.886093020439148
+          ]
+        }
+      ]
+    },
+    "cargo-2-3": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-4": {
+      "count": 80,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.3546569347381592,
+            2.766016960144043,
+            -0.6932187080383301
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4154832363128662,
+            2.741678237915039,
+            -0.8869814872741699
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4109910726547241,
+            2.7432608604431152,
+            -0.6931695938110352
+          ]
+        }
+      ]
+    },
+    "cargo-2-4": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-5": {
+      "count": 56,
+      "samples": [
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4261932373046875,
+            2.7746787071228027,
+            -0.8881890177726746
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4313194751739502,
+            2.7703123092651367,
+            -0.6938118934631348
+          ]
+        },
+        {
+          "group": "sleeping-deck-weave",
+          "point": [
+            1.4059933423995972,
+            2.802888870239258,
+            -0.8887619376182556
+          ]
+        }
+      ]
+    },
+    "cargo-2-5": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-6": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-6": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-7": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-7": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-8": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-8": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-9": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-9": {
+      "count": 0,
+      "samples": []
+    },
+    "route-2-10": {
+      "count": 0,
+      "samples": []
+    },
+    "cargo-2-10": {
+      "count": 0,
+      "samples": []
+    }
+  },
+  "limits": "Conservative rest-body/tail/cargo boxes; actual mesh/pose runtime checks remain integration-owned. Functional floor/grasp contacts excluded below feet+.13m."
+}

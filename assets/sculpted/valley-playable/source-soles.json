@@ -1,0 +1,641 @@
+{
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "livingSha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+  "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+  "limits": "Actual roost frame12 toe geometry evaluated at .45625. Vertical samples measure sole projection, not IK/grasp/weight or structural strength. Natural living bark is curved; incidental toe penetration/gaps recorded, not hidden.",
+  "birds": {
+    "fern": {
+      "natural-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -3.2355339527130127,
+            7.3921966552734375,
+            -0.47557416558265686
+          ],
+          "centroidGap": -0.005112648010253906,
+          "gapMin": -0.016056060791015625,
+          "gapMax": 0.013815879821777344
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -3.2355339527130127,
+            7.3921966552734375,
+            -0.28394919633865356
+          ],
+          "centroidGap": 0.0051116943359375,
+          "gapMin": -0.01975727081298828,
+          "gapMax": 0.06974935531616211
+        }
+      },
+      "natural-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            3.9955334663391113,
+            7.056777477264404,
+            0.03557420149445534
+          ],
+          "centroidGap": -0.005674839019775391,
+          "gapMin": -0.025189876556396484,
+          "gapMax": 0.03633689880371094
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            3.9955334663391113,
+            7.056777477264404,
+            -0.15605077147483826
+          ],
+          "centroidGap": 0.005675315856933594,
+          "gapMin": -0.042775630950927734,
+          "gapMax": 0.04242229461669922
+        }
+      },
+      "sheltered-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.35557425022125244,
+            3.2063000202178955,
+            2.5755343437194824
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248205184936523
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.1639491617679596,
+            3.2063000202178955,
+            2.5755343437194824
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248205184936523
+        }
+      },
+      "sheltered-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            2.144425868988037,
+            3.2063000202178955,
+            2.275534152984619
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248205184936523
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            2.3360512256622314,
+            3.2063000202178955,
+            2.275534152984619
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248205184936523
+        }
+      },
+      "sheltered-perch-2": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -1.3155741691589355,
+            5.72629976272583,
+            2.105534076690674
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248443603515625
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -1.1239491701126099,
+            5.72629976272583,
+            2.105534076690674
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248443603515625
+        }
+      },
+      "sheltered-perch-3": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.04557419568300247,
+            5.72629976272583,
+            2.105534076690674
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248443603515625
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            0.1460508406162262,
+            5.72629976272583,
+            2.105534076690674
+          ],
+          "centroidGap": 0.0062999725341796875,
+          "gapMin": 0.0,
+          "gapMax": 0.013248443603515625
+        }
+      }
+    },
+    "rook": {
+      "natural-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -3.232423782348633,
+            7.392070770263672,
+            -0.47366267442703247
+          ],
+          "centroidGap": -0.004848003387451172,
+          "gapMin": -0.01557302474975586,
+          "gapMax": 0.013919353485107422
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -3.232423782348633,
+            7.392070770263672,
+            -0.2858702540397644
+          ],
+          "centroidGap": 0.005028247833251953,
+          "gapMin": -0.01993703842163086,
+          "gapMax": 0.06448650360107422
+        }
+      },
+      "natural-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            3.9924230575561523,
+            7.056652545928955,
+            0.033662740141153336
+          ],
+          "centroidGap": -0.0032806396484375,
+          "gapMin": -0.025176525115966797,
+          "gapMax": 0.0382843017578125
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            3.9924230575561523,
+            7.056652545928955,
+            -0.15412980318069458
+          ],
+          "centroidGap": 0.008121490478515625,
+          "gapMin": -0.037156105041503906,
+          "gapMax": 0.04456806182861328
+        }
+      },
+      "sheltered-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.3536626696586609,
+            3.206174373626709,
+            2.5724234580993652
+          ],
+          "centroidGap": 0.006174325942993164,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.16587020456790924,
+            3.206174373626709,
+            2.5724234580993652
+          ],
+          "centroidGap": 0.006174325942993164,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        }
+      },
+      "sheltered-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            2.1463372707366943,
+            3.206174373626709,
+            2.27242374420166
+          ],
+          "centroidGap": 0.006174325942993164,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            2.33413028717041,
+            3.206174373626709,
+            2.27242374420166
+          ],
+          "centroidGap": 0.006174325942993164,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        }
+      },
+      "sheltered-perch-2": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -1.3136627674102783,
+            5.726174354553223,
+            2.1024231910705566
+          ],
+          "centroidGap": 0.006174564361572266,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -1.1258702278137207,
+            5.726174354553223,
+            2.1024231910705566
+          ],
+          "centroidGap": 0.006174564361572266,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        }
+      },
+      "sheltered-perch-3": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.043662745505571365,
+            5.726174354553223,
+            2.1024231910705566
+          ],
+          "centroidGap": 0.006174564361572266,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            0.14412979781627655,
+            5.726174354553223,
+            2.1024231910705566
+          ],
+          "centroidGap": 0.006174564361572266,
+          "gapMin": 0.0,
+          "gapMax": 0.012983322143554688
+        }
+      }
+    },
+    "dapple": {
+      "natural-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -3.230867385864258,
+            7.392007350921631,
+            -0.4727070927619934
+          ],
+          "centroidGap": -0.004715919494628906,
+          "gapMin": -0.015331268310546875,
+          "gapMax": 0.01397085189819336
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -3.230867385864258,
+            7.392007350921631,
+            -0.28683069348335266
+          ],
+          "centroidGap": 0.004986763000488281,
+          "gapMin": -0.02002716064453125,
+          "gapMax": 0.06185579299926758
+        }
+      },
+      "natural-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            3.990867853164673,
+            7.056588172912598,
+            0.03270697966217995
+          ],
+          "centroidGap": -0.0020852088928222656,
+          "gapMin": -0.025169849395751953,
+          "gapMax": 0.039261817932128906
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            3.990867853164673,
+            7.056588172912598,
+            -0.15316930413246155
+          ],
+          "centroidGap": 0.009342670440673828,
+          "gapMin": -0.03443479537963867,
+          "gapMax": 0.04564094543457031
+        }
+      },
+      "sheltered-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.3527069091796875,
+            3.2061100006103516,
+            2.5708682537078857
+          ],
+          "centroidGap": 0.006109952926635742,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.16683073341846466,
+            3.2061100006103516,
+            2.5708682537078857
+          ],
+          "centroidGap": 0.006109952926635742,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        }
+      },
+      "sheltered-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            2.14729380607605,
+            3.2061100006103516,
+            2.2708680629730225
+          ],
+          "centroidGap": 0.006109952926635742,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            2.333169460296631,
+            3.2061100006103516,
+            2.2708680629730225
+          ],
+          "centroidGap": 0.006109952926635742,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        }
+      },
+      "sheltered-perch-2": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -1.3127069473266602,
+            5.726110458374023,
+            2.100867986679077
+          ],
+          "centroidGap": 0.006110668182373047,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -1.126830816268921,
+            5.726110458374023,
+            2.100867986679077
+          ],
+          "centroidGap": 0.006110668182373047,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        }
+      },
+      "sheltered-perch-3": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            -0.04270698130130768,
+            5.726110458374023,
+            2.100867986679077
+          ],
+          "centroidGap": 0.006110668182373047,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 66,
+          "supportedRaySamples": 66,
+          "soleCentroid": [
+            0.14316926896572113,
+            5.726110458374023,
+            2.100867986679077
+          ],
+          "centroidGap": 0.006110668182373047,
+          "gapMin": 0.0,
+          "gapMax": 0.012850761413574219
+        }
+      }
+    },
+    "wren": {
+      "natural-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -3.210408926010132,
+            7.391790866851807,
+            -0.4628329277038574
+          ],
+          "centroidGap": -0.0014805793762207031,
+          "gapMin": -0.012672901153564453,
+          "gapMax": 0.057181358337402344
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -3.2103965282440186,
+            7.391791820526123,
+            -0.2976018488407135
+          ],
+          "centroidGap": 0.0028057098388671875,
+          "gapMin": -0.02101755142211914,
+          "gapMax": 0.036052703857421875
+        }
+      },
+      "natural-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            3.9704079627990723,
+            7.056372165679932,
+            0.022832956165075302
+          ],
+          "centroidGap": 0.012659549713134766,
+          "gapMin": -0.01074838638305664,
+          "gapMax": 0.08294820785522461
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            3.970395803451538,
+            7.056373119354248,
+            -0.14239813387393951
+          ],
+          "centroidGap": 0.02546072006225586,
+          "gapMin": -0.004492759704589844,
+          "gapMax": 0.13424110412597656
+        }
+      },
+      "sheltered-perch-0": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -0.34283292293548584,
+            3.2058932781219482,
+            2.5504090785980225
+          ],
+          "centroidGap": 0.005893230438232422,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -0.17760184407234192,
+            3.2058939933776855,
+            2.5503969192504883
+          ],
+          "centroidGap": 0.0058939456939697266,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        }
+      },
+      "sheltered-perch-1": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            2.1571669578552246,
+            3.2058932781219482,
+            2.25040864944458
+          ],
+          "centroidGap": 0.005893230438232422,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            2.3223984241485596,
+            3.2058939933776855,
+            2.250396251678467
+          ],
+          "centroidGap": 0.0058939456939697266,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        }
+      },
+      "sheltered-perch-2": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -1.302833080291748,
+            5.725893974304199,
+            2.0804085731506348
+          ],
+          "centroidGap": 0.005894184112548828,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -1.1376017332077026,
+            5.725894927978516,
+            2.0803964138031006
+          ],
+          "centroidGap": 0.005895137786865234,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        }
+      },
+      "sheltered-perch-3": {
+        "leg-left sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            -0.032832950353622437,
+            5.725893974304199,
+            2.0804085731506348
+          ],
+          "centroidGap": 0.005894184112548828,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        },
+        "leg-right sculpted mesh": {
+          "lowVertexSamples": 70,
+          "supportedRaySamples": 70,
+          "soleCentroid": [
+            0.13239817321300507,
+            5.725894927978516,
+            2.0803964138031006
+          ],
+          "centroidGap": 0.005895137786865234,
+          "gapMin": 0.0,
+          "gapMax": 0.01402425765991211
+        }
+      }
+    }
+  }
+}

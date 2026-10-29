@@ -1,0 +1,14 @@
+.tree-study-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 24px;background:#eeeadd;border-top:1px solid #d5d1c2}
+.tree-study-tools [role=group]{display:flex;gap:5px;flex-wrap:wrap}
+.tree-study-tools button[aria-pressed=true]{background:#3c5140;color:#fff8e6;border-color:#3c5140}
+.tree-study-tools label{display:flex;align-items:center;gap:5px;font-size:13px}
+.tree-study-tools input{accent-color:#3c5140}
+.tree-study-caption{padding:10px 24px;background:#f3efdf;color:#4c5544;font-size:12px;line-height:1.4}
+.tree-study-caption p{margin:2px 0}
+.tree-study-status{position:absolute;left:16px;top:12px;max-width:calc(100% - 64px);background:#fff8e8ed;padding:10px 14px;border-radius:8px;font-size:13px}
+.tree-study button:focus-visible,.tree-study input:focus-visible{outline:3px solid #b77330;outline-offset:3px}
+@media(max-width:600px){.tree-study .valley-header{padding:12px 14px;gap:8px}.tree-study h1{font-size:22px}.tree-study .valley-header button{padding:7px 9px;font-size:12px}.tree-study-tools{padding:9px 12px;gap:8px}.tree-study-tools button{padding:7px 9px;font-size:12px}.tree-study-caption{padding:8px 12px;font-size:11px}.tree-study .valley-stage{min-height:180px}}
+.tree-study .tree-study-caption{display:block;flex-shrink:0}
+.tree-study .valley-header,.tree-study-tools{flex-shrink:0}
+.tree-study .tree-study-caption{height:auto;font-size:12px;line-height:1.4}
+@media(max-width:600px){.tree-study .tree-study-caption{font-size:11px}}

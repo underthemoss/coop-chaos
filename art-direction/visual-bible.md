@@ -43,6 +43,12 @@ lighting must make birds, routes and canopy use legible in that framing. Avoid
 a close-up circular character stage or a landing-page layout in the play view. Characters must hold up as modeled, animated
 forms from every visible direction. Flat standees are not the target.
 
+The tree-free valley v2 study explicitly supersedes fixed framing for that mode:
+25% larger adult presentation and four bounded zoom stops improve readable
+identity and cargo. The [landscape camera contract](../docs/landscape-study.md#valley-v2-readability-and-bounded-zoom)
+keeps exact map fit for orientation, tactical follow by default, and no free
+rotation/pan. Woodland and valley v1 keep their established presentation.
+
 Chickens build with beaks and feet: woven reeds, twigs, nesting grass, thornworks,
 covered routes, and branch crossings integrate with trunks, boughs, roots and terrain. These
 purposeful structures support the [settlement design](../story/settlement-design.md).
@@ -126,3 +132,91 @@ cargo shaft. A ground workcourt is useful space beside the trunk, not transit
 through its center. Lowfork anatomy and open rainhoods are incremental runtime
 art improvements; neither concept parity nor new tree food/shade/defense mechanics
 follows from them.
+
+
+## Playable Longbough clearing, 2026-10-28
+
+The current Living valley art pass uses the [inhabited grove concept](concepts/buildings/inhabited-grove-detail-v1.png)
+for warm earth, cool layered forest, golden-green lit foliage and handcrafted
+materials, and [opening view v2](concepts/opening-view-v2.png) for an honest fresh
+clearing. The actual game begins with the bare living tree, natural branches,
+readable birds and a clear work court; shelters remain earned through real reeds
+and deliveries. The same court must work visually before and after building.
+
+Broad overlapping background groves and irregular low planting replace isolated
+specimen packets. Keep resource targets, reserved pads, ladder and legal approaches
+readable; decorative planting conveys ecology rather than stock or inaccessible
+work. The current responsive Longbough framing is tighter than the previous survey
+view while retaining the whole crown, roots and court; Whole valley and selected
+bird framing retain their separate purposes. This supersedes older fixed-framing
+clauses for Living valley only. Living valley now permits bounded edge/arrow/middle
+drag camera navigation at the same fixed angle; manual movement leaves Follow,
+keeps zoom/resize position, and shows compact Free camera feedback. Presets
+recenter explicitly. Keep the world dominant; camera help belongs in the existing
+controls, with no new navigation panel. Woodland keeps its fixed composition.
+
+[Final actual-game evidence](../output/clearing-beauty-v1/README.md) records the
+accepted first-clearing composition and palette. It remains stylized: steep angular
+banks and repeated scenic crown anatomy need further production craft. It does
+not claim exact concept fidelity or a finished large forest.
+
+### Second clearing refinement and terrain versioning
+
+The refined default inhabited world v2 replaces the canal-like continuous court
+rims with broad asymmetric soil shoulders, shallow creek coves and local rocky
+heads. Version1 geography remains exact for existing saves; the new scene is a
+separate game slot. Original bank shoulder/shelf/outcrop assets are partly buried
+only within fully blocked dry footprints. Off-grid low planting remains cosmetic
+and pass-through; pads, work targets and crossings remain legible.
+
+The shape-v3 hero/scenic crowns retain the accepted warm foliage palette and
+playable habitat fit. Crown silhouette and depth are refined, without changing
+wood, building stages or profile anchors. Imported PBR attributes remain intact.
+Current source provenance is in [the asset receipt](../assets/sculpted/valley-playable/asset-receipt.json).
+[Runtime evidence](../output/clearing-beauty-v2/README.md) records actual daylight,
+build/save/refresh, narrow/reduced-motion and local rendering cost. Remaining broad
+grass uniformity, scenic core shoulders and water microdetail are future polish;
+this pass does not claim exact concept parity.
+
+### Whole-valley composition v3
+
+The composition v3 presentation keeps the inhabited world v2 geography, saved
+resources, approaches and habitat anchors exact. Longbough's warm home court,
+the low Insect Verge meadow, and the existing East Store / East Reed destinations
+give the valley distinct places. The far bank is low productive land framed by
+a lighter birch grove edge, not a new ridge or another inhabited home.
+
+Layered scenic woodland continues beyond the simulation boundary; those trees,
+ground and creek extensions are non-pickable scenery and create no walkable land.
+Rounded upright shrubs join forest masses while openings preserve work and ford
+visibility. Placement pads appear when choosing storage placement.
+
+The original home crown receives a restrained renderer color grade of its
+authored vertex colors, preserving leaf variation and opacity. Bark and buildings
+retain their own materials. Shared scenic foliage materials provide cooler rear
+groves without coloring the wood. Global day/night behavior remains intact.
+[Versioned evidence](../output/map-composition-v3/README.md) records the actual
+fresh and earned-built scenes. Larger forests, additional inhabited homes,
+combat and balance are unproved; this remains a bounded stylized composition,
+not exact concept parity.
+
+## Construction and supplies interaction v1
+
+The world remains dominant. Catalog art uses the existing original building
+thumbnails. A recipe's temporary preview is translucent matte straw, without
+triangle wireframe or shadows; it occupies the same authored anchor as the earned
+model. Saved scaffold, delivered material, weaving and completed forms remain
+distinct from that preview. Exact project and resource labels are transparent;
+selected/active feedback does not turn the valley into a permanent overlay.
+
+Standing reed clumps already follow remaining patch yield. Tied bundles represent
+physical cache, store or carried quantities, never decorative free supplies.
+Ground stores have selectable named status/stock badges. A resource click inspects
+the patch before work is requested. Narrow controls retain the same deliberate
+catalog→place→commission sequence and honor reduced motion. This is interaction
+presentation on unchanged world geography, not a new art or economic system.
+
+While the Longbough nursery is previewed or inspected, the foreground willow's
+leaves fade immediately to reveal its real ground silhouette and cargo. Bark,
+root obstacle and shadow-caster membership stay exact. Other trees and shared
+materials are unchanged; leaving that context restores the leaves fully.

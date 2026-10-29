@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "status": "Generated concept art for review; no visual acceptance, model, balance or runtime claim.",
+  "provenanceFile": "provenance.json",
+  "provenanceSha256": "65745f0d83cc83f12a9c7993c1471a2a90ef4406c247823fa90606cd561c88b7",
+  "generationModeAsRecorded": "Built-in image_gen.imagegen",
+  "verification": "PNG signatures, chunk CRCs, decompressed image-stream dimensions/filter bytes, original copies and reference files checked locally.",
+  "outputs": [
+    {
+      "file": "home-kit-v1.png",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3473905,
+      "sha256": "060833e835f251b79cb2ecd1524d824823a59d2bca6824dec3ef40cab6e61fb7",
+      "bitDepth": 8,
+      "colorType": 2,
+      "chunkCrcAndImageStreamValid": true,
+      "original": {
+        "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-0a9691d9-8e54-4fd4-980b-098b5d413e1f.png",
+        "format": "PNG",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3473905,
+        "sha256": "060833e835f251b79cb2ecd1524d824823a59d2bca6824dec3ef40cab6e61fb7",
+        "bitDepth": 8,
+        "colorType": 2,
+        "chunkCrcAndImageStreamValid": true
+      },
+      "byteIdenticalToOriginal": true,
+      "operation": "reference-guided generation",
+      "promptCharacters": 3854,
+      "promptSha256Utf8": "0984215099f1969bf6308e36eee9d180b14ac7bd37c3d583f50c7922d6e65018",
+      "references": [
+        {
+          "path": "/var/folders/4j/j999pyh12599ly0d03g6mh140000gn/T/TemporaryItems/NSIRD_screencaptureui_g9KM0t/Screenshot 2026-10-26 at 1.43.35 PM.png",
+          "sha256": "ab810fb6b374fc2af9e0e0e01a5aca60316f6b47d2a9164a58f8068c1aa43d5a",
+          "repositoryOutput": null
+        }
+      ]
+    },
+    {
+      "file": "frontier-kit-v1.png",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3493937,
+      "sha256": "fe08b6bda48734c0dc4de393552ab6b4486a73f6673ef382740ee8e435b0acd7",
+      "bitDepth": 8,
+      "colorType": 2,
+      "chunkCrcAndImageStreamValid": true,
+      "original": {
+        "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-1ff20b3b-b002-45f5-9caa-abcdd5a8f0cf.png",
+        "format": "PNG",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3493937,
+        "sha256": "fe08b6bda48734c0dc4de393552ab6b4486a73f6673ef382740ee8e435b0acd7",
+        "bitDepth": 8,
+        "colorType": 2,
+        "chunkCrcAndImageStreamValid": true
+      },
+      "byteIdenticalToOriginal": true,
+      "operation": "reference-guided generation",
+      "promptCharacters": 3630,
+      "promptSha256Utf8": "1dbd7df89730a12579641128f886c87fb62ab9df5786200c0a2305c1808e2020",
+      "references": [
+        {
+          "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-0a9691d9-8e54-4fd4-980b-098b5d413e1f.png",
+          "sha256": "060833e835f251b79cb2ecd1524d824823a59d2bca6824dec3ef40cab6e61fb7",
+          "repositoryOutput": "home-kit-v1.png"
+        }
+      ]
+    },
+    {
+      "file": "inhabited-grove-detail-v1.png",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3828937,
+      "sha256": "3f94443f08e6bd8fa7b09869f3be96e7d65430eaccad8698e74ef5e1a931f656",
+      "bitDepth": 8,
+      "colorType": 2,
+      "chunkCrcAndImageStreamValid": true,
+      "original": {
+        "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-34030b5d-3ef7-4fdc-b19f-38ea8e70dd20.png",
+        "format": "PNG",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3828937,
+        "sha256": "3f94443f08e6bd8fa7b09869f3be96e7d65430eaccad8698e74ef5e1a931f656",
+        "bitDepth": 8,
+        "colorType": 2,
+        "chunkCrcAndImageStreamValid": true
+      },
+      "byteIdenticalToOriginal": true,
+      "operation": "reference-guided generation",
+      "promptCharacters": 4196,
+      "promptSha256Utf8": "9543058d90cfc423a8ca987e11a1b0d672a6321683b8f759620fc84924deaf5f",
+      "references": [
+        {
+          "path": "/var/folders/4j/j999pyh12599ly0d03g6mh140000gn/T/TemporaryItems/NSIRD_screencaptureui_g9KM0t/Screenshot 2026-10-26 at 1.43.35 PM.png",
+          "sha256": "ab810fb6b374fc2af9e0e0e01a5aca60316f6b47d2a9164a58f8068c1aa43d5a",
+          "repositoryOutput": null
+        },
+        {
+          "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-0a9691d9-8e54-4fd4-980b-098b5d413e1f.png",
+          "sha256": "060833e835f251b79cb2ecd1524d824823a59d2bca6824dec3ef40cab6e61fb7",
+          "repositoryOutput": "home-kit-v1.png"
+        }
+      ]
+    },
+    {
+      "file": "inhabited-grove-overview-v2.png",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 3826480,
+      "sha256": "740fee780927e8f88783b87aa1d441d8168511587b426dcaccb38cc568460f32",
+      "bitDepth": 8,
+      "colorType": 2,
+      "chunkCrcAndImageStreamValid": true,
+      "original": {
+        "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-a093715d-34b1-4c4a-b33d-7cfc9cb0d6d3.png",
+        "format": "PNG",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 3826480,
+        "sha256": "740fee780927e8f88783b87aa1d441d8168511587b426dcaccb38cc568460f32",
+        "bitDepth": 8,
+        "colorType": 2,
+        "chunkCrcAndImageStreamValid": true
+      },
+      "byteIdenticalToOriginal": true,
+      "operation": "reference-guided recomposition",
+      "promptCharacters": 2460,
+      "promptSha256Utf8": "929f38a4ca43fd30e26cd1cf7139d98c03689a9bf82092ed4f5ba820046d4605",
+      "references": [
+        {
+          "path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-34030b5d-3ef7-4fdc-b19f-38ea8e70dd20.png",
+          "sha256": "3f94443f08e6bd8fa7b09869f3be96e7d65430eaccad8698e74ef5e1a931f656",
+          "repositoryOutput": "inhabited-grove-detail-v1.png"
+        }
+      ]
+    }
+  ]
+}

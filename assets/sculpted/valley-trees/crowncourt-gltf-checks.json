@@ -1,0 +1,93 @@
+{
+  "revision": "tree-study-v5",
+  "file": "public/assets/environment/studies/crowncourt-study.glb",
+  "sha256": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+  "bytes": 3350844,
+  "bounds": {
+    "min": [
+      -4.52325439453125,
+      -0.3411957919597626,
+      -3.4332799911499023
+    ],
+    "max": [
+      4.333706855773926,
+      8.4652681350708,
+      2.981049060821533
+    ]
+  },
+  "total_triangles": 33068,
+  "draw_primitives": 2,
+  "meshes": {
+    "crown-foliage": {
+      "triangles": 26604,
+      "exported_vertices": 79744,
+      "bounds": {
+        "min": [
+          -4.52325439453125,
+          4.393407344818115,
+          -3.4332799911499023
+        ],
+        "max": [
+          4.333706855773926,
+          8.4652681350708,
+          2.981049060821533
+        ]
+      },
+      "smallest_triangle_area": 7.058781088625926e-05,
+      "signed_volume": 38.19346899881998,
+      "linear_color_min": [
+        0.03189603239297867,
+        0.061246052384376526,
+        0.02518685907125473
+      ],
+      "linear_color_max": [
+        0.16698192059993744,
+        0.20939253270626068,
+        0.062041010707616806
+      ],
+      "unique_colors": 5695
+    },
+    "living-wood": {
+      "triangles": 6464,
+      "exported_vertices": 3324,
+      "bounds": {
+        "min": [
+          -3.618518590927124,
+          -0.3411957919597626,
+          -2.545417070388794
+        ],
+        "max": [
+          3.6078336238861084,
+          7.775347709655762,
+          2.4673807621002197
+        ]
+      },
+      "smallest_triangle_area": 6.250144736540418e-11,
+      "signed_volume": 12.070876338199135,
+      "linear_color_min": [
+        0.04973067715764046,
+        0.04054929316043854,
+        0.027209434658288956
+      ],
+      "linear_color_max": [
+        0.40111854672431946,
+        0.2834835946559906,
+        0.1440642923116684
+      ],
+      "unique_colors": 3324,
+      "low_y_le_1m_bounds": {
+        "min": [
+          -1.9321770668029785,
+          -0.3411957919597626,
+          -2.0735511779785156
+        ],
+        "max": [
+          2.068385601043701,
+          0.9710157513618469,
+          1.2704048156738281
+        ]
+      }
+    }
+  },
+  "checks": "PASS: embedded GLB2; finite indexed geometry; unit normals; no degenerate triangles; positive wood volume; anatomical ground origin with closed buried underside; unit transforms; opaque rough PBR and COLOR_0; no textures, external resources, animations, skins, cameras or lights"
+}

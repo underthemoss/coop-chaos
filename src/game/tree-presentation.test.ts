@@ -1,8 +1,17 @@
 import { describe, expect, test } from "vitest";
-import { initialSettlement, basketLiftPosition } from "../simulation/settlement";
+import { initialSettlement, basketLiftPosition, command, step } from "../simulation/settlement";
 import { trees } from "../content/settlement";
-import { presentedBirdPosition, presentedTreePosition, treeScale, carriedBundleScale, birdHeading } from "./tree-presentation";
+import { presentedBirdPosition, presentedTreePosition, treeScale, carriedBundleScale, birdHeading, accessHeading, accessAction, clamberLean } from "./tree-presentation";
 import { habitatPresentation } from "../content/tree-habitats";
+
+test("Longbough uses grounded walking before flight and folds before branch grasp in either direction",()=>{
+  const bird=initialSettlement().birds[0];
+  for(const direction of ["up","down"] as const){
+    bird.flight={tree:"longbough",slot:0,sheltered:false,direction,progress:0,from:bird.at};
+    for(const [progress,action] of [[.05,"walk"],[.1,"walk"],[.5,"flight"],[.71,"roost"],[1,"roost"]] as const){bird.flight.progress=progress;expect(accessAction(bird)).toBe(action);}
+  }
+  bird.flight!.tree="lowfork";expect(accessAction(bird)).toBe("flight");
+});
 
 test("adult and material world sizes are independent of the inhabited tree",()=>{
   expect(habitatPresentation.adultScale).toBe(.365);
@@ -78,5 +87,54 @@ test("authored +Z beak and carried load face the direction of travel",()=>{
     const a=birdHeading({x,z}),length=Math.hypot(x,z);
     expect(Math.sin(a)).toBeCloseTo(x/length,12);
     expect(Math.cos(a)).toBeCloseTo(z/length,12);
+  }
+});
+
+
+test("paused saved access faces the route in both directions independently of a previous frame", async () => {
+  const { encodeSettlement, decodeSettlement } = await import("../persistence/settlement-save");
+  let built = initialSettlement();
+  built.initialReeds = built.totalReeds = built.piles[0].stock = 40;
+  for (const kind of ["treehouse", "hauling-basket", "sleeping-deck"] as const) {
+    built = command(built, { type: "build", kind, at: trees[0] });
+    for (let i = 0; i < 4000 && !built.sites.at(-1)!.complete; i++) built = step(built);
+    expect(built.sites.at(-1)!.complete).toBe(true);
+  }
+  for (const direction of ["up", "down"] as const) for (const progress of [.86, .9, .925]) {
+    const state = structuredClone(built), bird = state.birds[0];
+    state.phase = direction === "up" ? "evening" : "day";
+    state.economy.clock.phaseTick = 0;
+    bird.job = null; bird.edge = null; bird.lift = null; bird.perch = null; bird.cargo = 0; bird.foraging = null;
+    state.birds.forEach(other => { other.foraging = null; });
+    state.paused = true;
+    bird.flight = { tree: "lowfork", slot: 2, sheltered: true, direction, progress, from: { x: -2, z: 1 } };
+    const portable = encodeSettlement(state), reopened = decodeSettlement(portable);
+    expect(accessHeading(reopened.birds[0])).toBeCloseTo(direction === "up" ? Math.PI / 2 : -Math.PI / 2, 8);
+    expect(presentedBirdPosition(reopened.birds[0])).toEqual(presentedBirdPosition(bird));
+    expect(encodeSettlement(reopened)).toBe(portable);
+  }
+  expect(accessHeading(initialSettlement().birds[0])).toBeNull();
+});
+
+
+test("clamber posture fades from saved progress and resets outside upper descent", () => {
+  const bird = initialSettlement().birds[0];
+  bird.flight = { tree: "lowfork", slot: 2, sheltered: true, direction: "down", progress: .9, from: { x: -2, z: 1 } };
+  const feet = presentedBirdPosition(bird);
+  expect(clamberLean(bird)).toBe(.35);
+  expect(presentedBirdPosition(bird)).toEqual(feet);
+  for (const progress of [0, .82, .98, 1]) { bird.flight.progress = progress; expect(clamberLean(bird)).toBe(0); }
+  bird.flight.progress = .835; expect(clamberLean(bird)).toBeCloseTo(.175);
+  bird.flight.progress = .9; bird.flight.direction = "up"; expect(clamberLean(bird)).toBe(0);
+  bird.flight.direction = "down"; bird.flight.slot = 1; expect(clamberLean(bird)).toBe(0);
+  bird.flight = null; expect(clamberLean(bird)).toBe(0);
+});
+
+
+test("vertical sheltered access faces its authored arrival instead of the spawn point", () => {
+  const bird = initialSettlement().birds[0];
+  for (const direction of ["up", "down"] as const) for (const slot of [0, 1, 2, 3]) for (const progress of slot < 2 ? [.55, .7, .8] : [.55, .65]) {
+    bird.flight = { tree: "lowfork", slot, sheltered: true, direction, progress, from: { x: -2, z: 1 } };
+    expect(accessHeading(bird)).toBe(0);
   }
 });

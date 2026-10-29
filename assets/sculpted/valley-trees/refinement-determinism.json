@@ -1,0 +1,22 @@
+{
+  "state": "PASS",
+  "revision": "longbough-refinement-v8",
+  "runs": [
+    {
+      "run": 1,
+      "sha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+      "bytes": 18854276
+    },
+    {
+      "run": 2,
+      "sha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+      "bytes": 18854276
+    }
+  ],
+  "checks": [
+    "Two separate Blender processes produce identical GLB bytes",
+    "Parsed GLB validation passes",
+    "Saved source color/UV boundaries, floor/headroom and support-anchor samples pass"
+  ],
+  "limits": "Runtime byte determinism; Blender source files can contain session metadata and are not claimed byte deterministic."
+}

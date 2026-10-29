@@ -1,0 +1,52 @@
+{
+  "revision": "longbough-habitation-v4",
+  "status": "PASS",
+  "command": [
+    "/tmp/coop-landscape-blender/Blender.app/Contents/MacOS/Blender",
+    "--background",
+    "--threads",
+    "4",
+    "--python",
+    "assets/sculpted/valley-trees/author_habitation.py",
+    "--",
+    "--no-render"
+  ],
+  "checks": {
+    "public/assets/environment/studies/longbough-habitation-study.glb": {
+      "before": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718",
+      "after": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718",
+      "identical": true
+    },
+    "assets/sculpted/valley-trees/habitation-presentation.json": {
+      "before": "f02631aa2a5c7c08246a27e108b5d0ecf85b0d159927d79fe557f6bde4e0ad7a",
+      "after": "f02631aa2a5c7c08246a27e108b5d0ecf85b0d159927d79fe557f6bde4e0ad7a",
+      "identical": true
+    },
+    "assets/sculpted/valley-trees/habitation-bark-albedo.png": {
+      "before": "0dcc0e66bbbbe79e4dca3e6d1ece89c7ce336404dfe36215d6762959d473f5c6",
+      "after": "0dcc0e66bbbbe79e4dca3e6d1ece89c7ce336404dfe36215d6762959d473f5c6",
+      "identical": true
+    },
+    "assets/sculpted/valley-trees/habitation-bark-normal.png": {
+      "before": "86a92e3e624a2095513dc27549126e8d7d4db13883a0b815fe21e3d8ae94737c",
+      "after": "86a92e3e624a2095513dc27549126e8d7d4db13883a0b815fe21e3d8ae94737c",
+      "identical": true
+    },
+    "public/assets/environment/studies/longbough-study.glb": {
+      "before": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+      "after": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+      "identical": true
+    },
+    "public/assets/environment/studies/crowncourt-study.glb": {
+      "before": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+      "after": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+      "identical": true
+    },
+    "public/assets/environment/studies/riverside-study.glb": {
+      "before": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+      "after": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+      "identical": true
+    }
+  },
+  "scope": "One recipe rerun on Blender 4.5.3 LTS, same host/runtime. Blend binary metadata is excluded; runtime GLB, images and presentation bytes must match. Three v5 study exports must remain unchanged."
+}

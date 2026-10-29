@@ -1,0 +1,226 @@
+{
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "state": "PASS",
+  "assets": {
+    "living": {
+      "sha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+      "bytes": 11635204,
+      "triangles": 106154,
+      "groups": [
+        {
+          "name": "crown-foliage",
+          "triangles": 77178,
+          "primitives": 1
+        },
+        {
+          "name": "branch",
+          "triangles": 28976,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -8.426477432250977,
+        -1.214828372001648,
+        -5.3729329109191895
+      ],
+      "max": [
+        8.641764640808105,
+        13.553350448608398,
+        3.482710838317871
+      ],
+      "maxNormalError": 1.3597308656798646e-07,
+      "minTriangleArea": 7.0730393416791925e-09,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 3496765,
+          "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91"
+        }
+      ],
+      "animations": 0,
+      "materials": [
+        "study-olive-small-leaves",
+        "refinement-painted-grown-bark"
+      ],
+      "nodeNames": [
+        "asset",
+        "crown-foliage",
+        "living-wood"
+      ],
+      "checks": [
+        "GLB2 embedded resources",
+        "Finite indexed geometry and UVs",
+        "Unit normals",
+        "No zero-area triangles",
+        "Opaque rough nonmetal PBR",
+        "No animation/skin/camera/external resources"
+      ]
+    },
+    "kit": {
+      "sha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "bytes": 6658212,
+      "triangles": 55810,
+      "groups": [
+        {
+          "name": "basket-weave",
+          "triangles": 5260,
+          "primitives": 1
+        },
+        {
+          "name": "basket-guide",
+          "triangles": 628,
+          "primitives": 2
+        },
+        {
+          "name": "basket-landing-weave",
+          "triangles": 280,
+          "primitives": 1
+        },
+        {
+          "name": "home-deck",
+          "triangles": 2700,
+          "primitives": 1
+        },
+        {
+          "name": "home-hood-left",
+          "triangles": 14468,
+          "primitives": 2
+        },
+        {
+          "name": "home-hood-right",
+          "triangles": 14468,
+          "primitives": 2
+        },
+        {
+          "name": "home-ladder",
+          "triangles": 5328,
+          "primitives": 2
+        },
+        {
+          "name": "home-support",
+          "triangles": 2628,
+          "primitives": 2
+        },
+        {
+          "name": "lift-rope-fiber",
+          "triangles": 48,
+          "primitives": 1
+        },
+        {
+          "name": "middle-deck",
+          "triangles": 2598,
+          "primitives": 1
+        },
+        {
+          "name": "middle-ladder",
+          "triangles": 4608,
+          "primitives": 2
+        },
+        {
+          "name": "middle-rails",
+          "triangles": 1044,
+          "primitives": 1
+        },
+        {
+          "name": "middle-support",
+          "triangles": 1752,
+          "primitives": 2
+        }
+      ],
+      "min": [
+        -1.8370000123977661,
+        -0.00559855904430151,
+        -0.22659745812416077
+      ],
+      "max": [
+        3.9983484745025635,
+        6.124794006347656,
+        4.705794811248779
+      ],
+      "maxNormalError": 1.4767282485728117e-07,
+      "minTriangleArea": 5.388417395614624e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0,
+      "materials": [
+        "painted flattened reed weave",
+        "darker flax lashings"
+      ],
+      "nodeNames": [
+        "basket-weave",
+        "cargo-socket",
+        "basket",
+        "basket-ground",
+        "basket-guide",
+        "basket-landing",
+        "basket-landing-weave",
+        "deck-entry",
+        "deck-front-left",
+        "ground-approach-front",
+        "ground-approach-side",
+        "home-deck",
+        "home-edge",
+        "home-entry",
+        "home-front-left",
+        "home-front-right",
+        "home-hood-left",
+        "home-hood-right",
+        "home-ladder",
+        "home-support",
+        "ladder-base",
+        "ladder-top",
+        "lift-rope-fiber",
+        "lift-rope",
+        "middle-deck",
+        "middle-ladder",
+        "middle-ladder-base",
+        "middle-ladder-top",
+        "middle-rails",
+        "middle-support",
+        "natural-approach-0",
+        "natural-approach-1",
+        "natural-flight-0",
+        "natural-flight-1",
+        "natural-launch-0",
+        "natural-launch-1",
+        "natural-launch-base",
+        "natural-perch-0",
+        "natural-perch-1",
+        "operator-ground",
+        "ramp-middle",
+        "sheltered-deck",
+        "sheltered-perch-0",
+        "sheltered-perch-1",
+        "sheltered-perch-2",
+        "sheltered-perch-3",
+        "asset"
+      ],
+      "checks": [
+        "GLB2 embedded resources",
+        "Finite indexed geometry and UVs",
+        "Unit normals",
+        "No zero-area triangles",
+        "Opaque rough nonmetal PBR",
+        "No animation/skin/camera/external resources",
+        "All shared anchors and functional basket hierarchy present; stage names cover actual meshes, never control empties"
+      ]
+    }
+  },
+  "preserved": {
+    "public/assets/environment/studies/longbough-refinement-study.glb": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+    "assets/sculpted/valley-trees/longbough-refinement-study.blend": "fe68e7e4ea808e18b7ebdb31254587a46fbdbb881d4aa244cf4e2d96db8b037c",
+    "public/assets/environment/buildings/boughhome-longbough-modules.glb": "131b6d465c0b00380880320c164f1dc7c2ce8fd5cdb492d40256244b8beab5e7",
+    "public/assets/environment/buildings/boughhome.glb": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+    "public/assets/environment/buildings/reed-store.glb": "efc46a10a8028f22782961bf91696476ebee10320dd8fe3b73f6aef94d364fd3",
+    "public/assets/environment/buildings/root-nursery.glb": "7ee268c95af676d570b753d4077263e06c22e1e8f688a0c9495a5ad34ca71dcf",
+    "public/assets/environment/buildings/sleeping-deck-compatible.glb": "ec296cdcb8433d42fac20fd74d58bc10ea993e9bf6a98f9e52742fa2207d0b61"
+  }
+}

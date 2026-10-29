@@ -1,0 +1,417 @@
+{
+  "state": "READY for isolated in-engine visual study; runtime acceptance belongs to integration owner",
+  "revision": "tree-study-v5",
+  "current_runtime_artifacts": [
+    {
+      "revision": "tree-study-v5",
+      "file": "public/assets/environment/studies/longbough-study.glb",
+      "sha256": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+      "bytes": 3540296,
+      "bounds": {
+        "min": [
+          -5.2317047119140625,
+          -0.41879338026046753,
+          -3.1732704639434814
+        ],
+        "max": [
+          5.496840476989746,
+          8.0106782913208,
+          3.0996453762054443
+        ]
+      },
+      "total_triangles": 34666,
+      "draw_primitives": 2,
+      "meshes": {
+        "crown-foliage": {
+          "triangles": 28188,
+          "exported_vertices": 84502,
+          "bounds": {
+            "min": [
+              -5.2317047119140625,
+              3.544482707977295,
+              -3.1732704639434814
+            ],
+            "max": [
+              5.496840476989746,
+              8.0106782913208,
+              3.0996453762054443
+            ]
+          },
+          "smallest_triangle_area": 6.92594191696962e-05,
+          "signed_volume": 37.49206506753332,
+          "linear_color_min": [
+            0.03189603239297867,
+            0.061246052384376526,
+            0.02518685907125473
+          ],
+          "linear_color_max": [
+            0.15491850674152374,
+            0.19674797356128693,
+            0.05908667668700218
+          ],
+          "unique_colors": 5958
+        },
+        "living-wood": {
+          "triangles": 6478,
+          "exported_vertices": 3298,
+          "bounds": {
+            "min": [
+              -4.426571369171143,
+              -0.41879338026046753,
+              -2.216994047164917
+            ],
+            "max": [
+              4.558077812194824,
+              7.43605899810791,
+              2.5400195121765137
+            ]
+          },
+          "smallest_triangle_area": 1.579448664720572e-06,
+          "signed_volume": 13.503663118085052,
+          "linear_color_min": [
+            0.049699608236551285,
+            0.04052119702100754,
+            0.027197254821658134
+          ],
+          "linear_color_max": [
+            0.4014352560043335,
+            0.28371143341064453,
+            0.1441660076379776
+          ],
+          "unique_colors": 3297,
+          "low_y_le_1m_bounds": {
+            "min": [
+              -1.9321770668029785,
+              -0.41879338026046753,
+              -2.0735511779785156
+            ],
+            "max": [
+              2.068385601043701,
+              0.9811077117919922,
+              1.2733889818191528
+            ]
+          }
+        }
+      },
+      "checks": "PASS: embedded GLB2; finite indexed geometry; unit normals; no degenerate triangles; positive wood volume; anatomical ground origin with closed buried underside; unit transforms; opaque rough PBR and COLOR_0; no textures, external resources, animations, skins, cameras or lights",
+      "source": {
+        "file": "assets/sculpted/valley-trees/longbough-study.blend",
+        "sha256": "def21ed8d4744fbbebfcc8631811c2bb835471bd20f8a1202554b4717469ee98",
+        "bytes": 4502701
+      },
+      "source_inspection": {
+        "revision": "tree-study-v5",
+        "source": "longbough-study.blend",
+        "probe_contract": "Render-only vertical rays from Y=.01; X[-1.25,1.25] step.25, Z[1.5,3] step.25. Samples are art-clearance evidence, not a traversal/capacity contract.",
+        "anatomical_ground_y": 0,
+        "meshes": {
+          "living-wood": {
+            "rays": 77,
+            "unobstructed_rays": 77,
+            "minimum_overhead_hit_y": null,
+            "maximum_overhead_hit_y": null
+          },
+          "crown-foliage": {
+            "rays": 77,
+            "unobstructed_rays": 72,
+            "minimum_overhead_hit_y": 4.3336896896362305,
+            "maximum_overhead_hit_y": 7.205898284912109
+          }
+        }
+      }
+    },
+    {
+      "revision": "tree-study-v5",
+      "file": "public/assets/environment/studies/crowncourt-study.glb",
+      "sha256": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+      "bytes": 3350844,
+      "bounds": {
+        "min": [
+          -4.52325439453125,
+          -0.3411957919597626,
+          -3.4332799911499023
+        ],
+        "max": [
+          4.333706855773926,
+          8.4652681350708,
+          2.981049060821533
+        ]
+      },
+      "total_triangles": 33068,
+      "draw_primitives": 2,
+      "meshes": {
+        "crown-foliage": {
+          "triangles": 26604,
+          "exported_vertices": 79744,
+          "bounds": {
+            "min": [
+              -4.52325439453125,
+              4.393407344818115,
+              -3.4332799911499023
+            ],
+            "max": [
+              4.333706855773926,
+              8.4652681350708,
+              2.981049060821533
+            ]
+          },
+          "smallest_triangle_area": 7.058781088625926e-05,
+          "signed_volume": 38.19346899881998,
+          "linear_color_min": [
+            0.03189603239297867,
+            0.061246052384376526,
+            0.02518685907125473
+          ],
+          "linear_color_max": [
+            0.16698192059993744,
+            0.20939253270626068,
+            0.062041010707616806
+          ],
+          "unique_colors": 5695
+        },
+        "living-wood": {
+          "triangles": 6464,
+          "exported_vertices": 3324,
+          "bounds": {
+            "min": [
+              -3.618518590927124,
+              -0.3411957919597626,
+              -2.545417070388794
+            ],
+            "max": [
+              3.6078336238861084,
+              7.775347709655762,
+              2.4673807621002197
+            ]
+          },
+          "smallest_triangle_area": 6.250144736540418e-11,
+          "signed_volume": 12.070876338199135,
+          "linear_color_min": [
+            0.04973067715764046,
+            0.04054929316043854,
+            0.027209434658288956
+          ],
+          "linear_color_max": [
+            0.40111854672431946,
+            0.2834835946559906,
+            0.1440642923116684
+          ],
+          "unique_colors": 3324,
+          "low_y_le_1m_bounds": {
+            "min": [
+              -1.9321770668029785,
+              -0.3411957919597626,
+              -2.0735511779785156
+            ],
+            "max": [
+              2.068385601043701,
+              0.9710157513618469,
+              1.2704048156738281
+            ]
+          }
+        }
+      },
+      "checks": "PASS: embedded GLB2; finite indexed geometry; unit normals; no degenerate triangles; positive wood volume; anatomical ground origin with closed buried underside; unit transforms; opaque rough PBR and COLOR_0; no textures, external resources, animations, skins, cameras or lights",
+      "source": {
+        "file": "assets/sculpted/valley-trees/crowncourt-study.blend",
+        "sha256": "2f782d6c1bccafdfcea4331cef4be5606c359d163496b77afa6c77be7c0f6cf0",
+        "bytes": 4296725
+      },
+      "source_inspection": {
+        "revision": "tree-study-v5",
+        "source": "crowncourt-study.blend",
+        "probe_contract": "Render-only vertical rays from Y=.01; X[-1.25,1.25] step.25, Z[1.5,3] step.25. Samples are art-clearance evidence, not a traversal/capacity contract.",
+        "anatomical_ground_y": 0,
+        "meshes": {
+          "living-wood": {
+            "rays": 77,
+            "unobstructed_rays": 77,
+            "minimum_overhead_hit_y": null,
+            "maximum_overhead_hit_y": null
+          },
+          "crown-foliage": {
+            "rays": 77,
+            "unobstructed_rays": 75,
+            "minimum_overhead_hit_y": 6.5668768882751465,
+            "maximum_overhead_hit_y": 6.730283260345459
+          }
+        }
+      }
+    },
+    {
+      "revision": "tree-study-v5",
+      "file": "public/assets/environment/studies/riverside-study.glb",
+      "sha256": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+      "bytes": 3222336,
+      "bounds": {
+        "min": [
+          -3.402177572250366,
+          -0.403624564409256,
+          -3.4720089435577393
+        ],
+        "max": [
+          4.941310882568359,
+          6.599693298339844,
+          3.282644748687744
+        ]
+      },
+      "total_triangles": 31995,
+      "draw_primitives": 2,
+      "meshes": {
+        "crown-foliage": {
+          "triangles": 25530,
+          "exported_vertices": 76534,
+          "bounds": {
+            "min": [
+              -3.402177572250366,
+              3.5634050369262695,
+              -3.4720089435577393
+            ],
+            "max": [
+              4.941310882568359,
+              6.599693298339844,
+              3.282644748687744
+            ]
+          },
+          "smallest_triangle_area": 9.528472808820177e-05,
+          "signed_volume": 31.047106233871993,
+          "linear_color_min": [
+            0.03189603239297867,
+            0.061246052384376526,
+            0.02518685907125473
+          ],
+          "linear_color_max": [
+            0.1489103138446808,
+            0.1904502958059311,
+            0.0576152577996254
+          ],
+          "unique_colors": 5387
+        },
+        "living-wood": {
+          "triangles": 6465,
+          "exported_vertices": 3322,
+          "bounds": {
+            "min": [
+              -2.6621837615966797,
+              -0.403624564409256,
+              -2.5487070083618164
+            ],
+            "max": [
+              4.018543243408203,
+              6.097853660583496,
+              2.6013033390045166
+            ]
+          },
+          "smallest_triangle_area": 3.708762909837997e-07,
+          "signed_volume": 9.1669137721385,
+          "linear_color_min": [
+            0.049619995057582855,
+            0.04046989977359772,
+            0.027173468843102455
+          ],
+          "linear_color_max": [
+            0.40170276165008545,
+            0.28390344977378845,
+            0.1442527174949646
+          ],
+          "unique_colors": 3322,
+          "low_y_le_1m_bounds": {
+            "min": [
+              -1.934815526008606,
+              -0.403624564409256,
+              -2.074289560317993
+            ],
+            "max": [
+              2.068546772003174,
+              0.9952966570854187,
+              1.2704048156738281
+            ]
+          }
+        }
+      },
+      "checks": "PASS: embedded GLB2; finite indexed geometry; unit normals; no degenerate triangles; positive wood volume; anatomical ground origin with closed buried underside; unit transforms; opaque rough PBR and COLOR_0; no textures, external resources, animations, skins, cameras or lights",
+      "source": {
+        "file": "assets/sculpted/valley-trees/riverside-study.blend",
+        "sha256": "1eff9946186b86bf453cf7c54a183d7739ba4bd36ff48635b584277e5879d2f4",
+        "bytes": 4160140
+      },
+      "source_inspection": {
+        "revision": "tree-study-v5",
+        "source": "riverside-study.blend",
+        "probe_contract": "Render-only vertical rays from Y=.01; X[-1.25,1.25] step.25, Z[1.5,3] step.25. Samples are art-clearance evidence, not a traversal/capacity contract.",
+        "anatomical_ground_y": 0,
+        "meshes": {
+          "living-wood": {
+            "rays": 77,
+            "unobstructed_rays": 74,
+            "minimum_overhead_hit_y": 3.0734140872955322,
+            "maximum_overhead_hit_y": 3.3264212608337402
+          },
+          "crown-foliage": {
+            "rays": 77,
+            "unobstructed_rays": 76,
+            "minimum_overhead_hit_y": 4.68844747543335,
+            "maximum_overhead_hit_y": 4.68844747543335
+          }
+        }
+      }
+    }
+  ],
+  "union_bounds": {
+    "min": [
+      -5.2317047119140625,
+      -0.41879338026046753,
+      -3.4720089435577393
+    ],
+    "max": [
+      5.496840476989746,
+      8.4652681350708,
+      3.282644748687744
+    ]
+  },
+  "contract": {
+    "units": "meters",
+    "up": "+Y",
+    "front_open_face": "+Z",
+    "root": "asset",
+    "mesh_nodes": [
+      "living-wood",
+      "crown-foliage"
+    ],
+    "grounding": "Anatomical Y0 directly on terrain; retain buried closed underside; no minY normalization",
+    "materials": [
+      "study-warm-growth-bark",
+      "study-olive-small-leaves"
+    ],
+    "alpha": "OPAQUE",
+    "draw_primitives_per_asset": 2,
+    "external_resources": [],
+    "textures": [],
+    "authored_leaf_fullspan_m": [
+      0.16,
+      0.245
+    ]
+  },
+  "provenance": "Original project-authored seeded mathematical geometry and colors; Blender4.5.3LTS. No external mesh, image, texture, imagegen pixels or secrets. Internal scene-v2 direction; no new license selected.",
+  "production_limits": [
+    "Stylized support-lobe rhythm remains visible",
+    "Broad bark treatment remains a prototype",
+    "No concept-art fidelity or production acceptance claimed"
+  ],
+  "checks": [
+    "Actual GLB finite indexed geometry, unit normals, nondegenerate triangles and positive wood volume PASS",
+    "Embedded opaque PBR/COLOR_0, material/node/transform/resource contract PASS",
+    "All3 repeat exports byte-identical; see determinism.json",
+    "Source front/strategy/branches proof rendered and inspected"
+  ],
+  "current_source_hashes": {
+    "assets/sculpted/valley-trees/author_trees.py": "801253f0f5210b58ad580bcab605d69b13fc281830b219d7cf6388884f707563",
+    "assets/sculpted/valley-trees/validate.py": "0cd7be790ba9e9bb343185e9c88b2b6cc14c7c6ea3bc9074c179839a2babe28d",
+    "assets/sculpted/valley-trees/inspect_source.py": "252c382a0e6272b33c818aa4bdf6c9447896a9792857f2a3bed477516968bbe7",
+    "assets/sculpted/valley-trees/overview.py": "f9d39010ac46a28d3d6d0e84b236cf401d3adcde1120af55ca3e35c116724a23",
+    "assets/sculpted/valley-trees/reproduce.py": "0428f0528ad9e0b53dfdf5a734410595b936b19bae8b0bafe7a91019220c2f5a",
+    "assets/sculpted/valley-trees/README.md": "4080b8a5bdd13f18d909eb3df1cb08e4b826ba50c81137544337ea138ec6370a"
+  },
+  "proof": "assets/sculpted/valley-trees/three-forms-tree-study-v5-contact-sheet.png",
+  "remaining_work": "Integration owner actual-camera variant acceptance, console/narrowlayout/performance; global checks owned there. No commit/deploy."
+}

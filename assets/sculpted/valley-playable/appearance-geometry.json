@@ -1,0 +1,195 @@
+{
+  "revision": "clearing-crown-shape-v3",
+  "state": "PASS",
+  "assets": {
+    "longbough-living": {
+      "sha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+      "bytes": 11635204,
+      "triangles": 106154,
+      "groups": [
+        {
+          "name": "crown-foliage",
+          "triangles": 77178,
+          "primitives": 1
+        },
+        {
+          "name": "branch",
+          "triangles": 28976,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -8.426477432250977,
+        -1.214828372001648,
+        -5.3729329109191895
+      ],
+      "max": [
+        8.641764640808105,
+        13.553350448608398,
+        3.482710838317871
+      ],
+      "maxNormalError": 1.3597308656798646e-07,
+      "minTriangleArea": 7.0730393416791925e-09,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 3496765,
+          "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91"
+        }
+      ],
+      "animations": 0,
+      "exact": [
+        "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+        "Living wood: every attribute and triangle",
+        "Crown topology/UVs",
+        "Nodes/hierarchy/materials/original image bytes"
+      ],
+      "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+    },
+    "valley-grove-oak": {
+      "sha256": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+      "bytes": 1978036,
+      "triangles": 23053,
+      "groups": [
+        {
+          "name": "branch",
+          "triangles": 1893,
+          "primitives": 1
+        },
+        {
+          "name": "crown-foliage",
+          "triangles": 21160,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -4.124218463897705,
+        -0.2429426610469818,
+        -2.45387864112854
+      ],
+      "max": [
+        4.271695137023926,
+        7.523548126220703,
+        2.7823233604431152
+      ],
+      "maxNormalError": 1.3504178242307319e-07,
+      "minTriangleArea": 2.1956367021892574e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 488336,
+          "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+        }
+      ],
+      "animations": 0,
+      "exact": [
+        "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+        "Living wood: every attribute and triangle",
+        "Crown topology/UVs",
+        "Nodes/hierarchy/materials/original image bytes"
+      ],
+      "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+    },
+    "valley-grove-spread": {
+      "sha256": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+      "bytes": 1979896,
+      "triangles": 23052,
+      "groups": [
+        {
+          "name": "branch",
+          "triangles": 1892,
+          "primitives": 1
+        },
+        {
+          "name": "crown-foliage",
+          "triangles": 21160,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -4.256193161010742,
+        -0.28196924924850464,
+        -2.7967114448547363
+      ],
+      "max": [
+        4.547497749328613,
+        6.923295021057129,
+        2.7195467948913574
+      ],
+      "maxNormalError": 1.458210938665161e-07,
+      "minTriangleArea": 1.208570798138023e-07,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 488336,
+          "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+        }
+      ],
+      "animations": 0,
+      "exact": [
+        "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+        "Living wood: every attribute and triangle",
+        "Crown topology/UVs",
+        "Nodes/hierarchy/materials/original image bytes"
+      ],
+      "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+    },
+    "valley-grove-shrub": {
+      "sha256": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+      "bytes": 938572,
+      "triangles": 6934,
+      "groups": [
+        {
+          "name": "branch",
+          "triangles": 448,
+          "primitives": 1
+        },
+        {
+          "name": "crown-foliage",
+          "triangles": 6486,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -1.8579139709472656,
+        -0.10951218754053116,
+        -0.890659511089325
+      ],
+      "max": [
+        1.7255560159683228,
+        1.944177269935608,
+        0.971470296382904
+      ],
+      "maxNormalError": 1.2134113780426503e-07,
+      "minTriangleArea": 5.231584374488735e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 488336,
+          "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+        }
+      ],
+      "animations": 0,
+      "exact": [
+        "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+        "Living wood: every attribute and triangle",
+        "Crown topology/UVs",
+        "Nodes/hierarchy/materials/original image bytes"
+      ],
+      "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+    }
+  },
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+  "checks": [
+    "Exact palette/wood/kit/profile/semantic contract",
+    "Finite geometry and UVs",
+    "Unit exported normals",
+    "Zero degenerate triangles",
+    "No new crown triangles or vertices"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "revision": "bound-reed-family-v1",
+  "geometry": "Original deterministic authored reed shells, polygon mats, bundled stems and joints in author_buildings.py; no concept pixels or external model geometry used.",
+  "compatibleDeck": "Bounded adaptation of original repository author_technology.py sleeping_deck recipe/helpers; old sources/exports read only.",
+  "reedImage": {
+    "file": "reed-weave-v1-source.png",
+    "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad",
+    "bytes": 2391920,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "matchesOriginalGeneratedBytes": true,
+    "promptRecord": "reed-material-provenance.json",
+    "method": "Built-in imagegen original; copied without image editing",
+    "qualification": "sRGB diffuse, roughness .94, modeled relief, .34m surface repeat; generated shading/repetition retained; exact seamless or purely unlit not asserted"
+  },
+  "protectedInputs": {
+    "public/assets/environment/woven-home.glb": {
+      "sha256": "f2e14e6ec3ce95f1593cd658acc3cac72b27f56900f902ddd4ea7299d32322c3",
+      "matchesGitHEAD": true
+    },
+    "public/assets/environment/sleeping-deck.glb": {
+      "sha256": "22a17a15e4620fa29d54086d756c7df9dc3f95194fac5df56f9368a0aa7810e3",
+      "matchesGitHEAD": true
+    },
+    "assets/sculpted/technology/author_technology.py": {
+      "sha256": "924b2e8c3605a03245958634263613232a26de87e36499c31df2bf2277ca14f5",
+      "matchesGitHEAD": true
+    },
+    "src/content/tree-habitats.json": {
+      "sha256": "cd95c05130bf924345abf33e3a0369595961ebfc227e65ff249e9dcc3f2a4074",
+      "matchesGitHEAD": true
+    },
+    "public/assets/environment/studies/longbough-refinement-study.glb": {
+      "sha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+      "matchesAcceptedV8": true
+    }
+  },
+  "referenceImages": "Original building concept PNGs inspected for shape/material direction; not embedded."
+}

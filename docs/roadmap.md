@@ -1,5 +1,25 @@
 # Roadmap
 
+## Current priority: Chicken Civ design, then creative work
+
+On 24 October 2026 the user selected warfare and territorial conquest as the main
+goal and requested detailed design documents and narrative before creative design.
+The [gameplay specification](../story/proposals/chicken-civ-design.md) covers
+resources, production, exploration, combat, capture, supply and victory. The
+[narrative proposal](../story/proposals/chicken-civ-narrative.md) covers motives,
+societies and persistent consequences. Specific mechanics, cast and numbers remain
+provisional. The [research study](../story/proposals/chicken-civ-starcraft-gameplay.md)
+explains the StarCraft comparison; the [creative handoff](../art-direction/chicken-civ-creative-handoff.md)
+defines the next design phase. This sequence supersedes the earlier art-first
+priority. Existing implementation and open art acceptance are described below;
+this design packet does not implement warfare or authorize a release.
+
+The [Long Crow progression specification](../story/proposals/chicken-civ-progression.md)
+now details the proposed tech dependencies, personal learning, command hierarchy,
+succession and campaign persistence. Prototype the base conquest loop first,
+then three optional techniques and one authored Veteran specialty; earned careers
+and succession need an explicitly persistent multi-scenario proof.
+
 ## Current bounded economy status
 
 The implemented scope now includes renewable reeds, typed staple/protein food,
@@ -47,11 +67,11 @@ does not implement kingdoms, complete nutrition, danger or territorial ownership
 [Life above the ground](../story/technology.md) develops future canopy neighborhoods,
 powered lifts, science-fiction elevators and distinct defenses.
 
-## In progress: art-led living sandbox
+## Existing art foundation: acceptance remains open
 
 The [opening-view brief](../art-direction/opening-view-exploration.md) owns the
-concrete artifact inventory and opening-view-v2 visual bar. The next MVP is a
-beautiful living grove with basic foraging and building: rest/open a food
+concrete artifact inventory and opening-view-v2 visual bar for the living-grove
+foundation. Its bounded actions include basic foraging and building: rest/open a food
 place, commission a treehouse at an eligible tree, inspect individuals, and watch
 autonomous activity. These are independent actions, not an authored opening arc,
 mandatory build order or scripted First Home sequence. Existing free movement, stores,
@@ -95,15 +115,18 @@ knowledge and actual work; prove a viable single-family or trade alternative.
 Future low-flight birds need usable natural low perches and access, without
 silently changing the four current adults or their saved behavior.
 
-## Later substantial proof: the settlement loop
+## Later playable proof: economy sustaining territorial conquest
 
 Follow the accepted [settlement design](../story/settlement-design.md). Build a
-small working settlement, provisionally around a dozen birds, with meaningful
-resource placement, roosts, gathering and production, local stores, a construction
-chain, a broodhouse, and free ground travel with visible autonomous deliveries. Work, rest, food, care, and
-growth must compete for capacity. One persistent predator problem should make
-route cover, patrols, and escorts matter. Exact roster, counts, recipes, rates,
-species, and timing remain provisional.
+small contest between two coops and three strategic groves, with meaningful
+resource placement, roosts, gathering, local stores, equipment production and
+visible autonomous deliveries. The [detailed proposal](../story/proposals/chicken-civ-design.md)
+starts with twelve named adults per side, three combat roles, scouting, physical
+field supply and a central capture objective. These are proposed test parameters,
+not a change to the current four-adult fixture. Mobilization must compete with
+economic work; shortages, casualties and occupation must have visible causes.
+Predator defense alone cannot qualify the conquest goal. Brood growth is a longer
+investment, not instant military replacement. Exact rates and balance need testing.
 
 The current thin construction-delivery journey already supplies a reusable part
 of this milestone: place a site, reserve and collect local material,
@@ -113,8 +136,9 @@ conservation, blocked-job explanations, interruption, and coherent saved
 in-flight work before adding several chains. This is a verification journey,
 not a mandatory player sequence or a mandate for a new engine framework.
 
-Connect the chains and expansion, then playtest roughly thirty minutes of
-building, diagnosing bottlenecks, improving routes, and watching growth. Fun is
+Connect production, scouting, mobilization, fighting and consolidation, then
+playtest a roughly thirty-minute contest. Compare early aggression, economic
+investment and defensive counterattack across more than one map. Fun is
 unproven. The individuality test is recognizing a bird by its actions, changing
 a layout/staffing decision partly because of it, and feeling its loss through
 both economic and emotional consequences. A second dialogue scene is not a gate.
@@ -123,9 +147,10 @@ the actual camera as the loop develops.
 
 ## Later proofs
 
-Several districts develop local relationships and logistical dependence; add a
-neighboring coop and concrete access or defense pacts. Kinship, marriage, fostering,
+Several districts develop local relationships and logistical dependence; extend
+the rival-coop foundation with inhabited occupation and concrete access or defense pacts. Kinship, marriage, fostering,
 and succession grow from those functioning communities and retain named-character
 agency. Longer generation calendars and save migrations need explicit design.
-Elaborate warfare and multiplayer follow a compelling single-player loop; no
+Larger campaigns, advanced warfare and any multiplayer follow the bounded
+single-player conquest proof; no
 backend, deployment, or delivery dates are implied by this roadmap.

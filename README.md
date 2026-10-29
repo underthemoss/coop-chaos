@@ -1,4 +1,4 @@
-# Coop Chaos
+# Chicken Civ
 
 **A small world. Long memories.** A chicken treehouse settlement builder.
 Ground work and supplies support a growing canopy home; forest clusters become
@@ -25,9 +25,40 @@ trees, chickens and resource/building assets now replace it; visual acceptance
 against opening-view-v2 remains open. The [art-led sandbox brief](art-direction/opening-view-exploration.md)
 requires high-quality artifacts in the actual scene. Renewable construction-reed
 gathering and autonomous mixed-food foraging are implemented with separate resource ledgers.
-The elevated view is fixed; responsive framing keeps the playable grove visible.
+Woodland retains fixed responsive framing; Living valley adds bounded main-tree, map and selected-bird views. The +/− buttons and mouse wheel over the canvas zoom each Living valley view through the same bounded levels. Pan with the mouse at a clear canvas edge, arrow keys while the canvas is focused, or middle-button drag. Manual movement enters Free camera; view buttons recenter and Follow explicitly resumes tracking.
 Seven rigid-articulation action clips support the current birds; production rigs,
 a campaign, and multiplayer remain future work.
+
+## Play the living valley
+
+**New game → Refined small valley** starts **Living valley** (inhabited world v2), a real settlement in
+an authored 36×28m valley. Longbough has two natural branch places before building;
+four adults initially share those places and ground rest. Commission its six-reed
+Boughhome, watch named deliveries and weaving create two sheltered places, then
+build the hauling basket and earn a two-place middle deck. Ground stores hold
+actual reeds; the four-reed root nursery supports two dependent chicks and adds
+no adult housing. Open reed/food patches and named work requests support the same
+conserved construction, food, care and growth owner described below.
+
+The main-tree view faces the habitation front; selection and bounded camera
+controls make individual work readable. Reserved store/nursery courts have visible
+markers and legal approaches. Birds route around terrain, roots and those pads;
+this foundation does not implement combat or moving-unit collision. Adult render
+scale is `.45625`, ground cells are .5m, and ground/access travel uses physical
+metres: ground travel is nominal 1.4m/s with existing individual pace modifiers; authored access uses fixed nominal 1.4m/s.
+
+**Woodland settlement** retains its original geography, anchors and presentation.
+Old tree-free valley survey slots retain their map/version, generic 20-bundle
+ledger and bytes; **Start a living valley** creates a separate new slot instead
+of converting those bundles into construction reeds. The title's **Tree art
+study** remains a static visual comparison, separate from both playable games.
+Original Living valley v1 remains selectable and loadable with its exact geography.
+The refined v2 creek has broader asymmetric soil shoulders, shallow coves and
+local defended bluffs. Creating it uses a separate save slot; Continue never
+reprojects an existing v1 game onto new terrain.
+
+See [the current world contract](docs/landscape-study.md#current-default-living-valley)
+and [qualification evidence](output/inhabited-valley-v1/README.md).
 
 ## Food and a first brood
 
@@ -98,17 +129,17 @@ mixed forage units do not establish a complete diet, starvation or survival syst
 Choose **Gather reeds** to designate a construction reed patch. Birds reserve yield
 and storage room, extract one bundle and carry it to the cache or a completed store.
 These reeds are not food and recover one unit per 240 daytime ticks up to capacity. Undesignating preserves carried goods.
-Choose the persistent **Build** command in the header, then Lowfork, Splitcrown or
-Reedside in the named-tree list or world. The construction inspector shows costs,
+Choose the persistent **Community building** command in the header, then Longbough in Living valley, or Lowfork, Splitcrown or
+Reedside in Woodland, in the named-tree list or world. The construction inspector shows costs,
 available builds and locked reasons. A new commission immediately stays at the top with its next need and named workers.
 Four named adults autonomously reserve, collect, carry and deliver six local reeds
 before weaving a platform, rain hood and ladder, with feeding breaks between jobs.
 Different trees retain real travel distances.
 
-For a ground store, choose **Place store nest** in Build, then click open terrain
+Living valley offers authored reserved store pads and their legal approaches. In Woodland, for a ground store, choose **Place store nest** in Build, then click open terrain
 or use its X/Z controls and **Build store**. In store mode,
-canvas arrow keys move the cell cursor and Enter uses the tool. The camera has
-no pan or zoom controls. **Menu** contains save tools; **Food** opens food for chicks and food places. Select a chicken in the scene for a compact action card: **Gather reeds**, **Help build**, or **Bring food**. Each asks for one trip or weaving task at the shown place; requests never promise a whole building. Cargo, meals, sleep, rest and brood care remain real constraints. Cancel releases uncollected work at a safe step; carried goods still reach storage. Afterward the chicken returns to community work. The top **Reeds ready** count excludes reserved, carried and already-delivered building materials; these remain visible in optional details. A building can be queued before all its reeds are ready, with an explicit shortage and gather action. Night commissions start in the morning.
+canvas arrow keys move the cell cursor and Enter uses the tool. Woodland retains
+its fixed responsive camera. **Menu** contains save tools; **Food** opens food for chicks and food places. Select chickens with left-click, Shift toggle or a ground drag. Right-click ground to Move, a reed patch to gather repeatedly there, or an unfinished project to build until complete. The compact command dock offers the same targeting with left-click/touch, **Move M**, **Gather G**, **Help build**, **New building B** (one selected builder), **Stop S** and **Community work**. Personal Details opens separately. Selection leaves the camera in place; **Follow** is explicit. Shift or **Queue next** appends up to sixteen orders. A successor to gathering waits for depletion. Direct control stays idle after completion until explicit community return. Stop retains held cargo at the next safe cell; new work/Return routes it physically. Meals/rest suspend then resume intent; young and essential carers reject orders. The top **Reeds ready** count excludes reserved, carried and already-delivered building materials; these remain visible in optional details. A building can be queued before all its reeds are ready, with an explicit shortage and gather action. Night commissions start in the morning.
 
 A **store nest** costs four reeds and holds twelve at its actual location.
 Set its local stocking target, watch deliveries fill it, then place another
@@ -145,7 +176,9 @@ recent valid game on this device. **New game** creates a separate named grove;
 are never replaced by creating or importing. In play, **Menu → Save and return to
 title** saves before leaving; export remains available. Reload returns to title.
 
-The `settlement-8` simulation envelope is unchanged. Separate device-library
+Woodland saves without direct orders retain `settlement-8`, inhabited worlds retain
+`settlement-9`; direct state uses additive `settlement-10` with the same world
+identity, geometry, jobs and physical goods. Separate device-library
 metadata owns game names, timestamps, revisions and one previous valid checkpoint.
 The old single `settlement` key is imported once into the library and its exact
 original bytes are never changed. Unreadable or newer records stay outside the
@@ -212,3 +245,8 @@ distinguishes sourced constraints from fictional civilization. The
 historical background, not competing construction or progression canon.
 
 An unfinished project can be marked **Build this first**. The next free community construction work tries that project before normal order; current deliveries, named requests, care, meals and the chosen food policy continue. **Use normal order** clears the choice, and completion or cancellation clears it automatically. A tree’s single world badge shows its focused project. The compact **Build first** indicator finds any chosen project, including ground stores under Other building controls; stores retain their ground construction marker. Material shortages still need real gathered reeds; focus is not a guaranteed worker or speed bonus. Older saves migrate with no project focused.
+
+Command the Coop uses one selected-chicken dock: M move, G gather, B new building
+(one builder), S stop, I awaiting orders. Shift+1–9 assigns session groups and
+1–9 recalls them; groups reset on reopen while saved orders persist. Header
+Controls opens dismissible help. [Interaction contract](docs/build-resource-interactions.md).

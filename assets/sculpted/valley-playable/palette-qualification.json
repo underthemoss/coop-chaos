@@ -1,0 +1,48 @@
+{
+  "state": "PASS",
+  "revision": "longbough-clearing-appearance-v4-warm-foliage",
+  "sha256": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a",
+  "baselineSha256": "337dc00f608e954e2e5724c36ca1524602207f07175997334a83b927f44cb908",
+  "exact": [
+    "Complete glTF JSON: nodes, transforms, hierarchy, materials, images, accessors and resource layout",
+    "All POSITION, NORMAL, UV and triangle indices",
+    "All living wood attributes",
+    "All binary bytes outside the contiguous crown COLOR_0 range, including embedded images",
+    "Kit and all three scenic GLB bytes"
+  ],
+  "changed": "Hero crown COLOR_0 binary values only",
+  "previous": {
+    "meanLinearRgb": [
+      0.18722986706801356,
+      0.25776171456847286,
+      0.130551309674078
+    ],
+    "linearLuminancePercentiles10_50_90": [
+      0.12472705882352941,
+      0.19417176470588232,
+      0.40522901960784313
+    ]
+  },
+  "current": {
+    "meanLinearRgb": [
+      0.19208135154564948,
+      0.2266023686601753,
+      0.07960420139047669
+    ],
+    "linearLuminancePercentiles10_50_90": [
+      0.11907058823529412,
+      0.1795349019607843,
+      0.3449129411764706
+    ]
+  },
+  "verticesOver1_5TimesPriorLuminance": 0,
+  "verticesBelowPriorLuminance": 231520,
+  "vertexCount": 231520,
+  "preservedAssets": {
+    "longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+    "valley-grove-oak.glb": "09b27d5615b4e4702a85953cbabc91867f6a906b7ea1018e50cb024dc98400e8",
+    "valley-grove-spread.glb": "49fb739d5bae6e9ef7784235e9debb929ba451672d53b9c0faf36746f3dd225a",
+    "valley-grove-shrub.glb": "c2441f76f610809f68eb47bf033dd9f79a54a5c05789088f198314587732f1f4"
+  },
+  "fitEvidenceReuse": "Previous v2 actual-body/access/sole/basket pose checks remain applicable through exact positions/indices/nodes identity; this palette pass does not rerun or claim new runtime collision physics."
+}

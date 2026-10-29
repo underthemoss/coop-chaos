@@ -1,0 +1,176 @@
+{
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "livingSha256": "6629abca1355302dc500409f353fd4ad372914cff6b6d62bdfc4b1ad326a0f10",
+  "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+  "limits": "Evaluated rest meshes, all four actual adults at .45625. Source routes sampled9points/segment both headings; source animation/climb/flight and actual runtime remain separate. Expected sole/grip contacts below foot+.12m excluded. Overlap reports are diagnostic, not a zero-collision physics claim.",
+  "birds": {
+    "fern": {
+      "poses": 570,
+      "intersectingPoses": 0,
+      "hits": [],
+      "acceptedShelteredPass": true,
+      "naturalDiagnosticNote": "Arbitrary reverse-yaw/rest natural poses are diagnostics, not accepted runtime postures. Accepted natural flight/folded-roost path is qualified in source-animation-fit.json."
+    },
+    "rook": {
+      "poses": 570,
+      "intersectingPoses": 4,
+      "hits": [
+        {
+          "pose": "natural-perch-1-segment4-4",
+          "foot": [
+            3.8399999141693115,
+            7.325239181518555,
+            -0.05999999865889549
+          ],
+          "yaw": 0.0,
+          "groups": {
+            "living-wood / body sculpted mesh": 21
+          }
+        },
+        {
+          "pose": "natural-perch-1-segment4-5",
+          "foot": [
+            3.8399996757507324,
+            7.256548881530762,
+            -0.059999994933605194
+          ],
+          "yaw": 0.0,
+          "groups": {
+            "living-wood / body sculpted mesh": 17
+          }
+        },
+        {
+          "pose": "natural-perch-1-segment4-6",
+          "foot": [
+            3.8399999141693115,
+            7.187859058380127,
+            -0.05999999865889549
+          ],
+          "yaw": 0.0,
+          "groups": {
+            "living-wood / body sculpted mesh": 15
+          }
+        },
+        {
+          "pose": "natural-perch-1-segment4-7",
+          "foot": [
+            3.8399999141693115,
+            7.119168281555176,
+            -0.05999999865889549
+          ],
+          "yaw": 0.0,
+          "groups": {
+            "living-wood / body sculpted mesh": 15
+          }
+        }
+      ],
+      "acceptedShelteredPass": true,
+      "naturalDiagnosticNote": "Arbitrary reverse-yaw/rest natural poses are diagnostics, not accepted runtime postures. Accepted natural flight/folded-roost path is qualified in source-animation-fit.json."
+    },
+    "dapple": {
+      "poses": 570,
+      "intersectingPoses": 0,
+      "hits": [],
+      "acceptedShelteredPass": true,
+      "naturalDiagnosticNote": "Arbitrary reverse-yaw/rest natural poses are diagnostics, not accepted runtime postures. Accepted natural flight/folded-roost path is qualified in source-animation-fit.json."
+    },
+    "wren": {
+      "poses": 570,
+      "intersectingPoses": 0,
+      "hits": [],
+      "acceptedShelteredPass": true,
+      "naturalDiagnosticNote": "Arbitrary reverse-yaw/rest natural poses are diagnostics, not accepted runtime postures. Accepted natural flight/folded-roost path is qualified in source-animation-fit.json."
+    }
+  },
+  "supportProbes": {
+    "natural-perch-0": [
+      -0.00409,
+      0.01738,
+      -0.01531,
+      -0.04463,
+      -0.00981,
+      -0.03149,
+      -0.07139,
+      -0.03879,
+      -0.04693
+    ],
+    "natural-perch-1": [
+      -0.17694,
+      -0.17255,
+      -0.10046,
+      -0.10395,
+      -0.11942,
+      -0.04695,
+      -0.01429,
+      -0.05241,
+      0.00392
+    ],
+    "sheltered-perch-0": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sheltered-perch-1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "sheltered-perch-2": [
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0
+    ],
+    "sheltered-perch-3": [
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0
+    ],
+    "home-entry": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "deck-entry": [
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0,
+      -0.0
+    ]
+  }
+}

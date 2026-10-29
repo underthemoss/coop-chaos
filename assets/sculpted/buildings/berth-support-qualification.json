@@ -1,0 +1,190 @@
+{
+  "asset": "sleeping-deck-compatible.glb",
+  "birds": {
+    "fern": [
+      {
+        "berthX": 1.48,
+        "foot": "left",
+        "soleSamples": 106,
+        "supportedSamples": 86,
+        "fraction": 0.8113207547169812,
+        "gapRange": [
+          0.03206687313089995,
+          0.08532869796378728
+        ]
+      },
+      {
+        "berthX": 1.48,
+        "foot": "right",
+        "soleSamples": 106,
+        "supportedSamples": 106,
+        "fraction": 1.0,
+        "gapRange": [
+          0.030423069460349783,
+          0.056473322317503793
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "left",
+        "soleSamples": 106,
+        "supportedSamples": 94,
+        "fraction": 0.8867924528301887,
+        "gapRange": [
+          0.03126485492806763,
+          0.0735625057065934
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "right",
+        "soleSamples": 106,
+        "supportedSamples": 89,
+        "fraction": 0.839622641509434,
+        "gapRange": [
+          0.03110446975942205,
+          0.07662475089652654
+        ]
+      }
+    ],
+    "rook": [
+      {
+        "berthX": 1.48,
+        "foot": "left",
+        "soleSamples": 106,
+        "supportedSamples": 88,
+        "fraction": 0.8301886792452831,
+        "gapRange": [
+          0.03103103643336169,
+          0.0781297648196162
+        ]
+      },
+      {
+        "berthX": 1.48,
+        "foot": "right",
+        "soleSamples": 106,
+        "supportedSamples": 106,
+        "fraction": 1.0,
+        "gapRange": [
+          0.030542817178290438,
+          0.054323389681945056
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "left",
+        "soleSamples": 106,
+        "supportedSamples": 94,
+        "fraction": 0.8867924528301887,
+        "gapRange": [
+          0.03128016592693861,
+          0.1716161423691065
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "right",
+        "soleSamples": 106,
+        "supportedSamples": 83,
+        "fraction": 0.7830188679245284,
+        "gapRange": [
+          0.030400958123725008,
+          0.08791750323008696
+        ]
+      }
+    ],
+    "dapple": [
+      {
+        "berthX": 1.48,
+        "foot": "left",
+        "soleSamples": 108,
+        "supportedSamples": 89,
+        "fraction": 0.8240740740740741,
+        "gapRange": [
+          0.030959341447729383,
+          0.07198070885265428
+        ]
+      },
+      {
+        "berthX": 1.48,
+        "foot": "right",
+        "soleSamples": 108,
+        "supportedSamples": 108,
+        "fraction": 1.0,
+        "gapRange": [
+          0.03078558124252906,
+          0.05737735747862649
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "left",
+        "soleSamples": 108,
+        "supportedSamples": 95,
+        "fraction": 0.8796296296296297,
+        "gapRange": [
+          0.03147121570840339,
+          0.07572336135537272
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "right",
+        "soleSamples": 108,
+        "supportedSamples": 81,
+        "fraction": 0.75,
+        "gapRange": [
+          0.030049344670263434,
+          0.08664974438355566
+        ]
+      }
+    ],
+    "wren": [
+      {
+        "berthX": 1.48,
+        "foot": "left",
+        "soleSamples": 112,
+        "supportedSamples": 90,
+        "fraction": 0.8035714285714286,
+        "gapRange": [
+          0.0318926208951682,
+          0.06601868389705956
+        ]
+      },
+      {
+        "berthX": 1.48,
+        "foot": "right",
+        "soleSamples": 112,
+        "supportedSamples": 112,
+        "fraction": 1.0,
+        "gapRange": [
+          0.03067120290054426,
+          0.05239992782686853
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "left",
+        "soleSamples": 112,
+        "supportedSamples": 95,
+        "fraction": 0.8482142857142857,
+        "gapRange": [
+          0.03031054574068559,
+          0.17396623952718482
+        ]
+      },
+      {
+        "berthX": 2.52,
+        "foot": "right",
+        "soleSamples": 112,
+        "supportedSamples": 73,
+        "fraction": 0.6517857142857143,
+        "gapRange": [
+          0.03321499628679936,
+          0.08873934322454335
+        ]
+      }
+    ]
+  },
+  "limits": "Source evaluated sole vertices at two unchanged standing berths; rays measure supporting geometry below actual low feet, not strength or dynamic contact certification."
+}

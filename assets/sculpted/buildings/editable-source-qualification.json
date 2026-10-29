@@ -1,0 +1,93 @@
+{
+  "boughhome": {
+    "sha256": "8aea50f9152f9e36693f2130eee518f07b4c3518f37ae8ccc6161bc6d93b8888",
+    "meshCount": 4,
+    "meshes": [
+      "deck",
+      "rainhood-left",
+      "rainhood-right",
+      "ladder"
+    ],
+    "packedImages": [
+      {
+        "name": "reed-weave-v1-source.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+      }
+    ],
+    "finiteCoordinatesAndUVs": true
+  },
+  "reed-store": {
+    "sha256": "06f0e5da68f569927a736aec61410432b8fa524510b0c37e5b54cbca3da1c9c0",
+    "meshCount": 3,
+    "meshes": [
+      "store-base-bindings",
+      "store-frame",
+      "store-container-finish"
+    ],
+    "packedImages": [
+      {
+        "name": "reed-weave-v1-source.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+      }
+    ],
+    "finiteCoordinatesAndUVs": true
+  },
+  "root-nursery": {
+    "sha256": "f6756c293aa0739a36bd217ed97ae959cfef352705f01ab852f6f07a1b5d98f3",
+    "meshCount": 4,
+    "meshes": [
+      "nursery-base-floor-bindings",
+      "nursery-frame",
+      "nursery-hood-finish",
+      "nursery-nest-finish"
+    ],
+    "packedImages": [
+      {
+        "name": "reed-weave-v1-source.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+      }
+    ],
+    "finiteCoordinatesAndUVs": true
+  },
+  "boughhome-longbough-modules": {
+    "sha256": "95bbe49e14acdb39f27d3e21333f76cd4cd4f0b7e2c9d84c8700752b80a56188",
+    "meshCount": 2,
+    "meshes": [
+      "study-structure-boughhome-wing-left",
+      "study-structure-boughhome-wing-right"
+    ],
+    "packedImages": [
+      {
+        "name": "reed-weave-v1-source.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+      }
+    ],
+    "finiteCoordinatesAndUVs": true
+  },
+  "sleeping-deck-compatible": {
+    "sha256": "349983220b062607ce73569926127d5b8623dd7321714c2f510107a7c65ba275",
+    "meshCount": 2,
+    "meshes": [
+      "sleeping-deck-weave",
+      "sleeping-rainhood-weave"
+    ],
+    "packedImages": [],
+    "finiteCoordinatesAndUVs": true
+  }
+}

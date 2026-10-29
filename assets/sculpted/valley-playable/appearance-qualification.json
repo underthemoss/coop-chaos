@@ -1,0 +1,14 @@
+{
+  "revision": "longbough-clearing-appearance-v4-warm-foliage",
+  "assets": {
+    "longbough-living.glb": {
+      "sha256": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a",
+      "bytes": 11635204
+    },
+    "longbough-woven-kit.glb": {
+      "sha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "bytes": 6658212
+    }
+  },
+  "scope": "Appearance only: exact POSITION/index/node geometry, unchanged profile; new normals/colors/bark UV scale/PBR."
+}

@@ -1,0 +1,1036 @@
+{
+  "state": "READY",
+  "revision": "longbough-habitation-v4",
+  "runtime": {
+    "path": "public/assets/environment/studies/longbough-habitation-study.glb",
+    "sha256": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718",
+    "bytes": 10552456,
+    "bounds": {
+      "min": [
+        -7.129771709442139,
+        -0.6392958164215088,
+        -4.964323997497559
+      ],
+      "max": [
+        7.260288238525391,
+        12.929430961608887,
+        3.8535525798797607
+      ]
+    },
+    "dimensions_m": [
+      14.39005994796753,
+      13.568726778030396,
+      8.81787657737732
+    ],
+    "above_ground_height_m": 12.929430961608887,
+    "triangles": 107947,
+    "draw_primitives": 7,
+    "groups": {
+      "crown-foliage": {
+        "triangles": 54474,
+        "exported_vertices": 163420,
+        "bounds": {
+          "min": [
+            -7.129771709442139,
+            7.777346134185791,
+            -4.964323997497559
+          ],
+          "max": [
+            7.260288238525391,
+            12.929430961608887,
+            3.601252317428589
+          ]
+        },
+        "minimum_triangle_area": 6.68474892964007e-05,
+        "signed_volume": 112.54272797946545,
+        "linear_color_min": [
+          0.03189603239297867,
+          0.061246052384376526,
+          0.02518685907125473
+        ],
+        "linear_color_max": [
+          0.22076284885406494,
+          0.23250804841518402,
+          0.060607872903347015
+        ]
+      },
+      "living-wood": {
+        "triangles": 18961,
+        "exported_vertices": 10741,
+        "bounds": {
+          "min": [
+            -5.929195880889893,
+            -0.6392958164215088,
+            -3.6758182048797607
+          ],
+          "max": [
+            6.073410511016846,
+            12.079147338867188,
+            2.7801249027252197
+          ]
+        },
+        "minimum_triangle_area": 3.960866378940787e-07,
+        "signed_volume": 79.57527841410757,
+        "linear_color_min": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "linear_color_max": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "low_y_le_1m_bounds": {
+          "min": [
+            -3.216020107269287,
+            -0.6392958164215088,
+            -3.5230531692504883
+          ],
+          "max": [
+            3.7502641677856445,
+            0.9961867332458496,
+            1.570707082748413
+          ]
+        }
+      },
+      "study-structure-decks": {
+        "triangles": 768,
+        "exported_vertices": 1536,
+        "bounds": {
+          "min": [
+            -3.1443912982940674,
+            3.0,
+            -0.6381602883338928
+          ],
+          "max": [
+            3.2942726612091064,
+            8.15000057220459,
+            3.795142889022827
+          ]
+        },
+        "minimum_triangle_area": 0.017573888231368073,
+        "signed_volume": -6.961163161335393,
+        "linear_color_min": [
+          0.2684192955493927,
+          0.17128312587738037,
+          0.0724169984459877
+        ],
+        "linear_color_max": [
+          0.33231085538864136,
+          0.21205347776412964,
+          0.089654341340065
+        ]
+      },
+      "study-structure-lashings-hoist": {
+        "triangles": 10080,
+        "exported_vertices": 18900,
+        "bounds": {
+          "min": [
+            -3.2250001430511475,
+            1.9842145442962646,
+            -0.6629999876022339
+          ],
+          "max": [
+            4.347128868103027,
+            8.296257972717285,
+            3.8159899711608887
+          ]
+        },
+        "minimum_triangle_area": 4.226770988680073e-05,
+        "signed_volume": 0.0189284164763753,
+        "linear_color_min": [
+          0.3877759575843811,
+          0.2890990376472473,
+          0.11477987468242645
+        ],
+        "linear_color_max": [
+          0.5203896164894104,
+          0.39402276277542114,
+          0.18628525733947754
+        ]
+      },
+      "study-structure-rails-ladders": {
+        "triangles": 9728,
+        "exported_vertices": 18240,
+        "bounds": {
+          "min": [
+            -3.1973350048065186,
+            0.05401923507452011,
+            -0.7160207629203796
+          ],
+          "max": [
+            3.458794355392456,
+            8.73927116394043,
+            3.8535525798797607
+          ]
+        },
+        "minimum_triangle_area": 9.028559527228784e-05,
+        "signed_volume": 0.46330101756287223,
+        "linear_color_min": [
+          0.18178457021713257,
+          0.12270765751600266,
+          0.05123951658606529
+        ],
+        "linear_color_max": [
+          0.3957589864730835,
+          0.2795730531215668,
+          0.12469690293073654
+        ]
+      },
+      "study-structure-supports": {
+        "triangles": 400,
+        "exported_vertices": 768,
+        "bounds": {
+          "min": [
+            -3.063999891281128,
+            2.0108535289764404,
+            -0.5879999995231628
+          ],
+          "max": [
+            4.1171555519104,
+            7.96999979019165,
+            3.7200000286102295
+          ]
+        },
+        "minimum_triangle_area": 0.0016006872250179053,
+        "signed_volume": -2.1807399294530754,
+        "linear_color_min": [
+          0.13584691286087036,
+          0.08806002885103226,
+          0.03909393399953842
+        ],
+        "linear_color_max": [
+          0.24556443095207214,
+          0.16353511810302734,
+          0.06588329374790192
+        ]
+      },
+      "study-structure-woven-hood-basket": {
+        "triangles": 13536,
+        "exported_vertices": 25380,
+        "bounds": {
+          "min": [
+            -2.760098457336426,
+            1.5240192413330078,
+            0.8395944237709045
+          ],
+          "max": [
+            4.386172771453857,
+            7.639871120452881,
+            3.40030837059021
+          ]
+        },
+        "minimum_triangle_area": 8.103099323123761e-05,
+        "signed_volume": 0.32719433614165094,
+        "linear_color_min": [
+          0.16424094140529633,
+          0.14262014627456665,
+          0.05864493176341057
+        ],
+        "linear_color_max": [
+          0.4234766364097595,
+          0.3498539328575134,
+          0.1091277003288269
+        ]
+      }
+    },
+    "materials": [
+      {
+        "doubleSided": true,
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "study-olive-small-leaves",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9300000071525574
+        }
+      },
+      {
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "habitation-bark-original-texture",
+        "normalTexture": {
+          "index": 0,
+          "scale": 0.8500000238418579
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9599999785423279
+        }
+      },
+      {
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "habitation-weathered-deck",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9599999785423279
+        }
+      },
+      {
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "habitation-twine",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9599999785423279
+        }
+      },
+      {
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "habitation-twig-rails",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9599999785423279
+        }
+      },
+      {
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "habitation-branchwood-support",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9599999785423279
+        }
+      },
+      {
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularFactor": 0.46000000834465027
+          }
+        },
+        "name": "habitation-woven-reeds",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0,
+          "roughnessFactor": 0.9599999785423279
+        }
+      }
+    ],
+    "images": [
+      {
+        "name": "habitation-bark-normal",
+        "embedded_sha256": "86a92e3e624a2095513dc27549126e8d7d4db13883a0b815fe21e3d8ae94737c",
+        "bytes": 188702,
+        "width": 512,
+        "height": 1024,
+        "matches_authored_png": true
+      },
+      {
+        "name": "habitation-bark-albedo",
+        "embedded_sha256": "0dcc0e66bbbbe79e4dca3e6d1ece89c7ce336404dfe36215d6762959d473f5c6",
+        "bytes": 691415,
+        "width": 512,
+        "height": 1024,
+        "matches_authored_png": true
+      }
+    ]
+  },
+  "contract": {
+    "units": "meters",
+    "up": "+Y",
+    "open_front": "+Z",
+    "anatomical_ground_y": 0,
+    "runtime_rotation_y_radians": 3.141592653589793,
+    "root_node": "asset",
+    "tree_nodes": [
+      "living-wood",
+      "crown-foliage"
+    ],
+    "structure_prefix": "study-structure-",
+    "grounding": "Closed underside extends below Y0. Place anatomical Y0 on terrain; no minY normalization.",
+    "presentation_file": "assets/sculpted/valley-trees/habitation-presentation.json",
+    "presentation": {
+      "revision": "longbough-habitation-v4",
+      "assetUrl": "/assets/environment/studies/longbough-habitation-study.glb",
+      "anatomicalGroundY": 0,
+      "front": "+Z",
+      "deckFloors": [
+        {
+          "id": "lower",
+          "floorTag": "study-structure-decks",
+          "center": [
+            1.2,
+            3.2,
+            1.6
+          ],
+          "width": 4.2,
+          "depth": 3.4,
+          "outline": [
+            [
+              -0.5500000000000002,
+              3.2,
+              -0.09999999999999987
+            ],
+            [
+              2.9499999999999997,
+              3.2,
+              -0.09999999999999987
+            ],
+            [
+              3.3,
+              3.2,
+              0.2500000000000001
+            ],
+            [
+              3.3,
+              3.2,
+              2.9499999999999997
+            ],
+            [
+              2.9499999999999997,
+              3.2,
+              3.3
+            ],
+            [
+              -0.5500000000000002,
+              3.2,
+              3.3
+            ],
+            [
+              -0.9000000000000001,
+              3.2,
+              2.9499999999999997
+            ],
+            [
+              -0.9000000000000001,
+              3.2,
+              0.2500000000000001
+            ]
+          ]
+        },
+        {
+          "id": "middle",
+          "floorTag": "study-structure-decks",
+          "center": [
+            -1.0,
+            5.72,
+            1.8
+          ],
+          "width": 4.3,
+          "depth": 4.0,
+          "outline": [
+            [
+              -2.8,
+              5.72,
+              -0.19999999999999996
+            ],
+            [
+              0.7999999999999999,
+              5.72,
+              -0.19999999999999996
+            ],
+            [
+              1.15,
+              5.72,
+              0.15000000000000002
+            ],
+            [
+              1.15,
+              5.72,
+              3.4499999999999997
+            ],
+            [
+              0.7999999999999999,
+              5.72,
+              3.8
+            ],
+            [
+              -2.8,
+              5.72,
+              3.8
+            ],
+            [
+              -3.15,
+              5.72,
+              3.4499999999999997
+            ],
+            [
+              -3.15,
+              5.72,
+              0.15000000000000002
+            ]
+          ]
+        },
+        {
+          "id": "upper",
+          "floorTag": "study-structure-decks",
+          "center": [
+            1.0,
+            8.15,
+            0.9
+          ],
+          "width": 3.7,
+          "depth": 3.1,
+          "outline": [
+            [
+              -0.5000000000000001,
+              8.15,
+              -0.65
+            ],
+            [
+              2.5,
+              8.15,
+              -0.65
+            ],
+            [
+              2.85,
+              8.15,
+              -0.30000000000000004
+            ],
+            [
+              2.85,
+              8.15,
+              2.1
+            ],
+            [
+              2.5,
+              8.15,
+              2.45
+            ],
+            [
+              -0.5000000000000001,
+              8.15,
+              2.45
+            ],
+            [
+              -0.8500000000000001,
+              8.15,
+              2.1
+            ],
+            [
+              -0.8500000000000001,
+              8.15,
+              -0.30000000000000004
+            ]
+          ]
+        }
+      ],
+      "birdFixtures": [
+        {
+          "id": "lower-fern",
+          "floorTag": "study-structure-decks",
+          "position": [
+            1.75,
+            3.2,
+            2.85
+          ],
+          "yawRadians": 0.15,
+          "character": "fern",
+          "cargo": false
+        },
+        {
+          "id": "lower-rook",
+          "floorTag": "study-structure-decks",
+          "position": [
+            2.6,
+            3.2,
+            2.3
+          ],
+          "yawRadians": -0.3,
+          "character": "rook",
+          "cargo": true
+        },
+        {
+          "id": "middle-fern",
+          "floorTag": "study-structure-decks",
+          "position": [
+            -0.4,
+            5.72,
+            3.48
+          ],
+          "yawRadians": 0,
+          "character": "fern",
+          "cargo": false
+        },
+        {
+          "id": "upper-rook",
+          "floorTag": "study-structure-decks",
+          "position": [
+            1.55,
+            8.15,
+            1.9
+          ],
+          "yawRadians": 0.3,
+          "character": "rook",
+          "cargo": false
+        }
+      ],
+      "detailBounds": {
+        "min": [
+          -3.35,
+          2.0,
+          -0.55
+        ],
+        "max": [
+          4.45,
+          9.7,
+          3.9
+        ]
+      }
+    }
+  },
+  "checks": {
+    "actual_glb": "PASS: glTF2 embedded binary, Exact root/group/material names and unit transforms, Opaque rough nonmetal PBR, Wood has original embedded albedo/normal textures and TEXCOORD_0, Finite indexed geometry and unit normals, No degenerate triangles; positive wood signed volume, No external resources, animation, skin, camera or lights",
+    "source": {
+      "revision": "longbough-habitation-v4",
+      "fixture_checks": [
+        {
+          "id": "lower-fern",
+          "position": [
+            1.75,
+            3.2,
+            2.85
+          ],
+          "floor_verified": true,
+          "sampled_headroom_m": 0.9,
+          "obstruction_samples": []
+        },
+        {
+          "id": "lower-rook",
+          "position": [
+            2.6,
+            3.2,
+            2.3
+          ],
+          "floor_verified": true,
+          "sampled_headroom_m": 1.35,
+          "obstruction_samples": []
+        },
+        {
+          "id": "middle-fern",
+          "position": [
+            -0.4,
+            5.72,
+            3.48
+          ],
+          "floor_verified": true,
+          "sampled_headroom_m": 0.9,
+          "obstruction_samples": []
+        },
+        {
+          "id": "upper-rook",
+          "position": [
+            1.55,
+            8.15,
+            1.9
+          ],
+          "floor_verified": true,
+          "sampled_headroom_m": 0.9,
+          "obstruction_samples": []
+        }
+      ],
+      "shelter_clear_region_m": {
+        "width": 2.5,
+        "depth": 2.4,
+        "sample_count": 36,
+        "minimum_sampled_clearance_m": 1.2794392395019534
+      },
+      "shelter_samples": [
+        {
+          "x": -2.25,
+          "z": 0.9,
+          "clearance_m": 1.2809756088256838,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -2.25,
+          "z": 1.38,
+          "clearance_m": 1.2998860168457034,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -2.25,
+          "z": 3.3,
+          "clearance_m": 1.334118633270264,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -1.75,
+          "z": 0.9,
+          "clearance_m": 1.679681091308594,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -1.75,
+          "z": 3.3,
+          "clearance_m": 1.7047770309448245,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -1.25,
+          "z": 0.9,
+          "clearance_m": 1.8635371017456057,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -1.25,
+          "z": 3.3,
+          "clearance_m": 1.8635371017456057,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.75,
+          "z": 0.9,
+          "clearance_m": 1.8637802886962893,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.75,
+          "z": 3.3,
+          "clearance_m": 1.8637802886962893,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.25,
+          "z": 0.9,
+          "clearance_m": 1.6772344398498538,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.25,
+          "z": 1.38,
+          "clearance_m": 1.6676705169677737,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.25,
+          "z": 1.8599999999999999,
+          "clearance_m": 1.666328220367432,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.25,
+          "z": 2.34,
+          "clearance_m": 1.6681559371948245,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.25,
+          "z": 2.82,
+          "clearance_m": 1.6699421691894534,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": -0.25,
+          "z": 3.3,
+          "clearance_m": 1.671727924346924,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": 0.25,
+          "z": 0.9,
+          "clearance_m": 1.2794392395019534,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": 0.25,
+          "z": 1.38,
+          "clearance_m": 1.2852471160888674,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": 0.25,
+          "z": 1.8599999999999999,
+          "clearance_m": 1.2910549926757815,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": 0.25,
+          "z": 2.34,
+          "clearance_m": 1.2968085098266604,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": 0.25,
+          "z": 2.82,
+          "clearance_m": 1.302519111633301,
+          "group": "study-structure-woven-hood-basket"
+        },
+        {
+          "x": 0.25,
+          "z": 3.3,
+          "clearance_m": 1.3082301902770999,
+          "group": "study-structure-woven-hood-basket"
+        }
+      ],
+      "wood_section_y_1_3m": {
+        "x": [
+          -1.2410976886749268,
+          1.5686500072479248
+        ],
+        "z": [
+          -1.1998753547668457,
+          1.5134661197662354
+        ]
+      },
+      "limits": "Static source ray samples only. No gameplay mobility, circulation, population or real structural safety claim."
+    },
+    "determinism": {
+      "revision": "longbough-habitation-v4",
+      "status": "PASS",
+      "command": [
+        "/tmp/coop-landscape-blender/Blender.app/Contents/MacOS/Blender",
+        "--background",
+        "--threads",
+        "4",
+        "--python",
+        "assets/sculpted/valley-trees/author_habitation.py",
+        "--",
+        "--no-render"
+      ],
+      "checks": {
+        "public/assets/environment/studies/longbough-habitation-study.glb": {
+          "before": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718",
+          "after": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718",
+          "identical": true
+        },
+        "assets/sculpted/valley-trees/habitation-presentation.json": {
+          "before": "f02631aa2a5c7c08246a27e108b5d0ecf85b0d159927d79fe557f6bde4e0ad7a",
+          "after": "f02631aa2a5c7c08246a27e108b5d0ecf85b0d159927d79fe557f6bde4e0ad7a",
+          "identical": true
+        },
+        "assets/sculpted/valley-trees/habitation-bark-albedo.png": {
+          "before": "0dcc0e66bbbbe79e4dca3e6d1ece89c7ce336404dfe36215d6762959d473f5c6",
+          "after": "0dcc0e66bbbbe79e4dca3e6d1ece89c7ce336404dfe36215d6762959d473f5c6",
+          "identical": true
+        },
+        "assets/sculpted/valley-trees/habitation-bark-normal.png": {
+          "before": "86a92e3e624a2095513dc27549126e8d7d4db13883a0b815fe21e3d8ae94737c",
+          "after": "86a92e3e624a2095513dc27549126e8d7d4db13883a0b815fe21e3d8ae94737c",
+          "identical": true
+        },
+        "public/assets/environment/studies/longbough-study.glb": {
+          "before": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+          "after": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+          "identical": true
+        },
+        "public/assets/environment/studies/crowncourt-study.glb": {
+          "before": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+          "after": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+          "identical": true
+        },
+        "public/assets/environment/studies/riverside-study.glb": {
+          "before": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+          "after": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+          "identical": true
+        }
+      },
+      "scope": "One recipe rerun on Blender 4.5.3 LTS, same host/runtime. Blend binary metadata is excluded; runtime GLB, images and presentation bytes must match. Three v5 study exports must remain unchanged."
+    },
+    "v3_geometry_equivalence": {
+      "state": "PASS",
+      "reference": "longbough-habitation-v3-studio.blend",
+      "current": "longbough-habitation-study.blend",
+      "scope": "All seven native source mesh vertex positions and tessellated triangle indices; material fields intentionally excluded. Local mesh coordinates correspond under unchanged Blender/glTF axis conversion.",
+      "geometry_identical": true,
+      "v3": {
+        "living-wood": {
+          "position_sha256": "4ede3127126105dfb25cce17c928067a84abfb68e1b1d5d0a61fade5e68b6bb3",
+          "triangle_index_sha256": "ac1abd9d1072f2ada963a168d77a36ef023b1f7154ed33bd01add41830830f35",
+          "vertices": 9553,
+          "triangles": 18961
+        },
+        "crown-foliage": {
+          "position_sha256": "9526d285735e672992bd5cbe2d7ef41bec4991e82780a6d7543d06dc0a17a4f2",
+          "triangle_index_sha256": "b034828a1256f5c8749ef4c126ff15ba771075d40afd365aa98e1783b71320e7",
+          "vertices": 58849,
+          "triangles": 54474
+        },
+        "study-structure-decks": {
+          "position_sha256": "30bf2176039da1bf725cd067c72c7d1791178de0c9eb7baaa10f3bd89dee6cac",
+          "triangle_index_sha256": "dd5f8282db1becc9fa186dd1a5e166b352406aced142fda435a51ef752c6b217",
+          "vertices": 512,
+          "triangles": 768
+        },
+        "study-structure-supports": {
+          "position_sha256": "3e067ad1a4cd8ef2412ac737b19382b22a56e06dfc6869c76eb5f7b62a5ec11a",
+          "triangle_index_sha256": "e70c6161b2284491335c351ed4b21ed3a627ede11cbf7744ec3737be2aba850b",
+          "vertices": 240,
+          "triangles": 400
+        },
+        "study-structure-rails-ladders": {
+          "position_sha256": "cd0f864f607f93ebcc75acd115342e52677cca8886e77fd42e84f95f52e03c80",
+          "triangle_index_sha256": "4bccdfcee98ffeeb90e5258ed8932d1f3832c1f7aebd7de3dbdb82b608ec7c88",
+          "vertices": 5472,
+          "triangles": 9728
+        },
+        "study-structure-woven-hood-basket": {
+          "position_sha256": "18702c6d5cbd9b976ee6f46800bcf1668e5e7e9d34a7a05fb2b129411fb054f7",
+          "triangle_index_sha256": "813d7016ae6618174994292d9dd3ecd07bc852a82a8e3027f13fc6e7431664e2",
+          "vertices": 7614,
+          "triangles": 13536
+        },
+        "study-structure-lashings-hoist": {
+          "position_sha256": "a9ea91976beee1143bf4a0c3198d412694759d0a83588e41be0b749a0907c663",
+          "triangle_index_sha256": "266df105445ca75c9c7fa7d6cc1cfdcc85e577e03e6d4859d9a54ba516586ace",
+          "vertices": 5670,
+          "triangles": 10080
+        }
+      },
+      "v4": {
+        "living-wood": {
+          "position_sha256": "4ede3127126105dfb25cce17c928067a84abfb68e1b1d5d0a61fade5e68b6bb3",
+          "triangle_index_sha256": "ac1abd9d1072f2ada963a168d77a36ef023b1f7154ed33bd01add41830830f35",
+          "vertices": 9553,
+          "triangles": 18961
+        },
+        "crown-foliage": {
+          "position_sha256": "9526d285735e672992bd5cbe2d7ef41bec4991e82780a6d7543d06dc0a17a4f2",
+          "triangle_index_sha256": "b034828a1256f5c8749ef4c126ff15ba771075d40afd365aa98e1783b71320e7",
+          "vertices": 58849,
+          "triangles": 54474
+        },
+        "study-structure-decks": {
+          "position_sha256": "30bf2176039da1bf725cd067c72c7d1791178de0c9eb7baaa10f3bd89dee6cac",
+          "triangle_index_sha256": "dd5f8282db1becc9fa186dd1a5e166b352406aced142fda435a51ef752c6b217",
+          "vertices": 512,
+          "triangles": 768
+        },
+        "study-structure-supports": {
+          "position_sha256": "3e067ad1a4cd8ef2412ac737b19382b22a56e06dfc6869c76eb5f7b62a5ec11a",
+          "triangle_index_sha256": "e70c6161b2284491335c351ed4b21ed3a627ede11cbf7744ec3737be2aba850b",
+          "vertices": 240,
+          "triangles": 400
+        },
+        "study-structure-rails-ladders": {
+          "position_sha256": "cd0f864f607f93ebcc75acd115342e52677cca8886e77fd42e84f95f52e03c80",
+          "triangle_index_sha256": "4bccdfcee98ffeeb90e5258ed8932d1f3832c1f7aebd7de3dbdb82b608ec7c88",
+          "vertices": 5472,
+          "triangles": 9728
+        },
+        "study-structure-woven-hood-basket": {
+          "position_sha256": "18702c6d5cbd9b976ee6f46800bcf1668e5e7e9d34a7a05fb2b129411fb054f7",
+          "triangle_index_sha256": "813d7016ae6618174994292d9dd3ecd07bc852a82a8e3027f13fc6e7431664e2",
+          "vertices": 7614,
+          "triangles": 13536
+        },
+        "study-structure-lashings-hoist": {
+          "position_sha256": "a9ea91976beee1143bf4a0c3198d412694759d0a83588e41be0b749a0907c663",
+          "triangle_index_sha256": "266df105445ca75c9c7fa7d6cc1cfdcc85e577e03e6d4859d9a54ba516586ace",
+          "vertices": 5670,
+          "triangles": 10080
+        }
+      }
+    },
+    "embedded_images": "Both embedded PNG byte hashes match the original authored files exactly."
+  },
+  "source_files": {
+    "assets/sculpted/valley-trees/author_habitation.py": {
+      "sha256": "a9f322a48a7301a5c728b6fb83463d5d7d044a935565172fd5f40a2c9861e472",
+      "bytes": 22965
+    },
+    "assets/sculpted/valley-trees/author_trees.py": {
+      "sha256": "801253f0f5210b58ad580bcab605d69b13fc281830b219d7cf6388884f707563",
+      "bytes": 22175
+    },
+    "assets/sculpted/valley-trees/validate.py": {
+      "sha256": "0cd7be790ba9e9bb343185e9c88b2b6cc14c7c6ea3bc9074c179839a2babe28d",
+      "bytes": 4981
+    },
+    "assets/sculpted/valley-trees/validate_habitation.py": {
+      "sha256": "0bd21e7c34a80406990cedc7b284121bcd7ddc0e45211cbac036f9ced9d9a004",
+      "bytes": 3969
+    },
+    "assets/sculpted/valley-trees/inspect_habitation.py": {
+      "sha256": "3da4e50193b261d8a894c3861ae6b408d1a27c7373fcb8db9edb7fb3485856ac",
+      "bytes": 2751
+    },
+    "assets/sculpted/valley-trees/compare_habitation_geometry.py": {
+      "sha256": "ee91a58df89acf4f3bc2bd55aacd9d8f93d8e009b71aae1f3796891ab787fa06",
+      "bytes": 1516
+    },
+    "assets/sculpted/valley-trees/reproduce_habitation.py": {
+      "sha256": "035cc83986b00f77014832a7eb2b8b924a785f3689e777e1eee94e5f882b2026",
+      "bytes": 1777
+    },
+    "assets/sculpted/valley-trees/receipt_habitation.py": {
+      "sha256": "092787657f6e96fe8106cbf574f00f596c78489c1342610bdc0b797f82b5929d",
+      "bytes": 4834
+    },
+    "assets/sculpted/valley-trees/longbough-habitation-study.blend": {
+      "sha256": "cbad08f5c30fe05573e640d358635438b22d89ac67511a458c1e5b62cbf8df2f",
+      "bytes": 12492930
+    },
+    "assets/sculpted/valley-trees/habitation-presentation.json": {
+      "sha256": "f02631aa2a5c7c08246a27e108b5d0ecf85b0d159927d79fe557f6bde4e0ad7a",
+      "bytes": 3869
+    },
+    "assets/sculpted/valley-trees/habitation-bark-albedo.png": {
+      "sha256": "0dcc0e66bbbbe79e4dca3e6d1ece89c7ce336404dfe36215d6762959d473f5c6",
+      "bytes": 691415
+    },
+    "assets/sculpted/valley-trees/habitation-bark-normal.png": {
+      "sha256": "86a92e3e624a2095513dc27549126e8d7d4db13883a0b815fe21e3d8ae94737c",
+      "bytes": 188702
+    },
+    "assets/sculpted/valley-trees/habitation-qualification.json": {
+      "sha256": "1a5124c2850352a3679aaee1c71af2d9893fb9168432f1896d72ffb6957deee6",
+      "bytes": 7494
+    },
+    "assets/sculpted/valley-trees/habitation-gltf-checks.json": {
+      "sha256": "1ed981ff1ea21e5e5984d18d9a162a456e511bc7d0e71987faaf58bad3cd37bb",
+      "bytes": 6198
+    },
+    "assets/sculpted/valley-trees/habitation-source-inspection.json": {
+      "sha256": "aa1a663c68cf0d34cc8df91322b2fae931b76cfb14c7243b3d584c48ae40b284",
+      "bytes": 4301
+    },
+    "assets/sculpted/valley-trees/habitation-determinism.json": {
+      "sha256": "0710380c59f1c5ad8c0be974d143d886a23aedd2997a17fab7b902e7043c9880",
+      "bytes": 2374
+    },
+    "assets/sculpted/valley-trees/habitation-geometry-equivalence.json": {
+      "sha256": "2ae749483fb4e159a030f19d9a37a7624cfb05018bf6496db857b2f09c5c3c9e",
+      "bytes": 4320
+    },
+    "assets/sculpted/valley-trees/longbough-habitation-v4-front.png": {
+      "sha256": "e0c36f77ef8c06220bfe977d763f8d8dbfc9f2a94d7e80f7f08c24df55640d0d",
+      "bytes": 2622653
+    },
+    "assets/sculpted/valley-trees/longbough-habitation-v4-studio.blend": {
+      "sha256": "4d84f8f091551c39ddf241932777995d33cf30456b40f856a0a363e0d76e5c8b",
+      "bytes": 12509277
+    },
+    "assets/sculpted/valley-trees/HABITATION.md": {
+      "sha256": "fcbd21302f387150369f519a41a557b61ce37db5c53fd45cfebef61370d19b7d",
+      "bytes": 4627
+    }
+  },
+  "provenance": {
+    "authoring": "Original deterministic project-authored Blender geometry, branch paths, palette, analytic directional bark albedo/normal, reed/twig/slat construction; Blender4.5.3LTS. Established author_trees.py geometric helpers reused without rebuilding legacy assets.",
+    "reference_inspected": "User supplied 2026-10-26 1.43.35PM tree screenshot and prior runtime final-longbough-whole.png; inspected as visual direction only, neither copied nor embedded.",
+    "external_resources": false,
+    "rejected_evidence": "v1/v2/v3 source images and studio blends plus v1 runtime snapshot retained in this directory; prior v5 studies remain byte-identical."
+  },
+  "remaining": [
+    "Final runtime rendering, browser console, narrow framing and performance belong to integration owner.",
+    "Broad stylized bark and repeated support-lobe crown rhythm remain prototype art limits; no concept-art fidelity or production acceptance claim.",
+    "107,947 triangles/10.55MB is a single visual-study asset, not an optimized forest-placement budget.",
+    "Static sampled floor/headroom checks do not prove circulation, structural strength, navigation, safety or population capacity.",
+    "Exported wood COLOR_0 is neutral; runtime bark surface variation is carried by linked original albedo and normal textures."
+  ],
+  "decision": "Asset slice ready for matched actual-camera acceptance; no further art iteration without a concrete runtime blocker. No commit/deployment authority."
+}

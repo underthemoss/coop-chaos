@@ -1,0 +1,189 @@
+{
+  "inputs": [
+    {
+      "path": "src/content/inhabited-valley-generator.ts",
+      "sha256": "47dee07f3022089f866e94e9a416234b2781af5789bda34dac10cde589536d1d"
+    },
+    {
+      "path": "src/content/valley-generator.ts",
+      "sha256": "ebd0d9818a314563378fdedafa8b58cc289e41c14ecb947174e90342c4d870e1"
+    },
+    {
+      "path": "scripts/inhabited-valley-validation.mjs",
+      "sha256": "a096775e3ccc368010980c11316786e6bd4ab418506e30d55d2cf2f81f364731"
+    },
+    {
+      "path": "scripts/inhabited-valley-diagram.mjs",
+      "sha256": "23ef648f3685be5c4f077f342f439605d18cfaaa506f3b7486a04a3d086c5348"
+    },
+    {
+      "path": "scripts/measure-inhabited-map-props.py",
+      "sha256": "c282bb26fe781e8f577b9b50680db64c27ade96ee4775e1f792d2bb4223dc117"
+    },
+    {
+      "path": "assets/maps/inhabited-map-prop-bounds-v1.json",
+      "sha256": "b8c0ad7291dd853dd15e361fa1f259a819c29b4084ecf9abba8a505073f2e3b4"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/root-sections.json",
+      "sha256": "f5f533aa368395bed4c3c33486651c38204edc40eccf70a00290923204eaf5ab"
+    }
+  ],
+  "revision": "inhabited-valley-v2",
+  "sourceSha256": "47dee07f3022089f866e94e9a416234b2781af5789bda34dac10cde589536d1d",
+  "mapId": "inhabited-valley",
+  "mapVersion": 2,
+  "physicalSizeMeters": {
+    "width": 36,
+    "depth": 28
+  },
+  "seed": 7319,
+  "checks": {
+    "directMeters": 16.198752370299136,
+    "flankMeters": 32.02961078144385,
+    "destinationRoutes": 18,
+    "maxWalkableSlope": 0.7832230597420876,
+    "steepCells": 0,
+    "pads": [
+      {
+        "id": "store-west",
+        "footprint": {
+          "width": 1.76,
+          "depth": 1.4604
+        },
+        "clearance": 0.4,
+        "frontApron": 1,
+        "cells": 42,
+        "reservedCells": 35,
+        "centerExcluded": true,
+        "connectedApronCells": 3,
+        "relief": 0
+      },
+      {
+        "id": "store-east",
+        "footprint": {
+          "width": 1.76,
+          "depth": 1.4604
+        },
+        "clearance": 0.4,
+        "frontApron": 1,
+        "cells": 42,
+        "reservedCells": 35,
+        "centerExcluded": true,
+        "connectedApronCells": 3,
+        "relief": 0.07428564000000004
+      },
+      {
+        "id": "nursery-longbough",
+        "footprint": {
+          "width": 1.53407,
+          "depth": 1.42148
+        },
+        "clearance": 0.3,
+        "frontApron": 1,
+        "cells": 30,
+        "reservedCells": 25,
+        "centerExcluded": true,
+        "connectedApronCells": 3,
+        "relief": 0
+      }
+    ],
+    "nurseryFoodRoutes": [
+      {
+        "id": "seed-common",
+        "metres": 3.6213203435596424
+      },
+      {
+        "id": "leaf-litter",
+        "metres": 3.1213203435596424
+      },
+      {
+        "id": "insect-verge",
+        "metres": 17.385938721454853
+      }
+    ],
+    "meanNurseryFoodMetres": 8.042859802858045,
+    "frontCourt": {
+      "width": 3.8,
+      "depth": 3.2,
+      "physicalSquareMeters": 12.16,
+      "coveredTileSquareMeters": 15.75
+    },
+    "obstacles": [
+      {
+        "id": "inhabited-rock-0",
+        "cells": 30
+      },
+      {
+        "id": "inhabited-rock-1",
+        "cells": 20
+      },
+      {
+        "id": "inhabited-rock-2",
+        "cells": 16
+      },
+      {
+        "id": "inhabited-rock-3",
+        "cells": 13
+      },
+      {
+        "id": "longbough-root-reservation",
+        "cells": 224
+      },
+      {
+        "id": "west-margin-tree-roots",
+        "cells": 9
+      },
+      {
+        "id": "east-margin-tree-roots",
+        "cells": 9
+      },
+      {
+        "id": "west-cover-tree-roots",
+        "cells": 9
+      },
+      {
+        "id": "store-west-pad-reservation",
+        "cells": 35
+      },
+      {
+        "id": "store-east-pad-reservation",
+        "cells": 35
+      },
+      {
+        "id": "nursery-longbough-pad-reservation",
+        "cells": 25
+      }
+    ],
+    "leafCover": {
+      "tree": "west-cover-tree",
+      "sourceBounds": "dressing-willow",
+      "projectedOverlapMeters": {
+        "x": 0.5346593618392943,
+        "z": 1.9819360136985777
+      },
+      "projectedOverlapSquareMeters": 1.0596606442903964,
+      "meaning": "Projected source AABB overlap with habitat area; not exact shade or crown collision."
+    }
+  },
+  "outputs": [
+    {
+      "path": "src/content/generated/inhabited-valley-v2.json",
+      "sha256": "19c125e1b57c9e7212edd2e90820697d092d71516e87046e725f3f83a73b67cd",
+      "bytes": 1138103
+    },
+    {
+      "path": "src/content/generated/inhabited-valley-placements-v2.json",
+      "sha256": "3e92f5e4054516e1772c501d8c0a0fe2202aa727714c102d0be8c955ded32c9d",
+      "bytes": 4705
+    },
+    {
+      "path": "assets/maps/inhabited-valley-v2-plan.svg",
+      "sha256": "ee3768e977e205cfcaf801464168e1d040c854888bc811beba342772fa5a6839",
+      "bytes": 541660
+    }
+  ],
+  "legacy": {
+    "src/content/generated/ochre-valley-v2.json": "dd695232ca9681e8eb1fc0b9d09194ccae399ccb85c4580dcb8099c34656e310"
+  }
+}

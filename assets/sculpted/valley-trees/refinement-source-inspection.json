@@ -1,0 +1,123 @@
+{
+  "revision": "longbough-refinement-v8",
+  "fixture_checks": [
+    {
+      "id": "lower-fern",
+      "position": [
+        1.45,
+        3.2,
+        2.78
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 0.9,
+      "obstruction_samples": []
+    },
+    {
+      "id": "lower-rook",
+      "position": [
+        2.4,
+        3.2,
+        2.3
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 1.35,
+      "obstruction_samples": []
+    },
+    {
+      "id": "middle-fern",
+      "position": [
+        -0.65,
+        5.72,
+        2.87
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 0.9,
+      "obstruction_samples": []
+    },
+    {
+      "id": "upper-rook",
+      "position": [
+        0.7,
+        8.15,
+        1.77
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 0.9,
+      "obstruction_samples": []
+    }
+  ],
+  "support_anchor_checks": [
+    {
+      "deck": "lower",
+      "anchor": [
+        -0.15,
+        2.1,
+        -0.2
+      ],
+      "distance_to_wood_surface_m": 0.9577342867851257,
+      "inside_wood": true
+    },
+    {
+      "deck": "lower",
+      "anchor": [
+        1.15,
+        2.25,
+        -0.1
+      ],
+      "distance_to_wood_surface_m": 0.0011177565902471542,
+      "inside_wood": false
+    },
+    {
+      "deck": "middle",
+      "anchor": [
+        -0.15,
+        4.62,
+        -0.2
+      ],
+      "distance_to_wood_surface_m": 0.5950736999511719,
+      "inside_wood": true
+    },
+    {
+      "deck": "middle",
+      "anchor": [
+        -1.0,
+        4.77,
+        -0.1
+      ],
+      "distance_to_wood_surface_m": 0.4755758047103882,
+      "inside_wood": true
+    },
+    {
+      "deck": "upper",
+      "anchor": [
+        -1.6,
+        7.05,
+        -0.6
+      ],
+      "distance_to_wood_surface_m": 0.5969106554985046,
+      "inside_wood": true
+    },
+    {
+      "deck": "upper",
+      "anchor": [
+        2.8,
+        7.2,
+        -0.85
+      ],
+      "distance_to_wood_surface_m": 0.5179885029792786,
+      "inside_wood": true
+    }
+  ],
+  "wood_section_y_1_3m": {
+    "x": [
+      -1.8614580631256104,
+      1.5895835161209106
+    ],
+    "z": [
+      -1.5782028436660767,
+      1.494100570678711
+    ]
+  },
+  "shelter": "No overhead roof; open terraces replace the former rainhood.",
+  "limits": "Static source ray/nearest surface samples only. No gameplay mobility, full circulation, population or real structural safety proof."
+}

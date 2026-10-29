@@ -1,0 +1,15 @@
+{
+  "revision": "landscape-v3",
+  "before": {
+    "public/assets/environment/valley-cliff-ledge.glb": "0003eedbc5bab789552aa6b81eee6cb89ea9dddb3da546cf0302f0558d43009b",
+    "public/assets/environment/valley-boulder.glb": "2ee0fe4aeb6c18bbc4fe2ba8631bac58325349fe7210701dccdd6ab742dc363d",
+    "public/assets/environment/valley-scree.glb": "197e3e2e06546091f4d0c8b3837f7f4e7919db9f475f6c132dbdf961ffd621c5"
+  },
+  "after": {
+    "public/assets/environment/valley-cliff-ledge.glb": "0003eedbc5bab789552aa6b81eee6cb89ea9dddb3da546cf0302f0558d43009b",
+    "public/assets/environment/valley-boulder.glb": "2ee0fe4aeb6c18bbc4fe2ba8631bac58325349fe7210701dccdd6ab742dc363d",
+    "public/assets/environment/valley-scree.glb": "197e3e2e06546091f4d0c8b3837f7f4e7919db9f475f6c132dbdf961ffd621c5"
+  },
+  "identical": true,
+  "comparison": "Three GLBs only; editable Blender files contain save-session metadata."
+}

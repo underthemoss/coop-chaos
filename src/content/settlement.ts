@@ -23,7 +23,7 @@ export const trees = [
     description: "A waterside fork, farther from the starting bundles.",
   },
 ] as const;
-export type TreeId = (typeof trees)[number]["id"];
+export type TreeId = (typeof trees)[number]["id"] | "longbough";
 export const settlers = [
   {
     id: "fern",

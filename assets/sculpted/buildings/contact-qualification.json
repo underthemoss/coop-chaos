@@ -1,0 +1,192 @@
+{
+  "homePostContacts": [
+    {
+      "side": "left",
+      "postFoot": [
+        -0.94,
+        2.23,
+        -0.12
+      ],
+      "floorHit": [
+        -0.9399999976158142,
+        2.267820358276367,
+        -0.11999999731779099
+      ],
+      "embeddedMetres": 0.037820358276367205
+    },
+    {
+      "side": "left",
+      "postFoot": [
+        -0.3909235939800279,
+        2.23,
+        -0.12
+      ],
+      "floorHit": [
+        -0.3909235894680023,
+        2.25,
+        -0.11999999731779099
+      ],
+      "embeddedMetres": 0.020000000000000018
+    },
+    {
+      "side": "right",
+      "postFoot": [
+        0.4422692999085695,
+        2.23,
+        -0.136
+      ],
+      "floorHit": [
+        0.44226929545402527,
+        2.25,
+        -0.13600000739097595
+      ],
+      "embeddedMetres": 0.020000000000000018
+    },
+    {
+      "side": "right",
+      "postFoot": [
+        0.94,
+        2.23,
+        -0.136
+      ],
+      "floorHit": [
+        0.9399999976158142,
+        2.267820358276367,
+        -0.13600000739097595
+      ],
+      "embeddedMetres": 0.037820358276367205
+    }
+  ],
+  "studyPostContacts": [
+    {
+      "side": "left",
+      "postFoot": [
+        -0.8626105229477533,
+        3.18,
+        1.7625000000000002
+      ],
+      "floorHit": [
+        -0.8626105189323425,
+        3.200000047683716,
+        1.7625000476837158
+      ],
+      "embeddedMetres": 0.02000004768371566
+    },
+    {
+      "side": "left",
+      "postFoot": [
+        0.34564926243115973,
+        3.18,
+        1.7625000000000002
+      ],
+      "floorHit": [
+        0.34564927220344543,
+        3.200000047683716,
+        1.7625000476837158
+      ],
+      "embeddedMetres": 0.02000004768371566
+    },
+    {
+      "side": "right",
+      "postFoot": [
+        1.663019230075436,
+        3.18,
+        1.2225000000000001
+      ],
+      "floorHit": [
+        1.6630191802978516,
+        3.200000047683716,
+        1.222499966621399
+      ],
+      "embeddedMetres": 0.02000004768371566
+    },
+    {
+      "side": "right",
+      "postFoot": [
+        2.8200195094079707,
+        3.18,
+        1.2225000000000001
+      ],
+      "floorHit": [
+        2.820019483566284,
+        3.200000047683716,
+        1.222499966621399
+      ],
+      "embeddedMetres": 0.02000004768371566
+    }
+  ],
+  "nurseryGroundPosts": [
+    {
+      "side": "left",
+      "postFoot": [
+        -0.5963129927158627,
+        -0.01,
+        0.539
+      ],
+      "groundY": 0,
+      "buriedMetres": 0.01
+    },
+    {
+      "side": "left",
+      "postFoot": [
+        0.09935173219926913,
+        -0.01,
+        0.539
+      ],
+      "groundY": 0,
+      "buriedMetres": 0.01
+    },
+    {
+      "side": "right",
+      "postFoot": [
+        0.059592086486623556,
+        -0.01,
+        0.5805000000000001
+      ],
+      "groundY": 0,
+      "buriedMetres": 0.01
+    },
+    {
+      "side": "right",
+      "postFoot": [
+        0.6234466529967829,
+        -0.01,
+        0.5805000000000001
+      ],
+      "groundY": 0,
+      "buriedMetres": 0.01
+    },
+    {
+      "side": "frame",
+      "postFoot": [
+        -0.63,
+        -0.01,
+        0.32
+      ],
+      "groundY": 0,
+      "buriedMetres": 0.01
+    },
+    {
+      "side": "frame",
+      "postFoot": [
+        0.63,
+        -0.01,
+        0.32
+      ],
+      "groundY": 0,
+      "buriedMetres": 0.01
+    }
+  ],
+  "homeLivingSupport": {
+    "lowfork": {
+      "surfaceContactPairs": 364
+    },
+    "splitcrown": {
+      "surfaceContactPairs": 374
+    },
+    "reedside": {
+      "surfaceContactPairs": 374
+    }
+  },
+  "limits": "Source indexed mesh contact and authored flat ground Y0; terrain placement, structural strength, body pose and dynamic traversal remain separate qualification."
+}

@@ -39,9 +39,17 @@ production, expansion, threats and politics remain future. The
 [earlier gameplay analysis](proposals/gameplay-rules-analysis.md) is background,
 not a competing construction or progression plan.
 
-Unsettled: the player's in-world identity; exact recipes, rates, starting cast and
+Warfare and territorial conquest are the accepted main goal for **Chicken Civ**
+(formerly Coop Chaos), selected on 24 October 2026. Detailed gameplay and narrative
+design comes first, creative design next. The [gameplay specification](proposals/chicken-civ-design.md)
+and [narrative proposal](proposals/chicken-civ-narrative.md) develop this direction;
+their specific institutions, characters and mechanics are proposed rather than
+newly accepted canon. Military control never automatically establishes the
+allegiance of a named person or tree.
+
+Unsettled: the player's precise in-world identity; exact recipes, rates, starting cast and
 counts, calendar, predator species, and behavioral algorithms; detailed coop
-institutions and limits of major conflict. Prototype explicitly without silently
+institutions and the detailed conduct and consequences of major conflict. Prototype explicitly without silently
 promoting a balance assumption or historical example into canon.
 
 ## Forest homes and invented access

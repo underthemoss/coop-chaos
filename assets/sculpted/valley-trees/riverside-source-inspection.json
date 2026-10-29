@@ -1,0 +1,20 @@
+{
+  "revision": "tree-study-v5",
+  "source": "riverside-study.blend",
+  "probe_contract": "Render-only vertical rays from Y=.01; X[-1.25,1.25] step.25, Z[1.5,3] step.25. Samples are art-clearance evidence, not a traversal/capacity contract.",
+  "anatomical_ground_y": 0,
+  "meshes": {
+    "living-wood": {
+      "rays": 77,
+      "unobstructed_rays": 74,
+      "minimum_overhead_hit_y": 3.0734140872955322,
+      "maximum_overhead_hit_y": 3.3264212608337402
+    },
+    "crown-foliage": {
+      "rays": 77,
+      "unobstructed_rays": 76,
+      "minimum_overhead_hit_y": 4.68844747543335,
+      "maximum_overhead_hit_y": 4.68844747543335
+    }
+  }
+}

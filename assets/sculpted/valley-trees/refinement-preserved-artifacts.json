@@ -1,0 +1,10 @@
+{
+  "state": "PASS",
+  "checks": "All three natural v5 runtime GLBs and inhabited v4 runtime GLB retain prior SHA256 hashes",
+  "sha256": {
+    "longbough-study.glb": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+    "crowncourt-study.glb": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+    "riverside-study.glb": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+    "longbough-habitation-study.glb": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718"
+  }
+}
