@@ -13,7 +13,12 @@ Pushing to `main` triggers a production deployment. Other branches receive previ
 deployments. There is no custom deployment workflow or repository token to manage.
 `vercel.json` keeps automatic Git deployments enabled and sets the Vite build:
 `npm ci`, then `npm run check` (tests, TypeScript, and production build), with
-`dist` as the published directory. The project uses Node.js 24.x.
+`dist` as the published directory. Vercel selects Node.js under the package's
+`engines` range (`^20.19.0 || >=22.12.0`), which can override the project's
+configured version. This release's Vercel build selected Node.js 26.x; the
+cross-platform immutable-map check also passed on Linux x64 Node.js 26.13.0.
+The range permits future Node.js majors, so verify the actual build log when
+qualifying a release.
 
 The game is a static, single-player browser application. It needs no backend or
 runtime secrets. Saves live in the current browser's IndexedDB and belong to that
