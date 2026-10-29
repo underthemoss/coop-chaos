@@ -1,0 +1,85 @@
+{
+  "revision": "valley-bank-family-v1",
+  "sourceFrame": {
+    "metersPerUnit": 1,
+    "up": "+Y",
+    "outward": "+Z",
+    "tangent": "+X",
+    "origin": "center-bottom"
+  },
+  "provenance": "Original authored fracture courses and composition; original landscape Sculpture helper reused, no external meshes/images.",
+  "assets": {
+    "bank-shoulder": {
+      "assetUrl": "/assets/environment/valley/valley-bank-shoulder.glb",
+      "sha256": "4467000e8315b2eb4a873ebc1add42809999bef47076301fc1d15fce835eb9e7",
+      "bytes": 157936,
+      "triangles": 1526,
+      "min": [
+        -1.8,
+        0,
+        -0.7
+      ],
+      "max": [
+        1.8,
+        1.5,
+        0.7
+      ],
+      "meshGroups": [
+        "bank-mineral-and-protected-moss"
+      ],
+      "materials": [
+        "valley-mineral-rough",
+        "valley-moss-rough"
+      ],
+      "placement": "Partly bury into blocked bank; +Z outward, +X tangent. Rotate/scale to actual slope, no terrain/walking support claim."
+    },
+    "bank-shelf": {
+      "assetUrl": "/assets/environment/valley/valley-bank-shelf.glb",
+      "sha256": "f6e83077b4e960b8ba875d351514d5e6dee99943ee70c1c6936f353103c41d37",
+      "bytes": 130204,
+      "triangles": 1254,
+      "min": [
+        -1.6,
+        0,
+        -0.7
+      ],
+      "max": [
+        1.6,
+        0.4,
+        0.7
+      ],
+      "meshGroups": [
+        "bank-mineral-and-protected-moss"
+      ],
+      "materials": [
+        "valley-mineral-rough",
+        "valley-moss-rough"
+      ],
+      "placement": "Partly bury into blocked bank; +Z outward, +X tangent. Rotate/scale to actual slope, no terrain/walking support claim."
+    },
+    "shore-outcrop": {
+      "assetUrl": "/assets/environment/valley/valley-shore-outcrop.glb",
+      "sha256": "da5c6488350971f250c6fd250dd5e4fb668af282fa21e1975648ac235f620c25",
+      "bytes": 97732,
+      "triangles": 936,
+      "min": [
+        -1.1,
+        0,
+        -0.75
+      ],
+      "max": [
+        1.1,
+        0.9,
+        0.75
+      ],
+      "meshGroups": [
+        "bank-mineral-and-protected-moss"
+      ],
+      "materials": [
+        "valley-mineral-rough",
+        "valley-moss-rough"
+      ],
+      "placement": "Partly bury into blocked bank; +Z outward, +X tangent. Rotate/scale to actual slope, no terrain/walking support claim."
+    }
+  }
+}

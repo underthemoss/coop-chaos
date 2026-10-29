@@ -1,0 +1,134 @@
+{
+  "revision": "bound-reed-family-v1",
+  "units": "metres",
+  "sourceFrame": "X right, Y up, Z forward; renderer uses established glTF conversion compensation",
+  "oldAssetsOverwritten": false,
+  "boughhome": {
+    "assetUrl": "/assets/environment/buildings/boughhome.glb",
+    "origin": "existing tree-local origin",
+    "adultScale": 0.365,
+    "floorTopY": 2.25,
+    "berths": [
+      [
+        -0.86,
+        2.25,
+        -0.5
+      ],
+      [
+        0.86,
+        2.25,
+        -0.5
+      ]
+    ],
+    "groups": {
+      "deck": 1,
+      "rainhood-left": 2,
+      "rainhood-right": 2,
+      "ladder": 3
+    },
+    "capacityMeaning": "Existing two sheltered places only; no new rule or avoidance claim",
+    "arrivalOpening": {
+      "x": [
+        -0.2,
+        0.2
+      ],
+      "z": [
+        -1.24,
+        -0.82
+      ],
+      "meaning": "Intermediate climb grip/open hatch; final supported arrival remains home-entry Z\u2212.5, no route change"
+    },
+    "mainLadder": {
+      "railX": [
+        -0.285,
+        0.285
+      ],
+      "railZ": -1.08,
+      "gripInnerX": [
+        -0.15,
+        0.15
+      ],
+      "gripInnerZ": -0.89,
+      "meaning": "Connected rails and forward curved side grips, open centre body plane"
+    },
+    "hoodPostFeet": [
+      [
+        -0.94,
+        2.23,
+        -0.12
+      ],
+      [
+        -0.39092359398,
+        2.23,
+        -0.12
+      ],
+      [
+        0.44226929991,
+        2.23,
+        -0.136
+      ],
+      [
+        0.94,
+        2.23,
+        -0.136
+      ]
+    ]
+  },
+  "reedStore": {
+    "assetUrl": "/assets/environment/buildings/reed-store.glb",
+    "origin": "existing site.at times 2, terrain Y",
+    "groups": {
+      "store-base-bindings": 1,
+      "store-frame": 2,
+      "store-container-finish": 3
+    },
+    "resources": "No decorative supplies; renderer displays actual saved reed stock/delivery only",
+    "storeSupply": "retain existing bundle positions/scales"
+  },
+  "rootNursery": {
+    "assetUrl": "/assets/environment/buildings/root-nursery.glb",
+    "origin": "groundAccess(site.at) times 2 plus [-1.05, 0, 0.55], terrain Y",
+    "groups": {
+      "nursery-base-floor-bindings": 1,
+      "nursery-frame": 2,
+      "nursery-hood-finish": 3,
+      "nursery-nest-finish": 3
+    },
+    "eggPositions": [
+      [
+        -0.045,
+        0.105,
+        -0.58
+      ],
+      [
+        0.045,
+        0.105,
+        -0.56
+      ]
+    ],
+    "foodOrigin": [
+      0,
+      0.13,
+      -0.35
+    ],
+    "foodSideX": 0.55,
+    "capacityMeaning": "Existing two dependents, zero adult places; renderer owns actual eggs/food/dependents"
+  },
+  "qualification": "Source mesh/resource/determinism/contact receipts beside this file; final actual Babylon pose/art/journey qualification belongs to output/building-implementation-v1.",
+  "habitatSource": "src/content/tree-habitats.json",
+  "habitatSourceSha256": "cd95c05130bf924345abf33e3a0369595961ebfc227e65ff249e9dcc3f2a4074",
+  "constructionStages": {
+    "1": "Existing full recipe delivered: base/floor/bindings",
+    "2": "Existing saved progress >=10: frame; home rainhood prefix",
+    "3": "Existing complete: finished hood/container/nest; home ladder"
+  },
+  "compatibleDeck": {
+    "assetUrl": "/assets/environment/buildings/sleeping-deck-compatible.glb",
+    "revision": "same-anchor-open-clamber-v2",
+    "anchors": "unchanged canonical upper berths/home-edge/ramp-middle/deck-entry",
+    "firstRetainedReedShiftX": 0.066,
+    "approach": "Open short side-grip clamber, no continuous foot-floor promise",
+    "poseRequirement": "Integration-owned modest .35 rad upper-body descent lean about source hipY .75; original leg/foot route unchanged",
+    "cargo": "Actual access disallows cargo; hypothetical cargo does not establish permission or clearance"
+  }
+}

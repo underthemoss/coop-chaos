@@ -1,0 +1,194 @@
+{
+  "revision": "longbough-habitation-v4",
+  "fixture_checks": [
+    {
+      "id": "lower-fern",
+      "position": [
+        1.75,
+        3.2,
+        2.85
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 0.9,
+      "obstruction_samples": []
+    },
+    {
+      "id": "lower-rook",
+      "position": [
+        2.6,
+        3.2,
+        2.3
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 1.35,
+      "obstruction_samples": []
+    },
+    {
+      "id": "middle-fern",
+      "position": [
+        -0.4,
+        5.72,
+        3.48
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 0.9,
+      "obstruction_samples": []
+    },
+    {
+      "id": "upper-rook",
+      "position": [
+        1.55,
+        8.15,
+        1.9
+      ],
+      "floor_verified": true,
+      "sampled_headroom_m": 0.9,
+      "obstruction_samples": []
+    }
+  ],
+  "shelter_clear_region_m": {
+    "width": 2.5,
+    "depth": 2.4,
+    "sample_count": 36,
+    "minimum_sampled_clearance_m": 1.2794392395019534
+  },
+  "shelter_samples": [
+    {
+      "x": -2.25,
+      "z": 0.9,
+      "clearance_m": 1.2809756088256838,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -2.25,
+      "z": 1.38,
+      "clearance_m": 1.2998860168457034,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -2.25,
+      "z": 3.3,
+      "clearance_m": 1.334118633270264,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -1.75,
+      "z": 0.9,
+      "clearance_m": 1.679681091308594,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -1.75,
+      "z": 3.3,
+      "clearance_m": 1.7047770309448245,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -1.25,
+      "z": 0.9,
+      "clearance_m": 1.8635371017456057,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -1.25,
+      "z": 3.3,
+      "clearance_m": 1.8635371017456057,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.75,
+      "z": 0.9,
+      "clearance_m": 1.8637802886962893,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.75,
+      "z": 3.3,
+      "clearance_m": 1.8637802886962893,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.25,
+      "z": 0.9,
+      "clearance_m": 1.6772344398498538,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.25,
+      "z": 1.38,
+      "clearance_m": 1.6676705169677737,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.25,
+      "z": 1.8599999999999999,
+      "clearance_m": 1.666328220367432,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.25,
+      "z": 2.34,
+      "clearance_m": 1.6681559371948245,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.25,
+      "z": 2.82,
+      "clearance_m": 1.6699421691894534,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": -0.25,
+      "z": 3.3,
+      "clearance_m": 1.671727924346924,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": 0.25,
+      "z": 0.9,
+      "clearance_m": 1.2794392395019534,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": 0.25,
+      "z": 1.38,
+      "clearance_m": 1.2852471160888674,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": 0.25,
+      "z": 1.8599999999999999,
+      "clearance_m": 1.2910549926757815,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": 0.25,
+      "z": 2.34,
+      "clearance_m": 1.2968085098266604,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": 0.25,
+      "z": 2.82,
+      "clearance_m": 1.302519111633301,
+      "group": "study-structure-woven-hood-basket"
+    },
+    {
+      "x": 0.25,
+      "z": 3.3,
+      "clearance_m": 1.3082301902770999,
+      "group": "study-structure-woven-hood-basket"
+    }
+  ],
+  "wood_section_y_1_3m": {
+    "x": [
+      -1.2410976886749268,
+      1.5686500072479248
+    ],
+    "z": [
+      -1.1998753547668457,
+      1.5134661197662354
+    ]
+  },
+  "limits": "Static source ray samples only. No gameplay mobility, circulation, population or real structural safety claim."
+}

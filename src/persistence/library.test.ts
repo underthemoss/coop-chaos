@@ -10,7 +10,9 @@ import {
   writeSlot,
 } from "./library";
 import { command, initialSettlement } from "../simulation/settlement";
-import { encodeSettlement } from "./settlement-save";
+import { decodeSettlement, encodeSettlement } from "./settlement-save";
+import { isLandscape } from "./game-save";
+import { moveWalker, stepLandscape } from "../simulation/landscape";
 
 function db(name: string) {
   return new Promise<IDBDatabase>((resolve, reject) => {
@@ -87,6 +89,44 @@ beforeEach(async () => {
   }
 });
 describe("device game library", () => {
+  it("saves and reopens direct state through the real device session owner", async () => {
+    const slot=await createSlot("Direct readback",encodeSettlement(initialSettlement()));
+    const session=await openSlot(slot.id);
+    if(isLandscape(session.state))throw new Error("Expected settlement");
+    const next=command(command(session.state,{type:"stop",bird:"fern"}),{type:"pause"});
+    await session.save(next);session.close();await new Promise(resolve=>setTimeout(resolve,0));
+    const reopened=await openSlot(slot.id);expect(reopened.state).toEqual(next);reopened.close();
+    expect((await listSlots()).find(s=>s.id===slot.id)?.status).toBe("valid");
+  });
+
+  it("stores landscape and woodland together, exports/imports routes, and retains landscape locking", async () => {
+    const old = await createSlot("Woodland");
+    const valley = await createSlot("Valley", undefined, "landscape");
+    const session = await openSlot(valley.id);
+    if (!isLandscape(session.state)) throw new Error("Expected valley");
+    const walking = stepLandscape(
+      moveWalker(session.state, "fern", { x: 25, z: 21 })!,
+      2.3,
+    );
+    await session.save(walking);
+    await expect(openSlot(valley.id)).rejects.toThrow("another tab");
+    session.close();
+    const saved = (await listSlots()).find((s) => s.id === valley.id)!;
+    const imported = await createSlot("Portable valley", saved.raw);
+    expect(imported.status).toBe("valid");
+    if (imported.status === "valid") expect(imported.state).toEqual(walking);
+    expect((await listSlots()).find((s) => s.id === old.id)?.raw).toBe(old.raw);
+    const bad = JSON.parse(saved.raw);
+    bad.state.mapVersion = 999;
+    const unreadable = inspectSlot({ ...saved, raw: JSON.stringify(bad) });
+    expect(unreadable.status).toBe("damaged");
+    if (unreadable.status !== "valid")
+      expect(unreadable.reason).toContain("map version");
+    await expect(createSlot("Unknown", JSON.stringify(bad))).rejects.toThrow(
+      "map version",
+    );
+  });
+
   it("distinguishes absent games and imports old save once without changing original bytes or state", async () => {
     expect(await initializeLibrary()).toEqual([]);
     // Once absence was recorded, later legacy writes must not resurrect a deleted/imported game.
@@ -127,6 +167,21 @@ describe("device game library", () => {
     await expect(createSlot("No", "{bad")).rejects.toThrow();
     expect(await listSlots()).toHaveLength(2);
     expect((await listSlots()).every((s) => s.raw === a.raw)).toBe(true);
+  });
+  it("keeps an original living valley exact when a refined valley gets its own slot and reopens", async () => {
+    const original = await createSlot("Original valley", undefined, "inhabited-original");
+    const originalState = decodeSettlement(original.raw);
+    expect(originalState.world).toEqual({id:"inhabited-valley",version:1});
+    const refined = await createSlot("Refined valley", undefined, "inhabited");
+    expect(refined.id).not.toBe(original.id);
+    const refinedState=decodeSettlement(refined.raw);
+    expect(refinedState.world).toEqual({id:"inhabited-valley",version:2});
+    const paused=command(refinedState,{type:"pause"});
+    await writeSlot(refined.id,0,encodeSettlement(paused));
+    const stored=await listSlots();
+    expect(stored.find(s=>s.id===original.id)!.raw).toBe(original.raw);
+    expect(decodeSettlement(stored.find(s=>s.id===original.id)!.raw)).toEqual(originalState);
+    expect(decodeSettlement(stored.find(s=>s.id===refined.id)!.raw)).toEqual(paused);
   });
   it("validates before commit, preserves latest good on storage failure and rejects stale revisions atomically", async () => {
     const a = await createSlot("First");

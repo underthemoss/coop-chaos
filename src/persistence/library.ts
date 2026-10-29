@@ -1,6 +1,8 @@
-import { decodeSettlement, encodeSettlement } from "./settlement-save";
+import { inhabitedValleyWorld, originalInhabitedValleyWorld } from "../content/settlement-world";
+import { decodeGame, encodeGame } from "./game-save";
+import type { GameState } from "./game-save";
+import { initialLandscape } from "../simulation/landscape";
 import { initialSettlement } from "../simulation/settlement";
-import type { Settlement } from "../simulation/settlement";
 
 /** Device metadata is deliberately independent of the simulation save envelope. */
 export interface Slot {
@@ -15,7 +17,7 @@ export interface Slot {
 export type SaveProblem = "damaged" | "newer";
 export type SlotView = Slot &
   (
-    | { status: "valid"; state: Settlement }
+    | { status: "valid"; state: GameState }
     | { status: SaveProblem; reason: string }
   );
 export class LibraryError extends Error {
@@ -81,21 +83,24 @@ function transaction<T>(
 }
 export function inspectSlot(slot: Slot): SlotView {
   try {
-    return { ...slot, status: "valid", state: decodeSettlement(slot.raw) };
-  } catch {
+    return { ...slot, status: "valid", state: decodeGame(slot.raw) };
+  } catch (error) {
     let newer = false;
     try {
       const envelope = JSON.parse(slot.raw);
-      newer = Number(envelope.schemaVersion) > 8;
+      newer = Number(envelope.schemaVersion) > 10;
     } catch {
       /* unreadable bytes stay available for download */
     }
     return {
       ...slot,
       status: newer ? "newer" : "damaged",
-      reason: newer
-        ? "This game was saved by a newer version. Open it with an updated game; the original is preserved."
-        : "This game could not be read. Its original data is preserved; download it before seeking help.",
+      reason:
+        error instanceof Error && error.message.includes("landscape")
+          ? error.message
+          : newer
+            ? "This game was saved by a newer version. Open it with an updated game; the original is preserved."
+            : "This game could not be read. Its original data is preserved; download it before seeking help.",
     };
   }
 }
@@ -199,9 +204,9 @@ export async function listSlots(): Promise<SlotView[]> {
     db.close();
   }
 }
-function validText(state: Settlement): string {
-  const raw = encodeSettlement(state);
-  decodeSettlement(raw);
+function validText(state: GameState): string {
+  const raw = encodeGame(state);
+  decodeGame(raw);
   return raw;
 }
 function nameOf(name: string) {
@@ -212,9 +217,14 @@ function nameOf(name: string) {
 export async function createSlot(
   name: string,
   text?: string,
+  kind: "landscape" | "woodland" | "inhabited" | "inhabited-original" = "woodland",
 ): Promise<SlotView> {
   const raw = validText(
-    text === undefined ? initialSettlement() : decodeSettlement(text),
+    text === undefined
+      ? kind === "landscape"
+        ? initialLandscape()
+        : initialSettlement(kind === "inhabited" ? inhabitedValleyWorld.identity : kind === "inhabited-original" ? originalInhabitedValleyWorld.identity : undefined)
+      : decodeGame(text),
   );
   const now = Date.now();
   const slot: Slot = {
@@ -243,7 +253,7 @@ export async function writeSlot(
   expected: number,
   raw: string,
 ): Promise<Slot> {
-  decodeSettlement(raw);
+  decodeGame(raw);
   const db = await database();
   let conflict = false;
   try {
@@ -317,7 +327,7 @@ export async function restoreCheckpoint(
             return;
           }
           try {
-            decodeSettlement(old.checkpoint);
+            decodeGame(old.checkpoint);
           } catch {
             problem = true;
             result(undefined);
@@ -359,8 +369,8 @@ export async function restoreCheckpoint(
 }
 export interface GameSession {
   slot: Slot;
-  state: Settlement;
-  save: (state: Settlement) => Promise<void>;
+  state: GameState;
+  save: (state: GameState) => Promise<void>;
   close: () => void;
 }
 /** A held browser lock prevents two active writers. No silent takeover. */

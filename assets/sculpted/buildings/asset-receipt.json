@@ -1,0 +1,314 @@
+{
+  "state": "READY for final runtime acceptance",
+  "revision": "bound-reed-family-v1; same-anchor-open-clamber-v2",
+  "runtimeWriteFreeze": true,
+  "assets": {
+    "boughhome-longbough-modules.glb": {
+      "sha256": "131b6d465c0b00380880320c164f1dc7c2ce8fd5cdb492d40256244b8beab5e7",
+      "bytes": 4437792,
+      "triangles": 30532,
+      "groups": [
+        {
+          "name": "study-structure-boughhome-wing-left",
+          "triangles": 15266,
+          "primitives": 3
+        },
+        {
+          "name": "study-structure-boughhome-wing-right",
+          "triangles": 15266,
+          "primitives": 3
+        }
+      ],
+      "min": [
+        -1.1269117593765259,
+        3.178892135620117,
+        1.1134569644927979
+      ],
+      "max": [
+        3.071382761001587,
+        5.013978004455566,
+        3.237727403640747
+      ],
+      "maxNormalError": 1.4767282485728117e-07,
+      "minTriangleArea": 8.999112759741453e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0,
+      "dimensions": [
+        4.198294520378113,
+        1.8350858688354492,
+        2.124270439147949
+      ],
+      "opaqueMaterials": true,
+      "externalResources": false
+    },
+    "boughhome.glb": {
+      "sha256": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+      "bytes": 4681676,
+      "triangles": 32986,
+      "groups": [
+        {
+          "name": "deck",
+          "triangles": 4042,
+          "primitives": 3
+        },
+        {
+          "name": "ladder",
+          "triangles": 5900,
+          "primitives": 2
+        },
+        {
+          "name": "rainhood-left",
+          "triangles": 11522,
+          "primitives": 3
+        },
+        {
+          "name": "rainhood-right",
+          "triangles": 11522,
+          "primitives": 3
+        }
+      ],
+      "min": [
+        -1.1567872762680054,
+        0.04490356519818306,
+        -1.2521510124206543
+      ],
+      "max": [
+        1.1663124561309814,
+        4.245597839355469,
+        0.18213072419166565
+      ],
+      "maxNormalError": 1.378357314951728e-07,
+      "minTriangleArea": 8.999672763854149e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0,
+      "dimensions": [
+        2.323099732398987,
+        4.200694274157286,
+        1.43428173661232
+      ],
+      "opaqueMaterials": true,
+      "externalResources": false
+    },
+    "reed-store.glb": {
+      "sha256": "efc46a10a8028f22782961bf91696476ebee10320dd8fe3b73f6aef94d364fd3",
+      "bytes": 3245220,
+      "triangles": 12178,
+      "groups": [
+        {
+          "name": "store-base-bindings",
+          "triangles": 772,
+          "primitives": 2
+        },
+        {
+          "name": "store-container-finish",
+          "triangles": 8842,
+          "primitives": 2
+        },
+        {
+          "name": "store-frame",
+          "triangles": 2564,
+          "primitives": 2
+        }
+      ],
+      "min": [
+        -0.8723863959312439,
+        0.004999999888241291,
+        -0.7338030934333801
+      ],
+      "max": [
+        0.8875638246536255,
+        0.6354044079780579,
+        0.7265851497650146
+      ],
+      "maxNormalError": 1.45380898430858e-07,
+      "minTriangleArea": 4.5053715010294947e-05,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0,
+      "dimensions": [
+        1.7599502205848694,
+        0.6304044080898166,
+        1.4603882431983948
+      ],
+      "opaqueMaterials": true,
+      "externalResources": false
+    },
+    "root-nursery.glb": {
+      "sha256": "7ee268c95af676d570b753d4077263e06c22e1e8f688a0c9495a5ad34ca71dcf",
+      "bytes": 4705172,
+      "triangles": 33090,
+      "groups": [
+        {
+          "name": "nursery-base-floor-bindings",
+          "triangles": 2602,
+          "primitives": 3
+        },
+        {
+          "name": "nursery-frame",
+          "triangles": 616,
+          "primitives": 2
+        },
+        {
+          "name": "nursery-hood-finish",
+          "triangles": 28728,
+          "primitives": 3
+        },
+        {
+          "name": "nursery-nest-finish",
+          "triangles": 1144,
+          "primitives": 2
+        }
+      ],
+      "min": [
+        -0.7669492959976196,
+        -0.011855946853756905,
+        -0.7597082257270813
+      ],
+      "max": [
+        0.7671217918395996,
+        1.2892298698425293,
+        0.6617724895477295
+      ],
+      "maxNormalError": 1.416556087985299e-07,
+      "minTriangleArea": 8.999791342962065e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0,
+      "dimensions": [
+        1.5340710878372192,
+        1.3010858166962862,
+        1.4214807152748108
+      ],
+      "opaqueMaterials": true,
+      "externalResources": false
+    },
+    "sleeping-deck-compatible.glb": {
+      "sha256": "ec296cdcb8433d42fac20fd74d58bc10ea993e9bf6a98f9e52742fa2207d0b61",
+      "bytes": 1033820,
+      "triangles": 19392,
+      "groups": [
+        {
+          "name": "sleeping-deck-weave",
+          "triangles": 9432,
+          "primitives": 4
+        },
+        {
+          "name": "sleeping-rainhood-weave",
+          "triangles": 9960,
+          "primitives": 4
+        }
+      ],
+      "min": [
+        -0.007248964160680771,
+        1.405779242515564,
+        -1.2017735242843628
+      ],
+      "max": [
+        3.249135732650757,
+        4.480676174163818,
+        0.40977388620376587
+      ],
+      "maxNormalError": 1.341104418628447e-07,
+      "minTriangleArea": 2.6963740284967152e-05,
+      "degenerateTriangles": 0,
+      "images": [],
+      "animations": 0,
+      "dimensions": [
+        3.2563846968114376,
+        3.0748969316482544,
+        1.6115474104881287
+      ],
+      "opaqueMaterials": true,
+      "externalResources": false
+    }
+  },
+  "sourceHashes": {
+    "README.md": "2ce6ef9dc80c0bb6f3f16da3450bdb20c87ec5ee33e7691e0b455f8865170692",
+    "actual-fit-candidate.json": "03a106c36d0e4ccf3e9b5256c51e8bb42cc5673812d9f8b66a53a0ed19f6f137",
+    "author_buildings.py": "2d25419125a8996fd30d96566a832981e2c09e293103627be663cbad77283945",
+    "author_compatible_deck.py": "b46fff4769859e6187eea44b8208fa41541865d24ef4a096454c07a2883096dc",
+    "berth-support-qualification.json": "2d202072e9444c52cd7104b873fbbed01b5a1dda8d12aba4690b178560f64887",
+    "boughhome-longbough-modules.blend": "95bbe49e14acdb39f27d3e21333f76cd4cd4f0b7e2c9d84c8700752b80a56188",
+    "boughhome.blend": "8aea50f9152f9e36693f2130eee518f07b4c3518f37ae8ccc6161bc6d93b8888",
+    "candidate-home-isolated.png": "11433d08fb9cd157c921a96d8e3435577885c6b3826bf83b46317ab6081d72b9",
+    "candidate-home.png": "92901ac937b664c2bf5a7a7656b2ed31fd5bdc9a63fec49bd7995a13433a4ba9",
+    "candidate-longbough.png": "4aaae9a94946ad2a541ebb46d99045b1c76424c5a6779ed3153e913753da2842",
+    "candidate-nursery.png": "92b88e6f27333a6fe6ec608c88d9eaae823ceec0132f5653d5adb6b590475255",
+    "candidate-store.png": "70f5f91c2eed7db13d34ec33012b1f3c44a9385c6669e47a73c06da1f2479a18",
+    "contact-qualification.json": "0839c5cdfcf71607f1a40a8fc2b3001edc0d4038709d16369c18a32587d8f3de",
+    "determinism-qualification.json": "d6a1f2d54626fb83fd999c2bbc3451cceece2d25236d7a816ef7a24d4357d732",
+    "editable-source-qualification.json": "256b38625b43a95d52b40a40a1cf66799da58256aabdc64ce1c3188f4fee8955",
+    "fit-contract.json": "020a6b757d407809f96d8384d45aaf593a33ad312f2c8f7fcb54868888fbfcee",
+    "provenance.json": "b6fd05e5206033219e9ce033f8eba5fdc9fe61d92cdb6a4706ef046491c60973",
+    "qualification-candidate.json": "2a871178690b15a8146c6174edc9a8b7588f61f3f653c313f4ca0756330052ab",
+    "qualify_final.py": "f8f4a3fcfeb142fd27578ed49fa5622d00de557ce1a557168c704bb30f1ff8ec",
+    "reed-material-provenance.json": "925de7ea0e1a3a0d7c64ac0845ea52c542b9def071078e7fca581c73c4f8d2a1",
+    "reed-store.blend": "06f0e5da68f569927a736aec61410432b8fa524510b0c37e5b54cbca3da1c9c0",
+    "reed-weave-v1-source.png": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad",
+    "render_buildings.py": "98b11389e50aa8a1ad74a86a0b0427f25c57faef5a5291bddf7bd93b8104b5fd",
+    "root-nursery.blend": "f6756c293aa0739a36bd217ed97ae959cfef352705f01ab852f6f07a1b5d98f3",
+    "runtime-angle-0.35.json": "72aec706039a7d317dc576e9792454360f8d090f36b7e7788b50b92a143b2844",
+    "runtime-angle-0.45.json": "dccffff8a1725124b2758c085ee9b3264c7792945915c8cc7f7fcba80296448b",
+    "runtime-angle-0.55.json": "e6fcaeca53ded54934992579c6659943b998e3a34af67f828a33cdab01944bd1",
+    "runtime-angle-0.60.json": "e8b1abdf37bbdca1a8a659a0fdea290d62c53c7efc54f90cc8785a3b8a634094",
+    "runtime-clamber-candidate.json": "35b06cf1f1fc7f45ac1ae7159e3f8494cc8561d2f13aeb94885baa62a5450e65",
+    "runtime-sweep-candidate.json": "b5d36ab91522bd5ddae4859eb284bc6fe5b5bdc0eb81d185801624ce307b872d",
+    "sleeping-deck-compatible.blend": "349983220b062607ce73569926127d5b8623dd7321714c2f510107a7c65ba275",
+    "study-presentation.json": "2094724c943ae8bd5a880f9597aec3785a0674ba19614027427ed7567e1a6805",
+    "validate_actual_fit.py": "be7d9eb7fc26e9dc913e2245e569a22d6fd770444363aac242c2150d2713be2b",
+    "validate_berth_support.py": "ee21d5aa9a1ff358fc6ee5b95b6449c35fd02bfa3c47e3cc407f4f7e5f943175",
+    "validate_blends.py": "92bb7e72d88769ac2d373614b889f0ccd51a0b72e82545fb79f1d0cbbf602959",
+    "validate_buildings.py": "50e7f298dd96ed8b9bda8ce5188762ac7310aef04ea8a240f1eeda1ae9ac86d0",
+    "validate_contacts.py": "d36a3091ae0d1f222e2331e94312663fb8b49410b157c72c74d602772be3fe07",
+    "validate_runtime_sweep.py": "7529fd32e08806d56d4be624e75b66ace53b7cb0b6115a2753412228e49cd4ed"
+  },
+  "checks": {
+    "freshProcessGLBDeterminism": true,
+    "editableSourcesReopened": 5,
+    "indexedResourceValidation": true,
+    "newHomeSourceBodyChecks": 372,
+    "newHomeAboveContactIntersections": 0,
+    "sourceEquivalentClamberBodyChecks": 24,
+    "sourceEquivalentClamberAboveContactIntersections": 0,
+    "actualRepairedPacketVisitors": [
+      "dapple",
+      "wren"
+    ],
+    "allHoodAndNurserySupportContacts": true,
+    "oldAssetsAndHabitatPreserved": true
+  },
+  "remaining": "Actual Babylon pose/continuous traversal, final art, staged work, narrow layout, save/refresh and performance acceptance belong to integration. No deployment or production-art parity claim.",
+  "limits": [
+    "Source sampled mesh/surface checks exclude expected functional contacts below foot+.13m; not zero-collision physics.",
+    "Evaluated source packets reposition one reduced-motion pose; actual animated engine proof is separate.",
+    "Hypothetical cargo intersects upper approach; actual saved access is unburdened.",
+    "Weave shading/repetition, stylized bundled construction and compact open shelter remain first-kit limits.",
+    "No structural strength, new capacity, private enclosure, timber supply or mobility rule is established."
+  ]
+}

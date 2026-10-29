@@ -12,21 +12,27 @@
   uses fixed responsive framing, with no pan or zoom
   controls. Selection and a restrained inspector preserve individual access.
   The world dominates the desktop view; a restrained inspector carries context.
-- **Settlement building is the core play.** The accepted
+- **Chicken Civ: warfare and conquest organize the game.** Selected by the user
+  on 24 October 2026. Settlement building sustains military campaigns. The accepted
   [settlement design](../story/settlement-design.md) owns construction, production,
   free chicken movement, local stores, visible autonomous deliveries, and
   expansion. Chickens fictionally cultivate and build with beaks and feet.
   Individuals become recognizable through work; logistics creates social power
-  and later district politics. A later substantial proof is a settlement loop,
-  with one thin construction-delivery proof inside it. The old authored dilemma
+  and later district politics. The [detailed gameplay proposal](../story/proposals/chicken-civ-design.md)
+  connects this economy to scouting, mobilization, battle, occupation and victory;
+  its mechanics and numbers remain provisional. The old authored dilemma
   and cast have no privileged status or mandatory sequel. The thin treehouse delivery, local-store and saved roost/rest proof is implemented;
-  production, growth, predators and district politics remain future.
+  bounded nursery growth is also implemented; military systems and district politics remain future.
 - **Free movement, with trails later.** Chickens move and forage without
   player-authored roads or a path-connectivity gate. Optional worn trails may
   emerge from repeated traffic later. The Path controls, road rendering and
   connectivity gate are removed. Strict versioned migration retires road data
   while preserving existing work, cargo and movement progress.
-- **Art-led living sandbox next.** The [opening brief](../art-direction/opening-view-exploration.md)
+- **Written design and narrative first, creative design next.** The user selected
+  this order on 24 October 2026. The [narrative proposal](../story/proposals/chicken-civ-narrative.md)
+  and [creative handoff](../art-direction/chicken-civ-creative-handoff.md) accompany
+  the gameplay specification. This supersedes the previous art-first priority.
+  The [opening brief](../art-direction/opening-view-exploration.md)
   owns the v2 visual reference, concrete asset inventory and authoring-route proof.
   Basic foraging, treehouse commissioning and inspection should support autonomous
   life, without an authored opening arc or mandatory build order. The bounded

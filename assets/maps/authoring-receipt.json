@@ -1,0 +1,81 @@
+{
+  "recipe": "crescent-field-v1",
+  "sourceSha256": "ebd0d9818a314563378fdedafa8b58cc289e41c14ecb947174e90342c4d870e1",
+  "maps": [
+    {
+      "path": "src/content/generated/ochre-valley-v2.json",
+      "id": "ochre-valley",
+      "version": 2,
+      "seed": 7319,
+      "sha256": "dd695232ca9681e8eb1fc0b9d09194ccae399ccb85c4580dcb8099c34656e310",
+      "traversable": 2447,
+      "buildable": 100,
+      "normalMeters": 20.390523507262717,
+      "alternateMeters": 30.79180791535712,
+      "courts": [
+        {
+          "name": "Bluff court",
+          "contiguousSquareMeters": 6.5
+        },
+        {
+          "name": "Basin court",
+          "contiguousSquareMeters": 14.5
+        },
+        {
+          "name": "Crescent shoulder",
+          "contiguousSquareMeters": 4
+        }
+      ]
+    },
+    {
+      "path": "assets/maps/candidates/sheltered-bend-v1.json",
+      "id": "sheltered-bend",
+      "version": 1,
+      "seed": 18427,
+      "sha256": "d24f40cd2a523195d177ec0970377b315a76319cd5015febff9f5befa840a89e",
+      "traversable": 2467,
+      "buildable": 106,
+      "normalMeters": 20.392938859511208,
+      "alternateMeters": 30.20164346501562,
+      "courts": [
+        {
+          "name": "Bluff court",
+          "contiguousSquareMeters": 7.75
+        },
+        {
+          "name": "Basin court",
+          "contiguousSquareMeters": 14.5
+        },
+        {
+          "name": "Crescent shoulder",
+          "contiguousSquareMeters": 4.25
+        }
+      ]
+    },
+    {
+      "path": "assets/maps/candidates/open-shoulder-v1.json",
+      "id": "open-shoulder",
+      "version": 1,
+      "seed": 39041,
+      "sha256": "61048cbdbde00e113cda819c50a8330a940d66b6192187c1cd8abb739dc116af",
+      "traversable": 2474,
+      "buildable": 100,
+      "normalMeters": 20.970815890906007,
+      "alternateMeters": 31.690635014254585,
+      "courts": [
+        {
+          "name": "Bluff court",
+          "contiguousSquareMeters": 6.5
+        },
+        {
+          "name": "Basin court",
+          "contiguousSquareMeters": 14.5
+        },
+        {
+          "name": "Crescent shoulder",
+          "contiguousSquareMeters": 4
+        }
+      ]
+    }
+  ]
+}

@@ -8,14 +8,16 @@ import {
   restoreCheckpoint,
 } from "../persistence/library";
 import type { GameSession, SlotView } from "../persistence/library";
-import {
-  encodeSettlement,
-  legacyArchive,
-} from "../persistence/settlement-save";
+import { legacyArchive } from "../persistence/settlement-save";
+import { encodeGame, isLandscape } from "../persistence/game-save";
 import { populationReadout } from "../simulation/settlement";
 import { AccountPanel } from "../account/AccountPanel";
 import { useAccountSession } from "../account/useAccountSession";
 import { accountService, copyPageSize } from "../account/service";
+const LandscapeGame = lazy(() =>
+  import("./LandscapeApp").then((m) => ({ default: m.LandscapeApp })),
+);
+const TreeStudy = lazy(() => import("./TreeArtStudy").then(m => ({ default: m.TreeArtStudy })));
 const Game = lazy(() => import("./App").then((m) => ({ default: m.App })));
 function download(text: string, name: string) {
   const url = URL.createObjectURL(
@@ -29,7 +31,9 @@ function download(text: string, name: string) {
 }
 function summary(slot: SlotView) {
   return slot.status === "valid"
-    ? `Day ${slot.state.economy.clock.day} · ${populationReadout(slot.state).label}`
+    ? isLandscape(slot.state)
+      ? `Preserved valley survey · ${slot.state.delivered} bundles delivered`
+      : ` ${slot.state.world ? (slot.state.world.version === 1 ? "Original living valley · " : "Refined living valley · ") : "Woodland · "}Day ${slot.state.economy.clock.day} · ${populationReadout(slot.state).label}`
     : slot.status === "newer"
       ? "Newer game version"
       : "Recovery needed";
@@ -45,8 +49,11 @@ export function FrontDoor() {
     [error, setError] = useState("");
   const [storageReady, setStorageReady] = useState(false);
   const [route, setRoute] = useState<
-    "title" | "new" | "load" | "login" | "signup"
+    "title" | "new" | "load" | "login" | "signup" | "study"
   >("title");
+  const [mapChoice, setMapChoice] = useState<"inhabited" | "inhabited-original" | "landscape" | "woodland">(
+    "inhabited",
+  );
   const [name, setName] = useState("");
   const [session, setSession] = useState<GameSession | null>(null);
   const [recovery, setRecovery] = useState<string | null>(null);
@@ -151,7 +158,7 @@ export function FrontDoor() {
   }
   async function make(text?: string, proposedName?: string) {
     await run(async () => {
-      const slot = await createSlot(proposedName ?? name, text);
+      const slot = await createSlot(proposedName ?? name, text, mapChoice);
       setSlots(await listSlots());
       const next = await openSlot(slot.id);
       setSession(next);
@@ -159,6 +166,9 @@ export function FrontDoor() {
     });
   }
   const valid = slots.filter((s) => s.status === "valid");
+  const cloudValid = valid.filter(
+    (s) => s.status === "valid" && !isLandscape(s.state) && !s.state.world,
+  );
   const latest = valid[0];
   const broken = slots.filter((s) => s.status !== "valid");
   const selected = slots.find((s) => s.id === recovery);
@@ -171,15 +181,26 @@ export function FrontDoor() {
           </div>
         }
       >
-        <Game
-          key={session.slot.id}
-          initial={session.state}
-          name={session.slot.name}
-          onSave={session.save}
-          onExit={() => void leave()}
-        />
+        {isLandscape(session.state) ? (
+          <LandscapeGame
+            initial={session.state}
+            name={session.slot.name}
+            onSave={session.save}
+            onExit={() => void leave()}
+            onStartLiving={async()=>{await session.save(session.state);await leave();setMapChoice("inhabited");setRoute("new");}}
+          />
+        ) : (
+          <Game
+            key={session.slot.id}
+            initial={session.state}
+            name={session.slot.name}
+            onSave={session.save}
+            onExit={() => void leave()}
+          />
+        )}
       </Suspense>
     );
+  if (route === "study") return <Suspense fallback={<div className="game-opening" role="status">Opening tree study…</div>}><TreeStudy onExit={() => setRoute("title")} /></Suspense>;
   return (
     <div
       className="front-door"
@@ -193,7 +214,7 @@ export function FrontDoor() {
       <main className="title-content">
         <header className="title-brand">
           <h1>
-            coop chaos<span>.</span>
+            chicken civ<span>.</span>
           </h1>
           <p>A small world. Long memories.</p>
         </header>
@@ -201,7 +222,7 @@ export function FrontDoor() {
           className="title-card"
           aria-label={
             route === "title"
-              ? "Play Coop Chaos"
+              ? "Play Chicken Civ"
               : route === "load"
                 ? "Load game"
                 : route === "new"
@@ -256,6 +277,7 @@ export function FrontDoor() {
                   >
                     Load game
                   </button>
+                  <button className="title-secondary" disabled={busy} onClick={() => setRoute("study")}>Tree art study</button>
                   {!!broken.length && (
                     <button
                       className="recovery-link"
@@ -313,8 +335,28 @@ export function FrontDoor() {
                     void make();
                   }}
                 >
-                  <h2>A new grove</h2>
-                  <p>Four chickens. An open clearing. Room to make a home.</p>
+                  <h2>A new game</h2>
+                  <label className="title-label">
+                    Map
+                    <select
+                      aria-label="Map"
+                      value={mapChoice}
+                      disabled={busy}
+                      onChange={(e) =>
+                        setMapChoice(e.target.value as "inhabited" | "inhabited-original" | "landscape" | "woodland")
+                      }
+                    >
+                      <option value="inhabited">Refined small valley · living settlement</option>
+                      <option value="inhabited-original">Original small valley · living settlement</option>
+                      <option value="landscape">Valley landscape survey (legacy)</option>
+                      <option value="woodland">Woodland settlement</option>
+                    </select>
+                  </label>
+                  <p>
+                    {(mapChoice === "inhabited" || mapChoice === "inhabited-original") ? "Make a living home around Longbough. Gather reeds, weave homes and local stores, care for the next generation, and cross the creek to forage." : mapChoice === "landscape"
+                      ? "Explore a crescent bluff and open basin. Cross the creek and carry supplies. Landscape study; settlement and battles come later."
+                      : "Four chickens. An open clearing. The established woodland settlement."}
+                  </p>
                   <label className="title-label">
                     Game name
                     <input
@@ -471,6 +513,11 @@ export function FrontDoor() {
                     <section className="cloud-copies">
                       <h3>Copies in your account</h3>
                       <p>
+                        Account copies support woodland settlements. Living valleys and valley
+                        games stay on this device; use Export and Import to move
+                        them.
+                      </p>
+                      <p>
                         Explicit copies, separate from games on this device.
                       </p>
                       {copies.map((copy) => (
@@ -543,7 +590,7 @@ export function FrontDoor() {
                           }}
                         >
                           <option value="">Choose a local game</option>
-                          {valid.map((s) => (
+                          {cloudValid.map((s) => (
                             <option key={s.id} value={s.id}>
                               {s.name}
                             </option>
@@ -555,6 +602,13 @@ export function FrontDoor() {
                         onClick={() =>
                           void run(async () => {
                             const slot = slots.find((s) => s.id === copySource);
+                            if (
+                              slot?.status === "valid" &&
+                              (isLandscape(slot.state) || slot.state.world)
+                            )
+                              throw new Error(
+                                "Export this valley game to move it; account copies support woodland settlements.",
+                              );
                             if (!slot || slot.status !== "valid")
                               throw new Error("Choose a valid local game.");
                             const owner = accountId.current;
@@ -567,7 +621,7 @@ export function FrontDoor() {
                               owner,
                               slot: slot.id,
                               name: slot.name,
-                              text: encodeSettlement(slot.state),
+                              text: encodeGame(slot.state),
                             };
                             if (
                               intent.owner !== owner ||

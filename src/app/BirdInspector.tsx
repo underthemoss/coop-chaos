@@ -1,27 +1,22 @@
-import { currentWork, requestOptions, requestPlace, requestStatus, type Command, type Settlement, type Worker } from "../simulation/settlement";
-import { ActionArt } from "./ActionArt";
-export function BirdInspector({state,bird,disabled,onCommand,onChooseFree,onBuild}:{state:Settlement;bird:Worker;disabled:boolean;onCommand:(command:Command)=>void;onChooseFree:()=>void;onBuild:()=>void}) {
-  const request=bird.request;
-  const place=request&&requestPlace(state,request);
-  const sharedBlock=bird.life.stage!=="adult"?`${bird.life.name} is too young to carry or build.`:bird.care?`${bird.life.name} is caring for eggs and chicks.`:"";
-  const freeChicken=state.birds.some(b=>b.life.stage==="adult"&&!b.care&&!b.request);
+import { birdProfile, currentWork, directOrderLabel, directStatus, requestStatus, type Command, type Settlement, type Worker } from "../simulation/settlement";
+import { targetEligibility } from "./command-ui";
+export function BirdInspector({state,bird,disabled,onCommand,onChooseFree}:{state:Settlement;bird:Worker;disabled:boolean;onCommand:(command:Command)=>void;onChooseFree:()=>void}) {
+  const blocked=bird.life.stage!=="adult"?`${bird.life.name} is too young for direct orders.`:bird.care?`${bird.life.name} is providing essential brood care.`:"";
+  const food=state.economy.nurseries.map(n=>({target:n.site,eligible:targetEligibility(state,[bird.id],{kind:"food",target:n.site})[0]?.eligible})).find(n=>n.eligible);
+  const profile=birdProfile(bird,state);
   return <section className="bird-inspector" aria-label={`${bird.life.name} actions`}>
-    <span className="eyebrow">CHICKEN ACTIONS</span>
-    <h2>{bird.life.name}</h2>
-    <p className="current-work">{sharedBlock||currentWork(state,bird)}</p>
-    {request?<div className="request-card" role="status">
-      <h3>{{gather:"Gather reeds",build:"Help build",food:"Bring food"}[request.kind]} requested</h3>
-      <p className="task-subtitle">One {request.kind==="build"?"task":"trip"} · {place?.name}</p>
-      <p>{requestStatus(state,bird)}</p>
-      {state.paused&&<button className="build-command" disabled={disabled} onClick={()=>onCommand({type:"pause"})}>Resume work</button>}
-      <button disabled={disabled} onClick={()=>onCommand({type:"cancel-request",bird:bird.id})}>Cancel request</button>
-    </div>:<>
-      {bird.requestResult&&<p className="last-result" role="status">{bird.requestResult.reason.replace(/ Back to community work\.$/,"")}</p>}
-      {sharedBlock?<div className="shared-action-block"><button disabled={disabled||!freeChicken} onClick={onChooseFree}>Choose a free chicken</button>{!freeChicken&&<p>Every adult is caring or has a request. Let them finish first.</p>}</div>:<div className="bird-actions">{requestOptions(state,bird).map(option=><div className="action-choice" key={option.kind}>
-        <button className="action-tile" disabled={disabled||(!option.available&&option.kind!=="build")} onClick={()=>option.kind==="build"&&!option.available?onBuild():onCommand({type:"request",bird:bird.id,kind:option.kind,target:option.target})}>
-          <ActionArt kind={option.kind}/><span><strong>{option.kind==="build"&&!option.available?"Build a home":option.label}</strong><small>{option.kind==="build"&&!option.available?"6 reeds · choose a tree":!option.available?option.reason:`One ${option.kind==="build"?"task":"trip"}${option.place?` · ${option.place.name}`:""}`}</small></span>
-        </button>
-      </div>)}</div>}
+    <span className="eyebrow">{bird.direct?"DIRECT ORDERS":"COMMUNITY WORK"}</span><h2>{bird.life.name}</h2>
+    <p className="current-work">{blocked||(bird.direct?directStatus(state,bird):currentWork(state,bird))}</p>
+    <p>{profile.want}</p>
+    <p className="task-subtitle">{bird.life.stage} · energy {Math.round(bird.energy)} · appetite {Math.round(bird.satiety)} · {bird.deliveries} deliveries</p>
+    {bird.request&&<p className="action-reason">Earlier one-trip request: {requestStatus(state,bird)}. A new direct order replaces it.</p>}
+    {blocked?<button disabled={disabled} onClick={onChooseFree}>Choose a free adult</button>:<>
+      {!!bird.direct?.queue.length&&<ol className="order-queue" aria-label={`${bird.life.name} queued orders`}>{bird.direct.queue.map((order,i)=><li key={i}>{directOrderLabel(state,order)}</li>)}</ol>}
+      {state.paused&&<button disabled={disabled} onClick={()=>onCommand({type:"pause"})}>Resume time</button>}
+      {food?.eligible&&<button disabled={disabled} onClick={()=>onCommand({type:"direct",bird:bird.id,order:{kind:"food",target:food.target}})}>Bring food · one trip</button>}
     </>}
+    {!!bird.memories.length&&<><h3>Remembered experience</h3><ul>{bird.memories.map(memory=><li key={memory}>{memory}</li>)}</ul></>}
+    {bird.requestResult&&<p className="last-result">{bird.requestResult.reason}</p>}
+    <p className="action-reason">Every eligible adult can gather and build. Character profiles do not grant classes or combat skills.</p>
   </section>;
 }

@@ -7,15 +7,43 @@ The elevated low-poly world follows the spatial qualities of the user's
 [Kingdoms and Castles reference](https://store.steampowered.com/app/569480/Kingdoms_and_Castles/),
 using original chicken-built structures and Blender-authored GLB bird/tree proofs.
 
+## Settlement world contexts and preserved surveys
+
+`src/content/settlement-world.ts` adapts explicit world/scenario identity for the
+single `Settlement` rules owner. New **Small valley** games create Living valley:
+36×28m terrain sampled at .5m, one exact-origin Longbough, authored resource zones
+and reserved build pads. `maps.ts` owns geometry/navigation, generated placements
+own world positions and legal approaches, and `valley-habitat.json` owns local
+six-place anchors, stage groups, grounded access paths and lift sockets. Python
+asset authoring and TypeScript consumers read the same profile. There is no
+coordinate overlay of the old Woodland simulation and no duplicate economy.
+
+Mapped routing uses shared terrain triangles and physical surface distance.
+Ground movement is nominal 1.4m/s with existing individual pace modifiers; authored access uses fixed nominal 1.4m/s. Access first
+routes to the canonical legal tree workcell, then consumes the profile's grounded
+approach and metre-length access path. All fixed pad footprints remain blocked;
+work/pickup/care/spawn targets use legal approaches. Nursery `Site.at` is its ground
+pad and `Site.tree` its affiliation. Adult render scale is `.45625`; the main-tree
+view faces +Z and fits crown/roots/court, with bounded map/follow views.
+
+Codec9 saves world identity and validates canonical resource fixtures, supplies,
+legal ground locations and mapped flight origin/landing cells. Legacy settlement
+v1–v8 decoding and Woodland geography/timing remain exact. Existing `ochre-valley`
+v1/v2 saves still dispatch to the tree-free survey owner, preserving map version
+and 20 generic bundles. Its explicit Start a living valley action creates a new
+slot; it cannot silently turn survey cargo into reeds. The same library, writer
+lock, portable import/export and explicit account-copy boundary remain in use.
+[Current scope and compatibility](landscape-study.md#current-default-living-valley)
+and [map source](../assets/maps/INHABITED-VALLEY.md) record the contracts.
+
 ## Current deterministic settlement economy
 
-`src/content/settlement.ts` adapts the provisional roster, three tree landmarks,
+`src/content/settlement.ts` adapts the provisional roster, legacy three tree landmarks,
 and numerical tuning from [settlement design](../story/settlement-design.md).
 `src/simulation/settlement.ts` owns `Settlement`, validated commands, fixed steps,
 route finding, jobs, stock commitments, physical cargo, consumption, fatigue,
 perches, movement progress, and sparse memories. No UI, DOM, engine, persistence,
-wall clock, or randomness enters this module. A bounded grid and deterministic
-breadth-first route search are sufficient here; there is no general engine framework.
+wall clock, or randomness enters this module. Woodland retains bounded-grid breadth-first routes; mapped worlds use shared deterministic terrain routing. There is no general engine framework.
 
 Ground routes join legal neighboring cells without player-created paths. New trips avoid tree-base cells; tree jobs use the adjacent front work cell while `Site.at` retains the tree origin. Legacy edges into or through a trunk finish and egress, and an already-active old lift finishes its reserved bundle in place. Jobs reserve one source bundle before walking to collect
 it. Reserved quantities derive from pickup jobs, so there is no second counter
@@ -64,10 +92,27 @@ placement. Keyboard/select controls provide equivalent placement and named selec
 
 The world fills desktop play space beside a scrollable inspector; narrow screens
 reserve the open card's measured height plus tool clearance below the rendered world.
-The existing resize observer refits the fixed view and its projected labels/hit coordinates
+The existing resize observer refits the current view and its projected labels/hit coordinates
 to that visible area, so the card does not cover selected birds or work destinations.
-The elevated orthographic camera is fixed, with responsive aspect fitting; no
-pan, zoom, drag navigation or Find action ships. Store placement gives arrows/Enter
+Woodland keeps its fixed responsive orthographic view. Living valley offers
+Longbough, Whole valley and explicit Follow framing. `clearing-camera.ts` fits
+each view, then applies its bounded zoom to the orthographic span; buttons and
+canvas-only wheel input share React zoom state. Zoom preserves framing and the
+explicitly followed actor, while inspector wheel events retain ordinary scrolling.
+Living valley also supports idle fine-mouse edge pan (outer24 CSS pixels),
+canvas-focused arrows and captured middle-button dragging. `ClearingPanInput`
+retains only held navigation intent; renderer listeners clear it on overlay/leave,
+button interaction, blur, visibility loss and cancellation. Camera motion uses
+real render time and the current orthographic span, independently of simulation
+pause/speed. Manual movement captures the current target/span and leaves Follow;
+free position survives zoom/resize. Explicit preset clicks recenter even when the
+same preset was active; Follow explicitly chooses the current selected actor.
+Pure camera helpers project screen-relative ground movement and clamp the
+horizontal camera center to actual authored map vertex bounds. The entire viewport
+need not fit inside that rectangle. This is transient presentation state; camera
+navigation writes no bird orders or save geography. S remains Stop, M remains Move,
+and UI/modifier keys never start keyboard pan.
+Store placement gives arrows/Enter
 to its grid cursor. The compact primary tool strip and optional inspector keep
 the world dominant. Listeners, observer, scene and engine dispose
 on unmount. No assets are loaded from the visual reference.
@@ -78,9 +123,9 @@ cell, basket/cargo/rope/operator sockets and lift travel. TypeScript simulation 
 presentation consume it; Python authoring reads the same data. Generated asset
 receipts describe exports, rather than establishing another anchor table. Existing
 saved progress remains the parameter for the supported route, with no schema change.
-All three trees explicitly share this proof profile; their art does not establish
+In legacy Woodland, all three trees explicitly share this proof profile; their art does not establish
 species-specific capabilities. All tree GLBs and the new additions compensate glTF X
-handedness once. All inhabited trees and structures use metre-scale habitats
+handedness once. Woodland inhabited trees and structures use metre-scale habitats
 (scale one); the independent adult mesh scale is `.365`. Saved simulation
 X/Z cells still map to two render metres, while Y and local anchors are metres.
 The same physical reed bundle uses scale `.5` when staged or lifted; its parent
@@ -88,9 +133,9 @@ scale is canceled when attached to a chicken, so transfers never change its size
 Small invisible bird hit proxies preserve selection without enlarging their art;
 selected labels use the revised body envelope. No save schema or berth ID changes.
 
-The persistent header Build command and tree selection open `TreeInspector` at
+The persistent header Community building command and tree selection open `TreeInspector` at
 its named-tree choices. It reads canonical `treeBuildOptions` for costs and locked
-reasons; ground Store placement lives in More buildings. Menu contains saved-settlement controls; Food is a separate compact panel. Bird selection opens a name/current-work card with at most three one-task requests, without the old roster/profile/stats. Identities, memories and needs remain saved simulation facts. Existing commissions lead the tree card with simulation-owned progress, workers and next need. `reedSupply` separates free usable stock, reservations, cargo and delivered material; the headline reads only free stock. The conservation ledger still includes all physical goods. Night commissions may queue; allocation of new work waits for daylight.
+reasons; ground Store placement lives in More buildings. Menu contains saved-settlement controls; Food is a separate compact panel. Bird selection updates one compact command dock with per-person activity and explicit targeting. Personal Details opens separately and retains needs, memories, queue and Bring food. New building requires one explicitly selected eligible adult; the community catalog is a separate intent. Identities, memories and needs remain saved simulation facts. Existing commissions lead the tree card with simulation-owned progress, workers and next need. `reedSupply` separates free usable stock, reservations, cargo and delivered material; the headline reads only free stock. The conservation ledger still includes all physical goods. Night commissions may queue; allocation of new work waits for daylight.
 Treehouse, sleeping deck and hauling basket are unique by tree and kind; the latter
 two require a completed home; the elevated deck also requires its local completed
 basket for supply access. Extra decks add slots 2/3 alongside existing home
@@ -187,8 +232,7 @@ The saved automatic clock advances phase after 1,800 day or 600 evening ticks;
 all progress. Import/reload creates no elapsed-time catch-up. Carer presence,
 local typed meals, egg viability and growth all advance in the same step.
 Nursery food and egg meshes present saved state. The nursery is beside the root
-workcourt and does not add or obstruct adult routes. Its low rainhood reuses only
-the authored woven-home roof/support meshes over the existing woven-store base.
+workcourt and does not add or obstruct adult routes. The dedicated bound-reed nursery export replaces the earlier borrowed home roof/store base.
 A shallow scaled woven nest holds clustered 0.08m eggs (0.104m high); viable
 unhatched saved eggs alone create these meshes. No oversized egg markers or
 smooth nursery domes are used.
@@ -246,21 +290,36 @@ contract. Directional shadows and restrained screen-space occlusion supply local
 depth. Source tests check indexed topology, finite unit normals, materials,
 attachments and named clips; actual art, motion and performance need browser proof.
 
-## One-task chicken requests
+## Direct chicken commands and legacy requests
 
-`Worker.request` is one bounded slot (`gather`, `build`, `food`) with a canonical target, issued tick and pending/waiting/working/canceling phase. `requestResult` keeps only the latest outcome/reason/tick. Both are simulation facts. `requestOptions`, `requestStatus`, `currentWork` and `projectReadout` provide presentation read models; UI sends ordinary commands and highlights the saved destination.
+Optional `Worker.direct` owns current order, bounded queue16, safe-boundary pending
+state, explicit community return and retained food origin. Orders extend the
+existing deterministic jobs/provisions/routes/reservations rather than adding
+another movement system. Target validation precedes any replacement or append.
+`prepareDirect` clears uncollected jobs at a safe cell, waits for descent, and
+lowers active lifts safely. Stop holds actual goods; new work/Return routes them
+through existing destination capacity, counting incoming real cargo. Direct
+allocation precedes urgent community provisioning; personal meals/rest may suspend
+then resume the same intent. Young and essential carers reject commands.
 
-`build` optionally names the initiating adult. The pure command validates eligibility and commits the site plus its existing build request atomically; stale or rejected commands leave the source state unchanged. The bird's Build a home action opens explicit tree placement, while normal tree inspection keeps the recipe route. Saved unfinished sites drive immediate workcourt rings and one project badge per tree; no transient animation or timer supplies project truth. `projectReadout` distinguishes travel from grounded weaving and gives pause precedence. `gatherRecovery` supplies a named eligible helper or separates busy adults from depleted/unreachable reeds. UI command failures remain accessible near the action and differ from ordinary guidance.
+Moves complete on arrival, gather repeats the exact patch until depletion, and
+build repeats delivery/weaving until complete. Finite Bring food completes on one
+delivery. Completion advances a queued successor or remains directly controlled
+idle. `groupMoveOrders` validates each actual actor and assigns stable distinct
+legal arrivals. `directStatus` and `commandDestination` feed UI/world read models.
+App owns transient group selection, session-only control groups, structured awaiting-order queries and target mode; the existing direct-order validator supplies target eligibility. The renderer consumes target clicks before selection and presents eligibility rings without deciding outcomes. Renderer observes commands
+and routes. Selecting a different actor never retargets the camera's explicit Follow.
 
-Requests reuse material jobs, food provisions, routes and reservations. A gather request delivers one bundle from its shown patch without changing the flock's designation. Help build delivers one bundle or completes one weaving task at its shown project. Bring food delivers one typed unit to the shown nursery up to its normal saved target. Existing cargo, essential feeding, sleep/rest, active care and urgent brood supply take precedence. Young and active carers cannot accept new work requests. No stats bonus, teleport, resource creation, permission fiction or social grudge is introduced.
+A named `build` atomically commits its plan and sustained builder; header catalog
+plans are community commissions. Legacy `request` and `requestResult` remain
+compatible/readable for older saves and bounded community recovery trips. Requests
+reject direct actors; recovery suggestions exclude them, preventing duplicate
+control ownership. Existing legacy cargo delivery semantics remain valid.
 
-An initial request releases uncollected ordinary work only at a safe cell boundary. Cancellation does the same; carried goods retain their physical job and finish delivery. Completion is recorded only by the actual delivery or weaving success path. Food reservation reconciliation, meals and phase interruption return an unfinished request to waiting. Removed/completed/full/depleted targets end with a reason; targets never silently change. Ordinary autonomous work resumes afterward and can continue while a request lacks inputs. The latest result does not retain deleted site references.
-
-The strict v6 decoder validates request shape, target references, adult eligibility, active job correspondence and bounded result text/ticks. Immutable v5 is validated before adding null request/result fields. Older migration stages preserve their established ledgers, identities and progress, then add these fields; import/reload cannot create another delivery or advance time.
-
-### Local care read models
-
-`populationReadout`, `nurseryReadout` and `treeActivity` in simulation project saved residents, unhatched commitments, physical care stages and single-tree badge precedence. App, local EconomyInspector and world badges consume those projections; they do not advance care or invent eggs. `foodRecovery` reuses the existing provisioning assignment on a disposable state to identify a free adult with a real available trip to the chosen nursery. The existing food request accepts that local nursery target, preserving cargo, care and pending request behavior. These are read projections and existing commands; save v6 and economic tuning are unchanged.
+Codec10 adds validated optional direct state and food origin. A pending direct replacement may retain an existing gather pickup reservation only on its real current movement edge; validation preserves that safe-boundary transition even when the new intent is Build, Move, Stop or community return. At edge completion the simulation discards the old pickup before new work. Codec8/9 saves keep
+their original shape when no direct state exists. All world9 resource, tile,
+route, flight and fixed-anchor geometry checks still apply to world-bearing10;
+world identity/version never changes on read. Save/reload does not advance work.
 
 ## Persistent construction focus
 
@@ -269,3 +328,95 @@ The strict v6 decoder validates request shape, target references, adult eligibil
 Only free autonomous construction allocation changes: `assignConstruction` first tries all eligible focused work (ready weaving or unreserved material pickup), then falls back to the existing insertion-order assignment if none is actionable. An explicit named request supplies its own target and bypasses focus. Existing jobs, reservations, secured cargo and lifts are never redirected by switching focus. Care, self-feeding, sleep/rest, urgent provision and the existing global policy retain precedence. No sites are reordered and no numerical costs or timings change.
 
 `constructionFocusReadout` and `treeActivity` project the saved choice; a focused unfinished project leads the existing single tree badge, retaining actual work/wait state. Shared `ProjectCard` serves both tree structures and unfinished ground stores. The compact global finder opens and reveals the existing project card; ground stores remain under Other building controls with coordinates and their existing ground construction marker, without another tree-style world badge. Actual contributions and shortages come from `projectReadout`, separate from the chosen priority.
+
+
+## Bound-reed building presentation
+
+`src/game/building-presentation.ts` maps existing saved deliveries, work and
+completion into authored base/frame/finish visibility. `createClearing` owns the
+separate Boughhome, reed-store and ground-nursery models, their saved stock/food
+instances and scene cleanup. These exports add no recipe, stock type, capacity,
+technique, save field or simulation outcome. The ground nursery no longer borrows
+a home roof or a store basket. A reed store shows only its actual local reeds.
+
+`accessHeading` in `tree-presentation.ts` derives the facing of saved access from
+the existing path derivative and direction. Paused reopen cannot infer heading
+from the renderer's initial spawn point. Vertical facing follows the actual
+route derivative, including the longer home ladder timing. The rule-owned saved position/progress
+remain untouched. The short steep upper-deck approach is a clamber beside tied
+grips: its endpoint and berth floors provide support, while continuous floor
+contact along the interpolated climb is not claimed. Access currently forbids
+carried cargo; the hauling basket remains the actual elevated-material route.
+
+The async loader publishes templates and character appearances only after every
+dependency succeeds, preventing young clones from retaining failed-attempt
+materials/animation targets. It reapplies the latest saved state before ready,
+including paused basket cargo. A hip-centred upper-body wrapper preserves keyed
+head/wing coordinates and leaves feet unchanged during the deterministic
+upper-descent lean; ground, roost and other access reset it.
+
+Separate host-fitted Boughhome modules join the static Longbough study in its
+actual glTF source frame as a sibling import. They follow the existing structure
+toggle, async error/retry and scene disposal. They create no gameplay state.
+[Qualification](../output/building-implementation-v1/README.md) distinguishes
+Woodland .365-scale adults from the study's .45625-scale figures. Living valley now uses .45625 with its own shared habitat contract.
+
+## Integrated Living valley rendering and qualification
+
+`createClearing` renders the same world-aware Settlement, terrain, resource fields
+and saved stages. Cloned nodes retain source semantic tags for part visibility
+and rope/basket/socket lookup. The basket socket owns payload height and yaw once;
+its one-metre authored rope scales from its fixed top to saved lift progress.
+Templates/appearances publish transactionally only after the full dependency batch
+succeeds, and the latest paused state is reapplied before ready. Late nursery-load
+failure with saved young is covered by retry/disposal evidence. Grounded natural
+access uses walking through its prefix, then flight and folded landing; the old
+Woodland upper-descent lean is not applied to this new geometry.
+
+The food forecast remains conservative: newworld route labour uses physical metres
+at nominal 1.4m/s without individual pace adjustment, while Woodland retains eighteen ticks per grid cell. Recovery
+counts each open patch once, but average distance includes all open patches. Future
+optional remote habitats may lower this estimate despite sufficient nearer supply;
+this must be revisited before claiming general map balance. Current authored mixed
+supply supports the demonstrated brood. No combat, moving-unit collision or forest
+performance claim follows from this foundation.
+
+[Qualification](../output/inhabited-valley-v1/README.md) records actual UI build/save/refresh,
+rule-produced complete care fixtures, scene/error/narrow/reduced-motion checks and
+the separate primary Codex-browser new-game/home journey.
+
+## Refined inhabited geography, world v2
+
+The existing Settlement owner resolves `inhabited-valley` versions 1 and 2
+explicitly. New games default to v2; Original small valley creates v1. Both retain codec9 without direct orders and use additive codec10 with them, the same recipes, profile, source identities and fixed building pads.
+The v1 generated map and placements are immutable compatibility snapshots.
+`authorInhabitedValley(2)` exports a separate shared heightfield with broad unequal
+creek shoulders, two shallow coves and localized rocky heads. Routes and rendered
+support both consume that version's exact tile triangles.
+
+No migration or coordinate reprojection occurs. The existing library creates a
+new UUID slot, leaving old raw state and checkpoints intact; a new v2 game becomes
+Continue only after creation. Unknown world identities/versions fail visibly.
+Older builds unaware of v2 may classify its schema9 file as damaged rather than
+newer, while retaining exportable bytes.
+
+## Build/resource interaction ownership
+
+`constructionBudget` derives aggregate unfinished material demand from Settlement:
+`max(0, sum(cost-delivered) - (free+reserved+carried))`. It does not sum individual
+project shortages or include standing patch yield. `requestOptions` accepts an
+optional exact gather patch; the request command validates that same target.
+Default nearest-target behavior remains. Perched/flight availability uses the
+canonical ground work cell, while assignment still waits for actual descent,
+daylight, routes and personal/care guards.
+
+SettlementWorld supplies patch and pad names without adding metadata to saved
+patch records. App owns transient catalog/recipe/selection intent and cancels it
+on placement exits. Clearing renders that intent with isolated matte preview
+materials, then renders saved project stages and local quantities. Nursery
+preview and earned model share `nurseryPresentation`. Direct controls add codec10 without world migration or a second worker subsystem. [Translation](build-resource-interactions.md).
+
+Visible bank relief is restricted to blocked mineral cells. Picking uses a
+complete invisible canonical terrain mesh, so a nonpickable visible bank cannot
+pass a click through to unrelated land behind it. Imported decoration families
+with no placements are disposed rather than rendered as source templates.

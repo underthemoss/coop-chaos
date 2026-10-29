@@ -1,0 +1,20 @@
+{
+  "revision": "tree-study-v5",
+  "source": "crowncourt-study.blend",
+  "probe_contract": "Render-only vertical rays from Y=.01; X[-1.25,1.25] step.25, Z[1.5,3] step.25. Samples are art-clearance evidence, not a traversal/capacity contract.",
+  "anatomical_ground_y": 0,
+  "meshes": {
+    "living-wood": {
+      "rays": 77,
+      "unobstructed_rays": 77,
+      "minimum_overhead_hit_y": null,
+      "maximum_overhead_hit_y": null
+    },
+    "crown-foliage": {
+      "rays": 77,
+      "unobstructed_rays": 75,
+      "minimum_overhead_hit_y": 6.5668768882751465,
+      "maximum_overhead_hit_y": 6.730283260345459
+    }
+  }
+}

@@ -8,7 +8,12 @@ named willing-hen support, actual fertility and laying, supplied incubation,
 chicks, grounded juveniles and adult workers. Care removes an adult from ordinary
 work and establishes a persistent named bond and home attachment. An automatic
 four-minute cycle, pause, 1×/4× and conservative food/housing forecasts make
-constraints visible. Compact cards now let a player ask a selected adult for one gathering, building or food trip while essential needs and care retain precedence. Queued work shows its next need, named contribution and safe return to autonomous life. This is a bounded work request, not a complete politics or consent model. Six reachable adult places per tree remain the maximum
+constraints visible. Named adults accept direct Move, repeated exact-patch Gather
+and sustained Build orders, individually or as a selected group. Direct control
+persists until an explicit return to community work; Stop retains physical cargo.
+Personal meals/rest can suspend an order, while essential carers and young reject
+new orders. This is a bounded command system, not a complete politics or consent
+model. Six reachable adult places per tree remain the maximum
 implemented layout; larger household targets are future studies. Structural wood,
 cultivation, threats, politics and powered access remain future.
 
@@ -19,8 +24,10 @@ real access.
 
 ## Established premise
 
-Coop Chaos is a chicken settlement builder that personifies human social and
-political drama through the individuals running its economy.
+Chicken Civ, formerly Coop Chaos, is a chicken civilization strategy game whose
+main goal is warfare and territorial conquest. The user selected this direction
+on 24 October 2026. Construction, production and population sustain campaigns;
+the individuals running that economy personify its social and political drama.
 They have daily lives, pride, affection, fear, ambition, grudges, and loyalty.
 Comedy comes from taking their dignity seriously. Emotional credibility keeps
 choices from becoming an optimization spreadsheet.
@@ -58,18 +65,25 @@ loyalties and pacts. Consequential systems connect economic/spatial decisions to
 observable work, individual consequences, and persistent responses. Story does
 not require mandatory conversation or a moral dilemma for every construction.
 
-The immediate target is an art-led living sandbox: a beautiful inhabited grove,
-basic foraging and building, and a few direct actions with autonomous responses.
-No authored arc or mandatory first-home sequence organizes play. The
+The immediate priority, selected on 24 October 2026, is detailed gameplay and
+narrative design, followed by creative design. The [gameplay specification](proposals/chicken-civ-design.md)
+and [narrative proposal](proposals/chicken-civ-narrative.md) articulate that direction;
+their particular rules and cast remain provisional. The existing art-led living
+sandbox is a reusable foundation. No authored arc or mandatory first-home sequence
+organizes that sandbox. The
 [opening brief](../art-direction/opening-view-exploration.md) owns the actual asset
 and fixed-camera proof. The bounded food-foraging study uses three mixed-food
 places, appetite, individual preferences and remembered productive ground. Exact
 rates are provisional; complete nutrition and wider ecology remain future.
 
-A later substantial target is an enjoyable roughly thirty-minute settlement
-loop and recognition of a bird by its behavior. Its loss should affect the
-economy and the player emotionally. These outcomes require playtesting and are
-not proven by the current demo.
+A later substantial target is an enjoyable roughly thirty-minute loop connecting
+settlement production to rival-coop warfare and territorial conquest, alongside
+recognition of a bird by its behavior. Its loss should affect the economy, the
+campaign and the player emotionally. The conquest goal supersedes the earlier
+settlement-survival framing; exact combat, capture and victory rules remain
+proposals in the [gameplay specification](proposals/chicken-civ-design.md), with
+research rationale in the [StarCraft-informed study](proposals/chicken-civ-starcraft-gameplay.md).
+These outcomes require playtesting and are not proven by the current demo.
 
 Stats support visible drama. Do not add a loyalty meter without a relationship
 and behavior that explains it. Prefer one legible consequence to a page of

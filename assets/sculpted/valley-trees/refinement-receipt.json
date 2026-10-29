@@ -1,0 +1,165 @@
+{
+  "state": "READY",
+  "revision": "longbough-refinement-v8",
+  "artifact": "public/assets/environment/studies/longbough-refinement-study.glb",
+  "sha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+  "bytes": 18854276,
+  "triangles": 135942,
+  "draw_primitives": 9,
+  "bounds": {
+    "min": [
+      -8.472786903381348,
+      -1.214828372001648,
+      -5.375309944152832
+    ],
+    "max": [
+      8.39311695098877,
+      13.575182914733887,
+      3.5174832344055176
+    ]
+  },
+  "leaf_count": 12635,
+  "leaf_fullspan_m": [
+    0.17002460307155598,
+    0.29999150990889983
+  ],
+  "presentation": "assets/sculpted/valley-trees/refinement-presentation.json",
+  "source": "assets/sculpted/valley-trees/longbough-refinement-study.blend",
+  "checks": [
+    "glTF2 embedded binary",
+    "Exact root/group/material names and unit transforms",
+    "Opaque rough nonmetal PBR",
+    "Wood has original embedded painted bark albedo and TEXCOORD_0",
+    "Narrow wood RGB/alpha and longitudinal UV range survive export",
+    "Embedded PNG bytes exactly match preserved sources",
+    "Finite indexed geometry and unit normals",
+    "No degenerate triangles; positive wood signed volume",
+    "No external resources, animation, skin, camera or lights",
+    "Two separate Blender processes produce identical GLB bytes",
+    "Parsed GLB validation passes",
+    "Saved source color/UV boundaries, floor/headroom and support-anchor samples pass",
+    "Four fixture center-floor rays and 25 body/cargo vertical clearance samples each; six brace anchor samples pass",
+    "v7 to v8 expanded POSITION/NORMAL fingerprints identical for all groups except requested stone rebuild; fixtures/floors/detail bounds identical",
+    "All three natural v5 exports and inhabited v4 export hashes preserved",
+    "Python recipe/check scripts compile"
+  ],
+  "evidence": {
+    "source_views": [
+      "assets/sculpted/valley-trees/longbough-refinement-v8-front.png",
+      "assets/sculpted/valley-trees/longbough-refinement-v8-strategy.png",
+      "assets/sculpted/valley-trees/longbough-refinement-v8-detail.png",
+      "assets/sculpted/valley-trees/longbough-refinement-v8-anatomy.png"
+    ],
+    "parsed_glb": "assets/sculpted/valley-trees/refinement-gltf-checks.json",
+    "source_checks": "assets/sculpted/valley-trees/refinement-source-inspection.json",
+    "determinism": "assets/sculpted/valley-trees/refinement-determinism.json"
+  },
+  "remaining": [
+    "Integration owner final actual-camera/light/contact qualification on exact v8 bytes",
+    "Prototype limits: stylized foliage mounds and simplified leaf lighting, broad old-base grain versus bough grain, faceted mineral stones, simplified joinery",
+    "Single large18.85MB study is not forest-scale performance qualification; no structural strength/navigation/circulation/habitation capacity or concept-parity proof"
+  ],
+  "decision": "Primary accepted v8 source corrections; final runtime acceptance remains with primary using integration-owned evidence. No commit/deploy authority or claim.",
+  "files": {
+    "assets/sculpted/valley-trees/author_refinement.py": {
+      "sha256": "8e96f6f56d11f588e450bcc7beb93a5bfbc0459797494b62b6d02d234d9ccdb0",
+      "bytes": 28534
+    },
+    "assets/sculpted/valley-trees/longbough-refinement-study.blend": {
+      "sha256": "fe68e7e4ea808e18b7ebdb31254587a46fbdbb881d4aa244cf4e2d96db8b037c",
+      "bytes": 21953406
+    },
+    "assets/sculpted/valley-trees/refinement-presentation.json": {
+      "sha256": "a939f412998b1a95d565ccc3f1ec18fb6f3cb69874fda172f9af66680dcf07e2",
+      "bytes": 11639
+    },
+    "assets/sculpted/valley-trees/validate_refinement.py": {
+      "sha256": "c1a67bd5839289f07b1f0aa894f112b6d8e8cb9190c4a6b1a99ee31540638588",
+      "bytes": 5162
+    },
+    "assets/sculpted/valley-trees/inspect_refinement.py": {
+      "sha256": "cbd90cf0210381452de4dff687d60a1a40e549c35a5b4dc60668c5c1a236fdb5",
+      "bytes": 3208
+    },
+    "assets/sculpted/valley-trees/reproduce_refinement.py": {
+      "sha256": "7bc26f43822ea6c85a633deba4ce129f051d601c6f81ae441fcc4d60a9b65cfd",
+      "bytes": 1703
+    },
+    "assets/sculpted/valley-trees/REFINEMENT.md": {
+      "sha256": "78ba5d9b6ccfa6b568cee063aea16fc78a5e9ef93e724faf20a9b902b5491fbf",
+      "bytes": 7021
+    },
+    "assets/sculpted/valley-trees/refinement-provenance.json": {
+      "sha256": "ba3dca6e3a11a96a9bed51fe90a010a5518396db122ad2da6c26420d6a948f5a",
+      "bytes": 4625
+    },
+    "assets/sculpted/valley-trees/refinement-qualification.json": {
+      "sha256": "5ef6a3f8e7e101374b34bb4b09afdefb5db4cc89a380f3b64acc0821603a2cdb",
+      "bytes": 16461
+    },
+    "assets/sculpted/valley-trees/refinement-gltf-checks.json": {
+      "sha256": "3f9be6d7757abfb376296022c549e8ab4a82f11addf5fb82f2114b32d761f775",
+      "bytes": 8181
+    },
+    "assets/sculpted/valley-trees/refinement-source-inspection.json": {
+      "sha256": "bc3efee3fc7393597413e3da2881529e9285ab2583b92a744bb83e7ef616769a",
+      "bytes": 2433
+    },
+    "assets/sculpted/valley-trees/refinement-customdata-boundaries.json": {
+      "sha256": "ba133941328cf834c546a1669d0984390f1d8cf7e1a2ffe42dfe139e5ef00b0d",
+      "bytes": 1786
+    },
+    "assets/sculpted/valley-trees/refinement-determinism.json": {
+      "sha256": "f48d526336d4553de483958ca0b0d11247d85140ba24a57c80e3b61b33d5cea7",
+      "bytes": 692
+    },
+    "assets/sculpted/valley-trees/refinement-v7-v8-equivalence.json": {
+      "sha256": "9e860f966a6803bd35d3369bf2885f21709c8c55be84b5a6f98bb9c5ac76b211",
+      "bytes": 2464
+    },
+    "assets/sculpted/valley-trees/refinement-preserved-artifacts.json": {
+      "sha256": "6cb1f891d16f380f4dec478a8d98d1320eb407fd1789550f159d40a2863d310b",
+      "bytes": 537
+    },
+    "assets/sculpted/valley-trees/bark-painted-v1-source.png": {
+      "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91",
+      "bytes": 3496765
+    },
+    "assets/sculpted/valley-trees/timber-painted-v1-source.png": {
+      "sha256": "27d0238613c45bf4ded0f847790e58860a1a5c31092feea537fdf3e1ab86d05f",
+      "bytes": 2967583
+    },
+    "assets/sculpted/valley-trees/author_trees.py": {
+      "sha256": "801253f0f5210b58ad580bcab605d69b13fc281830b219d7cf6388884f707563",
+      "bytes": 22175
+    },
+    "assets/sculpted/valley-trees/author_habitation.py": {
+      "sha256": "a9f322a48a7301a5c728b6fb83463d5d7d044a935565172fd5f40a2c9861e472",
+      "bytes": 22965
+    },
+    "assets/sculpted/valley-trees/longbough-refinement-v8-front.png": {
+      "sha256": "97c279e5f521a2fc02da6f861fb0afa4131bda59369922daed9fe197252c4145",
+      "bytes": 2901297
+    },
+    "assets/sculpted/valley-trees/longbough-refinement-v8-strategy.png": {
+      "sha256": "974bb0b4235d78cef5c41a1ef5a292b395946231f7b1606157aa730c8009db2c",
+      "bytes": 2964659
+    },
+    "assets/sculpted/valley-trees/longbough-refinement-v8-detail.png": {
+      "sha256": "6316f11e3d26cf5fa2dc02b4d99913021a754d70a8d2cdc863a21cfafbcc9781",
+      "bytes": 3299015
+    },
+    "assets/sculpted/valley-trees/longbough-refinement-v8-anatomy.png": {
+      "sha256": "f77b8653a512726ef589f93aceecac7db926d027cfff3892e1255ebce04c2590",
+      "bytes": 2572157
+    },
+    "public/assets/environment/studies/longbough-refinement-study.glb": {
+      "sha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+      "bytes": 18854276
+    },
+    "assets/sculpted/landscape/author_landscape.py": {
+      "sha256": "92197675c4a56fc9752858c5baf7e9d5a460fe24e7c29f567bff1843899defd7",
+      "bytes": 12892
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "birch": {
+    "path": "/assets/environment/dressing-birch.glb",
+    "sourceBounds": {
+      "min": [
+        -1.810300588607788,
+        0.0,
+        -1.2929973602294922
+      ],
+      "max": [
+        1.6493585109710693,
+        7.3338398933410645,
+        0.9799529314041138
+      ]
+    },
+    "lowYLe1Bounds": {
+      "min": [
+        -0.26795026659965515,
+        0.0,
+        -0.2562335729598999
+      ],
+      "max": [
+        0.3256748914718628,
+        0.830754280090332,
+        0.25576868653297424
+      ]
+    },
+    "nodes": [
+      {
+        "mesh": 0,
+        "name": "birch-airy-folded-crown"
+      },
+      {
+        "mesh": 1,
+        "name": "birch-pale-stems"
+      },
+      {
+        "children": [
+          0,
+          1
+        ],
+        "name": "asset"
+      }
+    ]
+  },
+  "willow": {
+    "path": "/assets/environment/dressing-willow.glb",
+    "sourceBounds": {
+      "min": [
+        -2.4780848026275635,
+        0.0,
+        -1.688480019569397
+      ],
+      "max": [
+        2.3608956336975098,
+        5.439863204956055,
+        1.262085199356079
+      ]
+    },
+    "lowYLe1Bounds": {
+      "min": [
+        -0.42751628160476685,
+        0.0,
+        -0.3199999928474426
+      ],
+      "max": [
+        0.3058464527130127,
+        0.8257902264595032,
+        0.3293641209602356
+      ]
+    },
+    "nodes": [
+      {
+        "mesh": 0,
+        "name": "willow-curving-boughs"
+      },
+      {
+        "mesh": 1,
+        "name": "willow-hanging-folded-leaves"
+      },
+      {
+        "children": [
+          0,
+          1
+        ],
+        "name": "asset"
+      }
+    ]
+  }
+}

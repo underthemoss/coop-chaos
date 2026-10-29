@@ -1,0 +1,39 @@
+{
+  "previous_revision": "longbough-refinement-v7",
+  "revision": "longbough-refinement-v8",
+  "method": "Expanded indexed triangle POSITION and NORMAL float32 fingerprint, independent of UV vertex splitting",
+  "mesh_geometry_normals_unchanged": {
+    "crown-foliage": true,
+    "living-wood": true,
+    "study-structure-decks": true,
+    "study-structure-lashings-hoist": true,
+    "study-structure-plants": true,
+    "study-structure-rails-ladders": true,
+    "study-structure-root-dressing": false,
+    "study-structure-supports": true,
+    "study-structure-woven-hood-basket": true
+  },
+  "before": {
+    "crown-foliage": "2cf4417063224a435c9b6ba93030386a6974c45194bdf7a0f2dec5e3dfc79c99",
+    "living-wood": "b13c919843dff86d2098fff6d0d408b4702c3b932880ac0669a554d955370df8",
+    "study-structure-decks": "478d36d945f1dab1bef2f1289d4ffec9a658f8d5ed31a5c8f30b4386773cafd5",
+    "study-structure-lashings-hoist": "286e10c23406d0f848e58304bc6b26eb4bf4d9eb46ed020ca48e29fb499c8870",
+    "study-structure-plants": "fcd8f09f7e7e3138a614a5abe0046036973178fe24b29aa6c428921d977efc4e",
+    "study-structure-rails-ladders": "a78a839fe67cb0b77da439be1303ef99585570b9ca23377298f7330076c572c1",
+    "study-structure-root-dressing": "11c7452cea87549f4d1e3f11aba52217e359d3c9bf5ce67de31ff26120896555",
+    "study-structure-supports": "a4cf50ea76cb6b77e07770e832cdc63f2dbb38be6a0732b62137ae18b2fbb1cf",
+    "study-structure-woven-hood-basket": "0b674a90570a1bf38ac6765ed87d0c2e0c3aef0b652611a26339d9c47bddfc96"
+  },
+  "after": {
+    "crown-foliage": "2cf4417063224a435c9b6ba93030386a6974c45194bdf7a0f2dec5e3dfc79c99",
+    "living-wood": "b13c919843dff86d2098fff6d0d408b4702c3b932880ac0669a554d955370df8",
+    "study-structure-decks": "478d36d945f1dab1bef2f1289d4ffec9a658f8d5ed31a5c8f30b4386773cafd5",
+    "study-structure-lashings-hoist": "286e10c23406d0f848e58304bc6b26eb4bf4d9eb46ed020ca48e29fb499c8870",
+    "study-structure-plants": "fcd8f09f7e7e3138a614a5abe0046036973178fe24b29aa6c428921d977efc4e",
+    "study-structure-rails-ladders": "a78a839fe67cb0b77da439be1303ef99585570b9ca23377298f7330076c572c1",
+    "study-structure-root-dressing": "b03ff50d28b85f14ea38cc02a285f9fc2716efb2c6447bed1eff17f829e63f50",
+    "study-structure-supports": "a4cf50ea76cb6b77e07770e832cdc63f2dbb38be6a0732b62137ae18b2fbb1cf",
+    "study-structure-woven-hood-basket": "0b674a90570a1bf38ac6765ed87d0c2e0c3aef0b652611a26339d9c47bddfc96"
+  },
+  "fixtures_floors_bounds_unchanged": true
+}

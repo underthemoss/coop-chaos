@@ -1,0 +1,1024 @@
+{
+  "packet": "output/building-implementation-v1/runtime-access-sweep.json",
+  "assets": {
+    "boughhome": "1ffd0a1cdfe0a0758aa43e56f232ae54c70d11dc29723677aa77948f5275434d",
+    "sleeping-deck-compatible": "025e9472c5787c3c68749bf6f82856a42ecbd44a9a3dd0a24be92339f297e2a3"
+  },
+  "checks": [
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 18,
+      "groups": {
+        "left berth forward toe ledge": 18
+      },
+      "firstTriangle": [
+        [
+          1.2400000095367432,
+          2.8347458839416504,
+          -0.3623141944408417
+        ],
+        [
+          1.2400000095367432,
+          2.847289800643921,
+          -0.34531575441360474
+        ],
+        [
+          1.4600000381469727,
+          2.8476145267486572,
+          -0.34538987278938293
+        ]
+      ]
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 12,
+      "groups": {
+        "sleeping-deck-weave": 12
+      },
+      "firstTriangle": [
+        [
+          1.267153024673462,
+          2.7427456378936768,
+          -1.1591556072235107
+        ],
+        [
+          1.3223469257354736,
+          2.728928804397583,
+          -0.491264671087265
+        ],
+        [
+          1.3674596548080444,
+          2.7519314289093018,
+          -0.4980999529361725
+        ]
+      ]
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 18,
+      "groups": {
+        "left berth forward toe ledge": 18
+      },
+      "firstTriangle": [
+        [
+          1.2400000095367432,
+          2.8347458839416504,
+          -0.3623141944408417
+        ],
+        [
+          1.2400000095367432,
+          2.847289800643921,
+          -0.34531575441360474
+        ],
+        [
+          1.4600000381469727,
+          2.8476145267486572,
+          -0.34538987278938293
+        ]
+      ]
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "firstTriangle": null
+    }
+  ],
+  "limits": "Surface intersections from supplied evaluated reduced-motion pose, 3 saved positions both headings per bird. Below foot+.13 contacts excluded. Does not establish continuous animation, navigation, or cargo permission."
+}

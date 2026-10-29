@@ -1,0 +1,29 @@
+{
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "livingSha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+  "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+  "limits": "Source Blender glTF NLA flight5frames for authored progress<=.70 and folded roost3frames for authored>=2/3 (saved>=.70), plus all settled roosts. Perch yaw blend follows saved .66\u2192.73, with source path occupying saved .10\u21921.00. Both travel headings sampled before final segment; runtime animation blending and transformed journeys remain independently qualified. Sole/grip region belowfoot+.12 excluded.",
+  "birds": {
+    "fern": {
+      "poseCount": 646,
+      "intersectingPoses": 0,
+      "hits": []
+    },
+    "rook": {
+      "poseCount": 646,
+      "intersectingPoses": 0,
+      "hits": []
+    },
+    "dapple": {
+      "poseCount": 646,
+      "intersectingPoses": 0,
+      "hits": []
+    },
+    "wren": {
+      "poseCount": 646,
+      "intersectingPoses": 0,
+      "hits": []
+    }
+  }
+}

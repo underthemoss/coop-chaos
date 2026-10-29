@@ -1,0 +1,223 @@
+{
+  "revision": "longbough-playable-v1",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "livingSha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+  "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+  "supportConnections": {
+    "home": [
+      {
+        "woodContact": [
+          -0.15,
+          2.1,
+          -0.2
+        ],
+        "supportedEnd": [
+          -0.32,
+          3.09,
+          2.48
+        ],
+        "nearestWoodDistance": 0.9577342867851257,
+        "signedOutwardDistance": -0.9477758295834064,
+        "embeddedOrTouching": true
+      },
+      {
+        "woodContact": [
+          1.15,
+          2.25,
+          -0.1
+        ],
+        "supportedEnd": [
+          2.28,
+          3.09,
+          2.25
+        ],
+        "nearestWoodDistance": 0.0011177532142028213,
+        "signedOutwardDistance": 0.0011177531937391905,
+        "embeddedOrTouching": true
+      },
+      {
+        "woodContact": [
+          0.5,
+          2.35,
+          0.8
+        ],
+        "supportedEnd": [
+          1.15,
+          3.09,
+          3.12
+        ],
+        "nearestWoodDistance": 0.19215881824493408,
+        "signedOutwardDistance": -0.17656599171459675,
+        "embeddedOrTouching": true
+      }
+    ],
+    "middle": [
+      {
+        "woodContact": [
+          -0.15,
+          4.62,
+          -0.2
+        ],
+        "supportedEnd": [
+          -0.5,
+          5.61,
+          2.1
+        ],
+        "nearestWoodDistance": 0.5950736403465271,
+        "signedOutwardDistance": -0.5436799768358469,
+        "embeddedOrTouching": true
+      },
+      {
+        "woodContact": [
+          -1,
+          4.77,
+          -0.1
+        ],
+        "supportedEnd": [
+          -1.75,
+          5.61,
+          2.12
+        ],
+        "nearestWoodDistance": 0.4755758047103882,
+        "signedOutwardDistance": -0.46703414618968964,
+        "embeddedOrTouching": true
+      }
+    ],
+    "basketGuide": [
+      {
+        "woodContact": [
+          1.2,
+          4.65,
+          0.45
+        ],
+        "supportedEnd": [
+          3.55,
+          5.2,
+          2.5
+        ],
+        "nearestWoodDistance": 0.007990262471139431,
+        "signedOutwardDistance": -0.00799026296226657,
+        "embeddedOrTouching": true
+      }
+    ]
+  },
+  "basket": {
+    "payloadVsBasketPairs": 0,
+    "payloadGapAboveFloor": 0.0030736979842185957,
+    "samples": [
+      {
+        "progress": 0.0,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.05,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.1,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.15,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.2,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.25,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.3,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.35,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.4,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.45,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.5,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.55,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.6,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.65,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.7,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.75,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.8,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.85,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.9,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 0.95,
+        "surfacePairs": 0,
+        "groups": {}
+      },
+      {
+        "progress": 1.0,
+        "surfacePairs": 0,
+        "groups": {}
+      }
+    ],
+    "landingFloorTopY": 3.2,
+    "homeFloorTopY": 3.2,
+    "socketYawRadians": 1.5707963267948966,
+    "actualBundleHalfScale": 0.5,
+    "groundBasketRootY": 0.12,
+    "ropeLengthGround": 4.13,
+    "ropeLengthLanding": 1.1300000000000001
+  },
+  "limits": "Source geometry contacts and whole rigid cargo/basket swept21positions. Static contact/clearance only, no structural strength, bird capacity or collision simulation claim."
+}

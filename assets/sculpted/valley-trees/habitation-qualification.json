@@ -1,0 +1,363 @@
+{
+  "revision": "longbough-habitation-v4",
+  "file": "public/assets/environment/studies/longbough-habitation-study.glb",
+  "sha256": "a121b8f6efc0e81fa2e78bf600365967131a7dc54227babc56e36b9b48871718",
+  "bytes": 10552456,
+  "bounds": {
+    "min": [
+      -7.129771709442139,
+      -0.6392958164215088,
+      -4.964323997497559
+    ],
+    "max": [
+      7.260288238525391,
+      12.929430961608887,
+      3.8535525798797607
+    ]
+  },
+  "groups": {
+    "living-wood": {
+      "bounds": {
+        "min": [
+          -5.929195880889893,
+          -0.6392958164215088,
+          -3.6758182048797607
+        ],
+        "max": [
+          6.073410511016846,
+          12.079147338867188,
+          2.849999189376831
+        ]
+      },
+      "triangles": 18961
+    },
+    "crown-foliage": {
+      "bounds": {
+        "min": [
+          -7.129771709442139,
+          7.777346134185791,
+          -4.964323997497559
+        ],
+        "max": [
+          7.260288238525391,
+          12.929430961608887,
+          3.601252317428589
+        ]
+      },
+      "triangles": 54474
+    },
+    "study-structure-decks": {
+      "bounds": {
+        "min": [
+          -3.1443912982940674,
+          3.0,
+          -0.6381602883338928
+        ],
+        "max": [
+          3.2942726612091064,
+          8.15000057220459,
+          3.795142889022827
+        ]
+      },
+      "triangles": 768
+    },
+    "study-structure-supports": {
+      "bounds": {
+        "min": [
+          -3.063999891281128,
+          2.0108535289764404,
+          -0.5879999995231628
+        ],
+        "max": [
+          4.1171555519104,
+          7.96999979019165,
+          3.7200000286102295
+        ]
+      },
+      "triangles": 400
+    },
+    "study-structure-rails-ladders": {
+      "bounds": {
+        "min": [
+          -3.1973350048065186,
+          0.05401923507452011,
+          -0.7160207629203796
+        ],
+        "max": [
+          3.458794355392456,
+          8.73927116394043,
+          3.8535525798797607
+        ]
+      },
+      "triangles": 9728
+    },
+    "study-structure-woven-hood-basket": {
+      "bounds": {
+        "min": [
+          -2.760098457336426,
+          1.5240192413330078,
+          0.8395944237709045
+        ],
+        "max": [
+          4.386172771453857,
+          7.639871120452881,
+          3.40030837059021
+        ]
+      },
+      "triangles": 13536
+    },
+    "study-structure-lashings-hoist": {
+      "bounds": {
+        "min": [
+          -3.2250001430511475,
+          1.9842145442962646,
+          -0.6629999876022339
+        ],
+        "max": [
+          4.347128868103027,
+          8.296257972717285,
+          3.8159899711608887
+        ]
+      },
+      "triangles": 10080
+    }
+  },
+  "total_triangles": 107947,
+  "leaf_count": 7879,
+  "leaf_fullspan_m": [
+    0.18000928502115737,
+    0.28998252786179163
+  ],
+  "presentation": {
+    "revision": "longbough-habitation-v4",
+    "assetUrl": "/assets/environment/studies/longbough-habitation-study.glb",
+    "anatomicalGroundY": 0,
+    "front": "+Z",
+    "deckFloors": [
+      {
+        "id": "lower",
+        "floorTag": "study-structure-decks",
+        "center": [
+          1.2,
+          3.2,
+          1.6
+        ],
+        "width": 4.2,
+        "depth": 3.4,
+        "outline": [
+          [
+            -0.5500000000000002,
+            3.2,
+            -0.09999999999999987
+          ],
+          [
+            2.9499999999999997,
+            3.2,
+            -0.09999999999999987
+          ],
+          [
+            3.3,
+            3.2,
+            0.2500000000000001
+          ],
+          [
+            3.3,
+            3.2,
+            2.9499999999999997
+          ],
+          [
+            2.9499999999999997,
+            3.2,
+            3.3
+          ],
+          [
+            -0.5500000000000002,
+            3.2,
+            3.3
+          ],
+          [
+            -0.9000000000000001,
+            3.2,
+            2.9499999999999997
+          ],
+          [
+            -0.9000000000000001,
+            3.2,
+            0.2500000000000001
+          ]
+        ]
+      },
+      {
+        "id": "middle",
+        "floorTag": "study-structure-decks",
+        "center": [
+          -1.0,
+          5.72,
+          1.8
+        ],
+        "width": 4.3,
+        "depth": 4.0,
+        "outline": [
+          [
+            -2.8,
+            5.72,
+            -0.19999999999999996
+          ],
+          [
+            0.7999999999999999,
+            5.72,
+            -0.19999999999999996
+          ],
+          [
+            1.15,
+            5.72,
+            0.15000000000000002
+          ],
+          [
+            1.15,
+            5.72,
+            3.4499999999999997
+          ],
+          [
+            0.7999999999999999,
+            5.72,
+            3.8
+          ],
+          [
+            -2.8,
+            5.72,
+            3.8
+          ],
+          [
+            -3.15,
+            5.72,
+            3.4499999999999997
+          ],
+          [
+            -3.15,
+            5.72,
+            0.15000000000000002
+          ]
+        ]
+      },
+      {
+        "id": "upper",
+        "floorTag": "study-structure-decks",
+        "center": [
+          1.0,
+          8.15,
+          0.9
+        ],
+        "width": 3.7,
+        "depth": 3.1,
+        "outline": [
+          [
+            -0.5000000000000001,
+            8.15,
+            -0.65
+          ],
+          [
+            2.5,
+            8.15,
+            -0.65
+          ],
+          [
+            2.85,
+            8.15,
+            -0.30000000000000004
+          ],
+          [
+            2.85,
+            8.15,
+            2.1
+          ],
+          [
+            2.5,
+            8.15,
+            2.45
+          ],
+          [
+            -0.5000000000000001,
+            8.15,
+            2.45
+          ],
+          [
+            -0.8500000000000001,
+            8.15,
+            2.1
+          ],
+          [
+            -0.8500000000000001,
+            8.15,
+            -0.30000000000000004
+          ]
+        ]
+      }
+    ],
+    "birdFixtures": [
+      {
+        "id": "lower-fern",
+        "floorTag": "study-structure-decks",
+        "position": [
+          1.75,
+          3.2,
+          2.85
+        ],
+        "yawRadians": 0.15,
+        "character": "fern",
+        "cargo": false
+      },
+      {
+        "id": "lower-rook",
+        "floorTag": "study-structure-decks",
+        "position": [
+          2.6,
+          3.2,
+          2.3
+        ],
+        "yawRadians": -0.3,
+        "character": "rook",
+        "cargo": true
+      },
+      {
+        "id": "middle-fern",
+        "floorTag": "study-structure-decks",
+        "position": [
+          -0.4,
+          5.72,
+          3.48
+        ],
+        "yawRadians": 0,
+        "character": "fern",
+        "cargo": false
+      },
+      {
+        "id": "upper-rook",
+        "floorTag": "study-structure-decks",
+        "position": [
+          1.55,
+          8.15,
+          1.9
+        ],
+        "yawRadians": 0.3,
+        "character": "rook",
+        "cargo": false
+      }
+    ],
+    "detailBounds": {
+      "min": [
+        -3.35,
+        2.0,
+        -0.55
+      ],
+      "max": [
+        4.45,
+        9.7,
+        3.9
+      ]
+    }
+  },
+  "source": "assets/sculpted/valley-trees/longbough-habitation-study.blend",
+  "reference_inspected": "User supplied Screenshot2026-10-26at1.43.35PM; source image inspected, not embedded",
+  "limits": "Original static visual massing. Not a usable habitat, population/safety/navigation claim, or concept-fidelity acceptance."
+}

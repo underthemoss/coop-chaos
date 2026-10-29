@@ -1,0 +1,600 @@
+{
+  "revision": "longbough-playable-v1",
+  "qualification": "Source-qualified asset contract; final transformed runtime movement and visual acceptance are independently qualified by the integration owner.",
+  "sourceFrame": {
+    "anatomicalGroundY": 0,
+    "front": "+Z",
+    "metersPerUnit": 1
+  },
+  "presentation": {
+    "adultScale": 0.45625,
+    "reedBundleScale": 0.5,
+    "selectedLabelHeight": 0.9,
+    "birdPickDiameter": 1
+  },
+  "assetUrls": {
+    "living": "/assets/environment/valley/longbough-living.glb",
+    "kit": "/assets/environment/valley/longbough-woven-kit.glb"
+  },
+  "profile": {
+    "places": {
+      "natural": "Living bough",
+      "home": "Woven lower home",
+      "hauling": "Bound-reed lift",
+      "deck": "Woven middle roost"
+    },
+    "groundWorkPoint": [
+      4,
+      0,
+      4.4
+    ],
+    "anchors": {
+      "natural-perch-0": [
+        -3.08,
+        7.385897843167186,
+        -0.38
+      ],
+      "natural-perch-1": [
+        3.84,
+        7.0504784267395735,
+        -0.06
+      ],
+      "sheltered-perch-0": [
+        -0.26,
+        3.2,
+        2.42
+      ],
+      "sheltered-perch-1": [
+        2.24,
+        3.2,
+        2.12
+      ],
+      "sheltered-perch-2": [
+        -1.22,
+        5.72,
+        1.95
+      ],
+      "sheltered-perch-3": [
+        0.04999999999999999,
+        5.72,
+        1.95
+      ],
+      "sheltered-deck": [
+        1.1,
+        3.2,
+        3.12
+      ],
+      "ladder-base": [
+        3.1,
+        0,
+        4.1
+      ],
+      "ladder-top": [
+        2.75,
+        3.2,
+        3.65
+      ],
+      "home-entry": [
+        2.75,
+        3.2,
+        3.12
+      ],
+      "home-front-right": [
+        1.25,
+        3.2,
+        3.12
+      ],
+      "home-front-left": [
+        -0.26,
+        3.2,
+        3.12
+      ],
+      "home-edge": [
+        1.05,
+        3.2,
+        3.12
+      ],
+      "middle-ladder-base": [
+        1.05,
+        3.2,
+        3.65
+      ],
+      "ramp-middle": [
+        1.05,
+        4.46,
+        3.525
+      ],
+      "middle-ladder-top": [
+        1.05,
+        5.72,
+        3.4
+      ],
+      "deck-entry": [
+        0.65,
+        5.72,
+        2.65
+      ],
+      "deck-front-left": [
+        -1.22,
+        5.72,
+        2.65
+      ],
+      "basket-ground": [
+        3.55,
+        0.12,
+        2.5
+      ],
+      "basket-landing": [
+        3.55,
+        3.12,
+        2.5
+      ],
+      "cargo-socket": [
+        0,
+        0.08,
+        0
+      ],
+      "lift-rope": [
+        3.55,
+        5.2,
+        2.5
+      ],
+      "operator-ground": [
+        4.75,
+        0,
+        2.65
+      ],
+      "natural-approach-0": [
+        -3.08,
+        8.0,
+        -0.38
+      ],
+      "natural-approach-1": [
+        3.84,
+        7.6,
+        -0.06
+      ],
+      "natural-launch-0": [
+        4,
+        3.6,
+        4.4
+      ],
+      "natural-flight-0": [
+        -3.08,
+        8.55,
+        3.4
+      ],
+      "natural-launch-1": [
+        4,
+        3.6,
+        4.4
+      ],
+      "natural-flight-1": [
+        3.84,
+        7.6,
+        3.4
+      ],
+      "natural-launch-base": [
+        4,
+        0,
+        4.4
+      ],
+      "ground-approach-side": [
+        4.2,
+        0,
+        3.1
+      ],
+      "ground-approach-front": [
+        2.65,
+        0,
+        3.1
+      ]
+    },
+    "naturalPerches": [
+      "natural-perch-0",
+      "natural-perch-1"
+    ],
+    "shelteredPerches": [
+      "sheltered-perch-0",
+      "sheltered-perch-1",
+      "sheltered-perch-2",
+      "sheltered-perch-3"
+    ],
+    "homeAccess": [
+      {
+        "progress": 0.4,
+        "anchor": "ladder-base"
+      },
+      {
+        "progress": 0.8,
+        "anchor": "ladder-top"
+      },
+      {
+        "progress": 0.88,
+        "anchor": "home-entry"
+      }
+    ],
+    "deckAccess": [
+      {
+        "progress": 0.3,
+        "anchor": "ladder-base"
+      },
+      {
+        "progress": 0.5,
+        "anchor": "ladder-top"
+      },
+      {
+        "progress": 0.57,
+        "anchor": "home-entry"
+      },
+      {
+        "progress": 0.66,
+        "anchor": "home-edge"
+      },
+      {
+        "progress": 0.7,
+        "anchor": "middle-ladder-base"
+      },
+      {
+        "progress": 0.85,
+        "anchor": "middle-ladder-top"
+      },
+      {
+        "progress": 0.92,
+        "anchor": "deck-entry"
+      }
+    ],
+    "placeAccess": {
+      "sheltered-perch-0": [
+        {
+          "progress": 0.4,
+          "anchor": "ladder-base"
+        },
+        {
+          "progress": 0.72,
+          "anchor": "ladder-top"
+        },
+        {
+          "progress": 0.78,
+          "anchor": "home-entry"
+        },
+        {
+          "progress": 0.84,
+          "anchor": "home-front-right"
+        },
+        {
+          "progress": 0.92,
+          "anchor": "home-front-left"
+        },
+        {
+          "progress": 1,
+          "anchor": "sheltered-perch-0"
+        }
+      ],
+      "sheltered-perch-1": [
+        {
+          "progress": 0.4,
+          "anchor": "ladder-base"
+        },
+        {
+          "progress": 0.8,
+          "anchor": "ladder-top"
+        },
+        {
+          "progress": 0.88,
+          "anchor": "home-entry"
+        },
+        {
+          "progress": 1,
+          "anchor": "sheltered-perch-1"
+        }
+      ],
+      "sheltered-perch-2": [
+        {
+          "progress": 0.3,
+          "anchor": "ladder-base"
+        },
+        {
+          "progress": 0.5,
+          "anchor": "ladder-top"
+        },
+        {
+          "progress": 0.57,
+          "anchor": "home-entry"
+        },
+        {
+          "progress": 0.66,
+          "anchor": "home-edge"
+        },
+        {
+          "progress": 0.7,
+          "anchor": "middle-ladder-base"
+        },
+        {
+          "progress": 0.85,
+          "anchor": "middle-ladder-top"
+        },
+        {
+          "progress": 0.9,
+          "anchor": "deck-entry"
+        },
+        {
+          "progress": 0.95,
+          "anchor": "deck-front-left"
+        },
+        {
+          "progress": 1,
+          "anchor": "sheltered-perch-2"
+        }
+      ],
+      "sheltered-perch-3": [
+        {
+          "progress": 0.3,
+          "anchor": "ladder-base"
+        },
+        {
+          "progress": 0.5,
+          "anchor": "ladder-top"
+        },
+        {
+          "progress": 0.57,
+          "anchor": "home-entry"
+        },
+        {
+          "progress": 0.66,
+          "anchor": "home-edge"
+        },
+        {
+          "progress": 0.7,
+          "anchor": "middle-ladder-base"
+        },
+        {
+          "progress": 0.85,
+          "anchor": "middle-ladder-top"
+        },
+        {
+          "progress": 0.92,
+          "anchor": "deck-entry"
+        },
+        {
+          "progress": 1,
+          "anchor": "sheltered-perch-3"
+        }
+      ],
+      "natural-perch-0": [
+        {
+          "progress": 0,
+          "anchor": "natural-launch-base"
+        },
+        {
+          "progress": 0.15,
+          "anchor": "natural-launch-0"
+        },
+        {
+          "progress": 0.55,
+          "anchor": "natural-flight-0"
+        },
+        {
+          "progress": 0.82,
+          "anchor": "natural-approach-0"
+        },
+        {
+          "progress": 1,
+          "anchor": "natural-perch-0"
+        }
+      ],
+      "natural-perch-1": [
+        {
+          "progress": 0,
+          "anchor": "natural-launch-base"
+        },
+        {
+          "progress": 0.15,
+          "anchor": "natural-launch-1"
+        },
+        {
+          "progress": 0.55,
+          "anchor": "natural-flight-1"
+        },
+        {
+          "progress": 0.82,
+          "anchor": "natural-approach-1"
+        },
+        {
+          "progress": 1,
+          "anchor": "natural-perch-1"
+        }
+      ]
+    },
+    "hauling": {
+      "basketNode": "basket",
+      "ropeNode": "lift-rope",
+      "travelY": 3,
+      "ropeRestLength": 4.13,
+      "bridleAboveBasket": 0.95,
+      "guideNode": "basket-guide",
+      "landingFloorY": 3.2,
+      "ropeAuthoredLength": 1,
+      "cargoYawRadians": 1.5707963267948966
+    },
+    "stages": {
+      "home": {
+        "base": [
+          "home-deck",
+          "home-support"
+        ],
+        "frame": [
+          "home-hood-left",
+          "home-hood-right"
+        ],
+        "complete": [
+          "home-ladder"
+        ]
+      },
+      "middle": {
+        "base": [
+          "middle-deck",
+          "middle-support"
+        ],
+        "frame": [
+          "middle-rails"
+        ],
+        "complete": [
+          "middle-ladder"
+        ]
+      },
+      "basket": {
+        "base": [
+          "basket-guide",
+          "basket-landing-weave"
+        ],
+        "frame": [
+          "lift-rope-fiber"
+        ],
+        "complete": [
+          "basket-weave"
+        ]
+      }
+    },
+    "perchYawRadians": {
+      "natural-perch-0": -1.5707963267948966,
+      "natural-perch-1": 1.5707963267948966
+    },
+    "groundApproach": [
+      "ground-approach-side",
+      "ground-approach-front",
+      "ladder-base"
+    ],
+    "naturalGroundApproach": [
+      "ground-approach-side",
+      "natural-launch-base"
+    ]
+  },
+  "authoring": {
+    "lowerBays": [
+      {
+        "anchor": "sheltered-perch-0",
+        "width": 1.55,
+        "depth": 1.6,
+        "hoodHeight": 1.65
+      },
+      {
+        "anchor": "sheltered-perch-1",
+        "width": 1.55,
+        "depth": 1.6,
+        "hoodHeight": 1.7
+      }
+    ],
+    "middleBays": [
+      {
+        "anchor": "sheltered-perch-2",
+        "width": 1.2,
+        "depth": 1.4
+      },
+      {
+        "anchor": "sheltered-perch-3",
+        "width": 1.2,
+        "depth": 1.4
+      }
+    ],
+    "circulationClearWidth": 0.65,
+    "targetUsefulAreaM2": {
+      "home": [
+        5,
+        6
+      ],
+      "middle": [
+        3,
+        4
+      ]
+    },
+    "rootGeometryArtifact": "assets/sculpted/valley-playable/root-sections.json",
+    "groundWorkCourt": {
+      "centerAnchor": "groundWorkPoint",
+      "width": 3.8,
+      "depth": 3.2
+    },
+    "notes": "No top floor. Existing reed recipes remain abstract supply bundles, no fabricated timber. Exact living branch mesh/opaque crown preserved. Source fit is sampled mesh evidence, not structural-strength, collision-physics, navigation or population-capacity proof.",
+    "supportConnections": {
+      "home": [
+        [
+          [
+            -0.15,
+            2.1,
+            -0.2
+          ],
+          [
+            -0.32,
+            3.09,
+            2.48
+          ]
+        ],
+        [
+          [
+            1.15,
+            2.25,
+            -0.1
+          ],
+          [
+            2.28,
+            3.09,
+            2.25
+          ]
+        ],
+        [
+          [
+            0.5,
+            2.35,
+            0.8
+          ],
+          [
+            1.15,
+            3.09,
+            3.12
+          ]
+        ]
+      ],
+      "middle": [
+        [
+          [
+            -0.15,
+            4.62,
+            -0.2
+          ],
+          [
+            -0.5,
+            5.61,
+            2.1
+          ]
+        ],
+        [
+          [
+            -1,
+            4.77,
+            -0.1
+          ],
+          [
+            -1.75,
+            5.61,
+            2.12
+          ]
+        ]
+      ],
+      "basketGuide": [
+        [
+          [
+            1.2,
+            4.65,
+            0.45
+          ],
+          [
+            3.55,
+            5.2,
+            2.5
+          ]
+        ]
+      ]
+    },
+    "naturalSupportNote": "Natural body origins are solved from actual evaluated roost toe projections, not a ray beneath body origin. Settled outward headings are required; free reverse headings are not source-qualified."
+  }
+}

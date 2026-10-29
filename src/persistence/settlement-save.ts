@@ -1,3 +1,6 @@
+import { settlementWorld, worldTrees, worldFoodPatches, worldReedPatches, type WorldContext } from "../content/settlement-world";
+import { mapTile } from "../content/maps";
+import { canTraverse } from "../simulation/navigation";
 import { treeWorkCell } from "../content/tree-habitats";
 import {
   initialSettlement,
@@ -19,7 +22,6 @@ import {
 } from "../simulation/settlement";
 import type { Settlement, Cell } from "../simulation/settlement";
 import {
-  foodPatches,
   forageTuning,
   economyTuning,
   offspringNames,
@@ -52,14 +54,13 @@ function integer(v: unknown, min = 0, max = 1e9): v is number {
 function number(v: unknown, min = 0, max = 1): v is number {
   return typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
 }
-function cell(v: unknown, fractional = false): v is Cell {
+function cell(v: unknown, fractional = false, context?: WorldContext): v is Cell {
   const p = object(v, ["x", "z"]);
-  if (
-    !number(p.x, -4, 4) ||
-    !number(p.z, -3, 3) ||
-    (!fractional && (!integer(p.x, -4, 4) || !integer(p.z, -3, 3)))
-  )
-    return fail();
+  const map = settlementWorld(context).map;
+  const minX = map ? 0 : -4, maxX = map ? map.width - 1 : 4;
+  const minZ = map ? 0 : -3, maxZ = map ? map.depth - 1 : 3;
+  if (!number(p.x, minX, maxX) || !number(p.z, minZ, maxZ) ||
+    (!fractional && (!integer(p.x, minX, maxX) || !integer(p.z, minZ, maxZ)))) return fail();
   return true;
 }
 function list(v: unknown, max: number): unknown[] {
@@ -69,7 +70,7 @@ function list(v: unknown, max: number): unknown[] {
 function text(v: unknown): v is string {
   return typeof v === "string" && v.length > 0 && v.length < 200;
 }
-function perch(v: unknown, flying: boolean, upgraded: boolean) {
+function perch(v: unknown, flying: boolean, upgraded: boolean, context?: WorldContext) {
   const p = object(
     v,
     flying
@@ -77,7 +78,7 @@ function perch(v: unknown, flying: boolean, upgraded: boolean) {
       : ["tree", "slot", "sheltered"],
   );
   if (
-    !trees.some((t) => t.id === p.tree) ||
+    !worldTrees(context).some((t) => t.id === p.tree) ||
     !integer(p.slot, 0, upgraded && p.sheltered ? 3 : 1) ||
     typeof p.sheltered !== "boolean"
   )
@@ -86,9 +87,14 @@ function perch(v: unknown, flying: boolean, upgraded: boolean) {
     flying &&
     (!number(p.progress) ||
       !["up", "down"].includes(p.direction as string) ||
-      !cell(p.from, true))
+      !cell(p.from, true, context))
   )
     fail();
+  if(flying&&settlementWorld(context).map){
+    const tree=worldTrees(context).find(t=>t.id===p.tree)!;
+    const landing=treeWorkCell(tree.id,context);
+    if(key(p.from as Cell)!==key(landing)||!mapTile(settlementWorld(context).map!,landing)?.traversable)fail();
+  }
 }
 /** Validate shape AND relationships before any state or IndexedDB replacement. */
 const legacyInitialReeds = 40;
@@ -99,14 +105,19 @@ const maximumHarvest = reedPatches.reduce(
 /** Version 1 has an immutable shape and material budget, independent of fresh-game tuning. */
 function validateVersion(
   value: unknown,
-  version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
+  version: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10,
+  context?: WorldContext,
 ): Settlement {
+  const definition = settlementWorld(context);
+  const trees = worldTrees(context), foodPatches = worldFoodPatches(context), reedPatches = worldReedPatches(context);
+  const checkedCell = (v: unknown, fractional = false) => cell(v, fractional, context);
   const legacy = version === 1;
   const current = version >= 3;
   const upgraded = version >= 4;
   const economy = version >= 5;
   const requests = version >= 6;
   const s = object(value, [
+    ...(context?.world ? ["world"] : []),
     ...(version >= 7 ? ["constructionFocus"] : []),
     ...(upgraded ? ["basketTechnique"] : []),
     ...(economy ? ["economy"] : []),
@@ -122,6 +133,7 @@ function validateVersion(
     "totalReeds",
     ...(legacy ? [] : ["patches", "initialReeds", "harvestedReeds"]),
   ]);
+  if (!!context?.world && s.initialReeds !== definition.source.stock) fail();
   const budget = legacy
     ? legacyInitialReeds
     : (s.initialReeds === 8 || s.initialReeds === legacyInitialReeds) &&
@@ -153,7 +165,8 @@ function validateVersion(
       if (
         !fixture ||
         ids.has(p.id) ||
-        !cell(p.at) ||
+        !checkedCell(p.at) ||
+        (!!context?.world && key(p.at as Cell) !== key(fixture.at)) ||
         p.capacity !== fixture.capacity ||
         !integer(p.remaining, 0, fixture.capacity) ||
         !integer(p.harvested, 0, economy ? 1e9 : fixture.capacity) ||
@@ -188,14 +201,14 @@ function validateVersion(
   for (const p of paths) {
     if (typeof p !== "string" || !/^-?\d+,-?\d+$/.test(p)) fail();
     const [x, z] = (p as string).split(",").map(Number);
-    if (!validCell({ x, z }) || key({ x, z }) !== p) fail();
+    if (!validCell({ x, z }, context) || key({ x, z }) !== p) fail();
   }
   if (new Set(paths).size !== paths.length) fail();
   for (const value of list(s.piles, 64)) {
     const p = object(value, ["id", "at", "stock", "kind"]);
     if (
       !text(p.id) ||
-      !cell(p.at) ||
+      !checkedCell(p.at) ||
       !integer(p.stock, 0, budget) ||
       !["source", "salvage"].includes(p.kind as string)
     )
@@ -224,7 +237,7 @@ function validateVersion(
         ...(upgraded ? ["sleeping-deck", "hauling-basket"] : []),
         ...(economy ? ["nursery"] : []),
       ].includes(p.kind as string) ||
-      !cell(p.at) ||
+      !checkedCell(p.at) ||
       typeof p.complete !== "boolean" ||
       !integer(p.delivered, 0, 6) ||
       !integer(p.progress, 0, 30) ||
@@ -232,12 +245,13 @@ function validateVersion(
       !integer(p.target, 0, 12)
     )
       fail();
-    if (
-      p.kind !== "store"
-        ? !trees.some((t) => t.id === p.tree && key(t) === key(p.at as Cell))
-        : p.tree !== null || trees.some((t) => key(t) === key(p.at as Cell))
-    )
-      fail();
+    if (definition.map) {
+      if (p.kind === "store" || p.kind === "nursery") {
+        if (!definition.pads.some(pad => pad.kind === p.kind && key(pad.at) === key(p.at as Cell) && (pad.tree ?? null) === p.tree)) fail();
+      } else if (!trees.some(t => t.id === p.tree && key(t) === key(p.at as Cell))) fail();
+    } else if (p.kind !== "store"
+      ? !trees.some(t => t.id === p.tree && key(t) === key(p.at as Cell))
+      : p.tree !== null || trees.some(t => key(t) === key(p.at as Cell))) fail();
     if (
       upgraded &&
       (typeof p.experiment !== "boolean" ||
@@ -289,6 +303,7 @@ function validateVersion(
       "flight",
       ...(upgraded ? ["lift"] : []),
       ...(requests ? ["request", "requestResult"] : []),
+      ...(version === 10 && value && typeof value === "object" && "direct" in value ? ["direct"] : []),
       ...(economy ? ["life", "protein", "foodCargo", "provision", "care"] : []),
       ...(legacy ? [] : ["gatheringProgress"]),
       ...(current
@@ -301,7 +316,8 @@ function validateVersion(
           (settlers.some((p) => p.id === b.id) ||
             /^chick-[1-9]\d*$/.test(b.id as string))
         : settlers.some((p) => p.id === b.id)) ||
-      !cell(b.at) ||
+      !checkedCell(b.at) ||
+      (!!context?.world && !b.perch && !b.flight && !mapTile(definition.map!,b.at as Cell)?.traversable) ||
       !integer(b.cargo, 0, 1) ||
       !number(b.energy, 0, 100) ||
       typeof b.resting !== "boolean" ||
@@ -314,12 +330,11 @@ function validateVersion(
     for (const m of list(b.memories, 6)) if (!text(m)) fail();
     if (b.edge !== null) {
       const e = object(b.edge, ["to", "progress"]);
-      cell(e.to);
+      checkedCell(e.to);
       if (
         !number(e.progress, 0, 0.999999999) ||
-        Math.abs((e.to as Cell).x - (b.at as Cell).x) +
-          Math.abs((e.to as Cell).z - (b.at as Cell).z) !==
-          1
+        (definition.map ? !canTraverse(definition.map, b.at as Cell, e.to as Cell) :
+        Math.abs((e.to as Cell).x - (b.at as Cell).x) + Math.abs((e.to as Cell).z - (b.at as Cell).z) !== 1)
       )
         fail();
     }
@@ -344,7 +359,7 @@ function validateVersion(
           : b.cargo !== (j.stage === "pickup" ? 0 : 1)
       )
         fail();
-    } else if (b.cargo !== 0) fail();
+    } else if (b.cargo !== 0 && !(version === 10 && b.direct)) fail();
     if (!legacy && (b.gatheringProgress as number) > 0) {
       const j = b.job as Record<string, unknown> | null;
       if (!j || j.kind !== "gather" || j.stage !== "pickup" || b.edge) fail();
@@ -366,8 +381,8 @@ function validateVersion(
       )
         fail();
     }
-    if (b.perch !== null) perch(b.perch, false, upgraded);
-    if (b.flight !== null) perch(b.flight, true, upgraded);
+    if (b.perch !== null) perch(b.perch, false, upgraded, context);
+    if (b.flight !== null) perch(b.flight, true, upgraded, context);
     if (
       (b.perch || b.flight) &&
       (b.job || b.edge || b.cargo || (b.perch && b.flight))
@@ -405,7 +420,7 @@ function validateVersion(
       if (
         !fixture ||
         foodIds.has(p.id) ||
-        !cell(p.at) ||
+        !checkedCell(p.at) ||
         key(p.at as Cell) !== key(fixture.at) ||
         p.capacity !== fixture.capacity ||
         !integer(p.remaining, 0, fixture.capacity) ||
@@ -450,11 +465,11 @@ function validateVersion(
         const f = object(b.foraging, ["patch", "spot", "intent", "progress"]);
         if (
           !foodIds.has(f.patch) ||
-          !cell(f.spot) ||
+          !checkedCell(f.spot) ||
           !["eat", "browse"].includes(f.intent as string) ||
           !integer(f.progress, 0, forageTuning.scratchTicks - 1) ||
           b.job ||
-          b.cargo ||
+          (b.cargo && !(version===10&&b.direct)) ||
           b.perch ||
           b.flight ||
           s.phase !== "day" ||
@@ -572,7 +587,7 @@ function validateVersion(
           b.job?.kind !== "haul" ||
           b.job.stage !== "deliver" ||
           (key(b.at) !== key(basket.at) &&
-            (!basket.tree || key(b.at) !== key(treeWorkCell(basket.tree)))) ||
+            (!basket.tree || key(b.at) !== key(treeWorkCell(basket.tree, context)))) ||
           lifting.has(basket.id) ||
           !(basket.complete
             ? target.kind === "sleeping-deck" && target.tree === basket.tree
@@ -588,8 +603,8 @@ function validateVersion(
   if (
     source.length !== 1 ||
     source[0].id !== "reeds" ||
-    key(source[0].at) !== "-3,-2" ||
-    state.sites.some((p) => key(p.at) === "-3,-2")
+    key(source[0].at) !== key(definition.source.at) ||
+    state.sites.some((p) => key(p.at) === key(definition.source.at))
   )
     fail();
   for (const p of state.piles)
@@ -646,6 +661,9 @@ function validateVersion(
         fail();
       if (j.kind === "gather") {
         const patch = state.patches.find((p) => p.id === j.source)!;
+        // Replacing intent retains this pickup reservation only until the
+        // current movement edge ends. The new intent need not be Gather.
+        const pendingPickupEdge = version === 10 && b.direct?.pending && !!b.edge;
         if (
           !state.piles.some(
             (p) => p.kind === "source" && p.id === j.destination,
@@ -655,7 +673,7 @@ function validateVersion(
           fail();
         if (
           j.stage === "pickup" &&
-          ((!patch.designated && !(requests && b.request?.kind === "gather" && b.request.target === patch.id)) || state.phase !== "day")
+          ((!patch.designated && !(requests && b.request?.kind === "gather" && b.request.target === patch.id) && !(version === 10 && b.direct?.order?.kind === "gather" && b.direct.order.target === patch.id) && !pendingPickupEdge) || state.phase !== "day")
         )
           fail();
       }
@@ -695,12 +713,18 @@ function validateVersion(
   }
   if (economy) validateEconomy(state, version);
   if (requests) validateRequests(state);
+  if (version === 10) validateDirectControls(state);
   if (version >= 7 && state.constructionFocus !== null &&
       (typeof state.constructionFocus !== "string" || !state.sites.some(site=>site.id===state.constructionFocus&&!site.complete))) fail();
   return structuredClone(state);
 }
 export function validateSettlement(value: unknown): Settlement {
-  return validateVersion(value, 8);
+  const identity = value && typeof value === "object" && "world" in value ? (value as Settlement).world : undefined;
+  const direct = !!(value && typeof value === "object" && Array.isArray((value as Settlement).birds) && (value as Settlement).birds.some(b=>"direct" in b));
+  if (!identity) return validateVersion(value, direct ? 10 : 8);
+  const world = object(identity, ["id", "version"]);
+  if (world.id !== "inhabited-valley" || ![1, 2].includes(world.version as number)) throw new Error("This inhabited world or world version is unavailable. Its original data is preserved.");
+  return validateVersion(value, direct ? 10 : 9, { world: identity });
 }
 function foodStock(value: unknown) {
   const p = object(value, ["staple", "protein"]);
@@ -711,6 +735,7 @@ function foodStock(value: unknown) {
 /** Immutable source bounds: changing live pacing must never loosen an older format. */
 const legacyGrowth = { incubationTicks: 7200, juvenileTicks: 7200, adultTicks: 14400 };
 function validateEconomy(state: Settlement, version: number) {
+  const trees = worldTrees(state);
   const growth = version < 8 ? legacyGrowth : economyTuning;
   const e = object(state.economy, [
     "clock",
@@ -1040,7 +1065,7 @@ function validateEconomy(state: Settlement, version: number) {
         (p.progress && (b.edge || key(b.at) !== key(patch.at)))
       )
         fail();
-    } else if (b.foodCargo !== null) fail();
+    } else if (b.foodCargo !== null && !b.direct) fail();
   }
   for (const patch of state.forage) {
     const pickups = state.birds.filter(
@@ -1212,8 +1237,8 @@ export function settlementMigrationNotice(state: Settlement): string | null {
 }
 export function encodeSettlement(state: Settlement): string {
   return JSON.stringify({
-    schemaVersion: 8,
-    simulationVersion: "settlement-8",
+    schemaVersion: state.birds.some(b=>b.direct) ? 10 : state.world ? 9 : 8,
+    simulationVersion: state.birds.some(b=>b.direct) ? "settlement-10" : state.world ? "settlement-9" : "settlement-8",
     state,
   });
 }
@@ -1263,7 +1288,13 @@ export function decodeSettlement(text: string): Settlement {
   if (envelope.schemaVersion === 7 && envelope.simulationVersion === "settlement-7")
     return migrateGrowth(validateVersion(envelope.state,7));
   if (envelope.schemaVersion === 8 && envelope.simulationVersion === "settlement-8")
+    return validateVersion(envelope.state, 8);
+  if (envelope.schemaVersion === 9 && envelope.simulationVersion === "settlement-9") {
+    if (!envelope.state || typeof envelope.state !== "object" || !(envelope.state as Settlement).world) return fail();
+    if((envelope.state as Settlement).birds?.some(b=>"direct" in b))return fail();
     return validateSettlement(envelope.state);
+  }
+  if (envelope.schemaVersion === 10 && envelope.simulationVersion === "settlement-10") return validateSettlement(envelope.state);
   return fail();
 }
 function database(): Promise<IDBDatabase> {
@@ -1358,4 +1389,26 @@ function migrateGrowth(state: Settlement): Settlement {
         (legacyGrowth.adultTicks - legacyGrowth.juvenileTicks));
   }
   return validateSettlement(state);
+}
+
+function validateDirectControls(state: Settlement) {
+  for(const bird of state.birds) {
+    if(!("direct" in bird))continue;
+    const d=object(bird.direct,["order","queue","pending","community","foodPatch"]);
+    if(bird.life.stage!=="adult" || bird.care || bird.request || typeof d.pending!=="boolean" || typeof d.community!=="boolean" || d.foodPatch!==null&&!state.forage.some(p=>p.id===d.foodPatch))fail();
+    const orders=[...(d.order===null?[]:[d.order]),...list(d.queue,16)];
+    if(d.community && (d.order!==null || (d.queue as unknown[]).length))fail();
+    for(const value of orders) {
+      if(!value || typeof value!=="object")fail();
+      const kind=(value as {kind:unknown}).kind;
+      const o=object(value,kind==="move"?["kind","at"]:["kind","target"]);
+      if(kind==="move") {
+        cell(o.at,false,state);
+        const at=o.at as Cell;
+        if(state.world && !mapTile(settlementWorld(state).map!,at)?.traversable || worldTrees(state).some(t=>key(t)===key(at)))fail();
+      } else if(!["gather","build","food"].includes(kind as string)||!text(o.target))fail();
+      // A queued target may have completed/cancelled since issue; execution retires it.
+    }
+    if(bird.foodCargo && !d.foodPatch)fail();
+  }
 }

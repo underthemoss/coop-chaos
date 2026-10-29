@@ -1,0 +1,29 @@
+{
+  "sourceFrame": "local physical metres",
+  "orientationRadians": 0,
+  "rookRestSourcePath": [
+    [
+      5.079999923706055,
+      7.149280071258545,
+      3.2800002098083496
+    ],
+    [
+      3.9600000381469727,
+      7.149280071258545,
+      3.2800002098083496
+    ],
+    [
+      3.9600000381469727,
+      7.149280071258545,
+      -0.6399999856948853
+    ],
+    [
+      3.9600000381469727,
+      6.869279861450195,
+      -0.6399999856948853
+    ]
+  ],
+  "latticeStep": 0.28,
+  "testedCells": 258,
+  "limits": "Diagnostic rest-body path; all4 and movement headings/flight animation must be tested."
+}

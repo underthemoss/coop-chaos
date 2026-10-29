@@ -1,0 +1,32 @@
+[
+  {
+    "source": "assets/sculpted/surfaces/meadow-turf-source.png",
+    "sourceDimensions": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "b30d7f9b981f1c1cf57cfc55ed463e109dea69765eb0c3ea99e7fc6b3dcba4a4",
+    "runtime": "public/assets/materials/meadow-turf-v1.jpg",
+    "runtimeDimensions": [
+      1024,
+      1024
+    ],
+    "runtimeSha256": "9c7c35a2fbea7e60937c7a76be779e88ee46d1b5824d2b10f367d1ed69f5e751",
+    "bytes": 556439
+  },
+  {
+    "source": "assets/sculpted/surfaces/weathered-stone-source.png",
+    "sourceDimensions": [
+      1254,
+      1254
+    ],
+    "sourceSha256": "4e991dee74a6ee479c3f5fc8062f2f623d1d7bd5558e1627c29ba638d0b1261c",
+    "runtime": "public/assets/materials/weathered-stone-v1.jpg",
+    "runtimeDimensions": [
+      1024,
+      1024
+    ],
+    "runtimeSha256": "2d2753cd1c5452a764c692ed268a67ff1589e450fec7efa13f9fc3f0d6e91a0a",
+    "bytes": 448382
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "revision": "longbough-clearing-appearance-v4-warm-foliage",
+  "state": "PASS",
+  "method": "Two fresh Blender4.5.3 appearance processes from preserved geometry baseline; current hero+kit exports byte-identical to candidate, and all three frozen scenic GLBs remain hash-identical. Scenic two-fresh-process generation proof is retained in palette-baseline-v2/determinism.json; scenery was not reauthored for this palette-only revision. Editable Blend files regenerated, not asserted byte-deterministic. Original playable-v1 extraction/authoring reproducibility remains historical in appearance-baseline-v1/determinism.json.",
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+  "initial": {
+    "public/assets/environment/valley/longbough-living.glb": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a",
+    "public/assets/environment/valley/longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+    "public/assets/environment/valley/valley-grove-oak.glb": "09b27d5615b4e4702a85953cbabc91867f6a906b7ea1018e50cb024dc98400e8",
+    "public/assets/environment/valley/valley-grove-spread.glb": "49fb739d5bae6e9ef7784235e9debb929ba451672d53b9c0faf36746f3dd225a",
+    "public/assets/environment/valley/valley-grove-shrub.glb": "c2441f76f610809f68eb47bf033dd9f79a54a5c05789088f198314587732f1f4"
+  },
+  "runs": [
+    {
+      "public/assets/environment/valley/longbough-living.glb": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a",
+      "public/assets/environment/valley/longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "public/assets/environment/valley/valley-grove-oak.glb": "09b27d5615b4e4702a85953cbabc91867f6a906b7ea1018e50cb024dc98400e8",
+      "public/assets/environment/valley/valley-grove-spread.glb": "49fb739d5bae6e9ef7784235e9debb929ba451672d53b9c0faf36746f3dd225a",
+      "public/assets/environment/valley/valley-grove-shrub.glb": "c2441f76f610809f68eb47bf033dd9f79a54a5c05789088f198314587732f1f4"
+    },
+    {
+      "public/assets/environment/valley/longbough-living.glb": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a",
+      "public/assets/environment/valley/longbough-woven-kit.glb": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "public/assets/environment/valley/valley-grove-oak.glb": "09b27d5615b4e4702a85953cbabc91867f6a906b7ea1018e50cb024dc98400e8",
+      "public/assets/environment/valley/valley-grove-spread.glb": "49fb739d5bae6e9ef7784235e9debb929ba451672d53b9c0faf36746f3dd225a",
+      "public/assets/environment/valley/valley-grove-shrub.glb": "c2441f76f610809f68eb47bf033dd9f79a54a5c05789088f198314587732f1f4"
+    }
+  ]
+}

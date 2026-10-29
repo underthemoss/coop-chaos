@@ -1,0 +1,229 @@
+{
+  "revision": "longbough-habitation-v4",
+  "assetUrl": "/assets/environment/studies/longbough-habitation-study.glb",
+  "anatomicalGroundY": 0,
+  "front": "+Z",
+  "deckFloors": [
+    {
+      "id": "lower",
+      "floorTag": "study-structure-decks",
+      "center": [
+        1.2,
+        3.2,
+        1.6
+      ],
+      "width": 4.2,
+      "depth": 3.4,
+      "outline": [
+        [
+          -0.5500000000000002,
+          3.2,
+          -0.09999999999999987
+        ],
+        [
+          2.9499999999999997,
+          3.2,
+          -0.09999999999999987
+        ],
+        [
+          3.3,
+          3.2,
+          0.2500000000000001
+        ],
+        [
+          3.3,
+          3.2,
+          2.9499999999999997
+        ],
+        [
+          2.9499999999999997,
+          3.2,
+          3.3
+        ],
+        [
+          -0.5500000000000002,
+          3.2,
+          3.3
+        ],
+        [
+          -0.9000000000000001,
+          3.2,
+          2.9499999999999997
+        ],
+        [
+          -0.9000000000000001,
+          3.2,
+          0.2500000000000001
+        ]
+      ]
+    },
+    {
+      "id": "middle",
+      "floorTag": "study-structure-decks",
+      "center": [
+        -1.0,
+        5.72,
+        1.8
+      ],
+      "width": 4.3,
+      "depth": 4.0,
+      "outline": [
+        [
+          -2.8,
+          5.72,
+          -0.19999999999999996
+        ],
+        [
+          0.7999999999999999,
+          5.72,
+          -0.19999999999999996
+        ],
+        [
+          1.15,
+          5.72,
+          0.15000000000000002
+        ],
+        [
+          1.15,
+          5.72,
+          3.4499999999999997
+        ],
+        [
+          0.7999999999999999,
+          5.72,
+          3.8
+        ],
+        [
+          -2.8,
+          5.72,
+          3.8
+        ],
+        [
+          -3.15,
+          5.72,
+          3.4499999999999997
+        ],
+        [
+          -3.15,
+          5.72,
+          0.15000000000000002
+        ]
+      ]
+    },
+    {
+      "id": "upper",
+      "floorTag": "study-structure-decks",
+      "center": [
+        1.0,
+        8.15,
+        0.9
+      ],
+      "width": 3.7,
+      "depth": 3.1,
+      "outline": [
+        [
+          -0.5000000000000001,
+          8.15,
+          -0.65
+        ],
+        [
+          2.5,
+          8.15,
+          -0.65
+        ],
+        [
+          2.85,
+          8.15,
+          -0.30000000000000004
+        ],
+        [
+          2.85,
+          8.15,
+          2.1
+        ],
+        [
+          2.5,
+          8.15,
+          2.45
+        ],
+        [
+          -0.5000000000000001,
+          8.15,
+          2.45
+        ],
+        [
+          -0.8500000000000001,
+          8.15,
+          2.1
+        ],
+        [
+          -0.8500000000000001,
+          8.15,
+          -0.30000000000000004
+        ]
+      ]
+    }
+  ],
+  "birdFixtures": [
+    {
+      "id": "lower-fern",
+      "floorTag": "study-structure-decks",
+      "position": [
+        1.75,
+        3.2,
+        2.85
+      ],
+      "yawRadians": 0.15,
+      "character": "fern",
+      "cargo": false
+    },
+    {
+      "id": "lower-rook",
+      "floorTag": "study-structure-decks",
+      "position": [
+        2.6,
+        3.2,
+        2.3
+      ],
+      "yawRadians": -0.3,
+      "character": "rook",
+      "cargo": true
+    },
+    {
+      "id": "middle-fern",
+      "floorTag": "study-structure-decks",
+      "position": [
+        -0.4,
+        5.72,
+        3.48
+      ],
+      "yawRadians": 0,
+      "character": "fern",
+      "cargo": false
+    },
+    {
+      "id": "upper-rook",
+      "floorTag": "study-structure-decks",
+      "position": [
+        1.55,
+        8.15,
+        1.9
+      ],
+      "yawRadians": 0.3,
+      "character": "rook",
+      "cargo": false
+    }
+  ],
+  "detailBounds": {
+    "min": [
+      -3.35,
+      2.0,
+      -0.55
+    ],
+    "max": [
+      4.45,
+      9.7,
+      3.9
+    ]
+  }
+}

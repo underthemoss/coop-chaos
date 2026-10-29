@@ -1,0 +1,24 @@
+{
+  "revision": "v8-lossless-living-subset-v1",
+  "source": "public/assets/environment/studies/longbough-refinement-study.glb",
+  "sourceSha256": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+  "output": "public/assets/environment/valley/longbough-living.glb",
+  "sha256": "54913416a23371d21fd5fc62e31bb38dd8294f70d481e5d11e5bc0cac47d50d2",
+  "bytes": 13548792,
+  "exactDecodedAccessorEquality": {
+    "crown-foliage": {
+      "POSITION": "df05ff32573cc3f5b737b184a9b99297a94ed8b51eef922d4aa8330dc53dcd13",
+      "NORMAL": "da703a60b873cb31c73fe8a3487acd6acdab6d202aa511fd59c3bc9f65382c13",
+      "COLOR_0": "d31a895e34d88940032f297845e5a9adb7bf091327fd9f424fc5f2b5c6386edf",
+      "indices": "acfde36a273ceaf677b780253baf2583c7954834c155dc81b3a7d31b047b3307"
+    },
+    "living-wood": {
+      "POSITION": "ab42814e8613dd59c225ae1b29c9990382943bcb93d85c4141c810e5f7cd6ed3",
+      "NORMAL": "36a5c51ec4cf7671ee036f6a65b6cb464642bb8d18a9a3c31fad509705756e5d",
+      "TEXCOORD_0": "c5bcf4910718e7f4f7f441e83fd17794e3cc385efe8f2a77262f18e3754fd836",
+      "COLOR_0": "c151f73acd5980bb8d90f0ee97ff47d9f0254cab8d28e48ad0155b959a1331ec",
+      "indices": "a3e18a96de409af6da59b7a4c0b7d31b3ec82333a4053dc29a40825c83c34208"
+    }
+  },
+  "scope": "No geometry/material/sculpt changes; removed every static structure and root-dressing prop."
+}

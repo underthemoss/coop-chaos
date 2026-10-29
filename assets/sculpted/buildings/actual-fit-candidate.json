@@ -1,0 +1,244 @@
+{
+  "revision": "bound-reed-family-v1-actual-rest-mesh",
+  "birds": {
+    "fern": {
+      "poseCount": 93,
+      "collisions": []
+    },
+    "rook": {
+      "poseCount": 93,
+      "collisions": [
+        {
+          "pose": "ramp-1-2--1",
+          "foot": [
+            0.8379999995231628,
+            2.2960000038146973,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 30,
+          "groups": {
+            "sleeping-deck-weave": 30
+          },
+          "firstTriangle": [
+            [
+              1.3223469257354736,
+              2.728928804397583,
+              -0.491264671087265
+            ],
+            [
+              1.3048356771469116,
+              2.680000066757202,
+              -0.48861145973205566
+            ],
+            [
+              1.403984546661377,
+              2.6700000762939453,
+              0.1715174913406372
+            ]
+          ]
+        },
+        {
+          "pose": "ramp-1-3--1",
+          "foot": [
+            0.8669999837875366,
+            2.319000005722046,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 26,
+          "groups": {
+            "sleeping-deck-weave": 26
+          },
+          "firstTriangle": [
+            [
+              1.267153024673462,
+              2.7427456378936768,
+              -1.1591556072235107
+            ],
+            [
+              1.2216025590896606,
+              2.7194607257843018,
+              -1.1519012451171875
+            ],
+            [
+              1.3223469257354736,
+              2.728928804397583,
+              -0.491264671087265
+            ]
+          ]
+        },
+        {
+          "pose": "ramp-1-4--1",
+          "foot": [
+            0.8960000276565552,
+            2.3420000076293945,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 60,
+          "groups": {
+            "sleeping-deck-weave": 60
+          },
+          "firstTriangle": [
+            [
+              1.3725924491882324,
+              2.8168601989746094,
+              -0.5
+            ],
+            [
+              1.3554275035858154,
+              2.7850000858306885,
+              -0.5
+            ],
+            [
+              1.3441383838653564,
+              2.759999990463257,
+              0.07990773767232895
+            ]
+          ]
+        },
+        {
+          "pose": "ramp-1-5--1",
+          "foot": [
+            0.925000011920929,
+            2.365000009536743,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 74,
+          "groups": {
+            "sleeping-deck-weave": 74
+          },
+          "firstTriangle": [
+            [
+              1.4045923948287964,
+              2.8168601989746094,
+              -0.5
+            ],
+            [
+              1.3761365413665771,
+              2.759999990463257,
+              0.11378335952758789
+            ],
+            [
+              1.3905963897705078,
+              2.7867887020111084,
+              0.11529595404863358
+            ]
+          ]
+        },
+        {
+          "pose": "ramp-1-6--1",
+          "foot": [
+            0.9540000557899475,
+            2.388000011444092,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 78,
+          "groups": {
+            "sleeping-deck-weave": 78
+          },
+          "firstTriangle": [
+            [
+              1.4074323177337646,
+              2.8263254165649414,
+              -0.5
+            ],
+            [
+              1.3585937023162842,
+              2.7867860794067383,
+              0.08150811493396759
+            ],
+            [
+              1.3879066705703735,
+              2.7948293685913086,
+              0.08276232331991196
+            ]
+          ]
+        },
+        {
+          "pose": "ramp-1-7--1",
+          "foot": [
+            0.9830000400543213,
+            2.4110000133514404,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 64,
+          "groups": {
+            "sleeping-deck-weave": 64
+          },
+          "firstTriangle": [
+            [
+              1.3874274492263794,
+              2.7850000858306885,
+              -0.5
+            ],
+            [
+              1.3905738592147827,
+              2.733103036880493,
+              0.11311235278844833
+            ],
+            [
+              1.3761365413665771,
+              2.759999990463257,
+              0.11378335952758789
+            ]
+          ]
+        },
+        {
+          "pose": "ramp-1-8--1",
+          "foot": [
+            1.0120000839233398,
+            2.434000015258789,
+            -0.5
+          ],
+          "heading": -1.5707963267948966,
+          "asset": "sleeping-deck-compatible",
+          "surfacePairs": 26,
+          "groups": {
+            "sleeping-deck-weave": 26
+          },
+          "firstTriangle": [
+            [
+              1.4074323177337646,
+              2.8263254165649414,
+              -0.5
+            ],
+            [
+              1.3585937023162842,
+              2.7867860794067383,
+              0.08150811493396759
+            ],
+            [
+              1.3879066705703735,
+              2.7948293685913086,
+              0.08276232331991196
+            ]
+          ]
+        }
+      ]
+    },
+    "dapple": {
+      "poseCount": 93,
+      "collisions": []
+    },
+    "wren": {
+      "poseCount": 93,
+      "collisions": []
+    }
+  },
+  "assets": {
+    "boughhome": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+    "sleeping-deck-compatible": "ec296cdcb8433d42fac20fd74d58bc10ea993e9bf6a98f9e52742fa2207d0b61"
+  },
+  "limits": "Rest-pose source export meshes, 93 saved-route/standing samples per bird. Expected contacts below feet+.13m excluded. Runtime evaluated animation and refreshed scene remain integration-owned."
+}

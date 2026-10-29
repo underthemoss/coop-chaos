@@ -279,3 +279,87 @@ carrying capacity or numeric load claims. Splitcrown/Reedside mature interiors
 are not occupied proofs in this slice. Current gameplay capacity is unchanged.
 Source checks do not replace runtime acceptance of grove overlap, lighting,
 route traversal and saved identity.
+
+## Isolated natural-tree runtime comparison
+
+The 2026-10-26 tree study revisits Longbough, Crowncourt and Windward as natural,
+unbuilt forms, using the Chicken Civ scene concept and the anatomy principles
+above. This is an art comparison, separate from playable valley geography and
+woodland habitation. Growth-form names establish neither species nor ancestry,
+capacities, homes, work rules or predator safety.
+
+The initial title-screen **Tree art study** reused the accepted valley surface, lighting,
+fixed camera angle and adult presentation scale. Four static foreground chickens,
+one carrying reeds, supply a consistent gauge. Each tree occupies the same
+render-only grounded origin. **Whole tree** fits the union of all three actual
+asset bounds and the foreground fixture, preserving equal comparative framing
+on wide and narrow screens. **Chicken scale** uses the valley's tactical 4.2m
+vertical halfspan at the roots. Neither view rescales trees. **Show branches**
+hides foliage explicitly for anatomy inspection; this is not a gameplay
+occlusion solution.
+
+Editable sources, export validation and provenance live with the
+[isolated tree assets](../assets/sculpted/valley-trees/README.md).
+[Runtime evidence](../output/landscape-qualification/tree-exploration-v1/README.md)
+records revision-specific screenshots and checks. Studio renders and source
+bounds alone do not establish actual-camera quality. The three v5 silhouettes
+are accepted for this isolated exploratory comparison. Broad bark treatment and
+support-lobe rhythm remain prototype limits; no form is finished game art.
+
+## Longbough building-scale study
+
+The user supplied a closer inhabited-tree reference on 2026-10-26 and requested a
+larger tree that can visually accommodate buildings. The isolated Longbough study
+therefore explores a thicker forked trunk, a fuller crown, three staggered fitted
+deck massings, one woven shelter and visible ladders, rails and a hoist. These are
+static scale and architectural studies, not construction, access or occupancy
+rules. Crowncourt and Windward remain natural comparison forms.
+
+Longbough opens in **Inhabited detail**, with **Show structures** on. **Whole tree**
+restores crown and ground context; **Chicken scale** retains the existing ground
+gauge. All adults keep the same .45625 presentation scale. Additional static
+figures stand at the asset owner's measured deck floors; camera framing never
+rescales birds or tree geometry. **Show branches** remains explicit foliage
+inspection. Structure visibility is meaningful only for Longbough.
+
+Inhabited detail hides the four ground gauges so its close framing shows only
+complete deck figures. Whole tree and Chicken scale retain all four ground
+gauges. Hiding structures also hides their staged occupants. The scalar .45625
+is the existing adult presentation transform, not a claimed biological height;
+actual body heights and supported feet are measured in the runtime evidence.
+
+The asset owner retains the reference provenance, editable sources, measured
+floor fixture and export evidence with the isolated assets. Runtime screenshots,
+actual support/clearance checks and prototype limitations belong to
+[building-scale qualification](../output/landscape-qualification/tree-habitation-v1/README.md).
+No dimension in this study establishes capacity, species, ancestry, structural
+engineering or usable ladders, hoists or habitats.
+
+## 2026-10-27: Longbough art refinement
+
+The user rejected the preceding v4 inhabited tree's visual fidelity on 2026-10-27.
+Its earlier acceptance was limited to a functioning building-scale prototype;
+it does not establish approval of that art or a close reference match. The
+preserved v4 source and evidence remain historical.
+
+The new v8 isolated study has a continuous tapering ridged fork, fuller layered
+leaf sprays, rounded timber balconies fitted into branches and smaller open
+woven props. This revision omits the former shelter roof. Original valley-kit
+mineral stones and moss ground the root dressing. The [editable source and
+provenance](../assets/sculpted/valley-trees/REFINEMENT.md) retain measured floors,
+fixtures, rejected source diagnostics and reproducibility proof.
+
+The study uses a raking warm key, cool fill and softened contact shadows to reveal
+bark and sheltered forks. Only Inhabited detail lowers the camera pitch to beta
+1.10; Whole tree and Chicken scale keep their established angle. Matched-camera
+comparisons distinguish mesh and material changes from this framing change.
+Adults and attached cargo retain .45625 presentation scale. Playable valley and
+woodland lighting, geography, routes and save semantics are unchanged.
+
+Primary runtime review accepted a substantial visible improvement in the
+[final actual-camera evidence](../output/landscape-qualification/tree-art-refinement-v2/README.md).
+It remains stylized study art: repeated rounded foliage shoulders, simplified
+joins, broad root grain and faceted stone mottling need further craft. This is
+not an exact reference match or finished game art. A single 18.85 MB hero study
+does not establish a forest rendering budget, usable capacity, structural
+strength, circulation or functional access.

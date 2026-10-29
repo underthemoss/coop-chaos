@@ -1,0 +1,40 @@
+{
+  "revision": "longbough-refinement-v8",
+  "authoring": "Original control points and deterministic seeded Blender mesh recipe; local helper functions reused without regenerating old assets. Root stone geometry/material color patterns reuse local original landscape Sculpture helper; no prior export regeneration.",
+  "blender": "4.5.3 LTS, hash 67807e1800cc",
+  "seed": 47391,
+  "foliage_seed": 48931,
+  "reference_inspected": "User supplied Screenshot 2026-10-26 at 1.43.35 PM.png (actual name contains narrow NBSP before PM), plus project scene-v2 and prior runtime final-detail; reference pixels not embedded.",
+  "images": [
+    {
+      "file": "bark-painted-v1-source.png",
+      "source_path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-62ce934c-cc5e-4813-82eb-c59c1efc66ad.png",
+      "tool": "Built-in image_gen.imagegen; generated and visually inspected by primary agent",
+      "prompt": "Use case: stylized-concept. Asset type: seamless tileable bark albedo/base-color texture for an original 3D chicken tree-village game. Produce ONLY a flat square 2D texture, edge to edge, no tree silhouette, no scene, no props, no text. Beautiful hand-painted old oak bark, warm weathered gray-brown and muted honey-taupe wood, with a few cool gray recessed fissures, subtle mossy olive traces very sparsely. Broad irregular vertically flowing elongated bark ribbons, tapering furrows, split overlapping flakes with small chipped edges, occasional restrained elongated knot scars; combine large readable painterly forms and fine tactile brush grain. Organic asymmetric rhythm and graceful slightly twisting longitudinal grain, not uniform stripes, not topographic contour rings, not cracked desert mud, not photorealistic photographic noise. Game-production base color: balanced midtones, largely neutral diffuse illumination, no cast shadows, no baked sunlight highlights or directional lighting, no black crevices or glossy shine; the 3D model will supply sculpted relief and lighting. Seamlessly tile left/right and top/bottom. Cohesive polished storybook woodland material, restrained contrast, natural depth from hue variation. Square 1536x1536 preferred.",
+      "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91",
+      "bytes": 3496765,
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "edits": "None; source bytes preserved; packed in Blend and GLB as base color",
+      "limits": "Requested seamless neutral diffuse swatch; seamlessness and completely neutral illumination are not guaranteed."
+    },
+    {
+      "file": "timber-painted-v1-source.png",
+      "source_path": "/Users/williamschlacks/.codex/generated_images/01a16e81-b6ec-7551-b158-eb0df6dbbf9f/exec-261c3fa2-69a5-42bc-a774-155d50585a0a.png",
+      "tool": "Built-in image_gen.imagegen; generated and visually inspected by primary agent",
+      "prompt": "Use case: stylized-concept. Asset type: an original seamless square base-color texture for the individual wooden slats of a 3D storybook chicken tree village. Make a flat edge-to-edge surface swatch of weathered split timber, NOT a photo of a building, NOT a set of boards, NOT a tree or scene. Fine and medium wood fibers run vertically, with gracefully bending elongated grain, occasional tiny weather checks and rare faint knots. Soft muted honey-taupe / pale gray-brown wood with restrained warm cream worn grain and cooler gray weathering. Refined handpainted game-material finish, tactile but not noisy; gently variable natural colors, medium-low contrast, consistent diffuse neutral illumination without cast shadows, AO, sunbeams, highlights or glossy reflections. No bark scales, no moss, no nails, no plank joints or border gaps, no black stripes, no text, no watermarks, no perspective. Must tile top-to-bottom and left-to-right. The mesh will create individual curved edged slats and lighting will create depth; provide beautiful coherent diffuse wood color only. Square 1536x1536 preferred.",
+      "sha256": "27d0238613c45bf4ded0f847790e58860a1a5c31092feea537fdf3e1ab86d05f",
+      "bytes": 2967583,
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "edits": "None; source bytes preserved; packed in Blend and GLB as base color",
+      "limits": "Requested seamless neutral diffuse swatch; seamlessness and completely neutral illumination are not guaranteed."
+    }
+  ],
+  "scope": "Isolated static art visual study only; no third-party assets or secrets, no new gameplay, capacity, structural or navigation meaning.",
+  "license": "No new repository license selected."
+}

@@ -2,7 +2,9 @@
 
 ## Accepted direction and present status
 
-Coop Chaos is a chicken settlement builder in which the individuals running the
+Chicken Civ, formerly Coop Chaos, centers on **warfare and territorial conquest**,
+as selected by the user on 24 October 2026. Settlement construction, production,
+transport and population sustain that strategic goal. The individuals running the
 economy gradually become its heroes, rivals, tyrants, and ancestors. Forest
 clusters become their kingdoms: treehouses and canopy neighborhoods above a
 supporting ground economy. Named trees are central characters whose personalities
@@ -19,12 +21,19 @@ The player
 guides the whole coop: construction, production, transport, staffing, and
 expansion are the regular play. Characters become recognizable through what
 they do together. Story grows from the settlement's functioning and failures. There is no authored
-opening arc or mandatory order of play. The immediate MVP is an art-led living
-sandbox: a high-quality inhabited grove, basic foraging and building, and
-individuals worth observing. Its [art brief](../art-direction/opening-view-exploration.md)
-owns the artifact inventory and actual-camera visual proof.
+opening arc or mandatory order of play in the existing sandbox. The immediate
+priority is detailed gameplay and narrative design, followed by creative design,
+as requested on 24 October 2026. The existing living grove supplies a reusable
+foundation. Its [art brief](../art-direction/opening-view-exploration.md) retains
+the artifact inventory and actual-camera visual proof; visual acceptance is open.
 
-This direction is accepted. The current app implements bounded autonomous food
+The conquest goal and existing world principles are accepted; detailed combat,
+capture, occupation and victory mechanics remain proposals in the
+[gameplay specification](proposals/chicken-civ-design.md) and
+[narrative proposal](proposals/chicken-civ-narrative.md). The
+[StarCraft-informed study](proposals/chicken-civ-starcraft-gameplay.md) explains their rationale.
+This strategic change does not claim those systems exist or authorize their
+implementation. The current app implements bounded autonomous food
 foraging alongside the [thin treehouse construction and roost proof](#treehouse-direction-and-current-thin-proof);
 renewable food/material gathering, local nursery supplies and bounded population growth are implemented below; cultivated food production, threats and politics remain future. The old
 four-bird dilemma in [story-system.md](story-system.md) is a historical technical
@@ -49,8 +58,10 @@ support a named willing hen. The nursery is beside the ground workcourt, clear
 of the hauling approach. It has two dependent care places and storage of eight
 staple and eight protein units, targeted to six each. It adds **no adult berths**.
 A completed home is required. Current reachable adult capacity is two natural,
-two home and two deck places per tree: at most eighteen across three trees, not
-the future twenty-four-resident Lowfork layout study.
+two home and two deck places per tree. Legacy Woodland offers at most eighteen
+across three trees. The new Living valley has one playable Longbough and six total
+places; smaller margin trees are scenic, not selectable free housing. Neither
+count establishes the future twenty-four-resident Lowfork layout study.
 
 Seedhead Common provides staple food, Leaf-litter Hollow protein, and Insect
 Verge alternates the two. Food recovery is one unit per 45 daytime ticks, bounded
@@ -122,10 +133,15 @@ existing growing broods permanently on the slower pacing.
 Growth planning counts existing residents and pending eggs once. The displayed
 food forecast counts each open habitat's recovery once, retains a 15% habitat
 reserve, and caps supply by available non-carers and average route distance.
-Its blended unit cost is a scratch bout plus eighteen ticks per average route
-cell; this is a conservative planning estimate, never credited stock. Existing
+Its blended unit cost is a scratch bout plus travel: Woodland retains eighteen
+ticks per average grid cell; Living valley uses physical route metres at nominal
+1.4m/s without individual pace adjustment. This is a conservative planning estimate,
+never credited stock. All open patches contribute to the mean distance, so a
+future optional remote patch can lower the estimate despite adequate nearby supply;
+revisit this limitation before adding such maps. The current map demonstrates
+sustained mixed-food care rather than claiming general ecological balance. Existing
 and pending residents plus active care costs are subtracted before another plan.
-Food can constrain new support before the eighteen-berth maximum. A second tree
+Food can constrain new support before the scenario's adult-berth maximum. In Woodland, a second tree
 adds actual home berths and a nursery nearer some food; it grants no territory
 or free yield. Capacity gates govern starting a new community-supported plan,
 never deletion or refusal of an already existing birth.
@@ -333,19 +349,21 @@ institutions may vary across coops. No universal human culture is implied.
 
 ## Proof sequence and acceptance
 
-The **next proof is the art-led living sandbox**, judged against opening-view-v2
-in the actual renderer, including close artifact views and a useful fixed-camera
-scene. First prove the authoring route, then integrate the world, birds, resources,
-work poses and useful building artifacts. Basic foraging and building should make
-the place interesting to watch and influence without an authored plot or a
-mandatory first-home sequence. The existing thin delivery/roost/save chain is a
-reusable foundation, not visual acceptance. The bounded food study below is implemented; wider ecology remains proposed.
+The **current sequence is written gameplay and narrative design, then creative
+design, then a bounded playable proof**. The [creative handoff](../art-direction/chicken-civ-creative-handoff.md)
+connects the written packet to the next phase. This supersedes the earlier
+art-first work order without declaring the existing art accepted. When making
+runtime art, judge close artifact views and the actual-camera scene against the
+visual direction, prove the authoring route, and preserve the working delivery,
+roost and save chain. The bounded food study below is implemented; wider ecology
+and warfare remain proposed.
 
-A later substantial settlement-loop proof can use roughly a dozen chickens as a
-provisional starting target on a small landscape. Add food production, a canopy
-broodroom, work/rest/care pressure, and a persistent predator problem with patrol
-or escort responses when those systems are designed. Exact counts and roster
-remain open; none is a prerequisite for the bounded art MVP.
+A later substantial gameplay proof must connect settlement production to a rival
+coop, contested territory and a meaningful campaign outcome. Predator defense
+alone cannot qualify the accepted conquest goal. The gameplay study proposes a
+small contest between two supplied coops; its roster, combat roles, capture rules
+and pacing remain provisional. Exact counts and implementation sequence are open;
+the existing four-adult opening remains a visual/economic fixture.
 
 The implemented ground movement has no Path tool or player connectivity gate.
 Internal deterministic routing keeps travel within legal ground. Its validation
@@ -355,11 +373,11 @@ cancellation and save/reload must remain coherent. This tests causality, not a
 player script or a reason to gate free observation. Optional natural worn trails
 remain later presentation work.
 
-Then connect production, population pressure, safety, and expansion. Test whether
-building and improving the settlement is enjoyable for roughly thirty minutes.
-That is an acceptance target, **not proven fun or implemented duration**. Only
-after the core loop works should several districts and neighboring pacts make
-larger politics useful. Elaborate warfare and multiplayer remain later work.
+Then connect production, mobilization, military pressure and territorial expansion.
+Test whether building, campaigning and consolidating gains is enjoyable for
+roughly thirty minutes. That is an acceptance target, **not proven fun or
+implemented duration**. More elaborate military rosters, district politics and
+multiplayer remain later work; rival conflict is central to the strategic proof.
 
 Acceptance for that larger settlement loop must demonstrate:
 
@@ -368,11 +386,13 @@ Acceptance for that larger settlement loop must demonstrate:
 - Unreachable or blocked jobs explain their cause and recover when it is resolved.
 - Saved deliveries resume coherently without duplicate goods, work, or completion.
 - Layout and staffing offer meaningful alternatives under supply and route danger.
+- Rival military commitments compete with real economic work, and territory is
+  gained, contested and lost under legible rules with a clear campaign outcome.
 - Individual experience changes later observable behavior and survives reload.
 - A player recognizes a particular chicken by its actions and makes a construction
   or staffing decision partly because of that bird.
 - A loss changes both how the economy works and how the player feels about it.
-- Watching, building, diagnosing, and expanding stays engaging through the target
+- Building, diagnosing, fighting, and consolidating territory stays engaging through the target
   session, established by playtesting rather than the number of implemented systems.
 
 For consequential systems, trace **economic/spatial decision → observable work →
@@ -450,7 +470,7 @@ the substantial settlement milestone and subsequent proofs above.
 
 ### Scale, sleeping places and future households
 
-Adult presentation is `.365` times the editable chicken meshes: roughly
+In legacy Woodland, adult presentation is `.365` times the editable chicken meshes: roughly
 0.55–0.66m standing, with 0.31–0.36m body width. This is a fictional visual
 envelope, not a claim that every breed has those dimensions. A bird keeps the
 same size at every tree. Habitat anchors, structures, ladders and baskets use
@@ -505,15 +525,58 @@ approaches. Mixed-family complementarity must follow usable places, materials an
 work, not a mandatory diversity bonus. These questions remain future design and
 require their own rule and art proof.
 
-## Implemented one-task requests and readable work
+## Implemented direct orders and readable work
 
-A selected named adult can be asked to **Gather reeds**, **Help build** or **Bring food** at one shown place. These are requests for one physical trip or weaving task, not control of the chicken's whole day or a promise to finish a building. The existing work system owns every reservation, journey, pickup, delivery and contribution. Gather does not silently open the patch to the flock. Food reaches an existing nursery physically. Meals, current cargo, sleep, rest, active care and urgent brood supplies still come first; young and carers cannot accept new work. A waiting request explains its cause. After one successful contribution the bird resumes autonomous community work. This bounded request is not a new consent/politics system and invents no relationship response.
+Selecting a named chicken inspects that individual without moving the camera.
+Follow is an explicit camera choice. In Living valley, unobscured canvas edges
+scroll the camera with an idle fine mouse pointer; focused-canvas arrows and
+middle-button ground dragging provide alternatives. These inputs change the
+camera only. Manual movement leaves Follow without a jump and shows **Free camera**;
+zoom and responsive resize keep that free position. View buttons explicitly
+recenter, including a repeated click; Follow targets the currently selected bird.
+The camera center stays within authored map bounds, with scenery still visible
+beyond the edges. Held mouse buttons suppress edge scrolling; overlays, leaving
+the play area, focus/visibility loss and cancellation clear that intent. Store
+placement retains its arrow-key priority. Woodland retains its fixed framing.
+Left-click selects, Shift adds/removes, and
+a ground drag selects a group. Right-click legal reachable ground orders Move;
+right-click a reed patch orders repeated gathering at that exact patch; right-click
+an unfinished project orders sustained hauling and weaving there until completion.
+Move, Gather and Help build targeting controls provide the same left-click/touch
+route. New building opens all five existing recipes and their prerequisites for
+the selected adult. Header catalog commissions remain community projects; a named
+commission assigns that adult's sustained construction. Every eligible adult can
+gather/build; flavor profiles grant no classes, military training or combat.
 
-Only one request may be pending per chicken. Canceling uncollected work waits for a safe step; cargo is delivered before the chicken takes other work. A request whose target is removed, completed, full or depleted ends visibly rather than selecting a different target. The request and its latest bounded result survive saving, with no new resources or extra progress on reload.
+**Direct orders** persists after a task ends as **Awaiting orders**. Only explicit
+**Return to community work** restores autonomous allocation. **Stop** clears work
+at the next safe cell boundary and retains held goods in place, including after
+project cancellation. A lift first lowers safely. Night perching/ascent keeps sleep safety and says
+**Sleeping until morning**; orders resume after the normal safe morning descent. Move
+can carry retained goods; a new work order or community return routes them through
+existing storage/capacity rules. No cargo is discarded, duplicated or silently
+delivered to a prior target. Uncollected reservations release at that boundary.
+Rejected replacements/queue additions preserve the existing order and work.
 
-For the first home, **Build a home** on a selected adult opens deliberate tree placement. Choosing an explicitly labeled named tree commissions the home and that adult's one-task help together; an ineligible adult or stale place leaves neither a partial project nor a replacement request. Cancel placement stops without building. Ordinary tree inspection retains its recipe action and never commissions merely by selecting a tree.
+Personal meals and rest visibly suspend then resume the intended order. Urgent
+community food work does not replace direct intent. Young and essential carers
+reject orders by name. Missing materials or full storage waits visibly rather
+than assigning unrelated work. Shift or Queue next appends up to sixteen orders;
+finite moves advance on arrival, while a gather's successor waits until the exact
+patch is depleted. A project completes before its successor starts. Group orders
+validate each actual selected actor; mixed eligibility names rejections and keeps
+accepted actors. Move arrivals use deterministic distinct legal cells where possible.
+The selected card, all selection rings, target marker and route reflect those same
+actors and simulation orders. Selection and targeting themselves remain transient.
 
-Every unfinished commission immediately has an ochre workcourt ring and a planned project badge in the world, before a worker or finished structure exists. These present saved plans, not pretend construction. One badge per tree leads with a focused unfinished project, otherwise the first unfinished project, and counts further projects; the tree card lists them all. Fetching, carrying, walking to weave and actual weaving name the chickens doing that work. A pending request remains a named wait, not an active contribution. Paused work leads with **Resume work** and never silently resumes; morning, personal needs and material waits remain truthful. A shortage offers one available named reed helper without replacing another request or care, or explains why no helper or harvest is available. Depleted reeds recover on daylight ticks.
+The optional **Bring food · one trip** remains explicitly finite and uses real
+nursery delivery; it then awaits direct orders. Older one-trip requests remain
+readable in old saves. Community recovery helpers exclude directly controlled
+chickens, and legacy request commands reject them until explicitly returned.
+Direct intent, queue, safe interruption and retained-cargo origin survive saves
+without advancing work. World versions and geography are preserved.
+
+Every unfinished commission immediately has an ochre workcourt ring and a planned project badge in the world, before a worker or finished structure exists. These present saved plans, not pretend construction. One badge per tree leads with a focused unfinished project, otherwise the first unfinished project, and counts further projects; the tree card lists them all. Fetching, carrying, walking to weave and actual weaving name the chickens doing that work. A pending order remains a named wait, not an active contribution. Paused work leads with **Resume time** and never silently resumes; morning, personal needs and material waits remain truthful. A shortage offers one available named reed helper without replacing direct orders, another request or care, or explains why no helper or harvest is available. Depleted reeds recover on daylight ticks.
 
 The headline **Reeds ready** means unreserved source and store stock usable by new work. Delivered construction material, cargo and reservations are distinct physical facts in optional details. A project can queue before all reeds exist; it immediately shows delivered material, a named worker when allocated, and its next need. Night commissions are allowed and state **Starts in the morning**; weaving pauses with its materials and progress retained, secured cargo finishes delivery, and workers then sleep. Tree homes remain six reeds/two sheltered sleeping places, with the nursery and next home improvement directly visible after completion. The nursery costs four reeds and provides ground care for two future chicks; building it creates no eggs. A completed basket exposes the existing sleeping deck recipe. Other building controls remain secondary. The selected-chicken, tree and food cards keep the world dominant. Seeds/Bugs are plain presentation names for the existing staple/protein ledgers; food for chicks leads with local need and a useful helper action, with approximate planning details optional. The first purpose hint is optional and dismissible, not an authored quest.
 
@@ -527,7 +590,7 @@ The headline separates adults, chicks, juveniles and expected unhatched commitme
 
 The player can choose **Build this first** on any unfinished tree structure or ground store. This is a community construction priority, not ownership of a chicken or a promise of immediate work. The next available construction assignment tries the chosen project’s weaving or reed pickup before other projects; if it cannot act there, useful ordinary work continues. **Use normal order** clears the choice. Completion or cancellation also clears it. All other plans remain, in their original order.
 
-Current deliveries, reservations and basket lifts finish normally; existing named requests retain their target. Care, personal needs and the player’s food policy keep their existing precedence. Focus neither moves reeds already committed elsewhere nor silently designates habitat, replaces a request or changes Food/Build policy. Actual project progress and named contributions remain distinct from its priority. A tree’s single world badge shows its focused project; ground stores retain their planned construction marker. The compact finder opens the exact chosen project after closing its panel or reloading. Older settlements reopen in normal order. This interface does not change construction costs, reed renewal, hauling throughput, or growth timing.
+Changing community focus preserves existing deliveries, reservations and basket lifts; direct orders and existing named requests retain their own targets. Care, personal needs and the player’s food policy keep their existing precedence. Focus neither moves reeds already committed elsewhere nor silently designates habitat, replaces a request or changes Food/Build policy. Actual project progress and named contributions remain distinct from its priority. A tree’s single world badge shows its focused project; ground stores retain their planned construction marker. The compact finder opens the exact chosen project after closing its panel or reloading. Older settlements reopen in normal order. This interface does not change construction costs, reed renewal, hauling throughput, or growth timing.
 
 
 ## Entering and keeping a grove
@@ -541,3 +604,61 @@ available for download; a new grove never erases them. Optional email accounts
 keep deliberately saved copies, not an automatic shared or online simulation.
 Names, library metadata and authentication do not change the settlement rules,
 clock, individual choices, resources, growth or saved physical work.
+
+## Implemented Living valley foundation (27 October 2026)
+
+New Small valley games now run this same settlement economy on an authored
+36×28m/.5m-cell terrain world, with exact v8 living Longbough art and a measured
+shared six-place habitat. Adults use `.45625` presentation scale without changing
+source proportions or foot origins. Two natural branch places exist initially;
+the six-reed lower Boughhome adds two, and the earned middle deck adds two after
+the real basket construction lift. There is no free top deck or capacity on the
+scenic margin trees. The four starting adults therefore initially have housing
+pressure, not six ghost natural perches inherited from Woodland.
+
+Reed stores and the root nursery occupy visible authored reserved ground pads.
+Their footprints are excluded from routing before construction and remain so;
+deliveries, stocked-store pickups, carers and young use legal approach cells.
+The nursery's ground location and Longbough affiliation are separate facts.
+Natural and earned access follows measured grounded approach, flight/climb and
+landing points, after real travel to the workcell. Physical route speed is nominal
+1.4m/s with existing individual pace for ground travel and fixed nominal 1.4m/s for authored access; codec9 persists world identity and validates
+its canonical resource and legal movement fixtures. The generic 20-bundle survey
+ledger is never converted into these construction reeds. Old survey and Woodland
+saves retain their original world, rules and presentation; an explicit new-slot
+action starts Living valley.
+
+The integrated proof includes build/deliver/inhabit/store/care and two named young
+growing into six adult residents, plus save/reopen. It does not establish combat,
+unit avoidance, complete diet, finished art or long-play balance.
+[World contract](../docs/landscape-study.md#current-default-living-valley) and
+[qualification](../output/inhabited-valley-v1/README.md) distinguish actual player
+input, deterministic rule fixtures and observed render evidence.
+
+New games now default to the refined inhabited terrain, world version 2. The
+original inhabited version 1 remains a separate New game choice and loads its
+saved geography unchanged. Version 2 reshapes the creek shoulders and coves;
+it retains the same resource meanings, habitat profile, construction recipes
+and care rules. The existing device library creates a new slot rather than
+reprojecting an original game. [Refinement evidence](../output/clearing-beauty-v2/README.md)
+records both-version route/save checks and the local visual qualification.
+
+## Build and resource interaction pass
+
+The shared building catalog offers the existing five recipes, then legal named
+tree or ground-pad choices. A temporary translucent preview is not a commissioned
+building. Commissioning preserves physical delivery and weaving; plans may exceed
+current stock. Escape, Cancel, Menu and mode changes abandon only unsaved placement.
+
+Selecting reeds inspects the exact world-named patch. Asking a named eligible
+chicken gathers there repeatedly until depletion or redirection; flock gathering
+remains the separate community designation. Selecting another place does not cancel
+work. Named commissions sustain construction; community commissions remain separate.
+Care, personal needs, safe interruption, overnight rest and physical goods remain real.
+
+The header's ready reeds are unreserved stock. The plans budget counts free,
+reserved and carried bundles once against all unfinished costs less delivered
+material, including paused plans. Standing reeds are harvestable potential.
+This is a material estimate, not a labor or timing promise. Local store stock,
+capacity and refill minimum remain separate facts. See the
+[research and translation](../docs/build-resource-interactions.md).

@@ -1,0 +1,1291 @@
+{
+  "state": "READY \u2014 source asset lane; runtime acceptance owned separately",
+  "revision": "clearing-crown-shape-v3",
+  "habitatRevision": "longbough-playable-v1",
+  "profile": {
+    "path": "src/content/valley-habitat.json",
+    "bytes": 11623,
+    "sha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4"
+  },
+  "assets": {
+    "living": {
+      "sha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+      "bytes": 11635204,
+      "triangles": 106154,
+      "groups": [
+        {
+          "name": "crown-foliage",
+          "triangles": 77178,
+          "primitives": 1
+        },
+        {
+          "name": "branch",
+          "triangles": 28976,
+          "primitives": 1
+        }
+      ],
+      "min": [
+        -8.426477432250977,
+        -1.214828372001648,
+        -5.3729329109191895
+      ],
+      "max": [
+        8.641764640808105,
+        13.553350448608398,
+        3.482710838317871
+      ],
+      "maxNormalError": 1.3597308656798646e-07,
+      "minTriangleArea": 7.0730393416791925e-09,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "bark-painted-v1-source",
+          "bytes": 3496765,
+          "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91"
+        }
+      ],
+      "animations": 0,
+      "materials": [
+        "study-olive-small-leaves",
+        "refinement-painted-grown-bark"
+      ],
+      "nodeNames": [
+        "asset",
+        "crown-foliage",
+        "living-wood"
+      ],
+      "checks": [
+        "GLB2 embedded resources",
+        "Finite indexed geometry and UVs",
+        "Unit normals",
+        "No zero-area triangles",
+        "Opaque rough nonmetal PBR",
+        "No animation/skin/camera/external resources"
+      ]
+    },
+    "kit": {
+      "sha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "bytes": 6658212,
+      "triangles": 55810,
+      "groups": [
+        {
+          "name": "basket-weave",
+          "triangles": 5260,
+          "primitives": 1
+        },
+        {
+          "name": "basket-guide",
+          "triangles": 628,
+          "primitives": 2
+        },
+        {
+          "name": "basket-landing-weave",
+          "triangles": 280,
+          "primitives": 1
+        },
+        {
+          "name": "home-deck",
+          "triangles": 2700,
+          "primitives": 1
+        },
+        {
+          "name": "home-hood-left",
+          "triangles": 14468,
+          "primitives": 2
+        },
+        {
+          "name": "home-hood-right",
+          "triangles": 14468,
+          "primitives": 2
+        },
+        {
+          "name": "home-ladder",
+          "triangles": 5328,
+          "primitives": 2
+        },
+        {
+          "name": "home-support",
+          "triangles": 2628,
+          "primitives": 2
+        },
+        {
+          "name": "lift-rope-fiber",
+          "triangles": 48,
+          "primitives": 1
+        },
+        {
+          "name": "middle-deck",
+          "triangles": 2598,
+          "primitives": 1
+        },
+        {
+          "name": "middle-ladder",
+          "triangles": 4608,
+          "primitives": 2
+        },
+        {
+          "name": "middle-rails",
+          "triangles": 1044,
+          "primitives": 1
+        },
+        {
+          "name": "middle-support",
+          "triangles": 1752,
+          "primitives": 2
+        }
+      ],
+      "min": [
+        -1.8370000123977661,
+        -0.00559855904430151,
+        -0.22659745812416077
+      ],
+      "max": [
+        3.9983484745025635,
+        6.124794006347656,
+        4.705794811248779
+      ],
+      "maxNormalError": 1.4767282485728117e-07,
+      "minTriangleArea": 5.388417395614624e-06,
+      "degenerateTriangles": 0,
+      "images": [
+        {
+          "name": "reed-weave-v1-source",
+          "bytes": 2391920,
+          "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+        }
+      ],
+      "animations": 0,
+      "materials": [
+        "painted flattened reed weave",
+        "darker flax lashings"
+      ],
+      "nodeNames": [
+        "basket-weave",
+        "cargo-socket",
+        "basket",
+        "basket-ground",
+        "basket-guide",
+        "basket-landing",
+        "basket-landing-weave",
+        "deck-entry",
+        "deck-front-left",
+        "ground-approach-front",
+        "ground-approach-side",
+        "home-deck",
+        "home-edge",
+        "home-entry",
+        "home-front-left",
+        "home-front-right",
+        "home-hood-left",
+        "home-hood-right",
+        "home-ladder",
+        "home-support",
+        "ladder-base",
+        "ladder-top",
+        "lift-rope-fiber",
+        "lift-rope",
+        "middle-deck",
+        "middle-ladder",
+        "middle-ladder-base",
+        "middle-ladder-top",
+        "middle-rails",
+        "middle-support",
+        "natural-approach-0",
+        "natural-approach-1",
+        "natural-flight-0",
+        "natural-flight-1",
+        "natural-launch-0",
+        "natural-launch-1",
+        "natural-launch-base",
+        "natural-perch-0",
+        "natural-perch-1",
+        "operator-ground",
+        "ramp-middle",
+        "sheltered-deck",
+        "sheltered-perch-0",
+        "sheltered-perch-1",
+        "sheltered-perch-2",
+        "sheltered-perch-3",
+        "asset"
+      ],
+      "checks": [
+        "GLB2 embedded resources",
+        "Finite indexed geometry and UVs",
+        "Unit normals",
+        "No zero-area triangles",
+        "Opaque rough nonmetal PBR",
+        "No animation/skin/camera/external resources",
+        "All shared anchors and functional basket hierarchy present; stage names cover actual meshes, never control empties"
+      ]
+    }
+  },
+  "totals": {
+    "bytes": 18293416,
+    "triangles": 161964,
+    "primitives": 22
+  },
+  "sourceFrame": {
+    "anatomicalGroundY": 0,
+    "front": "+Z",
+    "metersPerUnit": 1
+  },
+  "presentation": {
+    "adultScale": 0.45625,
+    "reedBundleScale": 0.5,
+    "selectedLabelHeight": 0.9,
+    "birdPickDiameter": 1
+  },
+  "stages": {
+    "home": {
+      "base": [
+        "home-deck",
+        "home-support"
+      ],
+      "frame": [
+        "home-hood-left",
+        "home-hood-right"
+      ],
+      "complete": [
+        "home-ladder"
+      ]
+    },
+    "middle": {
+      "base": [
+        "middle-deck",
+        "middle-support"
+      ],
+      "frame": [
+        "middle-rails"
+      ],
+      "complete": [
+        "middle-ladder"
+      ]
+    },
+    "basket": {
+      "base": [
+        "basket-guide",
+        "basket-landing-weave"
+      ],
+      "frame": [
+        "lift-rope-fiber"
+      ],
+      "complete": [
+        "basket-weave"
+      ]
+    }
+  },
+  "appearanceGeometry": {
+    "revision": "clearing-crown-shape-v3",
+    "state": "PASS",
+    "assets": {
+      "longbough-living": {
+        "sha256": "a9e5b5da15b9831f4ad09152382adbfb88a752996efa6eaa623af131a4195e47",
+        "bytes": 11635204,
+        "triangles": 106154,
+        "groups": [
+          {
+            "name": "crown-foliage",
+            "triangles": 77178,
+            "primitives": 1
+          },
+          {
+            "name": "branch",
+            "triangles": 28976,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -8.426477432250977,
+          -1.214828372001648,
+          -5.3729329109191895
+        ],
+        "max": [
+          8.641764640808105,
+          13.553350448608398,
+          3.482710838317871
+        ],
+        "maxNormalError": 1.3597308656798646e-07,
+        "minTriangleArea": 7.0730393416791925e-09,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 3496765,
+            "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91"
+          }
+        ],
+        "animations": 0,
+        "exact": [
+          "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+          "Living wood: every attribute and triangle",
+          "Crown topology/UVs",
+          "Nodes/hierarchy/materials/original image bytes"
+        ],
+        "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+      },
+      "valley-grove-oak": {
+        "sha256": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+        "bytes": 1978036,
+        "triangles": 23053,
+        "groups": [
+          {
+            "name": "branch",
+            "triangles": 1893,
+            "primitives": 1
+          },
+          {
+            "name": "crown-foliage",
+            "triangles": 21160,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -4.124218463897705,
+          -0.2429426610469818,
+          -2.45387864112854
+        ],
+        "max": [
+          4.271695137023926,
+          7.523548126220703,
+          2.7823233604431152
+        ],
+        "maxNormalError": 1.3504178242307319e-07,
+        "minTriangleArea": 2.1956367021892574e-06,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 488336,
+            "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+          }
+        ],
+        "animations": 0,
+        "exact": [
+          "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+          "Living wood: every attribute and triangle",
+          "Crown topology/UVs",
+          "Nodes/hierarchy/materials/original image bytes"
+        ],
+        "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+      },
+      "valley-grove-spread": {
+        "sha256": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+        "bytes": 1979896,
+        "triangles": 23052,
+        "groups": [
+          {
+            "name": "branch",
+            "triangles": 1892,
+            "primitives": 1
+          },
+          {
+            "name": "crown-foliage",
+            "triangles": 21160,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -4.256193161010742,
+          -0.28196924924850464,
+          -2.7967114448547363
+        ],
+        "max": [
+          4.547497749328613,
+          6.923295021057129,
+          2.7195467948913574
+        ],
+        "maxNormalError": 1.458210938665161e-07,
+        "minTriangleArea": 1.208570798138023e-07,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 488336,
+            "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+          }
+        ],
+        "animations": 0,
+        "exact": [
+          "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+          "Living wood: every attribute and triangle",
+          "Crown topology/UVs",
+          "Nodes/hierarchy/materials/original image bytes"
+        ],
+        "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+      },
+      "valley-grove-shrub": {
+        "sha256": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+        "bytes": 938572,
+        "triangles": 6934,
+        "groups": [
+          {
+            "name": "branch",
+            "triangles": 448,
+            "primitives": 1
+          },
+          {
+            "name": "crown-foliage",
+            "triangles": 6486,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -1.8579139709472656,
+          -0.10951218754053116,
+          -0.890659511089325
+        ],
+        "max": [
+          1.7255560159683228,
+          1.944177269935608,
+          0.971470296382904
+        ],
+        "maxNormalError": 1.2134113780426503e-07,
+        "minTriangleArea": 5.231584374488735e-06,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 488336,
+            "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+          }
+        ],
+        "animations": 0,
+        "exact": [
+          "Every COLOR_0 value: accepted v4 hero palette and scenic palette",
+          "Living wood: every attribute and triangle",
+          "Crown topology/UVs",
+          "Nodes/hierarchy/materials/original image bytes"
+        ],
+        "changed": "Crown POSITION/NORMAL only; bounds reflect actual geometry"
+      }
+    },
+    "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4",
+    "kitSha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+    "checks": [
+      "Exact palette/wood/kit/profile/semantic contract",
+      "Finite geometry and UVs",
+      "Unit exported normals",
+      "Zero degenerate triangles",
+      "No new crown triangles or vertices"
+    ]
+  },
+  "selectiveFoliagePalette": {
+    "revision": "accepted-v4-preserved",
+    "evidence": "shape-baseline-v4/palette-qualification.json",
+    "currentProof": "crown-shape-checks.json: every COLOR_0 value exact"
+  },
+  "scenicGrove": {
+    "revision": "clearing-crown-shape-v3",
+    "assets": {
+      "oak": {
+        "sha256": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+        "bytes": 1978036,
+        "triangles": 23053,
+        "groups": [
+          {
+            "name": "branch",
+            "triangles": 1893,
+            "primitives": 1
+          },
+          {
+            "name": "crown-foliage",
+            "triangles": 21160,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -4.124218463897705,
+          -0.2429426610469818,
+          -2.45387864112854
+        ],
+        "max": [
+          4.271695137023926,
+          7.523548126220703,
+          2.7823233604431152
+        ],
+        "maxNormalError": 1.3504178242307319e-07,
+        "minTriangleArea": 2.1956367021892574e-06,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 488336,
+            "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+          }
+        ],
+        "animations": 0,
+        "nodeNames": [
+          "grove-living-wood",
+          "grove-crown-foliage"
+        ],
+        "materials": [
+          "grove-warm-cool-bark",
+          "grove-grouped-broadleaf"
+        ]
+      },
+      "spread": {
+        "sha256": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+        "bytes": 1979896,
+        "triangles": 23052,
+        "groups": [
+          {
+            "name": "branch",
+            "triangles": 1892,
+            "primitives": 1
+          },
+          {
+            "name": "crown-foliage",
+            "triangles": 21160,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -4.256193161010742,
+          -0.28196924924850464,
+          -2.7967114448547363
+        ],
+        "max": [
+          4.547497749328613,
+          6.923295021057129,
+          2.7195467948913574
+        ],
+        "maxNormalError": 1.458210938665161e-07,
+        "minTriangleArea": 1.208570798138023e-07,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 488336,
+            "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+          }
+        ],
+        "animations": 0,
+        "nodeNames": [
+          "grove-living-wood",
+          "grove-crown-foliage"
+        ],
+        "materials": [
+          "grove-warm-cool-bark",
+          "grove-grouped-broadleaf"
+        ]
+      },
+      "shrub": {
+        "sha256": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+        "bytes": 938572,
+        "triangles": 6934,
+        "groups": [
+          {
+            "name": "branch",
+            "triangles": 448,
+            "primitives": 1
+          },
+          {
+            "name": "crown-foliage",
+            "triangles": 6486,
+            "primitives": 1
+          }
+        ],
+        "min": [
+          -1.8579139709472656,
+          -0.10951218754053116,
+          -0.890659511089325
+        ],
+        "max": [
+          1.7255560159683228,
+          1.944177269935608,
+          0.971470296382904
+        ],
+        "maxNormalError": 1.2134113780426503e-07,
+        "minTriangleArea": 5.231584374488735e-06,
+        "degenerateTriangles": 0,
+        "images": [
+          {
+            "name": "bark-painted-v1-source",
+            "bytes": 488336,
+            "sha256": "90152c7dc3fa4a350726f17d9eb093a9d410312cbe8a78feca1d5cefaea4aeab"
+          }
+        ],
+        "animations": 0,
+        "nodeNames": [
+          "grove-living-wood",
+          "grove-crown-foliage"
+        ],
+        "materials": [
+          "grove-warm-cool-bark",
+          "grove-grouped-broadleaf"
+        ]
+      }
+    },
+    "sourceBoundsAndLowWood": {
+      "oak": {
+        "revision": "clearing-crown-shape-v3",
+        "assetUrl": "/assets/environment/valley/valley-grove-oak.glb",
+        "sha256": "80b04dff70729724b5a98cb6e9fa7c86a6412cfe01e41ec7aec7ce5e2086ce9d",
+        "bytes": 1978036,
+        "triangles": 23053,
+        "min": [
+          -4.124218463897705,
+          -0.2429426610469818,
+          -2.45387864112854
+        ],
+        "max": [
+          4.271695137023926,
+          7.523548126220703,
+          2.7823233604431152
+        ],
+        "lowWoodMin": [
+          -0.5722974538803101,
+          -0.2429426610469818,
+          -0.6617240309715271
+        ],
+        "lowWoodMax": [
+          0.5706288814544678,
+          0.9720905423164368,
+          0.6580344438552856
+        ],
+        "meshGroups": [
+          "grove-living-wood",
+          "grove-crown-foliage"
+        ],
+        "materials": [
+          "grove-warm-cool-bark",
+          "grove-grouped-broadleaf"
+        ]
+      },
+      "spread": {
+        "revision": "clearing-crown-shape-v3",
+        "assetUrl": "/assets/environment/valley/valley-grove-spread.glb",
+        "sha256": "fdfba938164772ee2169662269a69ef4bca866fcfa1756b93e080f321f754e8a",
+        "bytes": 1979896,
+        "triangles": 23052,
+        "min": [
+          -4.256193161010742,
+          -0.28196924924850464,
+          -2.7967114448547363
+        ],
+        "max": [
+          4.547497749328613,
+          6.923295021057129,
+          2.7195467948913574
+        ],
+        "lowWoodMin": [
+          -0.6528541445732117,
+          -0.28196924924850464,
+          -0.6605010032653809
+        ],
+        "lowWoodMax": [
+          0.6544896364212036,
+          0.9813010096549988,
+          0.579052209854126
+        ],
+        "meshGroups": [
+          "grove-living-wood",
+          "grove-crown-foliage"
+        ],
+        "materials": [
+          "grove-warm-cool-bark",
+          "grove-grouped-broadleaf"
+        ]
+      },
+      "shrub": {
+        "revision": "clearing-crown-shape-v3",
+        "assetUrl": "/assets/environment/valley/valley-grove-shrub.glb",
+        "sha256": "4b535f7b3a4ba10ad8a3e37b9764b46fa7fe7e66d4905bd8c8fe4c6b6a37f784",
+        "bytes": 938572,
+        "triangles": 6934,
+        "min": [
+          -1.8579139709472656,
+          -0.10951218754053116,
+          -0.890659511089325
+        ],
+        "max": [
+          1.7255560159683228,
+          1.944177269935608,
+          0.971470296382904
+        ],
+        "lowWoodMin": [
+          -0.9025120139122009,
+          -0.10951218754053116,
+          -0.30785977840423584
+        ],
+        "lowWoodMax": [
+          0.9934358596801758,
+          0.9885134100914001,
+          0.18137983977794647
+        ],
+        "meshGroups": [
+          "grove-living-wood",
+          "grove-crown-foliage"
+        ],
+        "materials": [
+          "grove-warm-cool-bark",
+          "grove-grouped-broadleaf"
+        ]
+      }
+    },
+    "totals": {
+      "bytes": 4896504,
+      "triangles": 53039,
+      "primitives": 6
+    },
+    "role": "Scenic/background only; primary accepted source-v2 for normal gameplay backdrop. Occasional visible core shoulders/lobe rhythm remain; not a close-up hero or gameplay habitat."
+  },
+  "bankFamily": {
+    "revision": "valley-bank-family-v1",
+    "sourceFrame": {
+      "metersPerUnit": 1,
+      "up": "+Y",
+      "outward": "+Z",
+      "tangent": "+X",
+      "origin": "center-bottom"
+    },
+    "assets": {
+      "bank-shoulder": {
+        "sha256": "4467000e8315b2eb4a873ebc1add42809999bef47076301fc1d15fce835eb9e7",
+        "bytes": 157936,
+        "triangles": 1526,
+        "groups": [
+          {
+            "name": "valley-authored-rock-geometry",
+            "triangles": 1526,
+            "primitives": 2
+          }
+        ],
+        "min": [
+          -1.7999999523162842,
+          0.0,
+          -0.699999988079071
+        ],
+        "max": [
+          1.7999999523162842,
+          1.5,
+          0.699999988079071
+        ],
+        "maxNormalError": 1.3451789526719438e-07,
+        "minTriangleArea": 0.001197074583099838,
+        "degenerateTriangles": 0,
+        "images": [],
+        "animations": 0
+      },
+      "bank-shelf": {
+        "sha256": "f6e83077b4e960b8ba875d351514d5e6dee99943ee70c1c6936f353103c41d37",
+        "bytes": 130204,
+        "triangles": 1254,
+        "groups": [
+          {
+            "name": "valley-authored-rock-geometry",
+            "triangles": 1254,
+            "primitives": 2
+          }
+        ],
+        "min": [
+          -1.600000023841858,
+          0.0,
+          -0.699999988079071
+        ],
+        "max": [
+          1.600000023841858,
+          0.4000000059604645,
+          0.699999988079071
+        ],
+        "maxNormalError": 1.2620011258235309e-07,
+        "minTriangleArea": 0.00029868015960085186,
+        "degenerateTriangles": 0,
+        "images": [],
+        "animations": 0
+      },
+      "shore-outcrop": {
+        "sha256": "da5c6488350971f250c6fd250dd5e4fb668af282fa21e1975648ac235f620c25",
+        "bytes": 97732,
+        "triangles": 936,
+        "groups": [
+          {
+            "name": "valley-authored-rock-geometry",
+            "triangles": 936,
+            "primitives": 2
+          }
+        ],
+        "min": [
+          -1.100000023841858,
+          0.0,
+          -0.75
+        ],
+        "max": [
+          1.100000023841858,
+          0.8999999761581421,
+          0.75
+        ],
+        "maxNormalError": 1.341104418628447e-07,
+        "minTriangleArea": 0.0007055411399706563,
+        "degenerateTriangles": 0,
+        "images": [],
+        "animations": 0
+      }
+    },
+    "placementContract": {
+      "bank-shoulder": {
+        "assetUrl": "/assets/environment/valley/valley-bank-shoulder.glb",
+        "sha256": "4467000e8315b2eb4a873ebc1add42809999bef47076301fc1d15fce835eb9e7",
+        "bytes": 157936,
+        "triangles": 1526,
+        "min": [
+          -1.8,
+          0,
+          -0.7
+        ],
+        "max": [
+          1.8,
+          1.5,
+          0.7
+        ],
+        "meshGroups": [
+          "bank-mineral-and-protected-moss"
+        ],
+        "materials": [
+          "valley-mineral-rough",
+          "valley-moss-rough"
+        ],
+        "placement": "Partly bury into blocked bank; +Z outward, +X tangent. Rotate/scale to actual slope, no terrain/walking support claim."
+      },
+      "bank-shelf": {
+        "assetUrl": "/assets/environment/valley/valley-bank-shelf.glb",
+        "sha256": "f6e83077b4e960b8ba875d351514d5e6dee99943ee70c1c6936f353103c41d37",
+        "bytes": 130204,
+        "triangles": 1254,
+        "min": [
+          -1.6,
+          0,
+          -0.7
+        ],
+        "max": [
+          1.6,
+          0.4,
+          0.7
+        ],
+        "meshGroups": [
+          "bank-mineral-and-protected-moss"
+        ],
+        "materials": [
+          "valley-mineral-rough",
+          "valley-moss-rough"
+        ],
+        "placement": "Partly bury into blocked bank; +Z outward, +X tangent. Rotate/scale to actual slope, no terrain/walking support claim."
+      },
+      "shore-outcrop": {
+        "assetUrl": "/assets/environment/valley/valley-shore-outcrop.glb",
+        "sha256": "da5c6488350971f250c6fd250dd5e4fb668af282fa21e1975648ac235f620c25",
+        "bytes": 97732,
+        "triangles": 936,
+        "min": [
+          -1.1,
+          0,
+          -0.75
+        ],
+        "max": [
+          1.1,
+          0.9,
+          0.75
+        ],
+        "meshGroups": [
+          "bank-mineral-and-protected-moss"
+        ],
+        "materials": [
+          "valley-mineral-rough",
+          "valley-moss-rough"
+        ],
+        "placement": "Partly bury into blocked bank; +Z outward, +X tangent. Rotate/scale to actual slope, no terrain/walking support claim."
+      }
+    },
+    "totals": {
+      "bytes": 385872,
+      "triangles": 3716,
+      "primitives": 6
+    },
+    "role": "Original partly buried scenic bank/shore masses; runtime owns safe blocked-bank placements and visual qualification, no walkable/collision support claim."
+  },
+  "floorAreasM2": {
+    "home-deck": 5.890897103682769,
+    "middle-deck": 3.8400625920242675
+  },
+  "checks": {
+    "glb": "PASS",
+    "freshProcessDeterminism": "PASS",
+    "naturalAnimationPosesPerAdult": {
+      "fern": 646,
+      "rook": 646,
+      "dapple": 646,
+      "wren": 646
+    },
+    "walkAccessPosesPerAdult": {
+      "fern": 2520,
+      "rook": 2520,
+      "dapple": 2520,
+      "wren": 2520
+    },
+    "naturalAnimationIntersections": 0,
+    "walkAccessIntersectingPoses": 0,
+    "basketSweepSamples": 21,
+    "basketSweepSurfacePairs": 0,
+    "payloadVsBasketPairs": 0,
+    "payloadGapAboveBasketFloorM": 0.0030736979842185957,
+    "soleProjection": "All four actual adults, six places, both feet: all66low-toe rays supported. Curved bark local gaps/penetrations retained in source-soles.json.",
+    "sourceRenders": "Current shape-v3 actual-export whole/detail/strategy and grove source renders, plus bank-family source render. DCC lighting is separate from actual runtime acceptance.",
+    "runtime": "Independent integration owner; source checks do not assert transformed movement, reload or performance acceptance."
+  },
+  "fitEvidenceReuse": "Crown positions/normals changed: actual animated natural/access checks, both-foot sole checks, support/lift sweep were rerun against this exact living SHA. All four receipts assert current living/kit hashes. Historical source-fit.json is rejected/rest-pose diagnostic evidence, not the current animation acceptance. Wood, kit, profile, accepted v4 COLOR_0 and all other glTF attributes/topology remain exact against shape-baseline-v4.",
+  "evidence": [
+    {
+      "path": "assets/sculpted/valley-playable/asset-checks.json",
+      "bytes": 6477,
+      "sha256": "225317194c7569946aa31c86a76a5cbf76b0425312fd32fb474cb32885149719"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/determinism.json",
+      "bytes": 3795,
+      "sha256": "75d7cfa9cf8d76f2d034f7965ae57ac8154c604e13c896abd712f0c4eee09201"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/source-fit.json",
+      "bytes": 4366,
+      "sha256": "47928abcef2285450d22c9d2f0725f4cd235e297104bd1c3cb184e02f97235fa"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/source-animation-fit.json",
+      "bytes": 1114,
+      "sha256": "7094b443aa4ce413e13b4d0916d1741ab914f2c4684d8dba62dee5635565475e"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/source-access-animation.json",
+      "bytes": 1221,
+      "sha256": "f3beb85b9d2abeb2a292820c859a7c0171b3ad131578d0f0443e17785e9d01f5"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/source-soles.json",
+      "bytes": 19423,
+      "sha256": "780aa58c2e5e05f82ed4ef8408955d42824bb1eebd7930b92938aea113cf33c6"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/source-support.json",
+      "bytes": 4796,
+      "sha256": "60254467c30ada59f1dfaf1564923858d89030a2922f44f7289f9256f6c4df2d"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/floor-measures.json",
+      "bytes": 12293,
+      "sha256": "00c8313cb843d90fe64540ad45af51745999deabe6b23a5d1ca59139fd43a772"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/living-extraction.json",
+      "bytes": 1355,
+      "sha256": "3354691c20f40c56e93e4efe0df86df93c1c6d7ffae2393dd9d4a7b3cf78fd0f"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/root-sections.json",
+      "bytes": 397399,
+      "sha256": "f5f533aa368395bed4c3c33486651c38204edc40eccf70a00290923204eaf5ab"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/appearance-geometry.json",
+      "bytes": 5661,
+      "sha256": "d8790ae0d9b288320d95b70d63ef0cf65a99a031c82ef73229a2bd686b72ce2b"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/appearance-qualification.json",
+      "bytes": 500,
+      "sha256": "5c9bc79b92a34b51a1e5118c854ae1fe288e582cabd8b651660f081c36687c5d"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/palette-qualification.json",
+      "bytes": 1916,
+      "sha256": "2875f7e2251051c3d62317634a5a77a0777ad398f78a244827aff3bb4b00837e"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/grove-assets.json",
+      "bytes": 3323,
+      "sha256": "59b9e3c4a5c9c7d9e17f6e1cbaac66dac6e1f2b9092d293adf906d6b0467d75d"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/grove-checks.json",
+      "bytes": 3973,
+      "sha256": "b3e27ed9bb57181a3bd0f2daf13efe2fbc4317a0907b8a4b02bcee22e066d35e"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/crown-shape.json",
+      "bytes": 1715,
+      "sha256": "fc8229d2e199c15b9c11f99c11de25dec48e7442ce2dd157477cddc1229e2ac6"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/crown-shape-checks.json",
+      "bytes": 5661,
+      "sha256": "d8790ae0d9b288320d95b70d63ef0cf65a99a031c82ef73229a2bd686b72ce2b"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/bank-assets.json",
+      "bytes": 2318,
+      "sha256": "d91da08a6053506aaad70464613fe3d04da21c57fb06488ccfdf31aedda3ba6e"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/bank-checks.json",
+      "bytes": 2272,
+      "sha256": "65c1125b16ef6d480de3764fa5a7c2e97a24b49016f6a4df1390750483526459"
+    }
+  ],
+  "editableSources": [
+    {
+      "path": "assets/sculpted/valley-playable/longbough-living.blend",
+      "bytes": 16490505,
+      "sha256": "2128efb24dd566bd7816695085a236dbe14d01efc40a5c5d6d4905960d6adc4c"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/longbough-woven-kit.blend",
+      "bytes": 10226711,
+      "sha256": "fa2a24cd5273f53ee5009327397f9b55fbca744d5a7db489d338a803c9e6a6d1"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/valley-bank-shelf.blend",
+      "bytes": 579537,
+      "sha256": "7001e6289220489600203e65eb1b99994d18bff96c5aecb0855aec8fd1d41747"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/valley-bank-shoulder.blend",
+      "bytes": 608430,
+      "sha256": "57538c216fa1ca4950feecaef4c856c2fa01e1b04bb37b27ef204faeb5c16c4d"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/valley-grove-oak.blend",
+      "bytes": 3397028,
+      "sha256": "bc47a7d65e2d5b176bad522a3b6a01aeccc447d23b62aee34af8cf1dae7505b7"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/valley-grove-shrub.blend",
+      "bytes": 1674938,
+      "sha256": "24a14bd4596c912c7110f9b1b9ccf51b7da41fb7c1fa45f8a35cb42852ebedab"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/valley-grove-spread.blend",
+      "bytes": 3397223,
+      "sha256": "cb9b08251052742433a1b200f20a57650ab03f70f74a198ecab2ad14d78198c5"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/valley-shore-outcrop.blend",
+      "bytes": 546287,
+      "sha256": "7d08fec8789805aa3bcb5e24748e9333e4950b8d98eddd442ccd171fa71284c3"
+    }
+  ],
+  "authoringAndValidation": [
+    {
+      "path": "assets/sculpted/valley-playable/author_appearance.py",
+      "bytes": 11083,
+      "sha256": "095d7dceb590baec4dd040fb672f211108d024e4305b9004d61c4713d047c033"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/author_banks.py",
+      "bytes": 4675,
+      "sha256": "c3a03c70d67cdf255054952c72eb27c733626616c4155de1595e45f170b4b8fa"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/author_crown_shape.py",
+      "bytes": 7354,
+      "sha256": "411a8710faabaf3d561bcbc3c19a2e33b5c591cd71be1e3791d0c36ab3584f04"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/author_grove.py",
+      "bytes": 12149,
+      "sha256": "48ac9ff983a6a97cce14019ec6a017a1cd6c6e07a8194589df924fe4c412db99"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/author_valley.py",
+      "bytes": 13707,
+      "sha256": "5d939493a1dc08fad29c6034c400402f21615fdab990eccc38557c521661e603"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/check_appearance.py",
+      "bytes": 2637,
+      "sha256": "ebe3b34c237943550aca3ec94a68e49f61d6735343eecb5182f60506991c01e2"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/check_artifacts.py",
+      "bytes": 3812,
+      "sha256": "160054047c1335a56c3a431358fec909e85bd7d4e51df35d6f4e021d8f56d96d"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/check_grove.py",
+      "bytes": 2289,
+      "sha256": "6c6d378775c27d0a4399b882f951296d9af6164fd830efa74cf6c481d08672d1"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/check_palette.py",
+      "bytes": 3635,
+      "sha256": "f3014e8461e562aaabb7b2230dd9c5fb346db35cace712355726e7f67c182ca7"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/check_shapes.py",
+      "bytes": 4715,
+      "sha256": "ccff61ae5ff4f43108f2c35ce5263d7a93de213351098dd5d12712aad43fa865"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/extract_living.py",
+      "bytes": 7535,
+      "sha256": "7029dbb88f417ac15fe1bf99b8d47f9c6d0fc9b09f570fffbecb76fd86f792db"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/find_flight.py",
+      "bytes": 2297,
+      "sha256": "aa43134b08c094b9cd73b58bf6b9d18e3de0fe3bc0afd82fccd1e607b5bc72c0"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/find_perches.py",
+      "bytes": 2052,
+      "sha256": "b62aa147d252ae7f76654f8ce8442527a298090bb19e9539337f7e3b795c3781"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/find_roost.py",
+      "bytes": 2282,
+      "sha256": "240f87699836bfaff228ca562233f760b8644c83e8d033a20e79293251895d85"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/find_supported_roost.py",
+      "bytes": 2749,
+      "sha256": "7f03a6bd8c9566396a19aa29c3721c13b5140ccf956411bf4aa1e1359d4cd7e2"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/render_banks.py",
+      "bytes": 1995,
+      "sha256": "7395c31e04b64d86f7cc88a36707e4e8e40590595b53f14d4c24ecf31a030d68"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/render_grove.py",
+      "bytes": 1994,
+      "sha256": "ac1327a6ce825cbd6c8a73688b819c303d14ae651e8a4dcb1b4c61fc07380f35"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/render_valley.py",
+      "bytes": 4512,
+      "sha256": "322f1a180d1d3dfbc64c836328ddfd7e4a20d8677cf48e4800058030cf6960b3"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/validate_access_animation.py",
+      "bytes": 3173,
+      "sha256": "c7d0932313d4940890ce3eb92a084ff0425588bfb93fb566684b79a4c45564dd"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/validate_animation_fit.py",
+      "bytes": 3547,
+      "sha256": "a9e68070352a972d5457e23bedf432d88891deb56def05815a5c0841a1bb98f4"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/validate_fit.py",
+      "bytes": 6864,
+      "sha256": "da35d670cdd6369c14ac6a9f65909414e5e6b00c8d4a08c3e7c8895b368a0442"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/validate_soles.py",
+      "bytes": 2781,
+      "sha256": "3059d21deca078bfac8d3e777c89ab472b46edf7b69823189e1682d0f917574e"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/validate_support.py",
+      "bytes": 3741,
+      "sha256": "d05be427521a84009338cc6cb1c9e1f94a1af3847bc40bf3e6a58717df5c7c76"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/verify_reproducibility.py",
+      "bytes": 1808,
+      "sha256": "74fbfe2a85c0c5981c8cf938f8b29816742baa8872236300ebc1c08ca94104fe"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/write_receipt.py",
+      "bytes": 10005,
+      "sha256": "cb8f11deef51327bf8ecb49e08d976c2cb5ceed8974a67c61f792347eb67ff94"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/README.md",
+      "bytes": 11703,
+      "sha256": "46be5dadd42e7c05a2104b9274dbfc982261a160b3a3aa2d5addd09047292163"
+    }
+  ],
+  "renders": [
+    {
+      "path": "assets/sculpted/valley-playable/candidate-banks.png",
+      "bytes": 1077030,
+      "sha256": "c5ea72c86365ca222cb6f351510edf1c2e61c1d7ff9862c8de6a4dc76c0437e7"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/candidate-detail.png",
+      "bytes": 1934520,
+      "sha256": "1887b919b6e944bfc0a8498ad39d8642d9d6608f83d77440934b79db869688b0"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/candidate-floors.png",
+      "bytes": 1613402,
+      "sha256": "2cc3b9afc0acff0f0252e6b81aa778ce712d0ab84c265126d429a7f6ef4db3dd"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/candidate-grove.png",
+      "bytes": 1590318,
+      "sha256": "9b24cd2852f14fd6e5313ff496b75a1d8c38df7fc3332a2a591ba7a54a25d03c"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/candidate-strategy.png",
+      "bytes": 1750712,
+      "sha256": "5a61ec3ea6edbeed9ac4bff4fc6b0d082d4be5b4de64e0c7a267e7cdc81f1a18"
+    },
+    {
+      "path": "assets/sculpted/valley-playable/candidate-whole.png",
+      "bytes": 1796049,
+      "sha256": "5afc942ae6f0e4658622daf5547711bac330d1007dae7526ff67cddaff0789fc"
+    }
+  ],
+  "consumerReview": {
+    "path": "assets/sculpted/valley-playable/consumer-review.json",
+    "bytes": 3355,
+    "sha256": "e3053e22a9b3b27314b4fda9bbdee114da58aaac5f8ef91c0f66dd3d0fb0eae6"
+  },
+  "provenance": {
+    "living": "Original accepted v8 subset; appearance-baseline-v1 retains original extraction. Current shape-v3 changes crown POSITION/NORMAL only against accepted shape-baseline-v4; living wood and original image bytes exact, accepted golden-green COLOR_0 exact. Whole components near measured natural approaches retain original foliage to preserve clearance.",
+    "newKit": "Original fitted bound-reed geometry authored by author_valley.py using original buildings helper builders. Current appearance pass preserves exact geometry/stages while adding warm edge and recessed interior COLOR_0. No copied reference pixels or external asset downloads.",
+    "appearanceRecipe": "author_crown_shape.py reads preserved accepted v4 GLBs, applies original unequal spray/shoulder deformation with transformed normals and recessed cores, retaining protected natural-approach components. Editable Blends import actual shipped bytes. Original appearance and geometry generators/evidence remain historical.",
+    "bankRecipe": "author_banks.py composes original fractured courses with protected moss, cooler wet lower faces and warmer mineral upper planes; reuses original landscape Sculpture helpers. No external meshes/images or reference pixels.",
+    "grove": "author_grove.py original low-cost continuous paths and folded opaque leaves, no full hero clones. Existing original generated bark paint is embedded as JPEG85; original source PNG and provenance preserved in valley-trees.",
+    "groveBarkSource": {
+      "path": "assets/sculpted/valley-trees/bark-painted-v1-source.png",
+      "bytes": 3496765,
+      "sha256": "d538acf157653d9a9e6e4cae52e8d17f0b4c92f3fcceb36009b495c894231d91"
+    },
+    "reedImage": {
+      "path": "assets/sculpted/buildings/reed-weave-v1-source.png",
+      "bytes": 2391920,
+      "sha256": "ec84848fe72f2717dd4e4672491cd4bf94a38ad887c902be2a592bea63d14dad"
+    },
+    "reedGenerationPromptAndSource": {
+      "path": "assets/sculpted/buildings/reed-material-provenance.json",
+      "bytes": 2001,
+      "sha256": "925de7ea0e1a3a0d7c64ac0845ea52c542b9def071078e7fca581c73c4f8d2a1"
+    },
+    "reedImageSourceCopyVerifiedByteIdentical": true,
+    "reedImageDimensionsPx": [
+      1254,
+      1254
+    ],
+    "barkSourceProvenance": "assets/sculpted/valley-trees/README.md and original refinement source receipt; generated painted diffuse retained unchanged.",
+    "preserved": {
+      "public/assets/environment/studies/longbough-refinement-study.glb": "2db7f4bfbd8f8c024508f1ec5af1bc942cb140938659f2a4af7346a5be24f5b7",
+      "assets/sculpted/valley-trees/longbough-refinement-study.blend": "fe68e7e4ea808e18b7ebdb31254587a46fbdbb881d4aa244cf4e2d96db8b037c",
+      "public/assets/environment/buildings/boughhome-longbough-modules.glb": "131b6d465c0b00380880320c164f1dc7c2ce8fd5cdb492d40256244b8beab5e7",
+      "public/assets/environment/buildings/boughhome.glb": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+      "public/assets/environment/buildings/reed-store.glb": "efc46a10a8028f22782961bf91696476ebee10320dd8fe3b73f6aef94d364fd3",
+      "public/assets/environment/buildings/root-nursery.glb": "7ee268c95af676d570b753d4077263e06c22e1e8f688a0c9495a5ad34ca71dcf",
+      "public/assets/environment/buildings/sleeping-deck-compatible.glb": "ec296cdcb8433d42fac20fd74d58bc10ea993e9bf6a98f9e52742fa2207d0b61"
+    }
+  },
+  "limits": [
+    "One full-size living hero plus reusable staged kit; no top platform. Availability and six-place rules remain simulation-owned.",
+    "Original sculpt and leaf-lobe rhythm remain stylized; simplified foliage lighting and inherited painted bark treatment remain production-art limits.",
+    "Scenic grove is accepted for layered background use at normal camera scale; intermittent support-core shoulders, lobe rhythm and simplified trunks remain unsuitable as new close-up heroes.",
+    "Sampled source mesh contacts do not prove structural strength, IK/grasp, arbitrary body sizes, crowd avoidance or zero-collision physics.",
+    "Open ladder approaches are climbing apertures, not continuously grounded walking ramps; no cargo-on-ladder or basket-passenger ability is claimed.",
+    "Root Y0 is anatomical ground; negative-Y underside remains buried. Current canonical map reserves the conservative full low-wood envelope including buried portions plus .35m clearance, not an exact plane-collision mask. Root sections are evidence for future tightening.",
+    "Generated reed image contains some woven shading; perfect seam continuity and pure-unlit diffuse are not asserted.",
+    "GLBs reproduce byte-for-byte; regenerated editable Blend bytes are not claimed deterministic. No npm/browser/commit/deploy work performed in this asset lane."
+  ]
+}

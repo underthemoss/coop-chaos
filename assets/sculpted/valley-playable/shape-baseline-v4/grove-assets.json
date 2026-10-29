@@ -1,0 +1,117 @@
+{
+  "revision": "valley-grove-v2",
+  "sourceFrame": {
+    "anatomicalGroundY": 0,
+    "front": "+Z",
+    "metersPerUnit": 1
+  },
+  "placement": "Scenic only; runtime owner outside terrain/reserved blocked space; no gameplay collision or capacity claim.",
+  "provenance": "Original authored paths, continuous voxel-fused wood and opaque folded leaves; shared original author_trees geometric helpers. Original generated bark diffuse from valley-trees/bark-painted-v1-source.png, embedded as JPEG85 by Blender; original PNG remains unchanged. No external asset downloads or full hero copies.",
+  "assets": {
+    "oak": {
+      "revision": "valley-grove-v2",
+      "assetUrl": "/assets/environment/valley/valley-grove-oak.glb",
+      "sha256": "09b27d5615b4e4702a85953cbabc91867f6a906b7ea1018e50cb024dc98400e8",
+      "bytes": 1978012,
+      "triangles": 23053,
+      "min": [
+        -3.94740891456604,
+        -0.2429426610469818,
+        -2.2631895542144775
+      ],
+      "max": [
+        3.677037477493286,
+        7.325345993041992,
+        2.6396217346191406
+      ],
+      "lowWoodMin": [
+        -0.5722974538803101,
+        -0.2429426610469818,
+        -0.6617240309715271
+      ],
+      "lowWoodMax": [
+        0.5706288814544678,
+        0.9720905423164368,
+        0.6580344438552856
+      ],
+      "meshGroups": [
+        "grove-living-wood",
+        "grove-crown-foliage"
+      ],
+      "materials": [
+        "grove-warm-cool-bark",
+        "grove-grouped-broadleaf"
+      ]
+    },
+    "spread": {
+      "revision": "valley-grove-v2",
+      "assetUrl": "/assets/environment/valley/valley-grove-spread.glb",
+      "sha256": "49fb739d5bae6e9ef7784235e9debb929ba451672d53b9c0faf36746f3dd225a",
+      "bytes": 1979868,
+      "triangles": 23052,
+      "min": [
+        -3.995995044708252,
+        -0.28196924924850464,
+        -2.522858142852783
+      ],
+      "max": [
+        4.103870391845703,
+        6.603977680206299,
+        2.5822880268096924
+      ],
+      "lowWoodMin": [
+        -0.6528541445732117,
+        -0.28196924924850464,
+        -0.6605010032653809
+      ],
+      "lowWoodMax": [
+        0.6544896364212036,
+        0.9813010096549988,
+        0.579052209854126
+      ],
+      "meshGroups": [
+        "grove-living-wood",
+        "grove-crown-foliage"
+      ],
+      "materials": [
+        "grove-warm-cool-bark",
+        "grove-grouped-broadleaf"
+      ]
+    },
+    "shrub": {
+      "revision": "valley-grove-v2",
+      "assetUrl": "/assets/environment/valley/valley-grove-shrub.glb",
+      "sha256": "c2441f76f610809f68eb47bf033dd9f79a54a5c05789088f198314587732f1f4",
+      "bytes": 938548,
+      "triangles": 6934,
+      "min": [
+        -1.675931453704834,
+        -0.10951218754053116,
+        -1.0446676015853882
+      ],
+      "max": [
+        1.7358226776123047,
+        1.7610045671463013,
+        1.000760555267334
+      ],
+      "lowWoodMin": [
+        -0.9025120139122009,
+        -0.10951218754053116,
+        -0.30785977840423584
+      ],
+      "lowWoodMax": [
+        0.9934358596801758,
+        0.9885134100914001,
+        0.18137983977794647
+      ],
+      "meshGroups": [
+        "grove-living-wood",
+        "grove-crown-foliage"
+      ],
+      "materials": [
+        "grove-warm-cool-bark",
+        "grove-grouped-broadleaf"
+      ]
+    }
+  }
+}

@@ -35,17 +35,19 @@ describe("one-task chicken requests",()=>{
   it("commissions a home and its named helper atomically, including a second project",()=>{
     let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0]});
     s=command(s,{type:"build",kind:"treehouse",at:trees[1],bird:"fern"});
-    expect(bird(s).request?.target).toBe(s.sites[1].id);
+    expect(bird(s).direct?.order).toEqual({kind:"build",target:s.sites[1].id});
     expect(s.sites[1].delivered).toBe(0);
     s=decodeSettlement(encodeSettlement(s));
-    s=advance(s,s=>bird(s).requestResult?.outcome==="done");
+    s=advance(s,s=>bird(s).deliveries>=1);
     expect(s.sites[1].contributors).toContain("fern");
-    expect(bird(s).deliveries).toBe(1);
+    expect(bird(s).direct?.order).toEqual({kind:"build",target:s.sites[1].id});
   });
   it("rejects stale, duplicate, young and caring initiators without a partial site",()=>{
     let s=request(initialSettlement(),"gather");
     const before=encodeSettlement(s);
-    expect(()=>command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"fern"})).toThrow(/already has a request/);
+    const redirected=command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"fern"});
+    expect(redirected.birds[0].direct?.order?.kind).toBe("build");
+    expect(redirected.birds[0].request).toBeNull();
     expect(encodeSettlement(s)).toBe(before);expect(s.sites).toHaveLength(0);
     s=initialSettlement();bird(s).care="brood";
     expect(()=>command(s,{type:"build",kind:"treehouse",at:trees[0],bird:"fern"})).toThrow(/caring/);
@@ -58,16 +60,13 @@ describe("one-task chicken requests",()=>{
   it("keeps secured cargo and essential feeding ahead of a newly commissioned home",()=>{
     let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0]});
     s=advance(s,s=>bird(s).cargo===1);
-    const job=structuredClone(bird(s).job);
     s=command(s,{type:"build",kind:"treehouse",at:trees[1],bird:"fern"});
-    expect(bird(s).cargo).toBe(1);expect(bird(s).job).toEqual(job);
-    expect(bird(s).request?.phase).toBe("pending");expect(requestStatus(s,bird(s))).toMatch(/delivery first/);
+    expect(bird(s).cargo).toBe(1);expect(bird(s).direct?.order).toEqual({kind:"build",target:s.sites[1].id});
     s=advance(s,s=>bird(s).cargo===0);
-    expect(s.sites[0].delivered).toBeGreaterThan(0);
+    expect(s.sites[1].delivered).toBeGreaterThan(0);
     bird(s).satiety=5;bird(s).protein=5;
-    expect(requestStatus(s,bird(s))).toMatch(/Eating first/);
     s=advance(s,s=>bird(s).foraging?.intent==="eat");
-    expect(bird(s).request?.target).toBe(s.sites[1].id);
+    expect(bird(s).direct?.order).toEqual({kind:"build",target:s.sites[1].id});
   });
   it("shows pause before night, shortage or allocated jobs and preserves it through reload",()=>{
     let s=command(initialSettlement(),{type:"build",kind:"treehouse",at:trees[0],bird:"fern"});

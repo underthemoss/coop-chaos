@@ -1,0 +1,1352 @@
+{
+  "packet": "output/building-implementation-v1/runtime-clamber-sweep.json",
+  "assets": {
+    "boughhome": "68da1f1cdad7195d3766e8429cf1a9baced1d4cf02aeb492eabb42d5f689078e",
+    "sleeping-deck-compatible": "33abdedddb000fa7023ec1bef80442ee94c461c28e225e7053adea460553aa22"
+  },
+  "checks": [
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 244,
+      "groups": {
+        "sleeping-deck-weave": 244
+      },
+      "movingGroups": {
+        "fern-carried-reeds.asset.reed bundle.reed bundle_primitive0": 216,
+        "fern-carried-reeds.asset.reed bundle.reed bundle_primitive1": 28
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ],
+        [
+          1.3905963897705078,
+          2.7867887020111084,
+          0.11529595404863358
+        ]
+      ]
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 114,
+      "groups": {
+        "sleeping-deck-weave": 114
+      },
+      "movingGroups": {
+        "head sculpted mesh_primitive5": 12,
+        "head sculpted mesh_primitive4": 8,
+        "head sculpted mesh_primitive0": 4,
+        "head sculpted mesh_primitive1": 6,
+        "head sculpted mesh_primitive2": 11,
+        "body sculpted mesh_primitive3": 8,
+        "head sculpted mesh_primitive12": 59,
+        "body sculpted mesh_primitive4": 4,
+        "head sculpted mesh_primitive3": 2
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ],
+        [
+          1.3905963897705078,
+          2.7867887020111084,
+          0.11529595404863358
+        ]
+      ]
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 10,
+      "groups": {
+        "sleeping-deck-weave": 10
+      },
+      "movingGroups": {
+        "body sculpted mesh_primitive2": 10
+      },
+      "firstTriangle": [
+        [
+          1.3065924644470215,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.2781383991241455,
+          2.759999990463257,
+          0.07990773767232895
+        ],
+        [
+          1.2925937175750732,
+          2.7867860794067383,
+          0.08150811493396759
+        ]
+      ]
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "fern",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 244,
+      "groups": {
+        "sleeping-deck-weave": 244
+      },
+      "movingGroups": {
+        "rook-carried-reeds.asset.reed bundle.reed bundle_primitive0": 216,
+        "rook-carried-reeds.asset.reed bundle.reed bundle_primitive1": 28
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ],
+        [
+          1.3905963897705078,
+          2.7867887020111084,
+          0.11529595404863358
+        ]
+      ]
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 91,
+      "groups": {
+        "sleeping-deck-weave": 91
+      },
+      "movingGroups": {
+        "head sculpted mesh_primitive5": 8,
+        "head sculpted mesh_primitive4": 8,
+        "head sculpted mesh_primitive6": 21,
+        "head sculpted mesh_primitive0": 7,
+        "head sculpted mesh_primitive2": 3,
+        "head sculpted mesh_primitive3": 6,
+        "head sculpted mesh_primitive1": 13,
+        "head sculpted mesh_primitive12": 25
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3874274492263794,
+          2.7850000858306885,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ]
+      ]
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 26,
+      "groups": {
+        "sleeping-deck-weave": 26
+      },
+      "movingGroups": {
+        "body sculpted mesh_primitive4": 4,
+        "body sculpted mesh_primitive2": 18,
+        "body sculpted mesh_primitive1": 3,
+        "body sculpted mesh_primitive0": 1
+      },
+      "firstTriangle": [
+        [
+          1.3065924644470215,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.2781383991241455,
+          2.759999990463257,
+          0.07990773767232895
+        ],
+        [
+          1.2925937175750732,
+          2.7867860794067383,
+          0.08150811493396759
+        ]
+      ]
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "rook",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 244,
+      "groups": {
+        "sleeping-deck-weave": 244
+      },
+      "movingGroups": {
+        "dapple-carried-reeds.asset.reed bundle.reed bundle_primitive0": 216,
+        "dapple-carried-reeds.asset.reed bundle.reed bundle_primitive1": 28
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ],
+        [
+          1.3905963897705078,
+          2.7867887020111084,
+          0.11529595404863358
+        ]
+      ]
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 110,
+      "groups": {
+        "sleeping-deck-weave": 110
+      },
+      "movingGroups": {
+        "head sculpted mesh_primitive5": 12,
+        "head sculpted mesh_primitive4": 8,
+        "head sculpted mesh_primitive2": 14,
+        "head sculpted mesh_primitive3": 3,
+        "head sculpted mesh_primitive1": 8,
+        "head sculpted mesh_primitive6": 13,
+        "body sculpted mesh_primitive2": 5,
+        "body sculpted mesh_primitive3": 3,
+        "head sculpted mesh_primitive7": 28,
+        "body sculpted mesh_primitive1": 5,
+        "head sculpted mesh_primitive0": 8,
+        "body sculpted mesh_primitive4": 2,
+        "body sculpted mesh_primitive0": 1
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3874274492263794,
+          2.7850000858306885,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ]
+      ]
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 26,
+      "groups": {
+        "sleeping-deck-weave": 26
+      },
+      "movingGroups": {
+        "body sculpted mesh_primitive2": 23,
+        "body sculpted mesh_primitive3": 3
+      },
+      "firstTriangle": [
+        [
+          1.3065924644470215,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.2781383991241455,
+          2.759999990463257,
+          0.07990773767232895
+        ],
+        [
+          1.2925937175750732,
+          2.7867860794067383,
+          0.08150811493396759
+        ]
+      ]
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "dapple",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 244,
+      "groups": {
+        "sleeping-deck-weave": 244
+      },
+      "movingGroups": {
+        "wren-carried-reeds.asset.reed bundle.reed bundle_primitive0": 216,
+        "wren-carried-reeds.asset.reed bundle.reed bundle_primitive1": 28
+      },
+      "firstTriangle": [
+        [
+          1.4045923948287964,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.3761365413665771,
+          2.759999990463257,
+          0.11378335952758789
+        ],
+        [
+          1.3905963897705078,
+          2.7867887020111084,
+          0.11529595404863358
+        ]
+      ]
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 53,
+      "groups": {
+        "sleeping-deck-weave": 53
+      },
+      "movingGroups": {
+        "head sculpted mesh_primitive1": 9,
+        "head sculpted mesh_primitive0": 8,
+        "head sculpted mesh_primitive4": 7,
+        "head sculpted mesh_primitive3": 8,
+        "head sculpted mesh_primitive5": 10,
+        "head sculpted mesh_primitive6": 7,
+        "head sculpted mesh_primitive2": 4
+      },
+      "firstTriangle": [
+        [
+          1.3065924644470215,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.2781383991241455,
+          2.759999990463257,
+          0.07990773767232895
+        ],
+        [
+          1.2925937175750732,
+          2.7867860794067383,
+          0.08150811493396759
+        ]
+      ]
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "up",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.86,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.9,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": false,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 40,
+      "groups": {
+        "sleeping-deck-weave": 40
+      },
+      "movingGroups": {
+        "body sculpted mesh_primitive0": 10,
+        "body sculpted mesh_primitive2": 3,
+        "body sculpted mesh_primitive3": 13,
+        "body sculpted mesh_primitive1": 8,
+        "body sculpted mesh_primitive4": 6
+      },
+      "firstTriangle": [
+        [
+          1.3065924644470215,
+          2.8168601989746094,
+          -0.5
+        ],
+        [
+          1.2781383991241455,
+          2.759999990463257,
+          0.07990773767232895
+        ],
+        [
+          1.2925937175750732,
+          2.7867860794067383,
+          0.08150811493396759
+        ]
+      ]
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "boughhome",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    },
+    {
+      "bird": "wren",
+      "direction": "down",
+      "progress": 0.925,
+      "cargoHypothetical": true,
+      "asset": "sleeping-deck-compatible",
+      "intersections": 0,
+      "groups": {},
+      "movingGroups": {},
+      "firstTriangle": null
+    }
+  ],
+  "upperBodyAngle": 0.55,
+  "limits": "Surface intersections from supplied evaluated reduced-motion pose, 3 saved positions both headings per bird. Below foot+.13 contacts excluded. Does not establish continuous animation, navigation, or cargo permission."
+}

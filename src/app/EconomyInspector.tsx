@@ -1,12 +1,14 @@
+import { worldTrees } from "../content/settlement-world";
 import { ActionArt } from "./ActionArt";
 import type { ReactNode } from "react";
-import { economyTuning, trees } from "../content/settlement";
+import { economyTuning } from "../content/settlement";
 import { broodReason, foodRecovery, nurseryReadout, populationReadout, type Command, type Settlement } from "../simulation/settlement";
 const cycles=(ticks:number)=>`${ticks/(economyTuning.dayTicks+economyTuning.eveningTicks)} cycle${ticks===economyTuning.dayTicks+economyTuning.eveningTicks?"":"s"}`;
 const plain=(text:string)=>text.replace(/staple/gi,"Seeds").replace(/protein/gi,"Bugs").replace(/berths/gi,"future places");
 export function EconomyInspector({state,selectedNursery,onSelectNursery,disabled,onCommand,onBuild,children}:{state:Settlement;selectedNursery:string|null;onSelectNursery:(id:string)=>void;disabled:boolean;onCommand:(command:Command)=>void;onBuild:()=>void;children:ReactNode}) {
   const forecast=populationReadout(state), careEach=Math.ceil(forecast.careDemand/2);
   const nursery=state.economy.nurseries.find(n=>n.site===selectedNursery)??state.economy.nurseries.find(n=>state.economy.broods.some(b=>b.id===n.brood&&!['complete','failed'].includes(b.stage)))??state.economy.nurseries[0];
+  const trees=worldTrees(state);
   const site=state.sites.find(s=>s.id===nursery?.site), tree=trees.find(t=>t.id===site?.tree);
   const brood=state.economy.broods.find(b=>b.id===nursery?.brood);
   const active=brood&&!['complete','failed'].includes(brood.stage);

@@ -12,9 +12,10 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --maxWorkers=1",
     "test:watch": "vitest",
-    "check": "npm run test && npm run build"
+    "check": "npm run test && npm run build",
+    "assets:maps": "node scripts/author-valleys.mjs"
   },
   "dependencies": {
     "@babylonjs/core": "9.31.0",

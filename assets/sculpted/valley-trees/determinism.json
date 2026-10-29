@@ -1,0 +1,23 @@
+{
+  "blender": "4.5.3 LTS",
+  "exports": [
+    {
+      "file": "public/assets/environment/studies/longbough-study.glb",
+      "before_sha256": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+      "after_sha256": "f47f9a671dd441424f3b755a87fd2fc91fc822d88f9a47e03800cbbe37d10672",
+      "identical": true
+    },
+    {
+      "file": "public/assets/environment/studies/crowncourt-study.glb",
+      "before_sha256": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+      "after_sha256": "1309a2beeda82028699bd9aedb9b8ff34dce262c11a0bc155e42eaf1ba1cb287",
+      "identical": true
+    },
+    {
+      "file": "public/assets/environment/studies/riverside-study.glb",
+      "before_sha256": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+      "after_sha256": "d1411abcb519b207812267700de77e08970ed077b60f908ec72b3921d46909b8",
+      "identical": true
+    }
+  ]
+}

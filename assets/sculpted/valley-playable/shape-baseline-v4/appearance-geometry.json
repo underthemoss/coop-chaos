@@ -1,0 +1,139 @@
+{
+  "revision": "longbough-clearing-appearance-v4-warm-foliage",
+  "state": "PASS",
+  "assets": {
+    "longbough-living.glb": {
+      "sha256": "bae8f68ff8579761e4ec1498cd5a88ab8f9326f120e2d75cf6a4f9c781cc692a",
+      "bytes": 11635204,
+      "baselineSha256": "54913416a23371d21fd5fc62e31bb38dd8294f70d481e5d11e5bc0cac47d50d2",
+      "exact": [
+        "Decoded positions",
+        "Decoded triangle indices",
+        "Every node, transform, parent and anchor",
+        "Scenes",
+        "Material assignments",
+        "Original embedded image bytes"
+      ],
+      "changed": [
+        "Custom shading normals",
+        "COLOR_0",
+        "Bark UV sampling scale",
+        "PBR roughness/specular settings",
+        "Unreferenced binary payload removed"
+      ],
+      "primitives": [
+        {
+          "vertices": 231520,
+          "indices": 231534
+        },
+        {
+          "vertices": 15364,
+          "indices": 86928
+        }
+      ]
+    },
+    "longbough-woven-kit.glb": {
+      "sha256": "ddb18eb41e1dcfc9905961c028dd85fb888e8fd78bb81bf4332ab7904d1de439",
+      "bytes": 6658212,
+      "baselineSha256": "06e02165c0e4a3993c242b8f231d11135f0c5bfb591891288a90b545d00da5e8",
+      "exact": [
+        "Decoded positions",
+        "Decoded triangle indices",
+        "Every node, transform, parent and anchor",
+        "Scenes",
+        "Material assignments",
+        "Original embedded image bytes"
+      ],
+      "changed": [
+        "Custom shading normals",
+        "COLOR_0",
+        "Bark UV sampling scale",
+        "PBR roughness/specular settings",
+        "Unreferenced binary payload removed"
+      ],
+      "primitives": [
+        {
+          "vertices": 10468,
+          "indices": 15780
+        },
+        {
+          "vertices": 420,
+          "indices": 660
+        },
+        {
+          "vertices": 816,
+          "indices": 1224
+        },
+        {
+          "vertices": 548,
+          "indices": 840
+        },
+        {
+          "vertices": 5548,
+          "indices": 8100
+        },
+        {
+          "vertices": 22316,
+          "indices": 33720
+        },
+        {
+          "vertices": 6452,
+          "indices": 9684
+        },
+        {
+          "vertices": 22316,
+          "indices": 33720
+        },
+        {
+          "vertices": 6452,
+          "indices": 9684
+        },
+        {
+          "vertices": 5600,
+          "indices": 8640
+        },
+        {
+          "vertices": 4896,
+          "indices": 7344
+        },
+        {
+          "vertices": 2700,
+          "indices": 4212
+        },
+        {
+          "vertices": 2448,
+          "indices": 3672
+        },
+        {
+          "vertices": 90,
+          "indices": 144
+        },
+        {
+          "vertices": 5338,
+          "indices": 7794
+        },
+        {
+          "vertices": 5000,
+          "indices": 7704
+        },
+        {
+          "vertices": 4080,
+          "indices": 6120
+        },
+        {
+          "vertices": 2040,
+          "indices": 3132
+        },
+        {
+          "vertices": 1800,
+          "indices": 2808
+        },
+        {
+          "vertices": 1632,
+          "indices": 2448
+        }
+      ]
+    }
+  },
+  "profileSha256": "72ceb4a1d361e31929e693e2c136e097db6c6a9b6c84206ae4c56758e6fe2fa4"
+}
